@@ -1,0 +1,80 @@
+﻿@model PaginationVm<IEnumerable<Instructor>>
+
+<script>
+    function filterSearch() {
+        const searchFilter = document.getElementById('searchFilter').value;
+        var e = document.getElementById("searchStatus");
+        var statusText = e.options[e.selectedIndex].text;
+
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/Instructors/InstructorsPartial',
+            data: {
+                searchFilter: searchFilter,
+                statusFilter: statusText,
+            },
+            success: (data) => {
+                $('#instructorsContainer').html(data);
+
+                localStorage.setItem("instructorSearchFilter", searchFilter);
+                localStorage.setItem("instructorStatusFilter", statusText);
+            },
+            error: (xhr, status, error) => {
+                console.error(`Error! ${error}`);
+            }
+        });
+    }
+</script>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+<div class="main-content">
+    <div class="container mt-7">
+        <!-- Table -->
+        <h2 class="mb-5">Instructors</h2>
+        <div class="row">
+
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="add-course-info">
+                                    <div class="input-block">
+                                        <input type="text" class="form-control" placeholder="Search Instructor..."
+                                               id="searchFilter" oninput="filterSearch()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="add-course-info">
+                                    <div class="input-block">
+                                        <select type="text" class="form-control"
+                                                id="searchStatus" onchange="filterSearch()">
+                                            <option>Select All</option>
+                                            <option>Approved</option>
+                                            <option>Not Approved</option>
+                                            <option>Banned</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="instructorsContainer">
+                        <partial name="InstructorsPartial" model="@Model">
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+

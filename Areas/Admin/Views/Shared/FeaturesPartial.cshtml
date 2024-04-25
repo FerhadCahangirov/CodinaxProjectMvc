@@ -1,0 +1,236 @@
+﻿@model PaginationVm<IEnumerable<Feature>>
+
+<script>
+    function archive(id) {
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Feature/Archive/${id}`,
+            success: (data) => {
+                const status_element = document.getElementById(`status_${id}`);
+                status_element.innerHTML = `
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-warning"></i> archived
+                            </span>
+                        `;
+
+                const archive_element = document.getElementById(`archive_${id}`);
+                archive_element.innerHTML = `
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unarchive('${id}')">
+                                <i class="fa-solid fa-window-restore"></i>
+                            </a>
+                        `;
+
+                Command: toastr["success"]("feature Archived");
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "500",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+
+            }
+        });
+    }
+
+    function unarchive(id) {
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Feature/Unarchive/${id}`,
+            success: (response) => {
+                if (response.success == false && response.message == "Oversized") {
+                    Command: toastr["warning"]('Feature Oversized.');
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "500",
+                        "timeOut": "1000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    };
+                }
+                else {
+                    const status_element = document.getElementById(`status_${id}`);
+                    status_element.innerHTML = `
+                                <span class="badge badge-dot mr-4 text-secondary">
+                                    <i class="bg-success"></i> active
+                                </span>
+                            `;
+
+                    const archive_element = document.getElementById(`archive_${id}`);
+                    archive_element.innerHTML = `
+                                <a class="btn btn-sm btn-icon-only text-light" role="button" onclick="archive('${id}')">
+                                    <i class="fa-solid fa-box-archive"></i>
+                                </a>
+                            `;
+
+                    Command: toastr["success"]("Feature Restored");
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "500",
+                        "timeOut": "1000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    };
+                }
+
+
+            }
+        });
+    }
+
+    function deleteFeature(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: `/Admin/Feature/Delete/${id}`,
+            success: (data) => {
+
+                $(`#table_${id}`).fadeOut(500);
+
+                Command: toastr["success"]("feature Deleted");
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "500",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+            }
+        });
+    }
+</script>
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Content</th>
+                <th scope="col">Status</th>
+                <th scope="col">Archive</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Items)
+            {
+                <tr id="table_@item.Id">
+                    <th scope="row">
+                        <div class="media align-items-center">
+                            <a href="#" class="avatar rounded-circle mr-3" style="background: transparent;">
+                                    <img alt="Image placeholder" src="@Model.BaseUrl/@item.IconPathOrContainer/@item.IconName">
+                            </a>
+                            <div class="media-body">
+                                <span class="mb-0 text-sm">@(item.Title.Length > 25 ? $"{item.Title.Substring(0, 25)}..." : item.Title) </span>
+                            </div>
+                        </div>
+                    </th>
+                    <td>
+                        <div class="media-body">
+                            <span class="mb-0 text-sm">@(item.Content.Length > 25 ? $"{item.Content.Substring(0, 25)}..." : item.Content) </span>
+                        </div>
+                    </td>
+                    <td id="status_@(item.Id)">
+                        @if (item.IsArchived)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-warning"></i> archived
+                            </span>
+                        }
+                        else if (item.IsDeleted)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-danger"></i> deleted
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-success"></i> active
+                            </span>
+                        }
+
+                    </td>
+                    <td id="archive_@(item.Id)">
+
+                        @if (!item.IsArchived && !item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light" role="button" onclick="archive('@item.Id')">
+                                <i class="fa-solid fa-box-archive"></i>
+                            </a>
+                        }
+                        else if (item.IsArchived && !item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unarchive('@item.Id')">
+                                <i class="fa-solid fa-window-restore"></i>
+                            </a>
+                        }
+
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-icon-only text-light " href="/Admin/Feature/Update/@item.Id">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </td>
+                    <td>
+
+                        @if (item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button">
+                                <i class="fa-solid fa-window-restore"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="deleteFeature('@item.Id')">
+                                <i class="fa-solid fa-delete-left"></i>
+                            </a>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

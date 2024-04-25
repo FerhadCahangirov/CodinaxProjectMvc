@@ -1,0 +1,190 @@
+﻿@model PaginationVm<IEnumerable<Price>>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    var $j = jQuery.noConflict();
+
+    function archive(id) {
+        $j.ajax({
+            type: 'POST',
+            url: `/Admin/Courses/ArchivePrice/${id}`,
+            success: (data) => {
+                if (data.success) {
+                    const status_element = document.getElementById(`status_${id}`);
+                    status_element.innerHTML = `
+                                            <span class="badge badge-dot mr-4 text-secondary">
+                                                <i class="bg-warning"></i> archived
+                                            </span>
+                                        `;
+
+                    const archive_element = document.getElementById(`archive_${id}`);
+                    archive_element.innerHTML = `
+                                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unarchive('${id}')">
+                                                <i class="fa-solid fa-window-restore"></i>
+                                            </a>
+                                        `;
+
+                    showToaster('success', 'Price Archived Successfully');
+                }
+                else
+                    showToaster('error', 'Price Archived Failed');
+            }
+        });
+    }
+
+    function unarchive(id) {
+        $j.ajax({
+            type: 'POST',
+            url: `/Admin/Courses/UnArchivePrice/${id}`,
+            success: (response) => {
+                if(response.success){
+                    const status_element = document.getElementById(`status_${id}`);
+                    status_element.innerHTML = `
+                                                <span class="badge badge-dot mr-4 text-secondary">
+                                                    <i class="bg-success"></i> active
+                                                </span>
+                                            `;
+
+                    const archive_element = document.getElementById(`archive_${id}`);
+                    archive_element.innerHTML = `
+                                                <a class="btn btn-sm btn-icon-only text-light" role="button" onclick="archive('${id}')">
+                                                    <i class="fa-solid fa-box-archive"></i>
+                                                </a>
+                                            `;
+
+                    showToaster('success', 'Price UnArchived Successfull');
+                }
+                else
+                    showToaster('error', 'Price UnArchive Failed');
+
+            }
+        });
+    }
+
+    function deletePrice(id) {
+        $j.ajax({
+            type: 'DELETE',
+            url: `/Admin/Courses/DeletePrice/${id}`,
+            success: (data) => {
+                if(data.success){
+                    $(`#table_${id}`).fadeOut(500);
+                    showToaster('success', 'Price Deleted Successfull');
+                }
+                else{
+                    showToaster('error', 'Price Deleted Failed');
+                }
+            }
+        });
+    }
+
+
+    function showToaster(type, content){
+        Command: toastr[type](content);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    }
+</script>
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Content</th>
+                <th scope="col">Status</th>
+                <th scope="col">Archive</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Items)
+            {
+                <tr id="table_@item.Id">
+                    <th scope="row">
+                        <div class="media align-items-center">
+                            <div class="media-body">
+                                <span class="mb-0 text-sm">@(item.Title) </span>
+                            </div>
+                        </div>
+                    </th>
+                    <td id="status_@(item.Id)">
+                        @if (item.IsArchived)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-warning"></i> archived
+                            </span>
+                        }
+                        else if (item.IsDeleted)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-danger"></i> deleted
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-success"></i> active
+                            </span>
+                        }
+
+                    </td>
+                    <td id="archive_@(item.Id)">
+
+                        @if (!item.IsArchived && !item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light" role="button" onclick="archive('@item.Id')">
+                                <i class="fa-solid fa-box-archive"></i>
+                            </a>
+                        }
+                        else if (item.IsArchived && !item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unarchive('@item.Id')">
+                                <i class="fa-solid fa-window-restore"></i>
+                            </a>
+                        }
+
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-icon-only text-light " href="/Admin/Courses/UpdateCoursePrice?courseId=@item.Course.Id&priceId=@item.Id">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </td>
+                    <td>
+
+                        @if (item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button">
+                                <i class="fa-solid fa-window-restore"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="deletePrice('@item.Id')">
+                                <i class="fa-solid fa-delete-left"></i>
+                            </a>
+                        }
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

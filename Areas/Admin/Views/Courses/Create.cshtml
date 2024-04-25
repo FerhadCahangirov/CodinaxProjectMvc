@@ -1,0 +1,579 @@
+﻿
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        (function ($) {
+            "use strict";
+
+            if ($('#editor').length > 0) {
+                ClassicEditor
+                    .create(document.querySelector('#editor'), {
+                        toolbar: {
+                            items: [
+                                'heading', '|',
+                                'fontfamily', 'fontsize', '|',
+                                'alignment', '|',
+                                'fontColor', 'fontBackgroundColor', '|',
+                                'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript', '|',
+                                'link', '|',
+                                'outdent', 'indent', '|',
+                                'bulletedList', 'numberedList', 'todoList', '|',
+                                'code', 'codeBlock', '|',
+                                'insertTable', '|',
+                                'uploadImage', 'blockQuote', '|',
+                                'undo', 'redo'
+                            ],
+                            shouldNotGroupWhenFull: true
+                        }
+                    })
+                    .then(editor => {
+                        window.editor = editor;
+                    })
+                    .catch(err => {
+                        console.error(err.stack);
+                    });
+            }
+
+        })(jQuery);
+    });
+
+</script>
+
+<script>
+
+    var futureJobTitles = [];
+    var topics = [];
+
+    let guid = () => {
+        let s4 = () => {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+
+    function addFutureJobTitle() {
+
+        const element = document.getElementById('future-job-title-input');
+        const content = element.value;
+
+        const futureJobTitle = {
+            id: guid(),
+            content: content
+        }
+
+        futureJobTitles.push(futureJobTitle);
+
+        element.value = '';
+        loadFutureJobTitles();
+    }
+
+    function loadFutureJobTitles() {
+        const element = document.getElementById('futureJobTitles_Container');
+
+        element.innerHTML = futureJobTitles.map(fjt => `
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">${fjt.content}</div>
+                        </div>
+                        <a class="badge text-bg-warning rounded-pill pointer" data-bs-toggle="collapse" href="#fjt-edit-container-${fjt.id}" role="button" aria-expanded="false" aria-controls="fjt-edit-container-${fjt.id}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <span class="badge text-bg-danger rounded-pill ml-2 pointer" onclick="deleteJobTitle('${fjt.id}')">
+                            <i class="fa-solid fa-trash"></i>
+                        </span>
+                    </li>
+                    <div class="input-block mt-2 collapse" id="fjt-edit-container-${fjt.id}">
+                        <input type="text" class="form-control" id="fjt-edit-${fjt.id}" value="${fjt.content}">
+                        <a class="btn btn-info-light" onclick="updateJobTitle('${fjt.id}')"> Update </a>
+                    </div>
+
+                `).join('');
+    }
+
+    function updateJobTitle(id) {
+        for (let x in futureJobTitles) {
+            if (futureJobTitles.hasOwnProperty(x) && futureJobTitles[x].id == id) {
+                futureJobTitles[x].content = document.getElementById(`fjt-edit-${id}`).value;
+                break;
+            }
+        }
+        loadFutureJobTitles();
+    }
+
+    function deleteJobTitle(id) {
+        let newFutureJobTitles = [...futureJobTitles];
+
+        let index = newFutureJobTitles.findIndex(x => x.id == id);
+
+        if (index !== -1) {
+            newFutureJobTitles.splice(index, 1);
+
+            futureJobTitles = newFutureJobTitles;
+
+            loadFutureJobTitles();
+        }
+    }
+
+
+    function addTopic() {
+
+        const element = document.getElementById('topic-input');
+        const content = element.value;
+
+        const topic = {
+            id: guid(),
+            content: content
+        }
+
+        topics.push(topic);
+
+        element.value = '';
+        loadTopics();
+    }
+
+    function loadTopics() {
+        const element = document.getElementById('topics_Container');
+
+        element.innerHTML = topics.map(topic => `
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">${topic.content}</div>
+                        </div>
+                        <a class="badge text-bg-warning rounded-pill pointer" data-bs-toggle="collapse" href="#topic-edit-container-${topic.id}" role="button" aria-expanded="false" aria-controls="topic-edit-container-${topic.id}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <span class="badge text-bg-danger rounded-pill ml-2 pointer" onclick="deleteTopic('${topic.id}')">
+                            <i class="fa-solid fa-trash"></i>
+                        </span>
+                    </li>
+                    <div class="input-block mt-2 collapse" id="topic-edit-container-${topic.id}">
+                        <input type="text" class="form-control" id="topic-edit-${topic.id}" value="${topic.content}">
+                        <a class="btn btn-info-light" onclick="updateTopic('${topic.id}')"> Update </a>
+                    </div>
+
+                `).join('');
+    }
+
+    function updateTopic(id) {
+        for (let x in topics) {
+            if (topics.hasOwnProperty(x) && topics[x].id == id) {
+                topics[x].content = document.getElementById(`topic-edit-${id}`).value;
+                break;
+            }
+        }
+        loadTopics();
+    }
+
+    function deleteTopic(id) {
+        let newTopics = [...topics];
+
+        let index = newTopics.findIndex(x => x.id == id);
+
+        if (index !== -1) {
+            newTopics.splice(index, 1);
+
+            topics = newTopics;
+
+            loadTopics();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('course-fragment-video-input').addEventListener('change', () => {
+            const files = document.getElementById('course-fragment-video-input').files;
+            if (files.length > 0) {
+                document.querySelector('#relativeVideoForm span').textContent = files[0].name;
+
+                const video = document.createElement('video');
+                video.controls = true;
+                video.src = URL.createObjectURL(files[0]);
+                video.classList.add('add-image-box', 'add-video-box');
+                const videoBox = document.getElementById('videoBox');
+                videoBox.removeChild(videoBox.firstElementChild);
+                videoBox.appendChild(video);
+            }
+        });
+
+        document.getElementById('course-image-input').addEventListener('change', () => {
+            const files = document.getElementById('course-image-input').files;
+            if (files.length > 0) {
+                document.querySelector('#relativeImageForm span').textContent = files[0].name;
+
+                const image = document.createElement('img');
+                image.src = URL.createObjectURL(files[0]);
+                image.classList.add('add-image-box', 'add-video-box');
+                const imageBox = document.getElementById('imageBox');
+                imageBox.removeChild(imageBox.firstElementChild);
+                imageBox.appendChild(image);
+            }
+        });
+    });
+
+    function validateData(data) {
+        const requiredFields = [
+            'courseTitle',
+            'courseDescription',
+            'courseHeaderDescription',
+            'courseHeading',
+            'courseCategory',
+            'courseLevel',
+            'courseLocation',
+            'courseStartingDate',
+            'futureJobDescription',
+            'futureJobSalary',
+            'courseProperties',
+            'courseCode',
+            'courseImage'
+        ];
+
+        let isValid = true;
+        let emptyFields = [];
+        let notEmptyFields = []
+
+        requiredFields.forEach(field => {
+            if (!data.has(field) || data.get(field) === '' || data.get(field) === null) {
+                isValid = false;
+                emptyFields.push(field);
+            }
+            else{
+                notEmptyFields.push(field);
+            }
+        });
+
+        return { isValid, emptyFields, notEmptyFields };
+    }
+
+    function showLoading() {
+        const loader = document.querySelector('.loader-container');
+        loader.classList.add('active');
+    }
+
+    function hideLoading() {
+        const loader = document.querySelector('.loader-container');
+        loader.classList.remove('active');
+    }
+
+    function createCourse() {
+        const element = document.querySelector('.ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline');
+        const courseContent = element.innerHTML;
+        const courseContentAsString = courseContent.toString();
+
+        const data = new FormData();
+        data.append('courseTitle', document.getElementById('course-title-input').value);
+        data.append('courseDescription', document.getElementById('course-desc-input').value);
+        data.append('courseHeading', document.getElementById('course-heading-input').value);
+        data.append('courseContent', courseContentAsString);
+        data.append('courseCategory', document.getElementById('course-category-select').value);
+        data.append('courseLevel', document.getElementById('course-level-select').value);
+        data.append('courseLocation', document.getElementById('course-location-input').value);
+        data.append('courseStartingDate', document.getElementById('course-starting-date-input').value);
+        data.append('courseFinishingDate', document.getElementById('course-finishing-date-input').value);
+        data.append('futureJobDescription', document.getElementById('future-job-description-input').value);
+        data.append('futureJobSalary', document.getElementById('future-job-salary-input').value);
+        data.append('courseProperties', document.getElementById('course-properties-input').value);
+        data.append('courseCode', document.getElementById('course-code-input').value);
+        data.append('courseFragmentVideo', document.getElementById('course-fragment-video-input').files[0]);
+        data.append('courseImage', document.getElementById('course-image-input').files[0]);
+        data.append('courseHeaderDescription', document.getElementById('course-header-desc-input').value);
+
+        for (let i = 0; i < futureJobTitles.length; i++) {
+            let futureJobTitle = futureJobTitles[i];
+            data.append(`futureJobTitles[${i}].content`, futureJobTitle.content);
+        }
+
+        for (let i = 0; i < topics.length; i++) {
+            let topic = topics[i];
+            data.append(`topics[${i}].content`, topic.content);
+        }
+
+        const validationResult = validateData(data);
+
+        if (!validationResult.isValid) {
+
+            console.log(validationResult.emptyFields);
+            console.log(validationResult.notEmptyFields);
+
+            if (validationResult.emptyFields?.length > 0) 
+            {
+                validationResult.emptyFields.forEach((emptyField) => {
+                    console.error(`The field "${emptyField}" is empty or null.`);
+                    const label = document.getElementById(`${emptyField}Label`);
+                    label.style.setProperty('color', 'red', 'important');
+                })
+
+                validationResult.notEmptyFields?.forEach((field) => {
+                    const label_field = document.getElementById(`${field}Label`);
+                    label_field.style.setProperty('color', '#685F78', 'important');
+                })
+
+                const firstErrorFieldLabel = document.getElementById(`${validationResult.emptyFields[0]}Label`);
+                console.log('firstErrorFieldLabel: ', firstErrorFieldLabel);
+
+                window.scrollTo({
+                    top: firstErrorFieldLabel.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+        else {
+
+            validationResult.notEmptyFields?.forEach((field) => {
+                const label_field = document.getElementById(`${field}Label`);
+                label_field.style.setProperty('color', '#685F78', 'important');
+            })
+
+            showLoading();
+
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/Courses/Create',
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    hideLoading();
+
+                    if(response.success){
+                        window.location.href = "/Admin/Courses/Index";
+                        showToaster('success', 'Course Created Successfully');
+                    }
+                    else{
+                        console.log(response)
+                        if (response.errors?.length > 0){
+
+                            response.errors.forEach((error) => {
+                                console.log('error: ', error);
+                                showToaster('error', error);
+                            });
+                        }else{
+                            showToaster('error', 'Failed To Create Course');
+                        }
+                    }
+                    
+                },
+                error: function (xhr, status, error) {
+                    hideLoading();
+                    console.error(xhr.responseText, error);
+                    showToaster('error', 'Failed To Create Course');
+                }
+            });
+
+        }
+
+    }
+
+    function showToaster(type, content) {
+        Command: toastr[type](content);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    }
+
+</script>
+
+
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
+
+
+<div class="widget-content multistep-form">
+    <fieldset class="field-card">
+        <div class="add-course-info">
+            <div class="add-course-inner-header">
+                <h4>Basic Information</h4>
+            </div>
+            <div class="add-course-form">
+                <div class="input-block">
+                    <label class="add-course-label" id="courseCodeLabel">Course Code *</label>
+                    <input type="text" class="form-control" placeholder="Course Code" id="course-code-input">
+                </div>
+                <div class="input-block">
+                    <label class="add-course-label" id="courseTitleLabel">Course Title *</label>
+                    <input type="text" class="form-control" placeholder="Course Title" id="course-title-input">
+                </div>
+                <div class="input-block">
+                    <label class="add-course-label" id="courseDescriptionLabel">Course Description *</label>
+                    <input type="text" class="form-control" placeholder="Course Heading" id="course-desc-input">
+                </div>
+                <div class="input-block">
+                    <label class="add-course-label" id="courseHeaderDescriptionLabel">Course Heading Description  *</label>
+                    <input type="text" class="form-control" placeholder="Course Heading" id="course-header-desc-input">
+                </div>
+                <div class="input-block">
+                    <label class="add-course-label" id="courseHeadingLabel">Course Heading *</label>
+                    <input type="text" class="form-control" placeholder="Course Heading" id="course-heading-input">
+                </div>
+                <div class="input-block">
+                    <label class="add-course-label" id="courseCategoryLabel">Courses Category *</label>
+                    <select class="form-control select" id="course-category-select" asp-items="@ViewBag.Categories">
+                    </select>
+                </div>
+                <div class="input-block">
+                    <label class="add-course-label" id="courseLevelLabel">Courses Level *</label>
+                    <select class="form-control select" id="course-level-select" asp-items="@ViewBag.CourseLevels">
+                    </select>
+                </div>
+                <div class="input-block mb-0">
+                    <label class="add-course-label">Course Content</label>
+                    <div id="editor"></div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="field-card">
+        <div class="add-course-info">
+            <div class="add-course-inner-header">
+                <h4>Course Details</h4>
+            </div>
+            <div class="add-course-form">
+                <div class="input-block">
+                    <label class="add-course-label" id="courseLocationLabel">Course Location *</label>
+                    <input type="text" class="form-control" placeholder="Course Location" id="course-location-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label" id="courseStartingDateLabel">Starting Date *</label>
+                    <input type="date" class="form-control" placeholder="Course Location"
+                        id="course-starting-date-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label">Finishing Date</label>
+                    <input type="date" class="form-control" placeholder="Course Location"
+                        id="course-finishing-date-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label" id="futureJobDescriptionLabel">Future Job Description *</label>
+                    <input type="text" class="form-control" placeholder="Future Job Description"
+                        id="future-job-description-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label" id="futureJobSalaryLabel">Future Job Salary *</label>
+                    <input type="text" class="form-control" placeholder="Future Job Salary"
+                        id="future-job-salary-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label" id="coursePropertiesLabel">Properties *</label>
+                    <input type="text" class="form-control" placeholder="Properties" id="course-properties-input">
+                </div>
+
+
+            </div>
+        </div>
+    </fieldset>
+    <fieldset class="field-card">
+        <div class="add-course-info">
+            <div class="add-course-inner-header">
+                <h4>Future Job Titles</h4>
+            </div>
+            <div class="add-course-form">
+
+                <a class="btn btn-info-light" data-bs-toggle="collapse" href="#collapseFjtInput" role="button"
+                    aria-expanded="false" aria-controls="collapseFjtInput">Add Future Job Title</a>
+
+                <div class="collapse input-block mt-5" id="collapseFjtInput">
+                    <label class="add-course-label">Future Job Title</label>
+                    <input type="text" class="form-control" placeholder="Future Job Title" id="future-job-title-input">
+                    <a class="btn btn-info-light" onclick="addFutureJobTitle()"> Add + </a>
+                </div>
+
+                <ol class="list-group list-group-numbered mb-5" id="futureJobTitles_Container">
+
+                </ol>
+            </div>
+
+        </div>
+    </fieldset>
+    <fieldset class="field-card">
+        <div class="add-course-info">
+            <div class="add-course-inner-header">
+                <h4>Topics</h4>
+            </div>
+            <div class="add-course-form">
+
+                <a class="btn btn-info-light" data-bs-toggle="collapse" href="#collapseTopicsInput" role="button"
+                    aria-expanded="false" aria-controls="collapseTopicsInput">Add Topic</a>
+
+                <div class="collapse input-block mt-5" id="collapseTopicsInput">
+                    <label class="add-course-label">Future Job Title</label>
+                    <input type="text" class="form-control" placeholder="Future Job Title" id="topic-input">
+                    <a class="btn btn-info-light" onclick="addTopic()"> Add + </a>
+                </div>
+
+                <ol class="list-group list-group-numbered mb-5" id="topics_Container">
+
+                </ol>
+            </div>
+
+        </div>
+    </fieldset>
+    <fieldset class="field-card">
+        <div class="add-course-info">
+            <div class="add-course-inner-header">
+                <h4>Courses Media</h4>
+            </div>
+            <div class="add-course-form">
+                <div class="input-block">
+                    <label class="add-course-label">Course Fragment Video</label>
+                    <div class="relative-form" id="relativeVideoForm">
+                        <span>No File Selected</span>
+                        <label class="relative-file-upload">
+                            Upload File <input type="file" accept="video/*" id="course-fragment-video-input">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-block" id="videoBox">
+                    <div class="add-image-box add-video-box">
+                        <a href="javascript:void(0);">
+                            <i class="fas fa-circle-play"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label" id="courseImageLabel">Course Cover Image *</label>
+                    <div class="relative-form" id="relativeImageForm">
+                        <span>No File Selected</span>
+                        <label class="relative-file-upload">
+                            Upload File <input type="file" accept='image/*' id="course-image-input">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-block" id="imageBox">
+                    <div class="add-image-box" bis_skin_checked="1">
+                        <a href="javascript:void(0);">
+                            <i class="far fa-image"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-btn">
+                <a class="btn btn-info-light next_btn" onclick="createCourse()">Submit</a>
+            </div>
+        </div>
+    </fieldset>
+
+</div>

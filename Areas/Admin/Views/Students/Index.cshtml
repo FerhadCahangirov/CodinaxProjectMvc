@@ -1,0 +1,76 @@
+﻿@model PaginationVm<IEnumerable<Student>>
+
+<script>
+    function filterSearch() {
+        const searchFilter = document.getElementById('searchFilter').value;
+        var e = document.getElementById("searchStatus");
+        var statusText = e.options[e.selectedIndex].text;
+
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/Students/StudentsPartial',
+            data: {
+                searchFilter: searchFilter,
+                statusFilter: statusText,
+            },
+            success: (data) => {
+                $('#studentsContainer').html(data);
+
+                localStorage.setItem("studentSearchFilter", searchFilter);
+                localStorage.setItem("studentStatusFilter", statusText);
+            },
+            error: (xhr, status, error) => {
+                console.error(`Error! ${error}`);
+            }
+        });
+    }
+</script>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+<div class="main-content">
+    <div class="container mt-7">
+        <!-- Table -->
+        <h2 class="mb-5">Students</h2>
+        <div class="row">
+
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="add-course-info">
+                                    <div class="input-block">
+                                        <input type="text" class="form-control" placeholder="Search Student..."
+                                               id="searchFilter" oninput="filterSearch()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="add-course-info">
+                                    <div class="input-block">
+                                        <select type="text" class="form-control" placeholder="Category Name"
+                                                id="searchStatus" onchange="filterSearch()">
+                                            <option>Select All</option>
+                                            <option>Approved</option>
+                                            <option>Not Approved</option>
+                                            <option>Banned</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="studentsContainer">
+                        <partial name="StudentsPartial" model="@Model">
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+

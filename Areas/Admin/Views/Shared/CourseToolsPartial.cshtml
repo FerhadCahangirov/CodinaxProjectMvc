@@ -1,0 +1,211 @@
+﻿@model CourseToolsVm
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    var $j = jQuery.noConflict();
+
+    function archive(id) {
+        $j.ajax({
+            type: 'POST',
+            url: `/Admin/Courses/ArchiveTool/${id}`,
+            success: (data) => {
+                const status_element = document.getElementById(`status_${id}`);
+                status_element.innerHTML = `
+                                    <span class="badge badge-dot mr-4 text-secondary">
+                                        <i class="bg-warning"></i> archived
+                                    </span>
+                                `;
+
+                const archive_element = document.getElementById(`archive_${id}`);
+                archive_element.innerHTML = `
+                                    <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unarchive('${id}')">
+                                        <i class="fa-solid fa-window-restore"></i>
+                                    </a>
+                                `;
+
+                Command: toastr["success"]("tool Archived");
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "500",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+
+            }
+        });
+    }
+
+    function unarchive(id) {
+        $j.ajax({
+            type: 'POST',
+            url: `/Admin/Courses/UnarchiveTool/${id}`,
+            success: (response) => {
+                const status_element = document.getElementById(`status_${id}`);
+                status_element.innerHTML = `
+                                        <span class="badge badge-dot mr-4 text-secondary">
+                                            <i class="bg-success"></i> active
+                                        </span>
+                                    `;
+
+                const archive_element = document.getElementById(`archive_${id}`);
+                archive_element.innerHTML = `
+                                        <a class="btn btn-sm btn-icon-only text-light" role="button" onclick="archive('${id}')">
+                                            <i class="fa-solid fa-box-archive"></i>
+                                        </a>
+                                    `;
+
+                Command: toastr["success"]("Tool Restored");
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "500",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+            }
+        });
+    }
+
+    function deleteTool(id) {
+        $j.ajax({
+            type: 'DELETE',
+            url: `/Admin/Courses/DeleteTool/${id}`,
+            success: (data) => {
+
+                $(`#table_${id}`).fadeOut(500);
+
+                Command: toastr["success"]("tool Deleted");
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "500",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+            }
+        });
+    }
+</script>
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Content</th>
+                <th scope="col">Status</th>
+                <th scope="col">Archive</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Tools)
+            {
+                <tr id="table_@item.Id">
+                    <th scope="row">
+                        <div class="media align-items-center">
+                            <a href="#" class="avatar rounded-circle mr-3" style="background: transparent;">
+                                <img alt="Image placeholder" src="@Model.BaseUrl/@item.PathOrContainer/@item.FileName">
+                            </a>
+                            <div class="media-body">
+                                <span class="mb-0 text-sm">@(item.Content) </span>
+                            </div>
+                        </div>
+                    </th>
+                    <td id="status_@(item.Id)">
+                        @if (item.IsArchived)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-warning"></i> archived
+                            </span>
+                        }
+                        else if (item.IsDeleted)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-danger"></i> deleted
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-success"></i> active
+                            </span>
+                        }
+
+                    </td>
+                    <td id="archive_@(item.Id)">
+
+                        @if (!item.IsArchived && !item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light" role="button" onclick="archive('@item.Id')">
+                                <i class="fa-solid fa-box-archive"></i>
+                            </a>
+                        }
+                        else if (item.IsArchived && !item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unarchive('@item.Id')">
+                                <i class="fa-solid fa-window-restore"></i>
+                            </a>
+                        }
+
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-icon-only text-light " href="/Admin/Courses/UpdateTool/@item.Id">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </td>
+                    <td>
+
+                        @if (item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button">
+                                <i class="fa-solid fa-window-restore"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="deleteTool('@item.Id')">
+                                <i class="fa-solid fa-delete-left"></i>
+                            </a>
+                        }
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

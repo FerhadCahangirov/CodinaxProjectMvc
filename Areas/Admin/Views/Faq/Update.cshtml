@@ -1,0 +1,32 @@
+﻿@model FaqUpdateVm
+
+<div class="widget-content multistep-form">
+    <fieldset class="field-card">
+        <form method="post">
+            <div class="add-course-info">
+                <div class="add-course-inner-header">
+                    <h4>Update Faq</h4>
+                </div>
+                <div class="add-course-form">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="Question"></label>
+                        <input type="text" class="form-control" asp-for="Question">
+                        <span class="text-danger" asp-validation-for="Question"></span>
+                    </div>
+
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="Answer"></label>
+                        <textarea type="text" class="form-control" asp-for="Answer"></textarea>
+                        <span class="text-danger" asp-validation-for="Answer"></span>
+                    </div>
+
+                    <div class="widget-btn">
+                        <button class="btn btn-info-light next_btn" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</div>
+

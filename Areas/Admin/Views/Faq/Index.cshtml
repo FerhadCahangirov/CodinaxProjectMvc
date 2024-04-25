@@ -1,0 +1,113 @@
+﻿@model PaginationVm<IEnumerable<Faq>>
+
+@section Scripts {
+    @if (TempData["Created"] != null && (bool)TempData["Created"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Faq has been created.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+
+    @if (TempData["Updated"] != null && (bool)TempData["Updated"] == true)
+    {
+
+        <script>
+            Command: toastr["success"]("Faq has been updated.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+}
+
+<script>
+
+    function filterSearch() {
+        const faqName = document.getElementById('cateogry-name-input').value;
+
+        $.ajax({
+            type: "POST",
+            url: "/Admin/Faq/FaqsPartial",
+            data: {
+                searchFilter: faqName
+            },
+            success: (data) => {
+                $('#categoriesContainer').html(data);
+                localStorage.setItem("faqName", faqName);
+            }
+        });
+    }
+
+</script>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+<body>
+    <div class="main-content">
+        <div class="container mt-7">
+            <!-- Table -->
+            <ul class="tabs__container__between mb-5">
+                <li class="ns-tabs--tab">
+                    <h2 class="ns-tab--item ns-tab--item-active "> Faqs </h2>
+                </li>
+                <li class="ns-tabs--tab">
+                    <a class="ns-tab--item ns-tab--item--button" href="/Admin/Faq/Create"> + Add Faq </a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="add-course-info">
+                                    <div class="input-block">
+                                        <input type="text" class="form-control" placeholder="Faq Name"
+                                               id="cateogry-name-input" oninput="filterSearch()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="categoriesContainer">
+                        <partial name="FaqsPartial" model="@Model">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

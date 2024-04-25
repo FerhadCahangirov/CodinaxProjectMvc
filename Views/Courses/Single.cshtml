@@ -1,0 +1,560 @@
+﻿@model CourseSingleVm;
+
+@{
+    ViewData["Title"] = "Single";
+}
+
+
+<script>
+
+    window.addEventListener('scroll', function () {
+        const scrollPosition = window.pageYOffset;
+        const rotation = scrollPosition * 0.5;
+        const movement = scrollPosition * 0.04;
+
+        const student_1 = document.querySelector('.student_1');
+
+        const student_1_observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transform = `translate3d(0px, ${movement}%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)`;
+                }
+            });
+        });
+
+        student_1_observer.observe(student_1);
+
+        const studentCircleLeft = document.querySelector('.student_circle-left');
+
+        const studentCircleLeft_observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transform = `translate3d(0px, ${movement}%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(${rotation}deg) skew(0deg, 0deg)`;
+                }
+            });
+        });
+
+        studentCircleLeft_observer.observe(studentCircleLeft);
+
+
+        const student_1_shape_1 = document.querySelector('.student-1_shape-1');
+        const student_1_shape_1_initialWidth = parseFloat('2.75');
+
+        const student_1_shape_1_width = Math.max(student_1_shape_1_initialWidth + scrollPosition * 0.005, student_1_shape_1_initialWidth);
+
+        const student_1_shape_1_observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.width = `${student_1_shape_1_width}rem`
+                }
+            });
+        });
+
+        student_1_shape_1_observer.observe(student_1_shape_1);
+
+        const student_1_shape_2 = document.querySelector('.student-1_shape-2');
+        const student_1_shape_2_initialWidth = 76;
+
+        const student_1_shape_2_width = Math.max(student_1_shape_2_initialWidth + scrollPosition * 0.05, student_1_shape_2_initialWidth);
+
+
+        const student_1_shape_2_observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.width = `${student_1_shape_2_width}px`
+                    entry.target.style.transform = `translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(${rotation / 10}deg) skew(0deg, 0deg)`;
+                }
+            });
+        });
+
+        student_1_shape_2_observer.observe(student_1_shape_2);
+
+        const studentCircleRigth = document.querySelector('.student_circle-right');
+
+        const studentCircleRigth_observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transform = `translate3d(0px, ${movement}%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(-${rotation}deg) skew(0deg, 0deg)`;
+                }
+            });
+        });
+
+        studentCircleRigth_observer.observe(studentCircleRigth);
+
+        const student_2_shape_1 = document.querySelector('.student-2_shape-1');
+        const student_2_shape_1_initialWidth = parseFloat(80);
+        const student_2_shape_1_width = Math.max(student_2_shape_1_initialWidth + scrollPosition * 3, student_2_shape_1_initialWidth);
+
+        student_2_shape_1_observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.width = `${student_1_shape_2_width}px`;
+                    entry.target.style.transform = `translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(${rotation}deg) skew(0deg, 0deg)`;
+                }
+            });
+        });
+
+        student_2_shape_1_observer.observe(student_2_shape_1);
+
+        const student_2_shape_2 = document.querySelector('.student-2_shape-2');
+
+        student_2_shape_2_observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transform = `translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(${rotation / 10}deg) skew(0deg, 0deg)`;
+                }
+            });
+        });
+
+        student_2_shape_2_observer.observe(student_2_shape_2);
+
+        const student_2 = document.querySelector('.student_2');
+
+        const student_2_observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transform = `translate3d(0px, ${movement * 2}%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)`;
+                }
+            });
+        });
+
+        student_2_observer.observe(student_2);
+    });
+
+    function scrollToCourseContent(){
+        const element = document.getElementById('course-content').offsetTop;
+
+        window.scrollTo({
+            top: element,
+            behavior: 'smooth'
+        });
+    }
+
+</script>
+
+<main class="main-wrapper">
+    <section class="section-hero">
+        <div class="padding-global">
+            <div class="container-large">
+                <div class="padding-section-large">
+                    <div class="hero-component">
+                        <h1 data-w-id="a9ae2ce4-acd5-b5c6-7cd1-7d29e52438cd" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">@Model.Course.Title </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="shape"></div>
+        <div class="shape is-right"></div>
+        <div class="shape is-center"></div>
+    </section>
+
+    <header class="section_hero">
+        <div class="padding-global">
+            <div class="container-large">
+                <div class="padding-section-small padding-hero">
+                    <div class="w-layout-grid bootstrap_component">
+                        <div class="hero_content">
+                            <div class="margin-bottom margin-small">
+                                <div class="margin-bottom margin-large">
+                                    <h1 class="heading-style-h2">
+                                        @(string.Join(" ", Model.Course.Heading.Split(' ').Skip(0).Take(Model.Course.Heading.Split(' ').Count() - 1)))
+                                        <span class="heading-style-underline">
+                                            @(Model.Course.Heading.Split(' ').Last())
+                                        </span>
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="margin-bottom margin-medium">
+                                <div class="hero_desc-wrapper">
+                                    <p class="text-size-large">@Model.Course.HeadingDescription</p>
+                                </div>
+                            </div>
+                            <div class="margin-bottom margin-large">
+                                <div class="info_component">
+                                    <div id="w-node-_392f4075-1e0d-0de9-9e64-9c0f5909e398-dcc25c09" class="info-column">
+                                        <img src="https://assets-global.website-files.com/6417f234f5b343f280553234/641f33ebf4ae49138567d4e0_icon-location.svg" loading="lazy" alt="Location Icon" class="bootcamp_info-icon">
+                                        <div class="text-style-mono text-size-small text-color-blue"><strong>Location:</strong> @Model.Course.Location</div>
+                                    </div>
+                                    <div id="w-node-_392f4075-1e0d-0de9-9e64-9c0f5909e39e-dcc25c09" class="info-column">
+                                        <img src="https://assets-global.website-files.com/6417f234f5b343f280553234/641f33eb0bbd0ab443fa3f94_icon-date.svg" loading="lazy" alt="Date Icon" class="bootcamp_info-icon">
+                                        <div class="text-style-mono text-size-small text-color-blue"><strong>Starting:</strong> @Model.Course.StartingDate?.ToString("MMM dd, yyyy")</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button-group">
+                                <a href="/Auth/Student/Apply" class="button w-button">Apply Now</a>
+                                <div class="hide-mobile-landscape">or</div>
+                                <a role="button" onclick="scrollToCourseContent()" class="link-red is-play hide-mobile-landscape w-inline-block w-lightbox" aria-label="open lightbox" aria-haspopup="dialog">
+                                    <div>Scroll to course content</div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="bootcamp_image-wrapper">
+                            <div id="w-node-_4aba8918-a7de-63e6-4db8-470d4ad92f56-dcc25c09" data-w-id="4aba8918-a7de-63e6-4db8-470d4ad92f56" class="student_1" style="will-change: transform; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                <div id="w-node-d8a363e2-7cc7-825a-8ec6-e184fd1aaf3d-dcc25c09" data-w-id="d8a363e2-7cc7-825a-8ec6-e184fd1aaf3d" class="student-wrapper" style="border-color: rgb(37, 68, 112);">
+                                    <img src="/Assets/imgs/icons/output-onlinepngtools (23).png" loading="lazy" data-w-id="de17d8fa-0083-0cf8-9da8-c3b137951e1e" alt="Shape" class="student-1_shape-1" style="will-change: width, height, transform; width: 2.75rem; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                    <img src="/Assets/imgs/icons/output-onlinepngtools (24).png" loading="lazy" data-w-id="591041ee-0b04-2b06-849c-78285efca312" alt="Shape" class="student-1_shape-2" style="will-change: width, height, transform; width: 76px; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                    <img src="/Assets/imgs/course-single/image-from-rawpixel-id-14406523-png.png" loading="lazy" data-w-id="abf42adc-b5c8-8b97-5b30-0b493b327189" sizes="(max-width: 479px) 100vw, (max-width: 767px) 39vw, (max-width: 991px) 25vw, (max-width: 1919px) 17vw, 242.546875px" alt="NeoTech Academy Student" class="student_photo" style="will-change: transform; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                </div>
+                                <img src="/Assets/imgs/icons/output-onlinepngtools (25).png" loading="lazy" data-w-id="4c0f9ca5-668a-f3b3-9efe-dfc411c09b3a" alt="Orange Shape" class="student_circle-left" style="will-change: transform; transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;" width="70" height="71">
+                            </div>
+                            <div data-w-id="f505fe83-c6ee-02f5-379a-282b338c1ed0" class="student_2" style="will-change: transform; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                <div data-w-id="19e1ea7f-97d8-f0fd-cff7-e6f4871a4b86" class="student-wrapper" style="border-color: rgb(37, 68, 112);">
+                                    <img src="/Assets/imgs/course-single/image-from-rawpixel-id-13020157-png.png" loading="lazy" data-w-id="19e1ea7f-97d8-f0fd-cff7-e6f4871a4b89" alt="NeoTech Academy Student" class="student_photo" style="will-change: transform; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                    <img src="/Assets/imgs/icons/output-onlinepngtools (26).png" loading="lazy" data-w-id="19e1ea7f-97d8-f0fd-cff7-e6f4871a4b87" alt="Shape" class="student-2_shape-1" style="will-change: width, height, transform; width: 80px; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                    <img src="/Assets/imgs/icons/output-onlinepngtools (35).png" loading="lazy" data-w-id="19e1ea7f-97d8-f0fd-cff7-e6f4871a4b88" alt="Shape" class="student-2_shape-2" style="will-change: transform; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                </div>
+                                <img src="/Assets/imgs/icons/output-onlinepngtools (32).png" loading="lazy" data-w-id="c49b5944-b5e5-9e02-6f90-72c3e305ba9e" alt="Orange Shape" class="student_circle-right" style="will-change: transform; transform: translate3d(0%, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;" width="70" height="71">
+                            </div>
+                            <img src="/Assets/imgs/icons/output-onlinepngtools (22).png" loading="lazy" style="opacity: 1;" data-w-id="a66d08e1-3ab6-0437-2dac-214ba41fdbf6" alt="Shape Arrow" class="arrow_bootcamp">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <header id="overview" class="section_bootcamp">
+        <div class="padding-global">
+            <div class="container-small">
+                <div class="padding-section-large">
+                    <div class="text-align-center">
+                        <div data-aos="fade" data-aos-delay="500" data-aos-duration="500">
+                            <img src="/Assets/imgs/icons/output-onlinepngtools (33).png" loading="lazy" data-w-id="2aab01d4-7e49-3840-b306-c32152e000b7" alt="Icon Highlight" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;" class="opacity-change-icon" width="127" height="55">
+                        </div>
+                        <div class="margin-bottom margin-small">
+
+                            <h2><span class="heading-style-underline underline_free">Future</span> job title:<br></h2>
+                        </div>
+                        <div class="margin-bottom margin-large hide-mobile-portrait">
+                            @if (Model.Course.FutureJobTitles != null && Model.Course.FutureJobTitles.Any())
+                            {
+                                <div class="flex flex-type">
+                                    <h3 id="typed" class="h3-mobile"></h3>
+                                </div>
+                                <div id="typed-strings" style="display: none;">
+                                    @foreach (var item in Model.Course.FutureJobTitles.ToList())
+                                    {
+                                        <p>@item.Content</p>
+                                    }
+                                </div>
+                            }
+
+                        </div>
+
+                        <div class="margin-bottom margin-large">
+                            <p data-w-id="b5586f1a-928a-25af-170c-d4a42ab4e19e" class="text-size-large" style="opacity: 1;">
+                                @Model.Course.FutureJobDesc
+                            </p>
+                        </div>
+                        <div class="margin-bottom margin-large">
+                            <h3 data-w-id="93e73579-bf7c-9ebf-4f79-d86258fc928c" style="opacity: 1;">You will make: <span data-w-id="33a593b9-6163-9b53-6750-5af8eb3dd24b" class="heading-style-bg" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">@Model.Course.FutureJobSalary</span></h3>
+                        </div>
+                    </div>
+                    <div data-w-id="8e5b712c-829d-524d-3522-405a8ea27d5c" class="bracket_component">
+                        <div class="text-align-center text-color-blue text-weight-bold">@Model.Course.Properties</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    @if(Model.Course.Tools.Count() > 0)
+    {
+        <section class="section">
+            <div class="padding-global">
+                <div class="container-large">
+                    <div class="padding-section-small">
+                        <div class="margin-bottom margin-large">
+                            <h3 class="text-align-center">The tools you will use</h3>
+                        </div>
+                        <div class="flex flex-tools">
+                            @foreach (var (index, tool) in Model.Course.Tools.Select((value, i) => (i, value)))
+                            {
+                                <div class="margin-bottom margin-medium margin-none" data-aos="fade-right" data-aos-delay="@(200 * (index + 1))" data-aos-duration="500">
+                                    <div data-w-id="c334edcc-e2cc-1c49-01f5-8f0e2f6034c6" class="tag tag-icon">
+                                        <img src="@Model.BaseUrl/@tool.PathOrContainer/@tool.FileName" loading="lazy" alt="NeoTech Academy Icon" class="icon-height-xsmall icon-tag">
+                                        <div class="text-size-regular text-style-allcaps text-tag">@tool.Content</div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+   
+    @if(Model.Course.Topics.Count() > 0)
+    {
+        <section class="section">
+            <div class="padding-global">
+                <div class="container-large">
+                    <div class="padding-section-small">
+                        <div class="margin-bottom margin-large">
+                            <h3 class="text-align-center">The topics you will learn</h3>
+                        </div>
+                        <div class="flex">
+
+                            @foreach (var (index, topic) in Model.Course.Topics.Select((value, i) => (i, value)))
+                            {
+                                <div class="margin-bottom margin-medium margin-02" data-aos="fade-right" data-aos-delay="@(200 * (index + 1))" data-aos-duration="500">
+                                    <div data-w-id="451603c6-7ceb-8720-0ab8-c830ae7c32f5" class="tag tag-icon background-color-antiquewhite">
+                                        <img src="https://assets-global.website-files.com/6417f234f5b343f280553234/642bba93d2094bca11f6c5d7_icon-hashtag.svg" loading="lazy" alt="Hashtag Icon" class="icon-height-xsmall icon-tag">
+                                        <div class="text-size-regular text-style-allcaps text-color-blue text-style-mono text-tag">@topic.Content</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+    
+
+    <header class="section-courses is-single" id="course-content">
+        <div class="padding-global">
+            <div class="container-large">
+                <div class="padding-section-large">
+                    <div class="blogpost4_content-wrapper">
+                        <div class="blogpost4_content">
+                            <div class="text-rich-text w-richtext">
+                                <h2>Course description</h2>
+                                <br />
+                                <P>
+                                    @Model.Course.Description
+                                </P>
+                                <br />
+                                <br />
+                                @if (!string.IsNullOrEmpty(Model.Course.CourseFragmentVideoName))
+                                {
+                                    <figure class="w-richtext-figure-type-video w-richtext-align-fullwidth" style="padding-bottom:56.206088992974244%">
+                                        <div>
+                                            <video controls="true" src="@Model.BaseUrl/@Model.Course.CourseFragmentVideoPathOrContainer/@Model.Course.CourseFragmentVideoName"></video>
+                                        </div>
+                                    </figure>
+                                }
+
+                                <br />
+                                <br />
+                                @Html.Raw(Model.Course.Content)
+                            </div>
+                        </div>
+
+                        <div class="div-block">
+                            @if(Model.Course.Prices.Count() > 0)
+                            {
+                                foreach(var price in Model.Course.Prices)
+                                {
+                                    <div class="course-pricing-card">
+                                        <div class="sub-heading">Course Pricing</div>
+                                        <div class="padding-bottom padding-xsmall"></div>
+                                        <div class="course-price-wrapper">
+                                            <h2 class="heading-style-h4">@price.Title</h2>
+                                        </div>
+                                        <div class="padding-bottom padding-xsmall"></div>
+
+                                        <div class="course-pricing-list">
+                                            @if(price.PriceInfos.Count() > 0)
+                                            {
+                                                foreach(var priceInfo in price.PriceInfos)
+                                                {
+                                                    <div class="course-pricing-features">
+                                                        <div class="text-color-grey" bis_skin_checked="1">@priceInfo.Content</div>
+                                                    </div>
+                                                }
+                                            }
+                                            
+                                        </div>
+                                        <div class="padding-bottom padding-large"></div>
+                                        @* <a href="/contact" class="button max-width-full w-button">Apply Now</a> *@
+                                    </div>
+                                }
+                            }
+
+                            
+                            <div class="courses-list-wrapper w-dyn-list">
+                                <div role="list" class="courses-list is-signle-page w-dyn-items">
+                                    <div role="listitem" class="courses-item w-dyn-item">
+                                        <div class="courses-card">
+                                            <a href="/course/learn-uiux-design" class="courses-image-link w-inline-block">
+                                                <div class="courses-image-wrapper">
+                                                    <img src="https://assets.website-files.com/63f3212748a58b8bb6c65a69/63ff481d6ddbf530431c2882_Image-3.png" loading="lazy" alt="Learn UIUX  design" class="courses-image" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                                </div>
+                                            </a>
+                                            <div class="courses-item-content">
+                                                <div class="courses-item-content-top">
+                                                    <a href="/course-category/uiux" class="courses-category-link w-inline-block">
+                                                        <div>UI/UX</div>
+                                                    </a>
+                                                    <a href="/course/learn-uiux-design" class="courses-title-link w-inline-block">
+                                                        <h3 class="heading-style-h5">Learn UIUX design</h3>
+                                                    </a>
+                                                    <div class="text-size-regular">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.</div>
+                                                    <div class="courses-rating-wrapper">
+                                                        <div>4</div>
+                                                        <div>
+                                                            <div class="course-rating-icon-wrapper">
+                                                                <div class="course-rating-icon w-embed">
+                                                                    <svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="course-rating-icon w-embed">
+                                                                    <svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="course-rating-icon w-embed">
+                                                                    <svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="course-rating-icon w-embed">
+                                                                    <svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="course-rating-icon w-embed">
+                                                                    <svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div>(125)</div>
+                                                    </div>
+                                                </div>
+                                                <div class="course-content-bottom">
+                                                    <div class="courses-author-wrapper">
+                                                        <div class="courses-author-image-wrapper">
+                                                            <img loading="lazy" alt="Esther Howard" src="https://assets.website-files.com/63f3212748a58b8bb6c65a69/63ff4cb11421c26c68095023_Ellipse%203.png" class="courses-author-image">
+                                                        </div>
+                                                        <div class="courses-author-text">
+                                                            <div class="text-weight-bold text-size-xsmall text-color-black">Esther Howard</div>
+                                                            <div class="text-size-xsmall text-color-black">Feb 20, 2023</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="courses-pricing-wrapper">
+                                                        <div>$13.80</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="listitem" class="courses-item w-dyn-item">
+                                        <div class="courses-card">
+                                            <a href="/course/web-development-" class="courses-image-link w-inline-block">
+                                                <div class="courses-image-wrapper">
+                                                    <img src="https://assets.website-files.com/63f3212748a58b8bb6c65a69/63ff48d4b95f546caa497d0e_Image_1.png" loading="lazy" alt="Web Development " sizes="(max-width: 479px) 100vw, (max-width: 767px) 83vw, (max-width: 991px) 39vw, 24vw" srcset="https://assets.website-files.com/63f3212748a58b8bb6c65a69/63ff48d4b95f546caa497d0e_Image_1-p-500.png 500w, https://assets.website-files.com/63f3212748a58b8bb6c65a69/63ff48d4b95f546caa497d0e_Image_1.png 790w" class="courses-image" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                                </div>
+                                            </a>
+                                            <div class="courses-item-content">
+                                                <div class="courses-item-content-top">
+                                                    <a href="/course-category/design-branding" class="courses-category-link w-inline-block">
+                                                        <div>Design Branding </div>
+                                                    </a>
+                                                    <a href="/course/web-development-" class="courses-title-link w-inline-block">
+                                                        <h3 class="heading-style-h5">Web Development </h3>
+                                                    </a>
+                                                    <div class="text-size-regular">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.</div>
+                                                    <div class="courses-rating-wrapper">
+                                                        <div>5</div>
+                                                        <div>
+                                                            <div class="course-rating-icon-wrapper">
+                                                                <div class="course-rating-icon w-embed">
+                                                                    <svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="course-rating-icon w-embed">
+                                                                    <svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="course-rating-icon w-embed">
+                                                                    <svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="course-rating-icon w-embed">
+                                                                    <svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="course-rating-icon w-embed">
+                                                                    <svg width="100%" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8.16379 0.551109C8.47316 -0.183704 9.52684 -0.183703 9.83621 0.551111L11.6621 4.88811C11.7926 5.19789 12.0875 5.40955 12.426 5.43636L17.1654 5.81173C17.9684 5.87533 18.294 6.86532 17.6822 7.38306L14.0713 10.4388C13.8134 10.6571 13.7007 10.9996 13.7795 11.3259L14.8827 15.8949C15.0696 16.669 14.2172 17.2809 13.5297 16.8661L9.47208 14.4176C9.18225 14.2427 8.81775 14.2427 8.52793 14.4176L4.47029 16.8661C3.7828 17.2809 2.93036 16.669 3.11727 15.8949L4.22048 11.3259C4.29928 10.9996 4.18664 10.6571 3.92873 10.4388L0.317756 7.38306C-0.294046 6.86532 0.0315611 5.87533 0.834562 5.81173L5.57402 5.43636C5.91255 5.40955 6.20744 5.19789 6.33786 4.88811L8.16379 0.551109Z" fill="currentColor"></path>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div>(125)</div>
+                                                    </div>
+                                                </div>
+                                                <div class="course-content-bottom">
+                                                    <div class="courses-author-wrapper">
+                                                        <div class="courses-author-image-wrapper">
+                                                            <img loading="lazy" alt="Jerome Bell" src="https://assets.website-files.com/63f3212748a58b8bb6c65a69/63ff4ea61421c2173e096f83_Rectangle%20329-2.png" class="courses-author-image">
+                                                        </div>
+                                                        <div class="courses-author-text">
+                                                            <div class="text-weight-bold text-size-xsmall text-color-black">Jerome Bell</div>
+                                                            <div class="text-size-xsmall text-color-black">Feb 20, 2023</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="courses-pricing-wrapper">
+                                                        <div>$19.90</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="section-cta">
+        <div class="padding-global">
+            <div class="container-small">
+                <div class="padding-section-large">
+                    <div data-w-id="370a17b2-f508-83c7-8d0e-450a5bdf48b3" class="cta-component">
+                        <h2>Subscribe To Our Newsletter</h2>
+                        <div class="padding-bottom padding-small"></div>
+                        <p>
+                            Join our newsletter for the latest course updates,
+                            <span class="hide-mobile-landscape">
+                                <br />
+                            </span>
+                            exclusive discounts, and more!​
+                        </p>
+                        <div class="padding-bottom padding-small"></div>
+                        <div class="form-block w-form">
+                            <form id="Newsletter-Form" name="wf-form-Newsletter-Form" data-name="Newsletter Form" class="form" data-wf-page-id="63edcc04ea877745424eed6d" data-wf-element-id="370a17b2-f508-83c7-8d0e-450a5bdf48be">
+                                <input class="form-input w-input" maxlength="256" name="Newsletter-Form" data-name="Newsletter-Form" placeholder="Enter your email" type="email" id="Newsletter-Form-Input" required="" />
+                                <input type="submit" data-wait="Please wait..." class="button w-button" value="Get Started" />
+                            </form>
+                            <div class="success-message w-form-done">
+                                <div class="success-text">Thank you! Your submission has been received!</div>
+                            </div>
+                            <div class="error-message w-form-fail">
+                                <div class="error-text">Oops! Something went wrong while submitting the form.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2e33385872ab1e69eae6d_Frame.webp" loading="lazy" width="182" alt="Icon" class="rotate-shape" />
+        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2f987b68fbb46cfa84263_Vector.webp" loading="lazy" width="24.5" alt="Icon" class="rotate-shape top-right" />
+        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2f9872d342cefb811ddb4_Vector-2.webp" loading="lazy" width="27.5" alt="Icon" class="rotate-shape bottom-center" />
+        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2f987f9b3c88209398bc9_Vector-1.webp" loading="lazy" width="27.5" alt="Icon" class="rotate-shape top-left" />
+    </section>
+</main>

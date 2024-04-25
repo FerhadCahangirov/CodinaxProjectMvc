@@ -1,0 +1,106 @@
+﻿@model LoginVm
+
+<div class="c8e341991 ceafa1b92" bis_skin_checked="1">
+
+    <main class="c03d68601 login">
+        <section class="cc3e0ee20 login _prompt-box-outer c2967d1c4">
+            <div class="c476543f4 cfee98151" bis_skin_checked="1">
+
+
+                <div class="c28e57d17" bis_skin_checked="1">
+                    <header class="cd141dba7 cfd689eac">
+                        <div title="CYDEO" id="custom-prompt-logo" style="width: auto !important; height: 60px !important; position: static !important; margin: auto !important; padding: 0 !important; background-color: transparent !important; background-position: center !important; background-size: contain !important; background-repeat: no-repeat !important" bis_skin_checked="1"></div>
+
+                        <img class="c815a59b2 cafb7e9ea" id="prompt-logo-center" src="/Assets/imgs/logos/CODINAX.png" alt="CYDEO">
+
+
+                        <h1 class="c75a821d8 cf4ccfc47">Welcome Back</h1>
+
+
+                        <div class="c4b06d157 c285aedab" bis_skin_checked="1">
+
+                            <p class="c3360ff4e c8fe48fda">Log in to dashboard.</p>
+
+                        </div>
+                    </header>
+
+                    <div class="c49c1ba2f cffe0c5a0" bis_skin_checked="1">
+                        <form method="POST" class="c95cb8570 c17a4938a">
+                            <input type="hidden" name="state" value="hKFo2SBTbVNseTd0SzN0V09YaDFVd3g3Q0NScXE2VUppeEZwRqFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIFRxMGlXcjhtMmlSU01kMGphR1ZIZDdDdVlwaG1GcVZXo2NpZNkgc0VYaXVSSnJ0VWZCVTFUaXN2RGFhNEt6WXYxMjhiM1o">
+
+                            <div class="c4e8f3baf cd402327c" bis_skin_checked="1">
+                                <div class="cfffe57fa" bis_skin_checked="1">
+
+                                    <div class="input-wrapper _input-wrapper" bis_skin_checked="1">
+                                        <div class="ce385ba79 c630cc19b text c7f15f265 c11d28311 cb636dbea" data-action-text="" data-alternate-action-text="" bis_skin_checked="1">
+                                            <label class="c504b47d1 no-js cc454c27b c38729609" asp-for="EmailAddress">
+                                            </label>
+
+                                            <input class="input c9396bda3 c1fec96e1" inputmode="email" type="text" value="" required="" autocomplete="email" autocapitalize="none" spellcheck="false" autofocus="" asp-for="EmailAddress">
+
+                                            <div class="c504b47d1 js-required cc454c27b c38729609" data-dynamic-label-for="username" aria-hidden="true" bis_skin_checked="1">
+                                                Email address
+                                            </div>
+
+                                            <span class="text-danger mt-2" asp-validation-for="EmailAddress"></span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="input-wrapper _input-wrapper" bis_skin_checked="1">
+                                        <div class="ce385ba79 c630cc19b password ca0c3b651 c11d28311 cb636dbea" data-action-text="" data-alternate-action-text="" bis_skin_checked="1">
+                                            <label class="c504b47d1 no-js cc454c27b c544a5795" asp-for="Password">
+                                            </label>
+
+                                            <input class="input c9396bda3 c6d2c7838" type="password" required="" autocomplete="current-password" autocapitalize="none" spellcheck="false" asp-for="Password" >
+
+                                            <div class="c504b47d1 js-required cc454c27b c544a5795" data-dynamic-label-for="password" aria-hidden="true" bis_skin_checked="1">
+                                                Password
+                                            </div>
+
+                                            <button type="button" class="cea93c1fe ulp-button-icon cb8f247a6 _button-icon" data-action="toggle">
+                                                <span aria-hidden="true" class="password-icon-tooltip show-password-tooltip">Show password</span>
+
+                                                <span aria-hidden="true" class="password-icon-tooltip hide-password-tooltip hide">Hide password</span>
+
+                                                <span class="screen-reader-only password-toggle-label" data-label="show-password">Show password</span>
+
+                                                <span class="screen-reader-only password-toggle-label hide" data-label="hide-password">Hide password</span>
+
+                                                <span class="c6616f49d password js-required" aria-hidden="true"></span>
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                    <span class="text-danger mt-2" asp-validation-for="Password"></span>
+
+                                </div>
+                            </div>
+                            <p class="cc87dddae c27b98cec">
+
+                                <a class="ce78228eb c80853310 cfe4c492b" href="/u/login/password-reset-start/Username-Password-Authentication?state=hKFo2SBTbVNseTd0SzN0V09YaDFVd3g3Q0NScXE2VUppeEZwRqFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIFRxMGlXcjhtMmlSU01kMGphR1ZIZDdDdVlwaG1GcVZXo2NpZNkgc0VYaXVSSnJ0VWZCVTFUaXN2RGFhNEt6WXYxMjhiM1o" aria-label="">Forgot password?</a>
+
+                            </p>
+
+                            <div class="c45d6a94b" bis_skin_checked="1">
+
+                                <button type="submit" name="action" value="default" class="cea93c1fe cb2dfcee4 cb8f247a6 c5d1e7708 cb2e18c4c" data-action-button-primary="true">Continue</button>
+
+                            </div>
+                        </form>
+
+                        <div class="ulp-alternate-action  _alternate-action __s16nu9" bis_skin_checked="1">
+                            <p class="c3360ff4e c8fe48fda c9b2b9d32">
+                                Need help? Contact us at support@codinax.com
+                                <a class="ce78228eb cfe4c492b" href="/u/signup?state=hKFo2SBTbVNseTd0SzN0V09YaDFVd3g3Q0NScXE2VUppeEZwRqFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIFRxMGlXcjhtMmlSU01kMGphR1ZIZDdDdVlwaG1GcVZXo2NpZNkgc0VYaXVSSnJ0VWZCVTFUaXN2RGFhNEt6WXYxMjhiM1o" aria-label=""> </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</div>

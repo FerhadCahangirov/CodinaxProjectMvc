@@ -1,0 +1,354 @@
+﻿@model PaginationVm<IEnumerable<Instructor>>
+
+<script>
+
+    function approveInstructor(id) {
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Instructors/ApproveInstructor/${id}`,
+            success: (data) => {
+                if(data.success){
+                    const status_element = document.getElementById(`status_${id}`);
+                    status_element.innerHTML = `
+                                        <span class="badge badge-dot mr-4 text-secondary">
+                                                        <i class="bg-success"></i> approved
+                                                    </span>
+                                                    `;
+
+                    const approve_element = document.getElementById(`approve_${id}`);
+                    approve_element.innerHTML = "";
+
+                    showToaster('success', 'Instructor Approved Successfull');
+                }
+                else
+                    showToaster('error', 'Instructor Approvement Failed');
+
+            },
+            error: (data) => {
+                console.error(data);
+            }
+        });
+    }
+
+    function banInstructor(id) {
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Instructors/BanInstructor/${id}`,
+            success: (data) => {
+                if(data.success){
+                    const status_element = document.getElementById(`status_${id}`);
+                    status_element.innerHTML = `
+                                                <span class="badge badge-dot mr-4 text-secondary">
+                                                <i class="bg-warning"></i> banned
+                                            </span>
+                                                        `;
+
+                    const ban_element = document.getElementById(`ban_${id}`);
+                    ban_element.innerHTML = `
+                                                <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unbanInstructor('${id}')">
+                                                <i class="fa-solid fa-check"></i>
+                                            </a>
+                            `;
+
+                    showToaster('success', 'Instructor Banned Successfull');
+                }
+                else
+                    showToaster('error', 'Instructor Banning Failed');
+
+
+            },
+            error: (data) => {
+                console.error(data);
+            }
+        });
+    }
+
+    function unbanInstructor(id) {
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Instructors/UnBanInstructor/${id}`,
+            success: (data) => {
+                if(data.success){
+                    const status_element = document.getElementById(`status_${id}`);
+                    status_element.innerHTML = `
+                                                         <span class="badge badge-dot mr-4 text-secondary">
+                                                            <i class="bg-success"></i> approved
+                                                        </span>
+                                                            `;
+
+                    const unban_element = document.getElementById(`ban_${id}`);
+                    unban_element.innerHTML = `
+                                                        <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="banInstructor('${id}')">
+                                                <i class="fa-solid fa-ban"></i>
+                                            </a>
+                                `;
+
+                    showToaster('success', 'Instructor Unbanned Successfull');
+
+                }
+                else
+                    showToaster('error', 'Instructor Unbanning Failed');
+            },
+            error: (data) => {
+                console.error(data);
+            }
+        });
+    }
+
+    function sendConfirmationMail(id){
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Instructors/SendConfirmationMail/${id}`,
+            success: (data) => {
+                if (data.success) {
+                    showToaster('success', 'Confirmation Link Has Been Sent');
+                }
+                else
+                    showToaster('error', 'Failed To Send Confirmation Link');
+            },
+            error: (data) => {
+                console.error(data);
+            }
+        });
+    }
+
+    function showToaster(type, content){
+        Command: toastr[type](content);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    }
+
+</script>
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Fullname</th>
+                <th scope="col">Status</th>
+                <th scope="col">Approve</th>
+                <th scope="col">Ban</th>
+                <th scope="col">Email Confirmed</th>
+                <th scope="col">View</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Items)
+            {
+                <tr id="table_@item.Id">
+                    <th scope="row">
+                        <div class="media align-items-center">
+                            <a href="#" class="avatar rounded-circle mr-3">
+                                @if (string.IsNullOrEmpty(item.ProfileImageName) && string.IsNullOrEmpty(item.ProfileImagePathOrContainer))
+                                {
+                                    <img alt="Image placeholder" src="/Assets/panel/assets/img/icon/user.png">
+
+                                }
+                                else
+                                {
+                                    <img alt="Image placeholder" src="@Model.BaseUrl/@item.ProfileImagePathOrContainer/@item.ProfileImageName">
+
+                                }
+                            </a>
+                            <div class="media-body">
+                                <span class="mb-0 text-sm">@item.FirstName @item.LastName</span>
+                            </div>
+                        </div>
+                    </th>
+                    <td id="status_@item.Id">
+                        @if (!item.EmailConfirmed)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-warning"></i> mail not confirmed
+                            </span>
+                        }
+                        else
+                        {
+                            @if (item.EmailConfirmed)
+                            {
+                                @if (item.IsBanned == true)
+                                {
+                                    <span class="badge badge-dot mr-4 text-secondary">
+                                        <i class="bg-warning"></i> banned
+                                    </span>
+                                }
+                                else if (item.IsApproved == true)
+                                {
+                                    <span class="badge badge-dot mr-4 text-secondary">
+                                        <i class="bg-success"></i> approved
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-dot mr-4 text-secondary">
+                                        <i class="bg-warning"></i> not approved
+                                    </span>
+                                }
+                            }
+                            
+                        }
+
+                    </td>
+                    
+                    <td id="approve_@item.Id">
+                        @if (item.IsApproved != true && item.EmailConfirmed)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button"
+                               onclick="approveInstructor('@item.Id')">
+                                <i class="fa-solid fa-check"></i>
+                            </a>
+                        }
+
+                    </td>
+                    <td id="ban_@item.Id">
+                        @if (item.IsApproved && item.EmailConfirmed)
+                        {
+                            @if (item.IsBanned == true)
+                            {
+                                <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unbanInstructor('@item.Id')">
+                                    <i class="fa-solid fa-check"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="banInstructor('@item.Id')">
+                                    <i class="fa-solid fa-ban"></i>
+                                </a>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @if (item.EmailConfirmed)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-success"></i> confirmed
+                            </span>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm text-light" role="button"
+                               onclick="sendConfirmationMail('@item.Id')">
+                                Send <i class="fa-regular fa-paper-plane"></i> 
+                            </a>
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-icon-only text-light" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop_@item.Id">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                <div class="modal modal-bg fade" id="staticBackdrop_@item.Id" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog container py-5 h-100 centered">
+                        <div class="modal-custom-content row d-flex justify-content-center align-items-center h-100">
+                            <div class="col col-lg-6 mb-4 mb-lg-0">
+                                <div class="card bg-none mb-3" style="border-radius: .5rem;">
+                                    <div class="row g-0">
+                                        <div class="col-md-4 gradient-custom text-center text-white"
+                                             style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+
+                                            @if (string.IsNullOrEmpty(item.ProfileImageName) && string.IsNullOrEmpty(item.ProfileImagePathOrContainer))
+                                            {
+                                                <img src="/Assets/panel/assets/img/icon/user.png"
+                                                     alt="Avatar" class="img-fluid my-5" style="width: 80px;object-fit:cover" />
+                                            }
+                                            else
+                                            {
+
+                                                <img src="@Model.BaseUrl/@item.ProfileImagePathOrContainer/@item.ProfileImageName"
+                                                     alt="Avatar" class="img-fluid my-5" style="width: 80px; height: 80px;object-fit:cover; border-radius: 50%" />
+                                            }
+
+                                            <h5>@item.FirstName @item.LastName</h5>
+                                            <p>@item.Email</p>
+                                            <a href="/Admin/Instructors/Profile/@item.Id">
+                                                <i class="far fa-edit mb-5 pointer"></i>
+
+                                            </a>
+                                        </div>
+                                        <div class="col-md-8 bg-white border-rad">
+                                            <div class="card-body p-4">
+                                                <h6>Information</h6>
+                                                <hr class="mt-0 mb-4">
+                                                <div class="row pt-1">
+                                                    <div class="col-6 mb-3">
+                                                        <h6>Email</h6>
+                                                        <p class="text-muted">@item.Email</p>
+                                                    </div>
+                                                    <div class="col-6 mb-3">
+                                                        <h6>Phone</h6>
+                                                        <p class="text-muted">@item.PhoneNumber</p>
+                                                    </div>
+                                                </div>
+                                                <h6>Participated Courses</h6>
+                                                <hr class="mt-0 mb-4">
+                                                @foreach (var course in item.Courses)
+                                                {
+                                                    <div class="row pt-1">
+                                                        <div class="col-6 mb-3">
+                                                            <h6>Code</h6>
+                                                            <p class="text-muted">@course.CourseCode</p>
+                                                        </div>
+                                                        <div class="col-6 mb-3">
+                                                            <h6>Title</h6>
+                                                            <p class="text-muted">@course.Title</p>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </tbody>
+    </table>
+</div>
+@* <div class="card-footer py-4">
+<nav aria-label="...">
+<ul class="pagination justify-content-end mb-0">
+<li class="page-item disabled">
+<a class="page-link" href="#" tabindex="-1">
+<i class="fas fa-angle-left"></i>
+<span class="sr-only">Previous</span>
+</a>
+</li>
+<li class="page-item active">
+<a class="page-link" href="#">1</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+</li>
+<li class="page-item"><a class="page-link" href="#">3</a></li>
+<li class="page-item">
+<a class="page-link" href="#">
+<i class="fas fa-angle-right"></i>
+<span class="sr-only">Next</span>
+</a>
+</li>
+</ul>
+</nav>
+</div> *@
+
+

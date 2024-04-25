@@ -1,0 +1,241 @@
+﻿@model PaginationVm<IEnumerable<Faq>>
+
+<script>
+    function archive(id) {
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Faq/Archive/${id}`,
+            success: (data) => {
+                const status_element = document.getElementById(`status_${id}`);
+                status_element.innerHTML = `
+                        <span class="badge badge-dot mr-4 text-secondary">
+                            <i class="bg-warning"></i> archived
+                        </span>
+                    `;
+
+                const archive_element = document.getElementById(`archive_${id}`);
+                archive_element.innerHTML = `
+                        <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unarchive('${id}')">
+                            <i class="fa-solid fa-window-restore"></i>
+                        </a>
+                    `;
+
+                Command: toastr["success"]("faq archived");
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "500",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+
+            }
+        });
+    }
+
+    function unarchive(id) {
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Faq/Unarchive/${id}`,
+            success: (data) => {
+                const status_element = document.getElementById(`status_${id}`);
+                status_element.innerHTML = `
+                        <span class="badge badge-dot mr-4 text-secondary">
+                            <i class="bg-success"></i> active
+                        </span>
+                    `;
+
+                const archive_element = document.getElementById(`archive_${id}`);
+                archive_element.innerHTML = `
+                        <a class="btn btn-sm btn-icon-only text-light" role="button" onclick="archive('${id}')">
+                            <i class="fa-solid fa-box-archive"></i>
+                        </a>
+                    `;
+
+                Command: toastr["success"]("faq Restored");
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "500",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+
+            }
+        });
+    }
+
+    function deleteFaq(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: `/Admin/Faq/Delete/${id}`,
+            success: (data) => {
+
+                $(`#table_${id}`).fadeOut(500);
+
+                Command: toastr["success"]("faq Deleted");
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "500",
+                    "timeOut": "1000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+            }
+        });
+    }
+</script>
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Question</th>
+                <th scope="col">Answer</th>
+                <th scope="col">Status</th>
+                <th scope="col">Archive</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Items)
+            {
+                <tr id="table_@item.Id">
+                    <th scope="row">
+                        <div class="media align-items-center">
+                            <div class="media-body">
+                                <span class="mb-0 text-sm">
+                                    @(item.Question.Length > 25 ? $"{item.Question.Substring(0, 25)}..." : item.Question)
+                                </span>
+                            </div>
+                        </div>
+                    </th>
+                    <th scope="row">
+                        <div class="media align-items-center">
+                            <div class="media-body">
+                                <span class="mb-0 text-sm">
+                                    @(item.Answer.Length > 25 ? $"{item.Answer.Substring(0, 25)}..." : item.Answer)
+                                </span>
+                            </div>
+                        </div>
+                    </th>
+                    <td id="status_@(item.Id)">
+                        @if (item.IsArchived)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-warning"></i> archived
+                            </span>
+                        }
+                        else if (item.IsDeleted)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-danger"></i> deleted
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-success"></i> active
+                            </span>
+                        }
+
+                    </td>
+                    <td id="archive_@(item.Id)">
+
+                        @if (!item.IsArchived && !item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light" role="button" onclick="archive('@item.Id')">
+                                <i class="fa-solid fa-box-archive"></i>
+                            </a>
+                        }
+                        else if (item.IsArchived && !item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unarchive('@item.Id')">
+                                <i class="fa-solid fa-window-restore"></i>
+                            </a>
+                        }
+
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-icon-only text-light " href="/Admin/Faq/Update/@item.Id">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </td>
+                    <td>
+
+                        @if (item.IsDeleted)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button">
+                                <i class="fa-solid fa-window-restore"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="deleteFaq('@item.Id')">
+                                <i class="fa-solid fa-delete-left"></i>
+                            </a>
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@* <div class="card-footer py-4">
+<nav aria-label="...">
+<ul class="pagination justify-content-end mb-0">
+<li class="page-item disabled">
+<a class="page-link" href="#" tabindex="-1">
+<i class="fas fa-angle-left"></i>
+<span class="sr-only">Previous</span>
+</a>
+</li>
+<li class="page-item active">
+<a class="page-link" href="#">1</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+</li>
+<li class="page-item"><a class="page-link" href="#">3</a></li>
+<li class="page-item">
+<a class="page-link" href="#">
+<i class="fas fa-angle-right"></i>
+<span class="sr-only">Next</span>
+</a>
+</li>
+</ul>
+</nav>
+</div> *@
