@@ -8,12 +8,12 @@ namespace CodinaxProjectMvc.DataAccess.Models
 
         public IEnumerable<PriceInfo> PriceInfos { get; set; }
 
-        public Course Course { get; set; }
+        public Template Template { get; set; }
 
         public Price()
         {
             PriceInfos = new List<PriceInfo>();
-            Course = new Course();
+            Template = new Template();
         }
 
     }

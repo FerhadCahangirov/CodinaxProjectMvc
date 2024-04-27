@@ -5,11 +5,11 @@ namespace CodinaxProjectMvc.DataAccess.Models
     public class Topic : BaseEntity
     {
         public string? Content { get; set; }
-        public Course Course { get; set; }
 
+        public Template Template { get; set; }
         public Topic()
         {
-            Course = new Course();
+            Template = new Template();
         }
     }
 }

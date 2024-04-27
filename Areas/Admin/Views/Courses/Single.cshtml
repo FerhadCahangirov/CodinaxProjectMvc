@@ -94,18 +94,10 @@
             <a class="nav-link active" id="modules-tab" data-toggle="tab" href="#modules" role="tab" aria-controls="modules" aria-selected="true">Modules</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="details-tab" data-toggle="tab" href="#tools" role="tab" aria-controls="tools" aria-selected="false">Tools</a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" id="instructors-tab" data-toggle="tab" href="#instructors" role="tab" aria-controls="instructors" aria-selected="false">Instructors</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="students-tab" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="false">Students</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="prices-tab" data-toggle="tab" href="#prices" role="tab" aria-controls="prices" aria-selected="false">
-                Prices
-            </a>
         </li>
     </ul>
 </div>
@@ -190,26 +182,6 @@
         </div>
 
     </div>
-    <div class="tab-pane fade" id="tools" role="tabpanel" aria-labelledby="details-tab">
-
-        <div class="tabs__wrapper">
-            <ul class="tabs__container__between">
-                <li class="ns-tabs--tab">
-                    <a class="ns-tab--item ns-tab--item-active"> Tools </a>
-                </li>
-                <li class="ns-tabs--tab">
-                    <a class="ns-tab--item ns-tab--item--button" href="/Admin/Courses/CreateTool/@Model.Course.Id"> + Add Tool </a>
-                </li>
-            </ul>
-        </div>
-
-        <partial name="CourseToolsPartial" model="new CourseToolsVm(){
-            Tools = Model.Course.Tools,
-            Course = Model.Course,
-            BaseUrl = Model.BaseUrl
-        }" />
-
-    </div>
     <div class="tab-pane fade" id="instructors" role="tabpanel" aria-labelledby="instructors-tab">
         <div class="tabs__wrapper">
             <ul class="tabs__container__between">
@@ -229,25 +201,6 @@
         }" />
     </div>
     <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="students-tab">Students</div>
-    <div class="tab-pane fade" id="prices" role="tabpanel" aria-labelledby="prices-tab">
-
-        <div class="tabs__wrapper">
-            <ul class="tabs__container__between">
-                <li class="ns-tabs--tab">
-                    <a class="ns-tab--item ns-tab--item-active"> Prices </a>
-                </li>
-                <li class="ns-tabs--tab">
-                    <a class="ns-tab--item ns-tab--item--button" href="/Admin/Courses/CreateCoursePrice/@Model.Course.Id"> + Add Prices </a>
-                </li>
-            </ul>
-        </div>
-
-        <partial name="CoursePricesPartial" model="new PaginationVm<IEnumerable<Price>>(){
-            Items = Model.Course.Prices,
-            TotalCount = Model.Course.Prices.ToList().Count,
-            BaseUrl = Model.BaseUrl
-        }" />
-    </div>
 </div>
 
 

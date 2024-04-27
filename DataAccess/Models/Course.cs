@@ -39,12 +39,6 @@ namespace CodinaxProjectMvc.DataAccess.Models
         public IEnumerable<Student> Students { get; set; }
         public IEnumerable<Section> Sections { get; set; }
         public Category Category { get; set; }
-        public IEnumerable<Review> Reviews { get; set; }
-        public IEnumerable<Tool> Tools { get; set; }
-        public IEnumerable<Topic> Topics { get; set; }
-        public IEnumerable<FutureJobTitle> FutureJobTitles { get; set; }
-
-        public IEnumerable<Price> Prices { get; set; }
 
         public Template Template { get; set; }
 
@@ -54,11 +48,6 @@ namespace CodinaxProjectMvc.DataAccess.Models
             Students = new List<Student>();
             Category = new Category();
             Sections = new List<Section>();
-            Reviews = new List<Review>();
-            Tools = new List<Tool>();
-            Topics = new List<Topic>();
-            FutureJobTitles = new List<FutureJobTitle>();
-            Prices = new List<Price>();
             Template = new Template();
         }
     }

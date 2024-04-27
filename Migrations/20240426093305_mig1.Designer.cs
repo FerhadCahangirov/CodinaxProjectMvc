@@ -4,6 +4,7 @@ using CodinaxProjectMvc.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodinaxProjectMvc.Migrations
 {
     [DbContext(typeof(CodinaxDbContext))]
-    partial class CodinaxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240426093305_mig1")]
+    partial class mig1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -500,6 +502,9 @@ namespace CodinaxProjectMvc.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -509,7 +514,7 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("TemplateId")
+                    b.Property<Guid?>("TemplateId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
@@ -519,6 +524,8 @@ namespace CodinaxProjectMvc.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("TemplateId");
 
@@ -739,6 +746,9 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -754,13 +764,15 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<string>("PathOrContainer")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("TemplateId")
+                    b.Property<Guid?>("TemplateId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("TemplateId");
 
@@ -775,6 +787,9 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -792,6 +807,8 @@ namespace CodinaxProjectMvc.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("TemplateId");
 
@@ -1016,13 +1033,18 @@ namespace CodinaxProjectMvc.Migrations
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Price", b =>
                 {
-                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Template", "Template")
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "Course")
                         .WithMany("Prices")
-                        .HasForeignKey("TemplateId")
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Template");
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Template", null)
+                        .WithMany("Prices")
+                        .HasForeignKey("TemplateId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.PriceInfo", b =>
@@ -1058,7 +1080,7 @@ namespace CodinaxProjectMvc.Migrations
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Review", b =>
                 {
                     b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1087,22 +1109,35 @@ namespace CodinaxProjectMvc.Migrations
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Tool", b =>
                 {
-                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Template", "Template")
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "Course")
                         .WithMany("Tools")
-                        .HasForeignKey("TemplateId")
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Template");
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Template", null)
+                        .WithMany("Tools")
+                        .HasForeignKey("TemplateId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Topic", b =>
                 {
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "Course")
+                        .WithMany("Topics")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("CodinaxProjectMvc.DataAccess.Models.Template", "Template")
                         .WithMany("Topics")
                         .HasForeignKey("TemplateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Course");
 
                     b.Navigation("Template");
                 });
@@ -1195,7 +1230,15 @@ namespace CodinaxProjectMvc.Migrations
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Course", b =>
                 {
+                    b.Navigation("Prices");
+
+                    b.Navigation("Reviews");
+
                     b.Navigation("Sections");
+
+                    b.Navigation("Tools");
+
+                    b.Navigation("Topics");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Identity.AppUser", b =>

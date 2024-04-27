@@ -1,0 +1,118 @@
+﻿@model TemplatesVm
+
+<script>
+    function applyGradientColors() {
+        const courseCardImages = document.querySelectorAll('.course_card_image');
+        courseCardImages.forEach((element, index) => {
+            const gradientIndex = Math.floor(index % 6) + 1;
+            element.classList.add('gradient-' + gradientIndex);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        applyGradientColors();
+    });
+
+    function deleteCourse(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: `/Admin/Template/Delete/${id}`,
+            success: (response) => {
+                if (response.success) {
+                    $(`#item_${id}`).fadeOut(500);
+                    showToaster('success', 'Template Has Been Deleted Successfull');
+                }
+                else {
+                    showToaster('error', 'Failed To Delete Template');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                hideLoading();
+                showToaster('error', 'Failed To Delete Template');
+            }
+        })
+    }
+
+    function showToaster(type, content) {
+        Command: toastr[type](content);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    }
+</script>
+
+
+
+<div class="tabs__wrapper">
+    <ul class="tabs__container__between">
+        <li class="ns-tabs--tab">
+            <a class="ns-tab--item ns-tab--item-active"> Templates </a>
+        </li>
+        <li class="ns-tabs--tab">
+            <a class="ns-tab--item ns-tab--item--button" href="/Admin/Template/Create"> + Add Template  </a>
+        </li>
+    </ul>
+</div>
+
+<div class="items_grid">
+    @if (Model.Templates?.Count() > 0)
+    {
+        @foreach (var template in Model.Templates)
+        {
+            <div class="course_card" id="item_@template.Id">
+                <div class="course_card_content">
+                    <a title="EU9-Java Programming" href="#">
+                        <div class="course_card_image" style="--aspect-ratio: 16/9;">
+                            <img src="@Model.BaseUrl/@template.CourseImagePathOrContainer/@template.CourseImageName">
+                        </div>
+                    </a>
+                    <div class="course_card_text">
+                        <div class="course_card_top">
+                            <a class="course_card_title" title="@template.Heading" href="/Admin/Courses/Single/@template.Id">@template.Heading</a>
+
+
+                        </div>
+                        <div class="course_card_bottom">
+                            <div class="course_modules_info">
+
+                                <a class="button_bookmark" onclick="deleteCourse('@template.Id')"
+                                   style="display: flex;justify-content: center;align-items: center;">
+                                    <i class="fa-solid fa-trash align-middle"></i>
+                                </a>
+
+                                <a class="button_bookmark" href="/Admin/Template/Update/@template.Id" style="display: flex;justify-content: center;align-items: center;">
+                                    <i class="fa-solid fa-pen-to-square align-middle"></i>
+                                </a>
+
+                                <a class="button_bookmark" href="/Admin/Template/Tools/@template.Id" style="display: flex;justify-content: center;align-items: center;">
+                                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                                </a>
+
+                                <a class="button_bookmark" href="/Admin/Template/Prices/@template.Id" style="display: flex;justify-content: center;align-items: center;">
+                                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+</div>

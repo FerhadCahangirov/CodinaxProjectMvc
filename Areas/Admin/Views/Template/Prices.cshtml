@@ -1,0 +1,41 @@
+﻿@model CoursePricesVm
+
+<section>
+    <div class="main-content">
+        <div class="container mt-7">
+            <!-- Table -->
+            <ul class="tabs__container__between mb-5">
+                <li class="ns-tabs--tab">
+                    <h2 class="ns-tab--item ns-tab--item-active "> Prices  </h2>
+                </li>
+                <li class="ns-tabs--tab">
+                    <a class="ns-tab--item ns-tab--item--button" href="/Admin/Template/CreatePrice/@Model.TemplateId"> + Add Price </a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="add-course-info">
+                                    <div class="input-block">
+                                        <input type="text" class="form-control" placeholder="Price Name"
+                                               id="price-name-input" oninput="filterSearch()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="categoriesContainer">
+                        <partial name="CoursePricesPartial" model="@Model">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+

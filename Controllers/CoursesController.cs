@@ -63,11 +63,6 @@ namespace CodinaxProjectMvc.Controllers
         {
             Course? course = await _db.Courses
             .Include(x => x.Category)
-            .Include(x => x.Topics)
-            .Include(x => x.FutureJobTitles)
-            .Include(x => x.Tools)
-            .Include(x => x.Prices)
-            .ThenInclude(x => x.PriceInfos)
             .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted && !x.IsArchived);
 
             if(course == null) return NotFound();

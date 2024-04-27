@@ -227,18 +227,7 @@
                             <h2><span class="heading-style-underline underline_free">Future</span> job title:<br></h2>
                         </div>
                         <div class="margin-bottom margin-large hide-mobile-portrait">
-                            @if (Model.Course.FutureJobTitles != null && Model.Course.FutureJobTitles.Any())
-                            {
-                                <div class="flex flex-type">
-                                    <h3 id="typed" class="h3-mobile"></h3>
-                                </div>
-                                <div id="typed-strings" style="display: none;">
-                                    @foreach (var item in Model.Course.FutureJobTitles.ToList())
-                                    {
-                                        <p>@item.Content</p>
-                                    }
-                                </div>
-                            }
+                           
 
                         </div>
 
@@ -259,7 +248,7 @@
         </div>
     </header>
 
-    @if(Model.Course.Tools.Count() > 0)
+    @if(Model.Template?.Tools.Count() > 0)
     {
         <section class="section">
             <div class="padding-global">
@@ -269,7 +258,7 @@
                             <h3 class="text-align-center">The tools you will use</h3>
                         </div>
                         <div class="flex flex-tools">
-                            @foreach (var (index, tool) in Model.Course.Tools.Select((value, i) => (i, value)))
+                            @foreach (var (index, tool) in Model.Template.Tools.Select((value, i) => (i, value)))
                             {
                                 <div class="margin-bottom margin-medium margin-none" data-aos="fade-right" data-aos-delay="@(200 * (index + 1))" data-aos-duration="500">
                                     <div data-w-id="c334edcc-e2cc-1c49-01f5-8f0e2f6034c6" class="tag tag-icon">
@@ -285,9 +274,8 @@
             </div>
         </section>
     }
-
    
-    @if(Model.Course.Topics.Count() > 0)
+    @if(Model.Template?.Topics.Count() > 0)
     {
         <section class="section">
             <div class="padding-global">
@@ -298,7 +286,7 @@
                         </div>
                         <div class="flex">
 
-                            @foreach (var (index, topic) in Model.Course.Topics.Select((value, i) => (i, value)))
+                            @foreach (var (index, topic) in Model.Template.Topics.Select((value, i) => (i, value)))
                             {
                                 <div class="margin-bottom margin-medium margin-02" data-aos="fade-right" data-aos-delay="@(200 * (index + 1))" data-aos-duration="500">
                                     <div data-w-id="451603c6-7ceb-8720-0ab8-c830ae7c32f5" class="tag tag-icon background-color-antiquewhite">
@@ -345,9 +333,9 @@
                         </div>
 
                         <div class="div-block">
-                            @if(Model.Course.Prices.Count() > 0)
+                            @if(Model.Template?.Prices.Count() > 0)
                             {
-                                foreach(var price in Model.Course.Prices)
+                                foreach(var price in Model.Template.Prices)
                                 {
                                     <div class="course-pricing-card">
                                         <div class="sub-heading">Course Pricing</div>

@@ -6,9 +6,10 @@
     var isCategoriesPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "category";
     var isInstructorsPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "instructors";
     var isCoursesPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "courses";
-    var isFaqPage = ViewContext.RouteData.Values["faq"]?.ToString()?.ToLower() == "faq";
-    var isAboutPage = ViewContext.RouteData.Values["about"]?.ToString()?.ToLower() == "about";
-    var isFeaturePage = ViewContext.RouteData.Values["feature"]?.ToString()?.ToLower() == "feature";
+    var isFaqPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "faq";
+    var isAboutPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "about";
+    var isFeaturePage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "feature";
+    var isTemplatePage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "template";
 }
 
 <head>
@@ -157,6 +158,14 @@
                                     <i class="fa-solid fa-book-open"></i>
                                 </svg-icon>
                                 <span>Features</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@(isTemplatePage  ? "sidemenu_link_active" : "") sidemenu_link" href="/Admin/Template/Index">
+                                <svg-icon height="20px" width="20px">
+                                    <i class="fa-solid fa-object-group"></i>
+                                </svg-icon>
+                                <span>Templates</span>
                             </a>
                         </li>
                     </ul>

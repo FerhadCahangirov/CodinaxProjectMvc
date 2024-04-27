@@ -8,7 +8,7 @@
     function archive(id) {
         $j.ajax({
             type: 'POST',
-            url: `/Admin/Courses/ArchiveTool/${id}`,
+            url: `/Admin/Template/ArchiveTool/${id}`,
             success: (data) => {
                 const status_element = document.getElementById(`status_${id}`);
                 status_element.innerHTML = `
@@ -50,7 +50,7 @@
     function unarchive(id) {
         $j.ajax({
             type: 'POST',
-            url: `/Admin/Courses/UnarchiveTool/${id}`,
+            url: `/Admin/Template/UnarchiveTool/${id}`,
             success: (response) => {
                 const status_element = document.getElementById(`status_${id}`);
                 status_element.innerHTML = `
@@ -91,7 +91,7 @@
     function deleteTool(id) {
         $j.ajax({
             type: 'DELETE',
-            url: `/Admin/Courses/DeleteTool/${id}`,
+            url: `/Admin/Template/DeleteTool/${id}`,
             success: (data) => {
 
                 $(`#table_${id}`).fadeOut(500);
@@ -183,7 +183,7 @@
 
                     </td>
                     <td>
-                        <a class="btn btn-sm btn-icon-only text-light " href="/Admin/Courses/UpdateTool/@item.Id">
+                        <a class="btn btn-sm btn-icon-only text-light " href="/Admin/Template/UpdateTool/@item.Id">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </td>

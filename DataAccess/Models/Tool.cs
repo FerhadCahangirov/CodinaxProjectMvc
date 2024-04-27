@@ -5,11 +5,11 @@ namespace CodinaxProjectMvc.DataAccess.Models
     public class Tool : FileEntity
     {
         public string? Content { get; set; }
-        public Course Course { get; set; }
+        public Template Template { get; set; }
 
         public Tool()
         {
-            Course = new Course();
+            Template = new Template();
         }
     }
 }

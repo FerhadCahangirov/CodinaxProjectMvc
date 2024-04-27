@@ -1,4 +1,4 @@
-﻿@model PaginationVm<IEnumerable<Price>>
+﻿@model CoursePricesVm
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -8,7 +8,7 @@
     function archive(id) {
         $j.ajax({
             type: 'POST',
-            url: `/Admin/Courses/ArchivePrice/${id}`,
+            url: `/Admin/Template/ArchivePrice/${id}`,
             success: (data) => {
                 if (data.success) {
                     const status_element = document.getElementById(`status_${id}`);
@@ -36,7 +36,7 @@
     function unarchive(id) {
         $j.ajax({
             type: 'POST',
-            url: `/Admin/Courses/UnArchivePrice/${id}`,
+            url: `/Admin/Template/UnArchivePrice/${id}`,
             success: (response) => {
                 if(response.success){
                     const status_element = document.getElementById(`status_${id}`);
@@ -65,7 +65,7 @@
     function deletePrice(id) {
         $j.ajax({
             type: 'DELETE',
-            url: `/Admin/Courses/DeletePrice/${id}`,
+            url: `/Admin/Template/DeletePrice/${id}`,
             success: (data) => {
                 if(data.success){
                     $(`#table_${id}`).fadeOut(500);
@@ -114,7 +114,7 @@
         </thead>
         <tbody>
 
-            @foreach (var item in Model.Items)
+            @foreach (var item in Model.Data.Items)
             {
                 <tr id="table_@item.Id">
                     <th scope="row">
@@ -162,7 +162,7 @@
 
                     </td>
                     <td>
-                        <a class="btn btn-sm btn-icon-only text-light " href="/Admin/Courses/UpdateCoursePrice?courseId=@item.Course.Id&priceId=@item.Id">
+                        <a class="btn btn-sm btn-icon-only text-light " href="/Admin/Template/UpdatePrice?courseId=@Model.TemplateId&priceId=@item.Id">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </td>

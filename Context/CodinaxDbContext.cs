@@ -33,16 +33,11 @@ namespace CodinaxProjectMvc.Context
         public DbSet<About> Abouts { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<Tool> Tools { get; set; }
-        public DbSet<Template> Templates {get; set;}
+        public DbSet<Template> Templates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Course>()
-                .HasOne<Category>(c => c.Category)
-                .WithMany(ca => ca.Courses)
-                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Student>()
                 .HasMany(s => s.Courses)
@@ -60,16 +55,22 @@ namespace CodinaxProjectMvc.Context
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.NoAction));
 
-            modelBuilder.Entity<Review>()
-                .HasOne(r => r.Course)
-                .WithMany(c => c.Reviews)
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            modelBuilder.Entity<Template>()
+                .HasMany(x => x.FutureJobTitles)
+                .WithOne(x => x.Template)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Review>()
-                .HasMany(r => r.Replies)
-                .WithOne(c => c.Review)
+            modelBuilder.Entity<FutureJobTitle>()
+                .HasOne(x => x.Template)
+                .WithMany(x => x.FutureJobTitles)
+                .HasForeignKey("TemplateId")
                 .OnDelete(DeleteBehavior.NoAction);
-
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -83,7 +84,7 @@ namespace CodinaxProjectMvc.Context
 
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.Id = Guid.NewGuid(); 
+                    entry.Entity.Id = Guid.NewGuid();
                     entry.Entity.CreatedDate = currentTimeAzt;
                     entry.Entity.UpdatedDate = null;
                 }

@@ -959,7 +959,7 @@ li.breadcrumb_item {
     align-items: center;
 }
 
-    .course_modules_info i {
+    .course_modules_info a{
         line-height: 0;
         margin-right: 8px;
     }
