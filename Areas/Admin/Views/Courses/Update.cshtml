@@ -32,7 +32,31 @@
                         </select>
                         <span class="text-danger" asp-validation-for="CourseLevel"></span>
                     </div>
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="Template"></label>
+                        <select class="form-control select" asp-items="@ViewBag.Templates" asp-for="Template">
+                        </select>
+                        <span class="text-danger" asp-validation-for="Template"></span>
+                    </div>
 
+                    @if (ViewBag.Courses != null)
+                    {
+                        <div class="input-block">
+                            <label class="add-course-label" asp-for="FirstAdvicedCourse"></label>
+                            <select class="form-control select" asp-items="@ViewBag.Courses" asp-for="FirstAdvicedCourse">
+                                <option selected></option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="FirstAdvicedCourse"></span>
+                        </div>
+
+                        <div class="input-block">
+                            <label class="add-course-label" asp-for="SecondAdvicedCourse"></label>
+                            <select class="form-control select" asp-items="@ViewBag.Courses" asp-for="SecondAdvicedCourse">
+                                <option selected></option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="SecondAdvicedCourse"></span>
+                        </div>
+                    }
                 </div>
 
                 <div class="widget-btn">

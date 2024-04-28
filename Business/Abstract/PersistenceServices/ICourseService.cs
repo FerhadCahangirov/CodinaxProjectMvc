@@ -2,6 +2,7 @@
 using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.ViewModel;
 using CodinaxProjectMvc.ViewModel.CourseVm;
+using System.Runtime.CompilerServices;
 
 namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
 {
@@ -75,6 +76,12 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <param name="id">The unique identifier of the course to delete.</param>
         /// <returns>A task representing the asynchronous operation, returning true if the deletion is successful, otherwise false.</returns>
         Task<bool> DeleteCourseAsync(Guid id);
+
+
+
+        
+
+
     }
 
 }

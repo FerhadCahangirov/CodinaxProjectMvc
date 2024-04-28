@@ -105,7 +105,7 @@
 </head>
 
 <body>
-    <div class="page-wrapper">
+    <header class="page-wrapper">
 
         <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease"
              role="banner" class="navbar-component w-nav">
@@ -259,7 +259,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </header>
 
     @RenderBody()
 
@@ -451,11 +451,11 @@
         // Typed.js initializations
         var typed = new Typed('#typed', {
             stringsElement: '#typed-strings',
-            typeSpeed: 25, // typing speed
-            backSpeed: 25, // erasing speed
+            typeSpeed: 50, // typing speed
+            backSpeed: 50, // erasing speed
             loop: true, // start back after ending typing
-            startDelay: 500,
-            backDelay: 500
+            startDelay: 1000,
+            backDelay: 1000
 
         });
     </script>

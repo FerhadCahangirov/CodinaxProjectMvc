@@ -2,7 +2,7 @@
 
 namespace CodinaxProjectMvc.DataAccess.Models
 {
-    public class Section : BaseEntity
+    public class Module : BaseEntity
     {
         public string? Title { get; set; }
         public int Number { get; set; }
@@ -10,7 +10,7 @@ namespace CodinaxProjectMvc.DataAccess.Models
         public Course Course { get; set; }
         public IEnumerable<Lecture> Lectures { get; set; }
 
-        public Section()
+        public Module()
         {
             Course = new Course();
             Lectures = new List<Lecture>();

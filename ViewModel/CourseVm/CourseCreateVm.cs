@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CodinaxProjectMvc.CustomValidatorAttributes;
 using CodinaxProjectMvc.DataAccess.Models;
 
 namespace CodinaxProjectMvc.ViewModel.CourseVm
@@ -24,6 +25,13 @@ namespace CodinaxProjectMvc.ViewModel.CourseVm
         [Display(Name = "Course Code")]
         [Required(ErrorMessage = "Course Code is required")]
         public string? CourseCode { get; set; }
+
+        [Display(Name = "First Adviced Course")]
+        public string? FirstAdvicedCourse { get; set; }
+
+        [Display(Name = "Second Adviced Course")]
+        [Unlike(nameof(FirstAdvicedCourse))]    
+        public string? SecondAdvicedCourse { get; set; }
     }
 
    

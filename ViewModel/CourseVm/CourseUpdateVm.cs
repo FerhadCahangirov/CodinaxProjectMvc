@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CodinaxProjectMvc.CustomValidatorAttributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace CodinaxProjectMvc.ViewModel.CourseVm
 {
@@ -11,7 +12,10 @@ namespace CodinaxProjectMvc.ViewModel.CourseVm
         [Required(ErrorMessage = "Course Category is required")]
         public string? CourseCategory { get; set; }
 
-       
+        [Display(Name = "Template")]
+        [Required(ErrorMessage = "Template is required")]
+        public string? Template { get; set; }
+
         [Display(Name = "Course Level")]
         [Required(ErrorMessage = "Course Level is required")]
         public string? CourseLevel { get; set; }
@@ -21,10 +25,16 @@ namespace CodinaxProjectMvc.ViewModel.CourseVm
         [Required(ErrorMessage = "Course Title is required")]
         public string? CourseTitle { get; set; }
 
-
         [Display(Name = "Course Code")]
         [Required(ErrorMessage = "Course Code is required")]
         public string? CourseCode { get; set; }
+
+        [Display(Name = "First Adviced Course")]
+        public string? FirstAdvicedCourse { get; set; }
+
+        [Display(Name = "Second Adviced Course")]
+        [Unlike(nameof(FirstAdvicedCourse))]
+        public string? SecondAdvicedCourse { get; set; }
 
     }
 

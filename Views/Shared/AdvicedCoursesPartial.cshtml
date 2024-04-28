@@ -1,0 +1,72 @@
+﻿@model CourseSingleVm;
+
+<div class="courses-list-wrapper w-dyn-list">
+    <div role="list" class="courses-list is-signle-page w-dyn-items">
+
+        @if (Model.FirstAdvicedCourse != null)
+        {
+            <div role="listitem" class="courses-item w-dyn-item">
+                <div class="courses-card">
+                    <a href="/Courses/Single/@Model.FirstAdvicedCourse.Id" class="courses-image-link w-inline-block">
+                        <div class="courses-image-wrapper">
+                            <img src="@Model.BaseUrl/@Model.FirstAdvicedCourse.Template.CourseImagePathOrContainer/@Model.FirstAdvicedCourse.Template.CourseImageName" loading="lazy" alt="Learn UIUX  design" class="courses-image" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                        </div>
+                    </a>
+                    <div class="courses-item-content">
+                        <div class="courses-item-content-top">
+                            <a href="/Courses/Single/@Model.FirstAdvicedCourse.Id" class="courses-category-link w-inline-block">
+                                <div>@Model.FirstAdvicedCourse.Category.Content</div>
+                            </a>
+                            <a href="/course/learn-uiux-design" class="courses-title-link w-inline-block">
+                                <h3 class="heading-style-h5">@Model.Course.Title</h3>
+                            </a>
+                            <div class="text-size-regular">
+                                @(Model.FirstAdvicedCourse.Template.Description.Length > 150 ? $"{Model.FirstAdvicedCourse.Template.Description.Substring(0, 150)}..." : Model.FirstAdvicedCourse.Template.Description)
+                            </div>
+                        </div>
+                        <div class="course-content-bottom">
+                            <div></div>
+                            <div>
+                                <a href="/courses/single/@Model.FirstAdvicedCourse.Id" class="button is-secondary w-button">View Course</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        @if (Model.SecondAdvicedCourse != null)
+        {
+            <div role="listitem" class="courses-item w-dyn-item">
+                <div class="courses-card">
+                    <a href="/Courses/Single/@Model.SecondAdvicedCourse.Id" class="courses-image-link w-inline-block">
+                        <div class="courses-image-wrapper">
+                            <img src="@Model.BaseUrl/@Model.SecondAdvicedCourse.Template.CourseImagePathOrContainer/@Model.SecondAdvicedCourse.Template.CourseImageName" loading="lazy" alt="Learn UIUX  design" class="courses-image" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                        </div>
+                    </a>
+                    <div class="courses-item-content">
+                        <div class="courses-item-content-top">
+                            <a href="/Courses/Single/@Model.SecondAdvicedCourse.Id" class="courses-category-link w-inline-block">
+                                <div>@Model.SecondAdvicedCourse.Category.Content</div>
+                            </a>
+                            <a href="/course/learn-uiux-design" class="courses-title-link w-inline-block">
+                                <h3 class="heading-style-h5">@Model.Course.Title</h3>
+                            </a>
+                            <div class="text-size-regular">
+                                @(Model.SecondAdvicedCourse.Template.Description.Length > 150 ? $"{Model.SecondAdvicedCourse.Template.Description.Substring(0, 150)}..." : Model.SecondAdvicedCourse.Template.Description)
+                            </div>
+                        </div>
+                        <div class="course-content-bottom">
+                            <div></div>
+                            <div>
+                                <a href="/courses/single/@Model.SecondAdvicedCourse.Id" class="button is-secondary w-button">View Course</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

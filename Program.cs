@@ -6,6 +6,7 @@ using CodinaxProjectMvc.DataAccess.Abstract.Storages;
 using CodinaxProjectMvc.DataAccess.Models.Identity;
 using CodinaxProjectMvc.DataAccess.Storages;
 using CodinaxProjectMvc.Enums;
+using CodinaxProjectMvc.Filters;
 using CodinaxProjectMvc.Managers;
 using CodinaxProjectMvc.Managers.Abstract;
 using CodinaxProjectMvc.Policies;
@@ -109,6 +110,9 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddScoped<IMailManager, MailManager>();
 builder.Services.AddPersistenceServices();
+
+builder.Services.AddScoped<PropertyAccessCourseFilter>();
+
 
 var app = builder.Build();
 

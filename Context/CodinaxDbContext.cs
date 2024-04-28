@@ -1,4 +1,5 @@
 ﻿
+using CodinaxProjectMvc.DataAccess;
 using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.DataAccess.Models.Common;
 using CodinaxProjectMvc.DataAccess.Models.Identity;
@@ -11,7 +12,7 @@ namespace CodinaxProjectMvc.Context
     {
         public CodinaxDbContext(DbContextOptions options) : base(options)
         {
-
+            
         }
 
         public CodinaxDbContext()
@@ -19,7 +20,7 @@ namespace CodinaxProjectMvc.Context
         }
 
         public DbSet<Course> Courses { get; set; }
-        public DbSet<Section> Sections { get; set; }
+        public DbSet<Module> Modules { get; set; }
         public DbSet<Lecture> Lectures { get; set; }
         public DbSet<LectureVideo> LectureVideos { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -34,6 +35,7 @@ namespace CodinaxProjectMvc.Context
         public DbSet<Feature> Features { get; set; }
         public DbSet<Tool> Tools { get; set; }
         public DbSet<Template> Templates { get; set; }
+        public DbSet<Advice> Advices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -71,6 +73,7 @@ namespace CodinaxProjectMvc.Context
                 .WithMany(x => x.FutureJobTitles)
                 .HasForeignKey("TemplateId")
                 .OnDelete(DeleteBehavior.NoAction);
+
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

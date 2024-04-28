@@ -3,7 +3,7 @@ using CodinaxProjectMvc.Constants;
 using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.Enums;
-using CodinaxProjectMvc.ViewModel;
+using CodinaxProjectMvc.Filters;
 using CodinaxProjectMvc.ViewModel.CourseVm;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,31 +40,12 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
             return View(courses);
         }
 
+        [PropertyAccessCourseFilterFactory]
         public IActionResult Create()
-        {
-            ViewBag.Categories = new SelectList(_categoryReadRepository.GetWhere(x => !x.IsDeleted && !x.IsArchived), nameof(Category.Id), nameof(Category.Content));
-
-            ViewBag.Templates = new SelectList(_templateReadRepository.GetWhere(x => !x.IsDeleted && !x.IsArchived), nameof(Template.Id), nameof(Template.Heading));
-
-            var courseLevels = Enum.GetValues(typeof(CourseLevels));
-
-            var selectListItems = new List<SelectListItem>();
-
-            foreach (var value in courseLevels)
-            {
-                selectListItems.Add(new SelectListItem
-                {
-                    Text = Enum.GetName(typeof(CourseLevels), value),
-                    Value = ((int)value).ToString()
-                });
-            }
-
-            ViewBag.CourseLevels = new SelectList(selectListItems, "Value", "Text");
-
-            return View();
-        }
+            => View();
 
         [HttpPost]
+        [PropertyAccessCourseFilterFactory]
         public async Task<IActionResult> Create([FromForm] CourseCreateVm courseCreateVm)
         {
             bool result = await _courseService.CreateCourseAsync(courseCreateVm);
@@ -76,33 +57,12 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
             return Redirect($"/Admin/Courses/{nameof(Index)}");
         }
 
+        [PropertyAccessCourseFilterFactory]
         public async Task<IActionResult> Update(Guid id)
-        {
-            CourseUpdateVm courseUpdateVm = await _courseService.GetCourseUpdateDataAsync(id);
-
-            ViewBag.Categories = new SelectList(_categoryReadRepository.GetWhere(x => !x.IsDeleted && !x.IsArchived), nameof(Category.Id), nameof(Category.Content));
-
-            ViewBag.Templates = new SelectList(_templateReadRepository.GetWhere(x => !x.IsDeleted && !x.IsArchived), nameof(Template.Id), nameof(Template.Heading));
-
-            var courseLevels = Enum.GetValues(typeof(CourseLevels));
-
-            var selectListItems = new List<SelectListItem>();
-
-            foreach (var value in courseLevels)
-            {
-                selectListItems.Add(new SelectListItem
-                {
-                    Text = Enum.GetName(typeof(CourseLevels), value),
-                    Value = ((int)value).ToString()
-                });
-            }
-
-            ViewBag.CourseLevels = new SelectList(selectListItems, "Value", "Text");
-
-            return View(courseUpdateVm);
-        }
+            => View(await _courseService.GetCourseUpdateDataAsync(id));
 
         [HttpPut]
+        [PropertyAccessCourseFilterFactory]
         public async Task<IActionResult> Update(CourseUpdateVm courseUpdateVm)
         {
             bool result = await _courseService.UpdateCourseAsync(courseUpdateVm);

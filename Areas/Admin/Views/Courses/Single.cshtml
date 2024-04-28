@@ -9,7 +9,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 }
 
-<nav>
+@* <nav>
     <ol class="breadcrumb p-0 my-1 mb-3">
         <li class="breadcrumb_item">
             <div class="link_breadcrumb">
@@ -21,7 +21,7 @@
             Courses
         </li>
     </ol>
-</nav>
+</nav> *@
 
 <div class="program_container">
     <div class="program_container_section">
@@ -31,23 +31,23 @@
             <div style="flex: none;">
 
                 
-                @if(!string.IsNullOrEmpty(Model.Course.CourseFragmentVideoPathOrContainer) && !string.IsNullOrEmpty(Model.Course.CourseFragmentVideoName))
+                @if (!string.IsNullOrEmpty(Model.Course.Template.CourseFragmentVideoPathOrContainer) && !string.IsNullOrEmpty(Model.Course.Template.CourseFragmentVideoName))
                 {
                     <div class="program_image" style="--aspect-ratio: 16/9;">
 
-                        <video src="@Model.BaseUrl/@Model.Course.CourseFragmentVideoPathOrContainer/@Model.Course.CourseFragmentVideoName" controls></video>
+                        <video src="@Model.BaseUrl/@Model.Course.Template.CourseFragmentVideoPathOrContainer/@Model.Course.Template.CourseFragmentVideoName" controls></video>
                     </div>
 
                 }
 
             </div>
 
-            @if (!string.IsNullOrEmpty(Model.Course.CourseFragmentVideoPathOrContainer) && !string.IsNullOrEmpty(Model.Course.CourseFragmentVideoName))
+            @if (!string.IsNullOrEmpty(Model.Course.Template.CourseFragmentVideoPathOrContainer) && !string.IsNullOrEmpty(Model.Course.Template.CourseFragmentVideoName))
             {
                 <div class="program_info_container">
                     <div class="program_info">
                         <h1 class="title_info"> @Model.Course.CourseCode-@Model.Course.Title </h1>
-                        <p class="description_info"> @Model.Course.Description </p>
+                        <p class="description_info"> @Model.Course.Template.Description </p>
                     </div>
                     <div class="program_meta_info">
                         <div class="meta_info">
@@ -67,7 +67,7 @@
                 <div class="program_info_container" id="courseSingleNoVideo">
                     <div class="program_info">
                         <h1 class="title_info"> @Model.Course.CourseCode-@Model.Course.Title </h1>
-                        <p class="description_info"> @Model.Course.Description </p>
+                        <p class="description_info"> @Model.Course.Template.Description </p>
                     </div>
                     <div class="program_meta_info">
                         <div class="meta_info">
@@ -98,6 +98,9 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" id="students-tab" data-toggle="tab" href="#students" role="tab" aria-controls="students" aria-selected="false">Students</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="advice-tab" data-toggle="tab" href="#advicedCourses" role="tab" aria-controls="advicedCourses" aria-selected="false">Adviced Courses</a>
         </li>
     </ul>
 </div>
@@ -201,6 +204,9 @@
         }" />
     </div>
     <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="students-tab">Students</div>
+    <div class="tab-pane fade" id="advicedCourses" role="tabpanel" aria-labelledby="advice-tab">
+        Adviced Courses
+    </div>
 </div>
 
 

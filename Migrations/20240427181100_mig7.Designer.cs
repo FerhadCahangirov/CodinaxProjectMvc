@@ -4,6 +4,7 @@ using CodinaxProjectMvc.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodinaxProjectMvc.Migrations
 {
     [DbContext(typeof(CodinaxDbContext))]
-    partial class CodinaxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240427181100_mig7")]
+    partial class mig7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,44 +23,6 @@ namespace CodinaxProjectMvc.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Advice", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("FirstAdvicedCourseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("MainCourseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("SecondAdvicedCourseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FirstAdvicedCourseId");
-
-                    b.HasIndex("MainCourseId");
-
-                    b.HasIndex("SecondAdvicedCourseId");
-
-                    b.ToTable("Advices");
-                });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.About", b =>
                 {
@@ -130,11 +94,17 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("FirstAdvicedCourseId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsArchived")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<Guid?>("SecondAdvicedCourseId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TemplateId")
                         .HasColumnType("uniqueidentifier");
@@ -148,6 +118,10 @@ namespace CodinaxProjectMvc.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("FirstAdvicedCourseId");
+
+                    b.HasIndex("SecondAdvicedCourseId");
 
                     b.HasIndex("TemplateId");
 
@@ -947,30 +921,6 @@ namespace CodinaxProjectMvc.Migrations
                     b.HasDiscriminator().HasValue("Student");
                 });
 
-            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Advice", b =>
-                {
-                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "FirstAdvicedCourse")
-                        .WithMany()
-                        .HasForeignKey("FirstAdvicedCourseId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "MainCourse")
-                        .WithMany()
-                        .HasForeignKey("MainCourseId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "SecondAdvicedCourse")
-                        .WithMany()
-                        .HasForeignKey("SecondAdvicedCourseId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("FirstAdvicedCourse");
-
-                    b.Navigation("MainCourse");
-
-                    b.Navigation("SecondAdvicedCourse");
-                });
-
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Course", b =>
                 {
                     b.HasOne("CodinaxProjectMvc.DataAccess.Models.Category", "Category")
@@ -979,6 +929,16 @@ namespace CodinaxProjectMvc.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "FirstAdvicedCourse")
+                        .WithMany()
+                        .HasForeignKey("FirstAdvicedCourseId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "SecondAdvicedCourse")
+                        .WithMany()
+                        .HasForeignKey("SecondAdvicedCourseId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("CodinaxProjectMvc.DataAccess.Models.Template", "Template")
                         .WithMany("Courses")
                         .HasForeignKey("TemplateId")
@@ -986,6 +946,10 @@ namespace CodinaxProjectMvc.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("FirstAdvicedCourse");
+
+                    b.Navigation("SecondAdvicedCourse");
 
                     b.Navigation("Template");
                 });

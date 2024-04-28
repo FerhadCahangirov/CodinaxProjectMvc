@@ -31,6 +31,7 @@ namespace CodinaxProjectMvc.Controllers
 
             List<Course> courses = await _db.Courses
                 .Include(x => x.Students)
+                .Include(x => x.Template)
                 .Where(x => !x.IsDeleted && !x.IsArchived)
                 .OrderBy(x => x.Students.Count())
                 .Take(3)
