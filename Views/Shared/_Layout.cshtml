@@ -20,10 +20,13 @@
 " data-wf-site="63edcc04ea8777a0bc4eed69" data-wf-status="1" lang="en">
 
 <head>
+
+    <style>.wf-force-outline-none[tabindex="-1"]:focus{outline:none;}</style>
+
     <meta charset="utf-8" />
     <title>Codinax</title>
     <meta property="og:type" content="website" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="width=device-width, initial-scale=1" name="viewport">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/Assets/panel/assets/css/bootstrap.min.css">
@@ -42,8 +45,6 @@
 
     <link href="~/Assets/css/styleAddv4.css" rel="stylesheet" type="text/css" />
     <link href="~/Assets/css/stylev5.css" rel="stylesheet" type="text/css" />
-
-
 
 
     @if (isAboutPage)
@@ -105,7 +106,7 @@
 </head>
 
 <body>
-    <header class="page-wrapper">
+    <div class="page-wrapper">
 
         <div data-collapse="medium" data-animation="default" data-duration="400" data-easing="ease" data-easing2="ease"
              role="banner" class="navbar-component w-nav">
@@ -259,7 +260,7 @@
                 </div>
             </div>
         </div>
-    </header>
+    </div>
 
     @RenderBody()
 

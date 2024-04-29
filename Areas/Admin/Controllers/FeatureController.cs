@@ -20,8 +20,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         private readonly IAzureStorage _storage;
         private readonly IConfiguration _configuration;
         private const string _featuresPartialConstant = "FeaturesPartial";
-        private const int _maxFeatureCount = 4;
-        private const int _featureSize = 10;
+        private const int _maxFeatureCount = 3;
 
         private readonly IFeatureService _featureService;
 
@@ -102,7 +101,6 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
             TempData["Updated"] = true;
             return Redirect("/Admin/Feature/Index");
         }
-
         [HttpPost]
         public async Task<IActionResult> Archive(Guid id)
         {

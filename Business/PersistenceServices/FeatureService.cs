@@ -18,7 +18,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly IAzureStorage _storage;
         private readonly IConfiguration _configuration;
         private readonly IActionContextAccessor _actionContextAccessor;
-        private const int _maxFeatureCount = 4;
+        private const int _maxFeatureCount = 3;
 
         public FeatureService(IReadRepository<Feature> featureReadRepository, IWriteRepository<Feature> featureWriteRepository, IConfiguration configuration, IActionContextAccessor actionContextAccessor, IAzureStorage storage)
         {
@@ -45,7 +45,6 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             Feature feature = new Feature()
             {
                 Title = featureCreateVm.Title,
-                Content = featureCreateVm.Content,
                 IconPathOrContainer = uploadedFile.pathOrContainerName,
                 IconName = uploadedFile.fileName
             };
@@ -65,7 +64,6 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             {
                 searchFilter = searchFilter.ToLower();
                 query = query.Where(x =>
-                    x.Content.ToLower().Contains(searchFilter) ||
                     x.Title.ToLower().Contains(searchFilter)
                 );
             }
@@ -88,7 +86,6 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             FeatureUpdateVm featureUpdateVm = new FeatureUpdateVm()
             {
                 Title = feature.Title,
-                Content = feature.Content,
                 IconPathOrContainer = feature.IconPathOrContainer,
                 IconName = feature.IconName,
                 Id = id
@@ -120,7 +117,6 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 feature.IconName = fileName;
             }
 
-            feature.Content = featureUpdateVm.Content;
             feature.Title = featureUpdateVm.Title;
 
             _featureWriteRepository.Update(feature);

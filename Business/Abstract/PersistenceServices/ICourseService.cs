@@ -69,7 +69,6 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <returns>A task representing the asynchronous operation, returning the view model containing course instructors.</returns>
         Task<CourseInstructorsVm> GetCourseInstructorsAsync(Guid id, string? searchFilter);
 
-       
         /// <summary>
         /// Deletes a course asynchronously.
         /// </summary>
@@ -77,11 +76,13 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <returns>A task representing the asynchronous operation, returning true if the deletion is successful, otherwise false.</returns>
         Task<bool> DeleteCourseAsync(Guid id);
 
-
-
-        
-
-
+        /// <summary>
+        /// Changes the showcase status of a course asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the course.</param>
+        /// <returns>A task representing the asynchronous operation, returning true if the change is successful, otherwise false.</returns>
+        Task<bool> ChangeShowcaseAsync(Guid id);
     }
+
 
 }

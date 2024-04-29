@@ -24,7 +24,7 @@
                         <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f8244945185576c2b7484a_Vector.webp" loading="lazy" style="opacity:0" width="40" alt="a group of black and green lights" data-w-id="05eef203-42de-9edd-2139-f10324cf5ebd" class="illustration about-top-left" />
                         <img src="/Assets/imgs/cards/Add a heading.png" loading="lazy" alt="Video Courses" width="222" class="illustration about-top-right" />
                         <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f8244945185576c2b7484a_Vector.webp" loading="lazy" width="40" style="opacity:0" alt="a group of black and green lights" data-w-id="d64c590f-9c9e-21d3-3351-1e144d4491a3" class="illustration about-bottom-right" />
-                        <img src="./Assets/imgs/cards/Add a subheading (1).png" loading="lazy" alt="Student Success" width="331" sizes="(max-width: 479px) 45vw, (max-width: 991px) 36vw, 331px" class="illustration about-bottom-left" />
+                        <img src="/Assets/imgs/cards/Add a subheading (1).png" loading="lazy" alt="Student Success" width="331" sizes="(max-width: 479px) 45vw, (max-width: 991px) 36vw, 331px" class="illustration about-bottom-left" />
                     </div>
                 </div>
             </div>
@@ -94,8 +94,11 @@
                                     @foreach (var feature in Model.Features)
                                     {
                                         <div class="why-choose-us-item">
-                                            <div class="why-choose-us-item-icon-wrapper">
-                                                <img src="@Model.BaseUrl/@feature.IconPathOrContainer/@feature.IconName" loading="lazy" width="16" alt="Icon" />
+                                            <div class="why-choose-us-item-icon-wrapper" style="width: 40px;">
+                                                <img src="@Model.BaseUrl/@feature.IconPathOrContainer/@feature.IconName" loading="lazy" width="16" alt="Icon" style="width: 100%;
+    display: inline-block;
+    height: 40px;
+    object-fit: cover;"/>
                                             </div>
                                             <p>@feature.Title</p>
                                         </div>
@@ -264,7 +267,7 @@
                             <h2>Frequently Asked Questions</h2>
                             <div class="padding-bottom padding-small"></div>
                             <p>
-                                Find answers to common queries about our courses and programs
+                                Find answers to common queries about our
                                 <span class="hide-mobile-landscape">
                                     <br />
                                 </span>

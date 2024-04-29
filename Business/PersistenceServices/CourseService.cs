@@ -179,6 +179,23 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             return true;
         }
 
+        public async Task<bool> ChangeShowcaseAsync(Guid id) 
+        {
+            Course? course = await _courseReadRepository.GetSingleAsync(x => x.Id == id);
+            
+            if(course == null)
+            {
+                return false;
+            }
+
+            course.Showcase = !course.Showcase;
+
+            _courseWriteRepository.Update(course);
+            await _courseWriteRepository.SaveAsync();
+
+            return true;
+        }
+
         public Task<IEnumerable<Course>> GetCoursesAsync()
         {
             IEnumerable<Course> courses = _courseReadRepository

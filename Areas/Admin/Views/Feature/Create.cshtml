@@ -10,13 +10,8 @@
                 <div class="add-course-form">
                     <div class="input-block">
                         <label class="add-course-label" asp-for="Title"></label>
-                        <input type="text" class="form-control" asp-for="Title">
+                        <textarea type="text" class="form-control" asp-for="Title"> </textarea>
                         <span class="text-danger" asp-validation-for="Title"></span>
-                    </div>
-                    <div class="input-block">
-                        <label class="add-course-label" asp-for="Content"></label>
-                        <textarea type="text" class="form-control" asp-for="Content"></textarea>
-                        <span class="text-danger" asp-validation-for="Content"></span>
                     </div>
                     <div class="input-block">
                         <label class="add-course-label" asp-for="Icon"></label>

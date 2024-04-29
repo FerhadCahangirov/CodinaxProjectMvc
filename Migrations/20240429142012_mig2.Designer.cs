@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodinaxProjectMvc.Migrations
 {
     [DbContext(typeof(CodinaxDbContext))]
-    [Migration("20240427181836_mig9")]
-    partial class mig9
+    [Migration("20240429142012_mig2")]
+    partial class mig2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("FirstAdvicedCourseId")
+                    b.Property<Guid?>("FirstAdvicedCourseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsArchived")
@@ -42,10 +42,10 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("MainCourseId")
+                    b.Property<Guid?>("MainCourseId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("SecondAdvicedCourseId")
+                    b.Property<Guid?>("SecondAdvicedCourseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -190,9 +190,6 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -954,20 +951,17 @@ namespace CodinaxProjectMvc.Migrations
                     b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "FirstAdvicedCourse")
                         .WithMany()
                         .HasForeignKey("FirstAdvicedCourseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "MainCourse")
                         .WithMany()
                         .HasForeignKey("MainCourseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "SecondAdvicedCourse")
                         .WithMany()
                         .HasForeignKey("SecondAdvicedCourseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("FirstAdvicedCourse");
 

@@ -9,7 +9,9 @@ namespace CodinaxProjectMvc.DataAccess.Models
         public string? Title { get; set; }
         
         public string? CourseCode { get; set; }
-        
+
+        public bool Showcase { get; set; }
+
         public CourseLevels CourseLevel { get; set; }
 
         public IEnumerable<Instructor> Instructors { get; set; }

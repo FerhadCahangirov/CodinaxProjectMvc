@@ -144,7 +144,6 @@
         <thead class="thead-light">
             <tr>
                 <th scope="col">Title</th>
-                <th scope="col">Content</th>
                 <th scope="col">Status</th>
                 <th scope="col">Archive</th>
                 <th scope="col">Edit</th>
@@ -166,11 +165,7 @@
                             </div>
                         </div>
                     </th>
-                    <td>
-                        <div class="media-body">
-                            <span class="mb-0 text-sm">@(item.Content.Length > 25 ? $"{item.Content.Substring(0, 25)}..." : item.Content) </span>
-                        </div>
-                    </td>
+                  
                     <td id="status_@(item.Id)">
                         @if (item.IsArchived)
                         {

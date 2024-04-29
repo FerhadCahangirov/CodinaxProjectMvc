@@ -11,10 +11,7 @@ namespace CodinaxProjectMvc.ViewModel.FeatureVm
         [Required(ErrorMessage = "Feature Title is required")]
         public string? Title { get; set; }
 
-        [Display(Name = "Feature Content")]
-        [Required(ErrorMessage = "Feature Content is required")]
-        public string? Content { get; set; }
-
+        [Display(Name = "Feature Icon")]
         public IFormFile? Icon { get; set; }
 
         public string? IconPathOrContainer { get; set; }

@@ -1245,6 +1245,7 @@ li.breadcrumb_item {
     -webkit-justify-content: center !important;
     -ms-flex-pack: center !important;
     width: 100% !important;
+    object-fit: cover;
 }
 
     .add-image-box a {

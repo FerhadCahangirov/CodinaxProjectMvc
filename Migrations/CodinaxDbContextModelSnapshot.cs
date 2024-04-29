@@ -136,6 +136,9 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("Showcase")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("TemplateId")
                         .HasColumnType("uniqueidentifier");
 
@@ -188,9 +191,6 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
