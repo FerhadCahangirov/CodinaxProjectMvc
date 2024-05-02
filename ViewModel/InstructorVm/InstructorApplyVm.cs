@@ -1,4 +1,5 @@
-﻿using CodinaxProjectMvc.DataAccess.Models;
+﻿using CodinaxProjectMvc.CustomValidationAttributes;
+using CodinaxProjectMvc.DataAccess.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -25,6 +26,7 @@ namespace CodinaxProjectMvc.ViewModel.InstructorVm
         [Required(ErrorMessage = "Phone number is required.")]
         [Display(Name = "Phone Number")]
         [DataType(DataType.PhoneNumber)]
+        [PhoneNumberValidation]
         public string? PhoneNumber { get; set; }
 
         [Display(Name = "Country Of Birth")]

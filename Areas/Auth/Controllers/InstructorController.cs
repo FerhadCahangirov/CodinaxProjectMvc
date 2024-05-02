@@ -36,6 +36,7 @@ namespace CodinaxProjectMvc.Areas.Auth.Controllers
             {
                 return View(instructorApplyVm);
             }
+
             TempData["InstructorApplySuccess"] = true;
             return Redirect("/Home/Index");
         }

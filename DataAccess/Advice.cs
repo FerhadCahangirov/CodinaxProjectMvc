@@ -16,5 +16,22 @@ namespace CodinaxProjectMvc.DataAccess
 
         [ForeignKey("SecondAdvicedCourseId")]
         public Course? SecondAdvicedCourse { get; set; }
+
+        public Advice(Course mainCourse)
+        {
+            MainCourse = mainCourse;
+        }
+
+        public Advice(Course mainCourse, Course? firstAdvicedCourse, Course? secondAdvicedCourse)
+        {
+            MainCourse = mainCourse;
+            FirstAdvicedCourse = firstAdvicedCourse;
+            SecondAdvicedCourse= secondAdvicedCourse;
+        }
+
+        public Advice()
+        {
+            
+        }
     }
 }

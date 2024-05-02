@@ -2,12 +2,10 @@
 using CodinaxProjectMvc.Constants;
 using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 using CodinaxProjectMvc.DataAccess.Models;
-using CodinaxProjectMvc.Enums;
 using CodinaxProjectMvc.Filters;
 using CodinaxProjectMvc.ViewModel.CourseVm;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodinaxProjectMvc.Areas.Admin.Controllers
@@ -23,7 +21,12 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         private readonly IReadRepository<Tool> _toolReadRepository;
         private readonly IReadRepository<Template> _templateReadRepository;
 
-        public CoursesController(ICourseService courseService, IReadRepository<Course> courseReadRepository, IReadRepository<Category> categoryReadRepository, IInstructorService instructorService, IReadRepository<Tool> toolReadRepository, IReadRepository<Template> templateReadRepository)
+        public CoursesController(ICourseService courseService,
+            IReadRepository<Course> courseReadRepository,
+            IReadRepository<Category> categoryReadRepository,
+            IInstructorService instructorService,
+            IReadRepository<Tool> toolReadRepository,
+            IReadRepository<Template> templateReadRepository)
         {
             _courseService = courseService;
             _courseReadRepository = courseReadRepository;
@@ -35,11 +38,8 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
 
         #region Manage Course Controllers
         public async Task<IActionResult> Index()
-        {
-            IEnumerable<Course> courses = await _courseService.GetCoursesAsync();
-            return View(courses);
-        }
-
+            => View(await _courseService.GetCoursesAsync());
+        
         [PropertyAccessCourseFilterFactory]
         public IActionResult Create()
             => View();
@@ -61,7 +61,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         public async Task<IActionResult> Update(Guid id)
             => View(await _courseService.GetCourseUpdateDataAsync(id));
 
-        [HttpPut]
+        [HttpPost]
         [PropertyAccessCourseFilterFactory]
         public async Task<IActionResult> Update(CourseUpdateVm courseUpdateVm)
         {
@@ -73,6 +73,11 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
             TempData["CourseUpdatedSuccessfull"] = true;
             return Redirect($"/Admin/Courses/{nameof(Index)}");
         }
+
+        [HttpPut]
+        public async Task<IActionResult> ChangeShowcase(Guid id)
+            => new JsonResult(new { success = await _courseService.ChangeShowcaseAsync(id) });
+
 
         public async Task<IActionResult> Single(Guid id)
         {

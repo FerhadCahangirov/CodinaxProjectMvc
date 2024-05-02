@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace CodinaxProjectMvc.CustomValidatorAttributes
+namespace CodinaxProjectMvc.CustomValidationAttributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class UnlikeAttribute : ValidationAttribute
@@ -20,11 +20,6 @@ namespace CodinaxProjectMvc.CustomValidatorAttributes
             }
 
             OtherProperty = otherProperty;
-        }
-
-        public override string FormatErrorMessage(string name)
-        {
-            return string.Format(ErrorMessageString, name, OtherProperty);
         }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)

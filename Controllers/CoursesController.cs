@@ -33,11 +33,12 @@ namespace CodinaxProjectMvc.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Course> courses = await _courseReadRepository.Table
+            IEnumerable<Course> courses = _courseReadRepository.Table
                 .Include(c => c.Category)
                 .Include(c => c.Template)
-                .Where(c => !c.IsDeleted && !c.IsArchived)
-                .ToListAsync();
+                .OrderBy(OrderFilters.ByTitle)
+                .Where(QueryFilters.CoursesLayoutFilter())
+                .ToList();
 
             List<Category> categories = courses.Select(c => c.Category).Distinct().ToList();
 
@@ -70,6 +71,51 @@ namespace CodinaxProjectMvc.Controllers
             return View(coursesVm);
         }
 
+        [HttpGet("[controller]/[action]/{categoryName}")]
+        public async Task<IActionResult> Filter(string categoryName)
+        {
+            IQueryable<Course>? courses = _courseReadRepository.Table
+                .Include(c => c.Category)
+                .Include(c => c.Template)
+                .OrderBy(OrderFilters.ByTitle)
+                .Where(QueryFilters.CoursesLayoutFilter()).AsQueryable();
+
+            List<Category> categories = courses.Select(c => c.Category).Distinct().ToList();
+
+            if (!string.IsNullOrEmpty(categoryName) && courses != null)
+            {
+                courses = courses.Where(x => x.Category.Content.ToLower() == categoryName.ToLower());
+            }
+
+            List<Instructor> instructors = await _instructorReadRepository.Table
+                .Include(x => x.Courses)
+                .ThenInclude(x => x.Students)
+                .Where(x => x.IsApproved && !x.IsBanned)
+                .Select(x => new
+                {
+                    Instructor = x,
+                    TotalStudents = x.Courses.SelectMany(c => c.Students).Count()
+                })
+                .OrderBy(x => x.TotalStudents)
+                .Take(4)
+                .Select(x => x.Instructor)
+                .ToListAsync();
+
+            List<Faq> faqs = await _faqReadRepository.Table
+               .Where(x => !x.IsDeleted && !x.IsArchived)
+               .ToListAsync();
+
+            CoursesVm coursesVm = new CoursesVm()
+            {
+                Courses = courses?.ToList(),
+                Categories = categories,
+                Instructors = instructors,
+                Faqs = faqs,
+                BaseUrl = _configuration["BaseUrl:Azure"],
+            };
+            return View(viewName: nameof(Index), coursesVm);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Single(Guid id)
         {
@@ -84,7 +130,7 @@ namespace CodinaxProjectMvc.Controllers
             .Include(x => x.Template)
             .ThenInclude(x => x.Prices)
             .ThenInclude(x => x.PriceInfos)
-            .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted && !x.IsArchived);
+            .FirstOrDefaultAsync(QueryFilters.CoursesLayoutFilter(id));
 
             if(course == null) return NotFound();
 
@@ -103,10 +149,21 @@ namespace CodinaxProjectMvc.Controllers
 
             CourseSingleVm courseSingleVm = new CourseSingleVm(){
                 Course = course,
-                FirstAdvicedCourse = advice?.FirstAdvicedCourse,
-                SecondAdvicedCourse = advice?.SecondAdvicedCourse,
                 BaseUrl = _configuration["BaseUrl:Azure"],
             };
+
+            if(advice != null)
+            {
+                if(advice.FirstAdvicedCourse != null && advice.FirstAdvicedCourse.Showcase)
+                {
+                    courseSingleVm.FirstAdvicedCourse = advice.FirstAdvicedCourse;  
+                }
+
+                if(advice.SecondAdvicedCourse != null && advice.SecondAdvicedCourse.Showcase)
+                {
+                    courseSingleVm.SecondAdvicedCourse = advice.SecondAdvicedCourse;
+                }
+            }
 
             return View(courseSingleVm);
         }

@@ -1,6 +1,7 @@
 ﻿using CodinaxProjectMvc.Context;
 using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.ViewModel.LayoutVm;
+using CodinaxProjectMvc.Views.Home;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,13 +30,13 @@ namespace CodinaxProjectMvc.Controllers
                .Where(x => !x.IsDeleted && !x.IsArchived)
                .ToListAsync();
 
-            List<Course> courses = await _db.Courses
+            List<Course> courses = _db.Courses
                 .Include(x => x.Students)
                 .Include(x => x.Template)
-                .Where(x => !x.IsDeleted && !x.IsArchived)
+                .Where(QueryFilters.CoursesLayoutFilter())
                 .OrderBy(x => x.Students.Count())
                 .Take(3)
-                .ToListAsync();
+                .ToList();
 
             List<Instructor> instructors = await _db.Instructors
                 .Include(x => x.Courses)
@@ -63,9 +64,10 @@ namespace CodinaxProjectMvc.Controllers
             return View(homeVm);
         }
 
-        public IActionResult Error()
+
+        public IActionResult Error(ErrorModel errorModel)
         {
-            return View();
+            return View(errorModel);
         }
 
         public IActionResult AccessDenied()

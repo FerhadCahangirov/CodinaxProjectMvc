@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using CodinaxProjectMvc.CustomValidatorAttributes;
-using CodinaxProjectMvc.DataAccess.Models;
+using CodinaxProjectMvc.CustomValidationAttributes;
 
 namespace CodinaxProjectMvc.ViewModel.CourseVm
 {

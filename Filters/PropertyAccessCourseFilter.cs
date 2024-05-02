@@ -14,7 +14,8 @@ namespace CodinaxProjectMvc.Filters
 
         public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
         {
-            var filter = serviceProvider.GetRequiredService<PropertyAccessCourseFilter>();
+            PropertyAccessCourseFilter filter = serviceProvider.GetRequiredService<PropertyAccessCourseFilter>();
+
             return filter;
         }
     }
@@ -25,27 +26,39 @@ namespace CodinaxProjectMvc.Filters
         private readonly IReadRepository<Category> _categoryReadRepository;
         private readonly IReadRepository<Template> _templateReadRepository;
 
-        public PropertyAccessCourseFilter(IReadRepository<Course> courseReadRepository, IReadRepository<Category> categoryReadRepository, IReadRepository<Template> templateReadRepository)
+        public PropertyAccessCourseFilter(
+            IReadRepository<Course> courseReadRepository,
+            IReadRepository<Category> categoryReadRepository,
+            IReadRepository<Template> templateReadRepository)
         {
             _courseReadRepository = courseReadRepository;
             _categoryReadRepository = categoryReadRepository;
             _templateReadRepository = templateReadRepository;
         }
 
+
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             Controller? controller = context.Controller as Controller;
 
-            if(controller != null)
+            if (controller != null)
             {
                 controller.ViewBag.Categories = new SelectList(_categoryReadRepository.GetWhere(x => !x.IsDeleted && !x.IsArchived), nameof(Category.Id), nameof(Category.Content));
 
                 controller.ViewBag.Templates = new SelectList(_templateReadRepository.GetWhere(x => !x.IsDeleted && !x.IsArchived), nameof(Template.Id), nameof(Template.Heading));
 
-                var courses = _courseReadRepository.GetWhere(x => !x.IsDeleted && !x.IsArchived);
+                IQueryable<Course> courses = _courseReadRepository.GetWhere(x => !x.IsDeleted && !x.IsArchived);
+
 
                 if (courses != null)
                 {
+                    Guid? id = context.ActionArguments.TryGetValue("id", out var value) ? (Guid?)value : null;
+
+                    if (id != null)
+                    {
+                        courses = courses.Where(x => x.Id != id);
+                    }
+
                     controller.ViewBag.Courses = new SelectList(courses, nameof(Course.Id), nameof(Course.Title));
                 }
 

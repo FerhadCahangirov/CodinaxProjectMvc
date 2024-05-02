@@ -14,11 +14,11 @@
                     </a>
                     <div class="courses-item-content">
                         <div class="courses-item-content-top">
-                            <a href="/Courses/Single/@Model.FirstAdvicedCourse.Id" class="courses-category-link w-inline-block">
+                            @* <a href="/Courses/Single/@Model.FirstAdvicedCourse.Id" class="courses-category-link w-inline-block">
                                 <div>@Model.FirstAdvicedCourse.Category.Content</div>
-                            </a>
+                            </a> *@
                             <a href="/course/learn-uiux-design" class="courses-title-link w-inline-block">
-                                <h3 class="heading-style-h5">@Model.Course.Title</h3>
+                                <h3 class="heading-style-h5">@Model.FirstAdvicedCourse.Title</h3>
                             </a>
                             <div class="text-size-regular">
                                 @(Model.FirstAdvicedCourse.Template.Description.Length > 150 ? $"{Model.FirstAdvicedCourse.Template.Description.Substring(0, 150)}..." : Model.FirstAdvicedCourse.Template.Description)
@@ -47,11 +47,11 @@
                     </a>
                     <div class="courses-item-content">
                         <div class="courses-item-content-top">
-                            <a href="/Courses/Single/@Model.SecondAdvicedCourse.Id" class="courses-category-link w-inline-block">
+                            @* <a href="/Courses/Single/@Model.SecondAdvicedCourse.Id" class="courses-category-link w-inline-block">
                                 <div>@Model.SecondAdvicedCourse.Category.Content</div>
-                            </a>
+                            </a> *@
                             <a href="/course/learn-uiux-design" class="courses-title-link w-inline-block">
-                                <h3 class="heading-style-h5">@Model.Course.Title</h3>
+                                <h3 class="heading-style-h5">@Model.SecondAdvicedCourse.Title</h3>
                             </a>
                             <div class="text-size-regular">
                                 @(Model.SecondAdvicedCourse.Template.Description.Length > 150 ? $"{Model.SecondAdvicedCourse.Template.Description.Substring(0, 150)}..." : Model.SecondAdvicedCourse.Template.Description)

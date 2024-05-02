@@ -18,20 +18,40 @@
             type: 'DELETE',
             url: `/Admin/Courses/DeleteCourse/${id}`,
             success: (response) => {
-                if(response.success){
+                if (response.success) {
                     $(`#item_${id}`).fadeOut(500);
                     showToaster('success', 'Course Has Been Deleted Successfull');
                 }
-                else{
+                else {
                     showToaster('error', 'Failed To Delete Course');
                 }
-            }, 
+            },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText);
-                hideLoading();
                 showToaster('error', 'Failed To Delete Course');
             }
         })
+    }
+
+    function changeShowcase(id){
+        $.ajax({
+            type: 'PUT',
+            url: `/Admin/Courses/ChangeShowcase/${id}`,
+            success: (response) => {
+                if (response.success) {
+                    showToaster('success', 'Change Showcase Successfull');
+                    const element = document.getElementById(`item_checkbox_${item.Id}`);
+                    element.toggleAttribute('checked');
+                }
+                else {
+                    showToaster('error', 'Failed to change showcase');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                showToaster('error', 'Failed to change showcase');
+            }
+        });
     }
 
     function showToaster(type, content) {
@@ -86,6 +106,9 @@
                     <div class="course_card_top">
                         <a class="course_card_title" title="@item.CourseCode-@item.Title" href="/Admin/Courses/Single/@item.Id"> @item.CourseCode-@item.Title</a>
 
+                        <a class="button_bookmark" style="display: flex;justify-content: center;align-items: center;">
+                            <input type="checkbox" id="item_checkbox_@item.Id" @(item.Showcase ? "checked" : "") onclick="changeShowcase('@item.Id')">
+                        </a>
                         <button class="button_bookmark" onclick="deleteCourse('@item.Id')">
                             <i class="fa-solid fa-trash align-middle"></i>
                         </button>
@@ -95,7 +118,7 @@
                     </div>
                     <div class="course_card_bottom">
                         <div class="course_modules_info">
-                            <i class="fa-solid fa-shapes align-middle"></i>
+                            <i class="fa-solid fa-shapes align-middle mr-2"></i>
                             @item.Modules.Count() modules
                         </div>
                     </div>

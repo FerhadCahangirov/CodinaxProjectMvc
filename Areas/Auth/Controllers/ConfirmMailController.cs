@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace CodinaxProjectMvc.Areas.Auth.Controllers
 {
     [Area("Auth")]
-    public class ConfirmMail : Controller
+    public class ConfirmMailController : Controller
     {
         private readonly IAuthService _authService;
 
-        public ConfirmMail(IAuthService authService)
+        public ConfirmMailController(IAuthService authService)
         {
             _authService = authService;
         }

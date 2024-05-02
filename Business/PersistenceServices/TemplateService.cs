@@ -165,7 +165,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             if(template == null)
                 return false;
 
-            if (template.Courses.Any())
+            if (template.Courses.Any(x => !x.IsDeleted))
             {
                 return false;
             }
@@ -375,7 +375,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 return new CoursePricesVm();
             }
 
-            var prices = template.Prices.Where(x => !x.IsDeleted);
+            var prices = template.Prices.Where(x => !x.IsDeleted).OrderBy(OrderFilters<Price>.ByCreatedDate);
 
             PaginationVm<IEnumerable<Price>> data = new PaginationVm<IEnumerable<Price>>(prices);
 
@@ -465,7 +465,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 TemplateId = courseId,
                 PriceId = priceId,
                 Title = price.Title,
-                CoursePriceInfos = price.PriceInfos.ToList().Select(x => new CoursePriceInfoVm()
+                CoursePriceInfos = price.PriceInfos.OrderBy(OrderFilters<PriceInfo>.ByCreatedDate).ToList().Select(x => new CoursePriceInfoVm()
                 {
                     Content = x.Content
                 })
@@ -565,7 +565,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             CourseToolsVm vm = new CourseToolsVm()
             {
-                Tools = template.Tools.Where(x => !x.IsDeleted),
+                Tools = template.Tools.Where(x => !x.IsDeleted).OrderBy(OrderFilters<Tool>.ByCreatedDate),
                 TemplateId = template.Id,
                 BaseUrl = _configuration[ConfigurationStrings.AzureBasuUrl]
             };
@@ -677,7 +677,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             return true;
         }
 
-        public async Task<bool> UnArchiveTool(Guid id)
+        public async Task<bool> UnArchiveToolAsync(Guid id)
         {
             Tool? feature = await _toolReadRepository.GetSingleAsync(x => x.Id == id);
             if (feature == null) return false;

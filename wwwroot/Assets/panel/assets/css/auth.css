@@ -5202,7 +5202,6 @@ input[type="tel"] {
     .selected-option div {
         position: relative;
         width: 6rem;
-        padding: 0 2.8rem 0 .5rem;
         text-align: center;
         cursor: pointer;
         display: flex;

@@ -126,7 +126,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             if (category == null) return false;
 
-            if(category.Courses.Any())
+            if(category.Courses.Any(x => !x.IsDeleted))
             {
                 return false;
             }

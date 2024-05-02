@@ -1,5 +1,56 @@
 ﻿@model CourseToolsVm
 
+@section Scripts{
+    @if (TempData["CourseToolUpdated"] != null && (bool)TempData["CourseToolUpdated"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Course Tool Updated Successfull");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+
+    @if (TempData["CourseToolCreated"] != null && (bool)TempData["CourseToolCreated"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Course Tool Created Successfull");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+}
+
+
 <section>
     <div class="main-content">
         <div class="container mt-7">

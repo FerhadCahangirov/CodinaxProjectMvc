@@ -8,7 +8,6 @@ namespace CodinaxProjectMvc.DataAccess.Models.Identity
     {
         public bool IsApproved { get; set; }
         public bool IsBanned { get; set; }
-
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 

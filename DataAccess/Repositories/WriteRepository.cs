@@ -53,6 +53,12 @@ namespace CodinaxProjectMvc.DataAccess.Repositories
             return entityEntry.State == EntityState.Modified;
         }
 
+        public bool UpdateRange(List<TEntity> models)
+        {
+            Table.UpdateRange(models);
+            return true;
+        }
+
         public async Task<int> SaveAsync() => await _context.SaveChangesAsync();
 
 

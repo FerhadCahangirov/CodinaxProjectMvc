@@ -1,4 +1,5 @@
-﻿using CodinaxProjectMvc.DataAccess.Models;
+﻿using CodinaxProjectMvc.CustomValidationAttributes;
+using CodinaxProjectMvc.DataAccess.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace CodinaxProjectMvc.ViewModel.StudentVm
@@ -24,8 +25,7 @@ namespace CodinaxProjectMvc.ViewModel.StudentVm
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number")]
         [Required(ErrorMessage = "Phone Number Required!")]
-        //[RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$",
-        //           ErrorMessage = "Entered phone format is not valid.")]
+        [PhoneNumberValidation]
         public string? PhoneNumber { get; set; }
 
         [Display(Name = "Country Of Birth")]

@@ -46,11 +46,14 @@
                                 <div role="listitem" class="course-category-item w-dyn-item">
                                     <a href="/courses" aria-current="page" class="button is-secondary w-button w--current">All Courses</a>
                                 </div>
-                                @foreach (var category in Model.Categories)
+                                @if(Model.Categories != null)
                                 {
-                                    <div role="listitem" class="course-category-item w-dyn-item">
-                                        <a class="button is-secondary w-button">@category.Content</a>
-                                    </div>
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <div role="listitem" class="course-category-item w-dyn-item">
+                                            <a class="button is-secondary w-button" href="/courses/filter/@category.Content">@category.Content</a>
+                                        </div>
+                                    }    
                                 }
                             </div>
                         </div>
@@ -59,38 +62,39 @@
                     <div data-w-id="c5dcbdd9-f1f6-0162-b671-dd49d2c2095d" style="-webkit-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0" class="courses-omponent">
                         <div class="courses-list-wrapper w-dyn-list">
                             <div role="list" class="courses-list w-dyn-items">
-                                @foreach (var course in Model.Courses)
+                                @if (Model.Courses != null)
                                 {
-                                    <div role="listitem" class="courses-item w-dyn-item">
-                                        <div class="courses-card">
-                                            <a href="/courses/single/@course..Id" class="courses-image-link w-inline-block">
-                                                <div class="courses-image-wrapper">
+                                   @foreach (var course in Model.Courses)
+                                        {
+                                            <div role="listitem" class="courses-item w-dyn-item">
+                                                <div class="courses-card">
+                                                    <a href="/courses/single/@course..Id" class="courses-image-link w-inline-block">
+                                                        <div class="courses-image-wrapper">
                                                     
-                                                        <img src="@Model.BaseUrl/@course.Template.CourseImagePathOrContainer/@course.Template.CourseImageName" loading="lazy" alt="@course.Template.CourseImageName" sizes="(max-width: 479px) 100vw, (max-width: 767px) 83vw, (max-width: 991px) 39vw, 25vw" class="courses-image" />
+                                                                <img src="@Model.BaseUrl/@course.Template.CourseImagePathOrContainer/@course.Template.CourseImageName" loading="lazy" alt="@course.Template.CourseImageName" sizes="(max-width: 479px) 100vw, (max-width: 767px) 83vw, (max-width: 991px) 39vw, 25vw" class="courses-image" />
                                                     
                                                     
-                                                </div>
-                                            </a>
-                                            <div class="courses-item-content">
-                                                <div class="courses-item-content-top">
-                                                    <a href="/courses/single/@course.Id" class="courses-category-link w-inline-block">
-                                                        <div>@course.Category.Content</div>
+                                                        </div>
                                                     </a>
-                                                    <a href="/courses/single/@course.Id" class="courses-title-link w-inline-block">
-                                                        <h3 class="heading-style-h5">@course.Title</h3>
-                                                    </a>
-                                                    <div class="text-size-regular">@(course.Template.Description.Length > 150 ? $"{course.Template.Description.Substring(0, 150)}..." : course.Template.Description)</div>
-                                                </div>
-                                                <div class="course-content-bottom">
-                                                    <div></div>
-                                                    <div>
-                                                        <a href="/courses/single/@course.Id" class="button is-secondary w-button">View Course</a>
+                                                    <div class="courses-item-content">
+                                                        <div class="courses-item-content-top">
+                                                            <a href="/courses/single/@course.Id" class="courses-title-link w-inline-block">
+                                                                <h3 class="heading-style-h5">@course.Title</h3>
+                                                            </a>
+                                                            <div class="text-size-regular">@(course.Template.Description.Length > 150 ? $"{course.Template.Description.Substring(0, 150)}..." : course.Template.Description)</div>
+                                                        </div>
+                                                        <div class="course-content-bottom">
+                                                            <div></div>
+                                                            <div>
+                                                                <a href="/courses/single/@course.Id" class="button is-secondary w-button">View Course</a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                        }  
                                 }
+                               
 
 
                             </div>

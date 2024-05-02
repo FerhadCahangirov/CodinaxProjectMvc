@@ -156,7 +156,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UnArchiveTool(Guid id)
         {
-            bool result = await _templateService.UnArchiveTool(id);
+            bool result = await _templateService.UnArchiveToolAsync(id);
             return new JsonResult(new { success = result });
         }
 

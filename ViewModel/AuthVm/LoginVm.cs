@@ -15,6 +15,6 @@ namespace CodinaxProjectMvc.ViewModel.AuthVm
         public string? Password { get; set; }
 
         [Display(Name = "Remember Me")]
-        public bool IsRemember { get; set; } = false;
+        public bool IsRemember { get; set; } = true;
     }
 }

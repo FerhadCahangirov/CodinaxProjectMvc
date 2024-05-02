@@ -23,6 +23,7 @@ namespace CodinaxProjectMvc.Registrations
             services.AddScoped<IFaqService, FaqService>();
             services.AddScoped<IContactService, ContactService>();
             services.AddScoped<ITemplateService, TemplateService>();
+            services.AddScoped<ISubscriberService, SubscriberService>();
 
             services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
             services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));

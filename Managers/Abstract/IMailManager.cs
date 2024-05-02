@@ -10,5 +10,7 @@ namespace CodinaxProjectMvc.Managers.Abstract
         Task SendPasswordSetupMailAsync<TEntity>(string token, TEntity user) where TEntity : AppUser;
 
         Task SendContactMailAsync(ContactVm contactVm);
+
+        Task SendSubscribeConfirmationMailAsync(string token, string email);
     }
 }

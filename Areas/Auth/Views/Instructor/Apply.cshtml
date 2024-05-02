@@ -60,8 +60,9 @@
                                                 <div class="select-box">
                                                     <div class="selected-option">
                                                         <div>
-                                                            <span class="iconify" data-icon="flag:gb-4x3"></span>
-                                                            <strong>+44</strong>
+                                                            <span class="iconify">
+
+                                                            </span>
                                                         </div>
                                                         <input type="tel" placeholder="Phone Number" asp-for="PhoneNumber">
                                                     </div>
@@ -155,7 +156,7 @@
                                                 </label>
 
                                                 <textarea class="input c9396bda3 c1fec96e1" type="text" autocapitalize="none" spellcheck="false" autofocus="" asp-for="AdditionalNotes" style="height: 124px;padding: 12px;"></textarea>
-                                                    
+
                                                 <span class="text-danger" asp-validation-for="AdditionalNotes"></span>
                                             </div>
                                         </div>
@@ -443,7 +444,6 @@
         { name: "Zambia", code: "ZM", phone: 260 },
         { name: "Zimbabwe", code: "ZW", phone: 263 }
     ],
-
         select_box = document.querySelector('.options'),
         search_box = document.querySelector('.search-box'),
         input_box = document.querySelector('input[type="tel"]'),
@@ -453,13 +453,13 @@
 
     for (country of countries) {
         const option = `
-                            <li class="option">
-                                <div>
-                                    <span class="iconify" data-icon="flag:${country.code.toLowerCase()}-4x3"></span>
-                                    <span class="country-name">${country.name}</span>
-                                </div>
-                                <strong>+${country.phone}</strong>
-                            </li> `;
+                                                <li class="option">
+                                                    <div>
+                                                        <span class="iconify" data-icon="flag:${country.code.toLowerCase()}-4x3"></span>
+                                                        <span class="country-name">${country.name}</span>
+                                                    </div>
+                                                    <strong>+${country.phone}</strong>
+                                                </li> `;
 
         if (select_box) {
             select_box.querySelector('ol').insertAdjacentHTML('beforeend', option);
@@ -473,8 +473,9 @@
             phone_code = this.querySelector('strong').cloneNode(true);
 
         selected_option.innerHTML = '';
-        selected_option.append(icon, phone_code);
+        selected_option.append(icon);
 
+        console.log(phone_code.innerText);
         input_box.value = phone_code.innerText;
 
         select_box.classList.remove('active');
@@ -492,6 +493,59 @@
         }
     }
 
+    document.addEventListener('DOMContentLoaded', () => {
+        if (input_box.value == "") {
+
+            var default_index = 178;
+            const icon = options[default_index].querySelector('.iconify').cloneNode(true),
+                phone_code = options[default_index].querySelector('strong').cloneNode(true);
+
+            selected_option.innerHTML = '';
+            selected_option.append(icon);
+
+            input_box.value = phone_code.innerText;
+
+            select_box.classList.remove('active');
+            selected_option.classList.remove('active');
+
+            search_box.value = '';
+            select_box.querySelectorAll('.hide').forEach(el => el.classList.remove('hide'));
+        }
+        else {
+
+            let possible_option = null;
+
+            if (options) {
+                options.forEach(option => {
+                    const phone_code = option.querySelector('strong').cloneNode(true);
+
+                    if (input_box.value.includes(phone_code.innerText)) {
+                        possible_option = option;
+                    }
+                });
+            }
+
+            if (possible_option != null) {
+                const icon = possible_option.querySelector('.iconify').cloneNode(true);
+
+                selected_option.innerHTML = '';
+                selected_option.append(icon);
+
+                select_box.classList.remove('active');
+                selected_option.classList.remove('active');
+
+                search_box.value = '';
+                select_box.querySelectorAll('.hide').forEach(el => el.classList.remove('hide'));
+            }
+            else {
+                const icon = document.querySelector('.selected-option div .iconify')
+                icon.innerHTML = `
+                                        <i class="fa-solid fa-arrow-down"></i>
+                                `;
+            }
+
+        }
+    });
 
     if (selected_option) {
         selected_option.addEventListener('click', () => {
@@ -507,7 +561,6 @@
 
     if (search_box) {
         search_box.addEventListener('input', searchCountry);
-
     }
 
 </script>

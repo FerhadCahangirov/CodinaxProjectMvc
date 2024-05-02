@@ -11,6 +11,7 @@ using CodinaxProjectMvc.Managers;
 using CodinaxProjectMvc.Managers.Abstract;
 using CodinaxProjectMvc.Policies;
 using CodinaxProjectMvc.Registrations;
+using Grpc.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
@@ -77,7 +78,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     // Cookie settings
     options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromHours(1);
+    options.ExpireTimeSpan = TimeSpan.FromHours(10);
 
     options.LoginPath = new PathString("/Auth/Login");
     options.LogoutPath = new PathString("/Auth/Logout");
@@ -108,6 +109,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
 builder.Services.AddScoped<IMailManager, MailManager>();
 builder.Services.AddPersistenceServices();
 

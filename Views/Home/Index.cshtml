@@ -534,18 +534,20 @@
                             exclusive discounts, and more!​
                         </p>
                         <div class="padding-bottom padding-small"></div>
-                        <div class="form-block w-form">
-                            <form id="Newsletter-Form" name="wf-form-Newsletter-Form" data-name="Newsletter Form" class="form" data-wf-page-id="63edcc04ea877745424eed6d" data-wf-element-id="370a17b2-f508-83c7-8d0e-450a5bdf48be">
-                                <input class="form-input w-input" maxlength="256" name="Newsletter-Form" data-name="Newsletter-Form" placeholder="Enter your email" type="email" id="Newsletter-Form-Input" required="" />
-                                <input type="submit" data-wait="Please wait..." class="button w-button" value="Get Started" />
+                        <div  class="form-block w-form">
+                            <form class="form" onsubmit="handleSubscribeFormSubmit(event)" id="newsletter_form">
+                                <input class="form-input w-input" maxlength="256" placeholder="Enter your email" type="email" id="newsletter_form_input" required="" />
+                                <input type="submit" id="subscribe_form_submit" class="button w-button" value="Get Started"/>
                             </form>
-                            <div class="success-message w-form-done">
+                            <div class="success-message w-form-done" id="success_info">
                                 <div class="success-text">Thank you! Your submission has been received!</div>
                             </div>
-                            <div class="error-message w-form-fail">
+                            <div class="error-message w-form-fail" id="error_info">
                                 <div class="error-text">Oops! Something went wrong while submitting the form.</div>
                             </div>
                         </div>
+
+                       
                     </div>
                 </div>
             </div>
@@ -557,3 +559,49 @@
     </section>
 
 </main>
+
+
+
+<script>
+    function handleSubscribeFormSubmit(event) {
+        event.preventDefault(); 
+                                
+        const email = document.getElementById("newsletter_form_input").value;
+        const submit = document.getElementById("subscribe_form_submit");
+        const success_box = document.getElementById("success_info");
+        const error_box = document.getElementById("error_info");
+        const form_box = document.getElementById("newsletter_form");
+
+        console.log("Email:", email);
+                                
+        submit.value = "Please wait ...";
+
+        $.ajax({
+            type: 'POST',
+            url: '/Auth/Subscribe/Send',
+            data: {
+                email: email
+            },
+            success: (response) => {
+                if(response.success){
+                    form_box.style.display = 'none';
+                    success_box.style.display = 'block';
+                    error_box.style.display = 'none';
+                }
+                else{
+                    form_box.style.display = 'none';
+                    success_box.style.display = 'none';
+                    error_box.style.display = 'block';
+                }
+            },error: function (xhr, status, error) {
+                console.error(xhr.responseText, error);
+                                        
+                form_box.style.display = 'none';
+                success_box.style.display = 'none';
+                error_box.style.display = 'block';   
+            }
+        });
+
+        document.getElementById("newsletter_form_input").value = "";
+    }
+</script>

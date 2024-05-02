@@ -7,7 +7,7 @@ using CodinaxProjectMvc.Enums;
 using CodinaxProjectMvc.ViewModel.CourseVm;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Identity;
 
 namespace CodinaxProjectMvc.Business.PersistenceServices
 {
@@ -19,7 +19,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly IWriteRepository<Course> _courseWriteRepository;
         private readonly IReadRepository<Instructor> _instructorReadRepository;
         private readonly IReadRepository<Template> _templateReadRepository;
-        private readonly IWriteRepository<Advice> _adviceWriteRepository;   
+        private readonly IWriteRepository<Advice> _adviceWriteRepository;
+        private readonly IReadRepository<Advice> _adviceReadRepository;
         #endregion
 
         private readonly IAzureStorage _storage;
@@ -36,7 +37,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             IConfiguration configuration,
             IReadRepository<Instructor> instructorReadRepository,
             IReadRepository<Template> templateReadRepository,
-            IWriteRepository<Advice> adviceWriteRepository)
+            IWriteRepository<Advice> adviceWriteRepository,
+            IReadRepository<Advice> adviceReadRepository)
         {
             _courseReadRepository = courseReadRepository;
             _courseWriteRepository = courseWriteRepository;
@@ -47,6 +49,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             _instructorReadRepository = instructorReadRepository;
             _templateReadRepository = templateReadRepository;
             _adviceWriteRepository = adviceWriteRepository;
+            _adviceReadRepository = adviceReadRepository;
         }
 
         #endregion
@@ -73,7 +76,12 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             Template? template = await _templateReadRepository.GetByIdAsync(courseCreateVm.Template);
             if (template == null)
             {
-                _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(CourseCreateVm.Template), "Tjis Template is not found");
+                _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(CourseCreateVm.Template), "This Template is not found");
+                return false;
+            }
+            else if (template.IsDeleted || template.IsArchived)
+            {
+                _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(CourseCreateVm.Template), "This Template has been deleted you can not add deleted template to the ");
                 return false;
             }
 
@@ -106,7 +114,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 CourseCode = courseCreateVm.CourseCode,
                 Title = courseCreateVm.CourseTitle,
                 Category = category,
-                Template  = template,
+                Template = template,
                 CourseLevel = Enum.Parse<CourseLevels>(courseCreateVm.CourseLevel),
             };
 
@@ -127,7 +135,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
                 if (secondAdvicedCourse != null)
                 {
-                    advice.SecondAdvicedCourse= secondAdvicedCourse;
+                    advice.SecondAdvicedCourse = secondAdvicedCourse;
                 }
 
                 await _adviceWriteRepository.AddAsync(advice);
@@ -142,6 +150,9 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             if (!_actionContextAccessor.ActionContext.ModelState.IsValid)
                 return false;
 
+            Course? firstAdvicedCourse = null;
+            Course? secondAdvicedCourse = null;
+
 
             Category? category = await _categoryReadRepository.GetByIdAsync(courseUpdateVm.CourseCategory);
 
@@ -152,7 +163,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             }
 
             Template? template = await _templateReadRepository.GetByIdAsync(courseUpdateVm.Template);
-            if(template == null)
+            if (template == null)
             {
                 _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(CourseUpdateVm.Template), "This Template is not found");
                 return false;
@@ -166,7 +177,29 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             if (course == null)
                 return false;
 
-            
+            if (courseUpdateVm.FirstAdvicedCourse != null)
+            {
+                firstAdvicedCourse = await _courseReadRepository.GetByIdAsync(courseUpdateVm.FirstAdvicedCourse);
+
+                if (courseUpdateVm == null)
+                {
+                    _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(CourseCreateVm.FirstAdvicedCourse), "Advice Course Not Found");
+                    return false;
+                }
+            }
+
+            if (courseUpdateVm.SecondAdvicedCourse != null)
+            {
+                secondAdvicedCourse = await _courseReadRepository.GetByIdAsync(courseUpdateVm.SecondAdvicedCourse);
+
+                if (secondAdvicedCourse == null)
+                {
+                    _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(CourseCreateVm.SecondAdvicedCourse), "Advice Course Not Found");
+                    return false;
+                }
+            }
+
+
             course.CourseCode = courseUpdateVm.CourseCode;
             course.Title = courseUpdateVm.CourseTitle;
             course.Category = category;
@@ -176,14 +209,37 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             _courseWriteRepository.Update(course);
             await _courseWriteRepository.SaveAsync();
 
+            if (firstAdvicedCourse != null || secondAdvicedCourse != null)
+            {
+                Advice? advice = await _adviceReadRepository.Table
+                    .Include(x => x.MainCourse)
+                    .Include(x => x.FirstAdvicedCourse)
+                    .Include(x => x.SecondAdvicedCourse)
+                    .FirstOrDefaultAsync(x => x.MainCourse == course);
+
+                if (advice == null)
+                {
+                    advice = new Advice(course, firstAdvicedCourse, secondAdvicedCourse);
+                    await _adviceWriteRepository.AddAsync(advice);
+                    await _adviceWriteRepository.SaveAsync();
+                }
+                else
+                {
+                    advice.FirstAdvicedCourse = firstAdvicedCourse;
+                    advice.SecondAdvicedCourse = secondAdvicedCourse;
+                    _adviceWriteRepository.Update(advice);
+                    await _adviceWriteRepository.SaveAsync();
+                }
+            }
+
             return true;
         }
 
-        public async Task<bool> ChangeShowcaseAsync(Guid id) 
+        public async Task<bool> ChangeShowcaseAsync(Guid id)
         {
             Course? course = await _courseReadRepository.GetSingleAsync(x => x.Id == id);
-            
-            if(course == null)
+
+            if (course == null)
             {
                 return false;
             }
@@ -200,6 +256,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         {
             IEnumerable<Course> courses = _courseReadRepository
                 .GetWhere(x => !x.IsDeleted && !x.IsArchived)
+                .OrderBy(x => x.Title)
                 .Include(c => c.Instructors)
                 .Include(c => c.Students)
                 .Include(c => c.Modules);
@@ -238,12 +295,20 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             if (course == null)
                 return new CourseUpdateVm();
 
+            Advice? advice = await _adviceReadRepository.Table
+                .Include(x => x.MainCourse)
+                .Include(x => x.FirstAdvicedCourse)
+                .Include(x => x.SecondAdvicedCourse)
+                .FirstOrDefaultAsync(x => x.MainCourse == course);
+
 
             CourseUpdateVm courseUpdateVm = new CourseUpdateVm
             {
                 Id = course.Id,
-                CourseCategory = course.Category.Content,
+                CourseCategory = course.Category.Id.ToString(),
                 CourseLevel = course.CourseLevel.ToString(),
+                FirstAdvicedCourse = advice?.FirstAdvicedCourse?.Id.ToString(),
+                SecondAdvicedCourse = advice?.SecondAdvicedCourse?.Id.ToString(),
                 CourseTitle = course.Title,
                 Template = course.Template.Id.ToString(),
                 CourseCode = course.CourseCode,
@@ -260,8 +325,31 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             course.IsDeleted = true;
 
+            List<Advice>? advices = await _adviceReadRepository.Table
+                .Include(x => x.FirstAdvicedCourse)
+                .Include(x => x.SecondAdvicedCourse)
+                .Where(x => x.FirstAdvicedCourse == course || x.SecondAdvicedCourse == course)
+                .ToListAsync();
+
             _courseWriteRepository.Update(course);
             await _courseWriteRepository.SaveAsync();
+
+            foreach (Advice advice in advices)
+            {
+                if (advice.FirstAdvicedCourse == course)
+                {
+                    advice.FirstAdvicedCourse = null;
+                }
+
+                if (advice.SecondAdvicedCourse == course)
+                {
+                    advice.SecondAdvicedCourse = null;
+                }
+            }
+
+            _adviceWriteRepository.UpdateRange(advices);
+            await _adviceWriteRepository.SaveAsync();
+
             return true;
         }
 

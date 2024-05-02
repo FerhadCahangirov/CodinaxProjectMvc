@@ -233,7 +233,9 @@
                                     <h3 id="typed" class="h3-mobile"></h3>
                                 </div>
                                 <div id="typed-strings" style="display: none;">
-                                    @foreach (var item in Model.Course.Template.FutureJobTitles)
+                                    @foreach (var item in Model.Course.Template.FutureJobTitles
+                                        .Where(QueryFilters<FutureJobTitle>.LayoutFilter)
+                                        .OrderBy(OrderFilters<FutureJobTitle>.ByCreatedDate))
                                     {
                                         <p>@item.Content</p>
                                     }
@@ -269,15 +271,36 @@
                             <h3 class="text-align-center">The tools you will use</h3>
                         </div>
                         <div class="flex flex-tools">
-                            @foreach (var (index, tool) in Model.Course.Template.Tools.Select((value, i) => (i, value)))
+                            @if(Model.Course.Template?.Tools.Count() > 15)
                             {
-                                <div class="margin-bottom margin-medium margin-none" data-aos="fade-right" data-aos-delay="@(200 * (index + 1))" data-aos-duration="500">
-                                    <div data-w-id="c334edcc-e2cc-1c49-01f5-8f0e2f6034c6" class="tag tag-icon">
-                                        <img src="@Model.BaseUrl/@tool.PathOrContainer/@tool.FileName" loading="lazy" alt="NeoTech Academy Icon" class="icon-height-xsmall icon-tag">
-                                        <div class="text-size-regular text-style-allcaps text-tag">@tool.Content</div>
+                               foreach (var (index, tool) in Model.Course.Template.Tools
+                                .Where(QueryFilters<Tool>.LayoutFilter)
+                                .OrderBy(OrderFilters<Tool>.ByCreatedDate)
+                                .Select((value, i) => (i, value)))
+                                {
+                                    <div class="margin-bottom margin-medium margin-none" data-aos="fade-right" data-aos-delay="@(100 * (index + 1))" data-aos-duration="500">
+                                        <div data-w-id="c334edcc-e2cc-1c49-01f5-8f0e2f6034c6" class="tag tag-icon">
+                                            <img src="@Model.BaseUrl/@tool.PathOrContainer/@tool.FileName" loading="lazy" alt="NeoTech Academy Icon" class="icon-height-xsmall icon-tag">
+                                            <div class="text-size-regular text-style-allcaps text-tag">@tool.Content</div>
+                                        </div>
                                     </div>
-                                </div>
+                                } 
                             }
+                            else{
+                                foreach (var (index, tool) in Model.Course.Template.Tools
+                                .Where(QueryFilters<Tool>.LayoutFilter)
+                                .OrderBy(OrderFilters<Tool>.ByCreatedDate)
+                                .Select((value, i) => (i, value)))
+                                {
+                                    <div class="margin-bottom margin-medium margin-none" data-aos="fade-right" data-aos-delay="@(200 * (index + 1))" data-aos-duration="500">
+                                        <div data-w-id="c334edcc-e2cc-1c49-01f5-8f0e2f6034c6" class="tag tag-icon">
+                                            <img src="@Model.BaseUrl/@tool.PathOrContainer/@tool.FileName" loading="lazy" alt="NeoTech Academy Icon" class="icon-height-xsmall icon-tag">
+                                            <div class="text-size-regular text-style-allcaps text-tag">@tool.Content</div>
+                                        </div>
+                                    </div>
+                                } 
+                            }
+                            
 
                         </div>
                     </div>
@@ -297,7 +320,10 @@
                         </div>
                         <div class="flex">
 
-                            @foreach (var (index, topic) in Model.Course.Template.Topics.Select((value, i) => (i, value)))
+                            @foreach (var (index, topic) in Model.Course.Template.Topics
+                                .Where(QueryFilters<Topic>.LayoutFilter)
+                                .OrderBy(OrderFilters<Topic>.ByCreatedDate)
+                                .Select((value, i) => (i, value)))
                             {
                                 <div class="margin-bottom margin-medium margin-02" data-aos="fade-right" data-aos-delay="@(200 * (index + 1))" data-aos-duration="500">
                                     <div data-w-id="451603c6-7ceb-8720-0ab8-c830ae7c32f5" class="tag tag-icon background-color-antiquewhite">
@@ -346,11 +372,11 @@
                         <div class="div-block">
                             @if(Model.Course.Template?.Prices.Count() > 0)
                             {
-                                foreach(var price in Model.Course.Template.Prices)
+                                foreach(var price in Model.Course.Template.Prices
+                                    .Where(QueryFilters<Price>.LayoutFilter)
+                                    .OrderBy(OrderFilters<Price>.ByCreatedDate))
                                 {
                                     <div class="course-pricing-card">
-                                        <div class="sub-heading">Course Pricing</div>
-                                        <div class="padding-bottom padding-xsmall"></div>
                                         <div class="course-price-wrapper">
                                             <h2 class="heading-style-h4">@price.Title</h2>
                                         </div>
@@ -359,10 +385,15 @@
                                         <div class="course-pricing-list">
                                             @if(price.PriceInfos.Count() > 0)
                                             {
-                                                foreach(var priceInfo in price.PriceInfos)
+                                                foreach(var priceInfo in price.PriceInfos
+                                                    .Where(QueryFilters<PriceInfo>.LayoutFilter)
+                                                    .OrderBy(OrderFilters<PriceInfo>.ByCreatedDate))
                                                 {
                                                     <div class="course-pricing-features">
-                                                        <div class="text-color-grey" bis_skin_checked="1">@priceInfo.Content</div>
+                                                        <div class="text-weight-bold text-size-xsmall" bis_skin_checked="1">
+                                                        <img src="/Assets/imgs/icons/check.png" loading="lazy" width="16" alt="Icon" style="margin-right: 0.825rem;">
+                                                            @priceInfo.Content
+                                                            </div>
                                                     </div>
                                                 }
                                             }

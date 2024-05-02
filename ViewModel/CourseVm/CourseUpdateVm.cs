@@ -1,4 +1,4 @@
-﻿using CodinaxProjectMvc.CustomValidatorAttributes;
+﻿using CodinaxProjectMvc.CustomValidationAttributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace CodinaxProjectMvc.ViewModel.CourseVm

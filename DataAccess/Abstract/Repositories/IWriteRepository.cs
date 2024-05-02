@@ -10,6 +10,7 @@ namespace CodinaxProjectMvc.DataAccess.Abstract.Repositories
         bool RemoveRange(List<TEntity> models);
         Task<bool> RemoveAsync(string id);
         bool Update(TEntity model);
+        bool UpdateRange(List<TEntity> models);
         Task<int> SaveAsync();
 
     }

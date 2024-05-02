@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace CodinaxProjectMvc.Areas.Auth.Controllers
 {
     [Area("Auth")]
-    public class PasswordSetup : Controller
+    public class PasswordSetupController : Controller
     {
         private readonly IAuthService _authService;
         private readonly UserManager<AppUser> _userManager;
-        public PasswordSetup(IAuthService authService, UserManager<AppUser> userManager)
+        public PasswordSetupController(IAuthService authService, UserManager<AppUser> userManager)
         {
             _authService = authService;
             _userManager = userManager;

@@ -144,13 +144,11 @@
                                                     <div id="w-node-_5441af1a-239e-4a2e-731a-e34d719bd791-a90c4497" class="text-weight-bold text-size-medium" bis_skin_checked="1">Courses</div>
                                                 </div>
                                                 <div class="flex__col">
-                                                    @foreach (var course in _db.Courses.Where(x => !x.IsDeleted && !x.IsArchived).ToList())
+                                                    @foreach (var course in _db.Courses.Where(QueryFilters.CoursesLayoutFilter()).OrderBy(OrderFilters.ByTitle).ToList())
                                                     {
                                                         <a href="/courses/single/@course.Id" class="navbar-dropdown-link" tabindex="0">@course.Title</a>
                                                     }
                                                 </div>
-                                                
-
                                             </div>
                                         </div>
                                     </div>
@@ -452,8 +450,8 @@
         // Typed.js initializations
         var typed = new Typed('#typed', {
             stringsElement: '#typed-strings',
-            typeSpeed: 50, // typing speed
-            backSpeed: 50, // erasing speed
+            typeSpeed: 25, // typing speed
+            backSpeed: 25, // erasing speed
             loop: true, // start back after ending typing
             startDelay: 1000,
             backDelay: 1000
