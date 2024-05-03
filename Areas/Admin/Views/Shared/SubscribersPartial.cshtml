@@ -1,0 +1,68 @@
+﻿@model PaginationVm<IEnumerable<Subscriber>>
+
+<script>
+    function showToaster(type, content) {
+        Command: toastr[type](content);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    }
+
+</script>
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Email</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Items)
+            {
+                <tr id="table_@item.Id">
+                    <th scope="row">
+                        <div class="media align-items-center">
+                            
+                            <div class="media-body">
+                                <span class="mb-0 text-sm">@item.Email</span>
+                            </div>
+                        </div>
+                    </th>
+                    <td>
+                        @if (!item.IsEmailConfirmed)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-warning"></i> mail not confirmed
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-success"></i> mail confirmed
+                            </span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

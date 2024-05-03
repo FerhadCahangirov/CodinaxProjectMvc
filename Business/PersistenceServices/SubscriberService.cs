@@ -2,9 +2,11 @@
 using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.Managers.Abstract;
-using System;
-using System.Security.Cryptography;
-using System.Text;
+using CodinaxProjectMvc.ViewModel;
+using CodinaxProjectMvc.ViewModel.SubscribeVm;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using MlkPwgen;
 
 namespace CodinaxProjectMvc.Business.PersistenceServices
 {
@@ -13,20 +15,49 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly IReadRepository<Subscriber> _subscribeReadRepository;
         private readonly IWriteRepository<Subscriber> _subscribeWriteRepository;
         private readonly IMailManager _mailManager;
+        private readonly IActionContextAccessor _actionContextAccessor;
 
         public SubscriberService(
             IReadRepository<Subscriber> subscribeReadRepository,
             IWriteRepository<Subscriber> subscribeWriteRepository,
-            IMailManager mailManager)
+            IMailManager mailManager,
+            IActionContextAccessor actionContextAccessor)
         {
             _subscribeReadRepository = subscribeReadRepository;
             _subscribeWriteRepository = subscribeWriteRepository;
             _mailManager = mailManager;
+            _actionContextAccessor = actionContextAccessor;
         }
 
-        public Task<IEnumerable<Subscriber>> ListSubscribersAsync()
+        public Task<PaginationVm<IEnumerable<Subscriber>>> ListSubscribersAsync(string? searchFilter = null , string? statusFilter = null)
         {
-            throw new NotImplementedException();
+
+            IQueryable<Subscriber> subscribers = _subscribeReadRepository
+                .GetWhere(x => !x.IsDeleted && !x.IsArchived)
+                .OrderBy(OrderFilters<Subscriber>.ByCreatedDate).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchFilter))
+            {
+                searchFilter = searchFilter.ToLower();
+                subscribers = subscribers.Where(x => x.Email.ToLower().Contains(searchFilter));
+            }
+
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+                statusFilter = statusFilter.ToLower();
+                if(statusFilter == "confirmed")
+                    subscribers = subscribers.Where(x => x.IsEmailConfirmed);
+                else if(statusFilter == "not confirmed")
+                    subscribers = subscribers.Where(x => !x.IsEmailConfirmed);
+            }
+            else
+            {
+                subscribers = subscribers.Where(x => x.IsEmailConfirmed);
+            }
+
+            List<Subscriber> data = subscribers.ToList();
+
+            return Task.FromResult(new PaginationVm<IEnumerable<Subscriber>>(data));
         }
 
         public async Task<bool> SubscribeAsync(string email)
@@ -37,20 +68,21 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             {
                 if (!check_sub.IsEmailConfirmed)
                 {
-                    string token_sub = Encrypt(check_sub.TokenValidationKey);
-                    await _mailManager.SendSubscribeConfirmationMailAsync(token_sub, check_sub.Email);
+                    check_sub.TokenValidationKey = PasswordGenerator.Generate(length: 10, allowed: Sets.Alphanumerics);
+                    _subscribeWriteRepository.Update(check_sub);
+                    await _subscribeWriteRepository.SaveAsync();
+
+                    await _mailManager.SendSubscribeConfirmationMailAsync(check_sub.TokenValidationKey, check_sub.Email);
                 }
                 return true;
             }
 
-            Subscriber? subscriber = new Subscriber(email, RandomString);
+            Subscriber? subscriber = new Subscriber(email, PasswordGenerator.Generate(length: 10, allowed: Sets.Alphanumerics));
 
             await _subscribeWriteRepository.AddAsync(subscriber);
             await _subscribeWriteRepository.SaveAsync();
 
-            string token = Encrypt(subscriber.TokenValidationKey);
-
-            await _mailManager.SendSubscribeConfirmationMailAsync(token, subscriber.Email);
+            await _mailManager.SendSubscribeConfirmationMailAsync(subscriber.TokenValidationKey, subscriber.Email);
 
             return true;
         }
@@ -62,14 +94,14 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             if (subscriber == null)
                 return false;
 
-            string validation_key = Decrypt(token);
+            string validation_key = subscriber.TokenValidationKey;
 
             bool isValidated = subscriber.TokenValidationKey == validation_key;
 
             if (!isValidated)
                 return false;
 
-            subscriber.IsEmailConfirmed = true;
+            subscriber.IsEmailConfirmed = true; 
 
             _subscribeWriteRepository.Update(subscriber);
             await _subscribeWriteRepository.SaveAsync();
@@ -77,81 +109,19 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             return true;
         }
 
-        private readonly byte[] Key = Encoding.UTF8.GetBytes("b14ca5898a4e4133bbce2ea2315a1916");
-
-        public string Encrypt(string validation_token)
+        public async Task<bool> SendAsync(SubscribeSendVm subscribeSendVm)
         {
-            byte[] iv = GenerateIV();
-
-            using (Aes aes = Aes.Create())
+            if (!_actionContextAccessor.ActionContext.ModelState.IsValid)
             {
-                aes.Key = Key;
-                aes.IV = iv;
-                aes.Padding = PaddingMode.Zeros;
-
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-
-                using (MemoryStream memoryStream = new MemoryStream())
-                {
-                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
-                    {
-                        byte[] idBytes = Encoding.UTF8.GetBytes(validation_token);
-                        cryptoStream.Write(idBytes, 0, idBytes.Length);
-                        cryptoStream.FlushFinalBlock();
-                    }
-
-                    return Convert.ToBase64String(memoryStream.ToArray());
-                }
+                return false;
             }
+
+            List<Subscriber> subscribers = await _subscribeReadRepository
+                .GetWhere(x => x.IsEmailConfirmed && !x.IsDeleted && !x.IsArchived).ToListAsync();
+
+            await _mailManager.SendMailToAllSubscribersAsync(subscribeSendVm.Subject, subscribeSendVm.Content, subscribers);
+
+            return true;
         }
-
-        private byte[] GenerateIV()
-        {
-            using (Aes aes = Aes.Create())
-            {
-                aes.GenerateIV();
-                return aes.IV;
-            }
-        }
-
-        public string Decrypt(string token)
-        {
-            byte[] buffer = Convert.FromBase64String(token);
-
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = Key;
-                aes.IV = new byte[aes.BlockSize / 8];
-                aes.Padding = PaddingMode.Zeros;
-
-
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-
-                using (MemoryStream memoryStream = new MemoryStream(buffer))
-                {
-                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader streamReader = new StreamReader(cryptoStream))
-                        {
-                            return streamReader.ReadToEnd();
-                        }
-                    }
-                }
-            }
-        }
-
-
-
-        private string RandomString
-        {
-            get
-            {
-                Random random = new Random();
-                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                return new string(Enumerable.Repeat(chars, 10)
-                    .Select(s => s[random.Next(s.Length)]).ToArray());
-            }
-        }
-
     }
 }

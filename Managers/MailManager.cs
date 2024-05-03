@@ -2,7 +2,6 @@
 using CodinaxProjectMvc.Business.Abstract.InfrastructureServices;
 using CodinaxProjectMvc.Constants;
 using CodinaxProjectMvc.DataAccess.Models;
-using CodinaxProjectMvc.DataAccess.Models.Common;
 using CodinaxProjectMvc.DataAccess.Models.Identity;
 using CodinaxProjectMvc.Managers.Abstract;
 using CodinaxProjectMvc.ViewModel.LayoutVm;
@@ -115,5 +114,18 @@ namespace CodinaxProjectMvc.Managers
                 Message: 
                 {vm.Message}
             ";
+
+        public async Task SendMailToAllSubscribersAsync(string subject, string content, List<Subscriber> subscribers)
+        {
+            foreach(Subscriber subscriber in subscribers)
+            {
+                await _mailSender.SendEmailAsync(
+                _configuration[ConfigurationStrings.InfoMailAddr],
+                subscriber.Email,
+                _configuration[ConfigurationStrings.InfoMailPwd],
+                subject,
+                content);
+            }
+        }   
     }
 }

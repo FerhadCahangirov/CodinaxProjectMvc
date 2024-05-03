@@ -1,0 +1,113 @@
+﻿@model PaginationVm<IEnumerable<Subscriber>>
+
+
+@section Scripts{
+    @if (TempData["SubscribeMailSentSuccess"] != null && (bool)TempData["SubscribeMailSentSuccess"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Mail Has Been Sent Successfully");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+}
+
+
+<script>
+    function filterSearch() {
+        const searchFilter = document.getElementById('searchFilter').value;
+        var e = document.getElementById("searchStatus");
+        var statusText = e.options[e.selectedIndex].text;
+
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/Subscribers/SubscribersPartial',
+            data: {
+                searchFilter: searchFilter,
+                statusFilter: statusText,
+            },
+            success: (data) => {
+                $('#subscribersContainer').html(data);
+
+                localStorage.setItem("subscriberSearchFilter", searchFilter);
+                localStorage.setItem("subscriberStatusFilter", statusText);
+            },
+            error: (xhr, status, error) => {
+                console.error(`Error! ${error}`);
+            }
+        });
+    }
+</script>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+<div class="main-content">
+    <div class="container mt-7">
+        <!-- Table -->
+        <ul class="tabs__container__between mb-5">
+            <li class="ns-tabs--tab">
+                <h2 class="ns-tab--item ns-tab--item-active "> Subscribers </h2>
+            </li>
+            <li class="ns-tabs--tab">
+                <a class="ns-tab--item ns-tab--item--button" href="/Admin/Subscribers/Send"> <i class="fa-solid fa-paper-plane mr-2"></i> Send Mail </a>
+            </li>
+        </ul>
+        <div class="row">
+
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="add-course-info">
+                                    <div class="input-block">
+                                        <input type="text" class="form-control" placeholder="Search Subscriber..."
+                                               id="searchFilter" oninput="filterSearch()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="add-course-info">
+                                    <div class="input-block">
+                                        <select type="text" class="form-control"
+                                                id="searchStatus" onchange="filterSearch()">
+                                            <option>Confirmed</option>
+                                            <option>Not Confirmed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="subscribersContainer">
+                        <partial name="SubscribersPartial" model="@Model">
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+

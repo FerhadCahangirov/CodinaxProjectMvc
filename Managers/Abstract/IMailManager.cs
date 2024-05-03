@@ -1,4 +1,5 @@
-﻿using CodinaxProjectMvc.DataAccess.Models.Identity;
+﻿using CodinaxProjectMvc.DataAccess.Models;
+using CodinaxProjectMvc.DataAccess.Models.Identity;
 using CodinaxProjectMvc.ViewModel.LayoutVm;
 
 namespace CodinaxProjectMvc.Managers.Abstract
@@ -12,5 +13,7 @@ namespace CodinaxProjectMvc.Managers.Abstract
         Task SendContactMailAsync(ContactVm contactVm);
 
         Task SendSubscribeConfirmationMailAsync(string token, string email);
+
+        Task SendMailToAllSubscribersAsync(string subject, string content, List<Subscriber> subscribers);
     }
 }

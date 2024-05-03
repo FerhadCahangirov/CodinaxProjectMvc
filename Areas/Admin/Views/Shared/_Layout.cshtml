@@ -10,6 +10,7 @@
     var isAboutPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "about";
     var isFeaturePage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "feature";
     var isTemplatePage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "template";
+    var isSubscribersPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "subscribers";
 }
 
 <head>
@@ -166,6 +167,14 @@
                                     <i class="fa-solid fa-object-group"></i>
                                 </svg-icon>
                                 <span>Templates</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="@(isSubscribersPage  ? "sidemenu_link_active" : "") sidemenu_link" href="/Admin/Subscribers/Index">
+                                <svg-icon height="20px" width="20px">
+                                    <i class="fa-solid fa-users"></i>
+                                </svg-icon>
+                                <span>Subscribers</span>
                             </a>
                         </li>
                     </ul>
