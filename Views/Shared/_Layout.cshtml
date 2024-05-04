@@ -12,7 +12,6 @@
     var isInstructorPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "instructors";
     var isContactPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "contact";
     var isBlogPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "blog";
-
 }
 
 <html data-wf-page="
@@ -284,6 +283,12 @@
                                             <i class="fa-brands fa-youtube" style="font-size: 22px"></i>
                                         </div>
                                     </a>
+                                    <a href="https://www.tiktok.com/@@codinax?_t=8lxiGpRQJkn&_r=1" target="_blank"
+                                       class="footer-social-link w-inline-block">
+                                        <div class="social-icon w-embed">
+                                            <i class="fa-brands fa-tiktok" style="font-size: 22px"></i>
+                                        </div>
+                                    </a>
                                     <a href="https://www.instagram.com/codinax.academy?igsh=aHphbG9vMmhueGhw&utm_source=qr" target="_blank"
                                        class="footer-social-link w-inline-block">
                                         <div class="social-icon w-embed">
@@ -324,16 +329,15 @@
                                 <a href="/" aria-current="page" class="footer-link w--current">Home</a>
                                 <a href="/about" class="footer-link">About</a>
                                 <a href="/courses" class="footer-link">Courses</a>
-                                <a href="/instructor" class="footer-link">Instructors</a>
+                                <a href="/instructors" class="footer-link">Instructors</a>
                                 <a href="/contact" class="footer-link">Contact</a>
 
                             </div>
                             <div data-w-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda34" class="footer-link-list">
                                 <div class="text-weight-bold text-size-medium">Utility pages</div>
                                 <div class="padding-bottom padding-xsmall"></div>
-                                <a href="/utility-pages/licenses" class="footer-link">Licenses</a>
-                                <a href="/terms-condition" class="footer-link">Terms &amp;Condition</a>
-                                <a href="/privacy-policy" class="footer-link">Privacy Policy</a>
+                                <a href="/home/terms" class="footer-link">Terms &amp;Condition</a>
+                                <a href="/home/privacy" class="footer-link">Privacy Policy</a>
                             </div>
                         </div>
                         <div data-w-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda40" class="footer-right-wrapper">
@@ -343,30 +347,75 @@
                                 Join our newsletter to stay up to date on features and
                                 releases.
                             </div>
-                            <div id="Footer-Subscribe-Form-Block" class="footer-form-block w-form">
-                                <form id="Footer-Subscribe-Form" name="wf-form-Footer-Subscribe-Form"
-                                      data-name="Footer Subscribe Form" method="get" class="footer-form"
+                            <div class="footer-form-block w-form">
+                                <form id="newsletter_form_footer" class="footer-form"
                                       data-wf-page-id="63edcc04ea877745424eed6d"
-                                      data-wf-element-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda47">
+                                      data-wf-element-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda47"
+                                      onsubmit="handleSubscribeFooterFormSubmit(event)"
+                                >
                                     <input class="form-input w-input" maxlength="256"
-                                           name="Footer-Subscribe-Form-Input" data-name="Footer-Subscribe-Form-Input"
-                                           placeholder="Enter your email" type="email" id="Footer-Subscribe-Form-Input"
+                                           placeholder="Enter your email" type="email" id="newsletter_form_input_footer"
                                            required="" />
-                                    <input type="submit" data-wait="Please wait..."
-                                           id="w-node-ba7683ee-e01e-b9cd-93f7-a61ec12eda49-c12eda10"
+                                    <input type="submit"
+                                           id="subscribe_form_submit_footer"
                                            class="button w-button" value="Subscribe" />
                                 </form>
                                 <div class="text-size-tiny">
                                     By subscribing you agree to with our Privacy Policy and
                                     provide consent to receive updates from our company.
                                 </div>
-                                <div class="success-message w-form-done">
+                                <div class="success-message w-form-done" id="success_info_footer">
                                     <div>Thank you! Your submission has been received!</div>
                                 </div>
-                                <div class="error-message w-form-fail">
+                                <div class="error-message w-form-fail" id="error_info_footer">
                                     <div>Oops! Something went wrong while submitting the form.</div>
                                 </div>
                             </div>
+                        
+                            <script>
+                                function handleSubscribeFooterFormSubmit(event) {
+                                    event.preventDefault(); 
+                                
+                                    const email = document.getElementById("newsletter_form_input_footer").value;
+                                    const submit = document.getElementById("subscribe_form_submit_footer");
+                                    const success_box = document.getElementById("success_info_footer");
+                                    const error_box = document.getElementById("error_info_footer");
+                                    const form_box = document.getElementById("newsletter_form_footer");
+
+                                    console.log("Email:", email);
+                                
+                                    submit.value = "Please wait ...";
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/Auth/Subscribe/Send',
+                                        data: {
+                                            email: email
+                                        },
+                                        success: (response) => {
+                                            if(response.success){
+                                                form_box.style.display = 'none';
+                                                success_box.style.display = 'block';
+                                                error_box.style.display = 'none';
+                                            }
+                                            else{
+                                                form_box.style.display = 'none';
+                                                success_box.style.display = 'none';
+                                                error_box.style.display = 'block';
+                                            }
+                                        },error: function (xhr, status, error) {
+                                            console.error(xhr.responseText, error);
+                                        
+                                            form_box.style.display = 'none';
+                                            success_box.style.display = 'none';
+                                            error_box.style.display = 'block';   
+                                        }
+                                    });
+
+                                    document.getElementById("newsletter_form_input").value = "";
+                                }
+                            </script>
+                        
                         </div>
                     </div>
                     <div class="padding-bottom padding-xxlarge"></div>
@@ -440,6 +489,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js" integrity="sha512-hIlMpy2enepx9maXZF1gn0hsvPLerXoLHdb095CmRY5HG3bZfN7XPBZ14g+TUDH1aGgfLyPHmY9/zuU53smuMw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.min.js.map" integrity="sha512-hIlMpy2enepx9maXZF1gn0hsvPLerXoLHdb095CmRY5HG3bZfN7XPBZ14g+TUDH1aGgfLyPHmY9/zuU53smuMw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 

@@ -75,5 +75,11 @@ namespace CodinaxProjectMvc.Controllers
             return View();
         }
 
+        public IActionResult Privacy()
+            => View();
+
+        public IActionResult Terms()
+            => View();
+
     }
 }

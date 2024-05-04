@@ -1,0 +1,82 @@
+﻿ <section class="section-cta">
+        <div class="padding-global">
+            <div class="container-small">
+                <div class="padding-section-large">
+                    <div data-w-id="370a17b2-f508-83c7-8d0e-450a5bdf48b3" class="cta-component">
+                        <h2>Subscribe To Our Newsletter</h2>
+                        <div class="padding-bottom padding-small"></div>
+                        <p>
+                            Join our newsletter for the latest course updates,
+                            <span class="hide-mobile-landscape">
+                                <br />
+                            </span>
+                            exclusive discounts, and more!​
+                        </p>
+                        <div class="padding-bottom padding-small"></div>
+                        <div  class="form-block w-form">
+                            <form class="form" onsubmit="handleSubscribeFormSubmit(event)" id="newsletter_form">
+                                <input class="form-input w-input" maxlength="256" placeholder="Enter your email" type="email" id="newsletter_form_input" required="" />
+                                <input type="submit" id="subscribe_form_submit" class="button w-button" value="Get Started"/>
+                            </form>
+                            <div class="success-message w-form-done" id="success_info">
+                                <div class="success-text">Thank you! Your submission has been received!</div>
+                            </div>
+                            <div class="error-message w-form-fail" id="error_info">
+                                <div class="error-text">Oops! Something went wrong while submitting the form.</div>
+                            </div>
+                        </div>
+
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2e33385872ab1e69eae6d_Frame.webp" loading="lazy" width="182" alt="Icon" class="rotate-shape" />
+        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2f987b68fbb46cfa84263_Vector.webp" loading="lazy" width="24.5" alt="Icon" class="rotate-shape top-right" />
+        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2f9872d342cefb811ddb4_Vector-2.webp" loading="lazy" width="27.5" alt="Icon" class="rotate-shape bottom-center" />
+        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2f987f9b3c88209398bc9_Vector-1.webp" loading="lazy" width="27.5" alt="Icon" class="rotate-shape top-left" />
+</section>
+
+<script>
+    function handleSubscribeFormSubmit(event) {
+        event.preventDefault(); 
+                                
+        const email = document.getElementById("newsletter_form_input").value;
+        const submit = document.getElementById("subscribe_form_submit");
+        const success_box = document.getElementById("success_info");
+        const error_box = document.getElementById("error_info");
+        const form_box = document.getElementById("newsletter_form");
+
+        console.log("Email:", email);
+                                
+        submit.value = "Please wait ...";
+
+        $.ajax({
+            type: 'POST',
+            url: '/Auth/Subscribe/Send',
+            data: {
+                email: email
+            },
+            success: (response) => {
+                if(response.success){
+                    form_box.style.display = 'none';
+                    success_box.style.display = 'block';
+                    error_box.style.display = 'none';
+                }
+                else{
+                    form_box.style.display = 'none';
+                    success_box.style.display = 'none';
+                    error_box.style.display = 'block';
+                }
+            },error: function (xhr, status, error) {
+                console.error(xhr.responseText, error);
+                                        
+                form_box.style.display = 'none';
+                success_box.style.display = 'none';
+                error_box.style.display = 'block';   
+            }
+        });
+
+        document.getElementById("newsletter_form_input").value = "";
+    }
+</script>

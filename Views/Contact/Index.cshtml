@@ -1,4 +1,30 @@
 ﻿@model ContactVm
+
+@section Scripts{
+    @if (TempData["ContactMailSendSuccess"] != null && (bool)TempData["ContactMailSendSuccess"] == true)
+    {
+        <script>
+            Swal.fire({
+                icon: "success",
+                title: "Thank you! Your submission has been received!",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>
+    }
+    @if (TempData["ContactMailSendError"] != null && (bool)TempData["ContactMailSendError"] == true)
+    {
+        <script>
+            Swal.fire({
+                icon: "error",
+                title: "Oops! Something went wrong while submitting the form.",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>
+    }
+}
+
 <script>
 
     function scrollToContact() {
@@ -213,18 +239,7 @@
 
                                 <button type="submit" class="button w-button">Submit</button>
                             </form>
-                            @if (TempData["ContactMailSendSuccess"] != null && (bool)TempData["ContactMailSendSuccess"] == true)
-                            {
-                                <div class="success-message mt-5">
-                                    <div class="success-text">Thank you! Your submission has been received!</div>
-                                </div>
-                            }
-                            @if (TempData["ContactMailSendError"] != null && (bool)TempData["ContactMailSendError"] == true)
-                            {
-                                <div class="error-message w-form-fail">
-                                    <div class="error-text">Oops! Something went wrong while submitting the form.</div>
-                                </div>
-                            }
+
                             
                         </div>
                     </div>
@@ -299,40 +314,6 @@
         </div>
     </section>
 
-       <section class="section-cta">
-        <div class="padding-global">
-            <div class="container-small">
-                <div class="padding-section-large">
-                    <div data-w-id="370a17b2-f508-83c7-8d0e-450a5bdf48b3" class="cta-component">
-                        <h2>Subscribe To Our Newsletter</h2>
-                        <div class="padding-bottom padding-small"></div>
-                        <p>
-                            Join our newsletter for the latest course updates,
-                            <span class="hide-mobile-landscape">
-                                <br />
-                            </span>
-                            exclusive discounts, and more!​
-                        </p>
-                        <div class="padding-bottom padding-small"></div>
-                        <div class="form-block w-form">
-                            <form id="Newsletter-Form" name="wf-form-Newsletter-Form" data-name="Newsletter Form" class="form" data-wf-page-id="63edcc04ea877745424eed6d" data-wf-element-id="370a17b2-f508-83c7-8d0e-450a5bdf48be">
-                                <input class="form-input w-input" maxlength="256" name="Newsletter-Form" data-name="Newsletter-Form" placeholder="Enter your email" type="email" id="Newsletter-Form-Input" required="" />
-                                <input type="submit" data-wait="Please wait..." class="button w-button" value="Get Started" />
-                            </form>
-                            <div class="success-message w-form-done">
-                                <div class="success-text">Thank you! Your submission has been received!</div>
-                            </div>
-                            <div class="error-message w-form-fail">
-                                <div class="error-text">Oops! Something went wrong while submitting the form.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2e33385872ab1e69eae6d_Frame.webp" loading="lazy" width="182" alt="Icon" class="rotate-shape" />
-        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2f987b68fbb46cfa84263_Vector.webp" loading="lazy" width="24.5" alt="Icon" class="rotate-shape top-right" />
-        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2f9872d342cefb811ddb4_Vector-2.webp" loading="lazy" width="27.5" alt="Icon" class="rotate-shape bottom-center" />
-        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2f987f9b3c88209398bc9_Vector-1.webp" loading="lazy" width="27.5" alt="Icon" class="rotate-shape top-left" />
-    </section>
+    @await Component.InvokeAsync("Subscribe")
+
 </main>
