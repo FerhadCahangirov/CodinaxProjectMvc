@@ -16,17 +16,20 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly IWriteRepository<Subscriber> _subscribeWriteRepository;
         private readonly IMailManager _mailManager;
         private readonly IActionContextAccessor _actionContextAccessor;
+        private readonly INotificationManager _notificationManager;
 
         public SubscriberService(
             IReadRepository<Subscriber> subscribeReadRepository,
             IWriteRepository<Subscriber> subscribeWriteRepository,
             IMailManager mailManager,
-            IActionContextAccessor actionContextAccessor)
+            IActionContextAccessor actionContextAccessor,
+            INotificationManager notificationManager)
         {
             _subscribeReadRepository = subscribeReadRepository;
             _subscribeWriteRepository = subscribeWriteRepository;
             _mailManager = mailManager;
             _actionContextAccessor = actionContextAccessor;
+            _notificationManager = notificationManager;
         }
 
         public Task<PaginationVm<IEnumerable<Subscriber>>> ListSubscribersAsync(string? searchFilter = null , string? statusFilter = null)
@@ -83,6 +86,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             await _subscribeWriteRepository.SaveAsync();
 
             await _mailManager.SendSubscribeConfirmationMailAsync(subscriber.TokenValidationKey, subscriber.Email);
+            
 
             return true;
         }
@@ -105,6 +109,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             _subscribeWriteRepository.Update(subscriber);
             await _subscribeWriteRepository.SaveAsync();
+
+            await _notificationManager.SendSubscriptionNotificationMailAsync(subscriber);
 
             return true;
         }

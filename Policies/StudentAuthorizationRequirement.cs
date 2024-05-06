@@ -30,7 +30,7 @@ namespace CodinaxProjectMvc.Policies
 
             var student = await _db.Students.SingleOrDefaultAsync(x => x.UserName == userName);
 
-            if (student != null && student.IsApproved == true && student.IsBanned == false)
+            if (student != null && student.IsApproved == true && student.IsBanned == false && student.IsDeleted == false)
             {
                 context.Succeed(requirement);
             }

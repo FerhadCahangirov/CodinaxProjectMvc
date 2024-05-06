@@ -18,8 +18,8 @@ namespace CodinaxProjectMvc.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Instructor> instructors = await _db.Instructors
-                .Where(x => !x.IsBanned && x.IsApproved).ToListAsync();
+            IEnumerable<Instructor> instructors = _db.Instructors
+                .Where(UserQueryFilters<Instructor>.GeneralFilter).ToList();
 
             IEnumerable<Faq> faqs = await _db.Faqs.Where(x => !x.IsDeleted && !x.IsArchived).ToListAsync();
 

@@ -1,6 +1,7 @@
 ﻿using Azure.Storage.Blobs.Models;
 using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.DataAccess.Models.Common;
+using CodinaxProjectMvc.DataAccess.Models.Identity;
 using System.Linq.Expressions;
 
 namespace CodinaxProjectMvc
@@ -19,13 +20,25 @@ namespace CodinaxProjectMvc
     }
 
 
-    public static class QueryFilters<TEntity> where TEntity : BaseEntity
+    public static class EntityQueryFilters<TEntity> where TEntity : BaseEntity
     {
         public static Func<TEntity, bool> LayoutFilter
         {
             get
             {
                 return x => !x.IsDeleted && !x.IsArchived;
+            }
+        
+        }
+    }
+
+    public static class UserQueryFilters<TEntity> where TEntity : AppUser
+    {
+        public static Func<TEntity, bool> GeneralFilter
+        {
+            get
+            {
+                return x => !x.IsDeleted && !x.IsBanned && x.IsApproved && x.EmailConfirmed;
             }
         }
     }

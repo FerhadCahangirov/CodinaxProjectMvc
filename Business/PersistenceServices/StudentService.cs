@@ -127,7 +127,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
         public async Task<PaginationVm<IEnumerable<Student>>> GetStudentsPaginationAsync(string? searchFilter = null, string? statusFilter = null, int page = 0, int size = 10)
         {
-            var query = _studentReadRepository.GetAll().Include(x => x.Courses).AsQueryable();
+            var query = _studentReadRepository.GetWhere(x => !x.IsDeleted).Include(x => x.Courses).AsQueryable();
 
             int take = size;
             int skip = (page - 1) * take;
@@ -170,6 +170,20 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             if (student == null) return false;
 
             student.IsBanned = false;
+
+            _studentWriteRepository.Update(student);
+            await _studentWriteRepository.SaveAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            Student? student = await _studentReadRepository.GetSingleAsync(x => x.Id == id);
+
+            if (student == null) return false;
+
+            student.IsDeleted = true;
 
             _studentWriteRepository.Update(student);
             await _studentWriteRepository.SaveAsync();

@@ -157,13 +157,13 @@
                             <div class="margin-bottom margin-small">
                                 <div class="margin-bottom margin-large">
                                     <h1 class="heading-style-h2">
-                                        @(string.Join(" ", Model.Course.Template.Heading.Split(' ').Skip(0).Take(Model.Course.Template.Heading.Split(' ').Count() - 1)))
+                                        @(string.Join(" ", Model.Course.Template.Heading.Split(' ').Skip(0).Take(Model.Course.Template.Heading.Split(' ').Count() - 2)))
                                         <span class="heading-style-underline">
-                                            @(Model.Course.Template.Heading.Split(' ').Last())
+                                            @(string.Join(" ", Model.Course.Template.Heading.Split(' ').Skip(Math.Max(0, Model.Course.Template.Heading.Split(' ').Length - 2))))
                                         </span>
                                     </h1>
                                 </div>
-                            </div>
+                            </div>D
                             <div class="margin-bottom margin-medium">
                                 <div class="hero_desc-wrapper">
                                     <p class="text-size-large">@Model.Course.Template.HeadingDescription</p>
@@ -234,7 +234,7 @@
                                 </div>
                                 <div id="typed-strings" style="display: none;">
                                     @foreach (var item in Model.Course.Template.FutureJobTitles
-                                        .Where(QueryFilters<FutureJobTitle>.LayoutFilter)
+                                        .Where(EntityQueryFilters<FutureJobTitle>.LayoutFilter)
                                         .OrderBy(OrderFilters<FutureJobTitle>.ByCreatedDate))
                                     {
                                         <p>@item.Content</p>
@@ -242,6 +242,20 @@
                                 </div>
                             }
 
+                        </div>
+
+                        <div class="margin-bottom margin-large show-mobile" bis_skin_checked="1">
+                            <div class="flex flex-type" bis_skin_checked="1">
+                                <h3 id="typed-mobile" class="h3-mobile"></h3>
+                            </div>
+                            <div id="typed-strings-mobile" bis_skin_checked="1" style="display: none;">
+                                @foreach (var item in Model.Course.Template.FutureJobTitles
+                                .Where(EntityQueryFilters<FutureJobTitle>.LayoutFilter)
+                                .OrderBy(OrderFilters<FutureJobTitle>.ByCreatedDate))
+                                {
+                                    <p>@item.Content</p>
+                                }
+                            </div>
                         </div>
 
                         <div class="margin-bottom margin-large">
@@ -274,7 +288,7 @@
                             @if(Model.Course.Template?.Tools.Count() > 15)
                             {
                                foreach (var (index, tool) in Model.Course.Template.Tools
-                                .Where(QueryFilters<Tool>.LayoutFilter)
+                                .Where(EntityQueryFilters<Tool>.LayoutFilter)
                                 .OrderBy(OrderFilters<Tool>.ByCreatedDate)
                                 .Select((value, i) => (i, value)))
                                 {
@@ -288,7 +302,7 @@
                             }
                             else{
                                 foreach (var (index, tool) in Model.Course.Template.Tools
-                                .Where(QueryFilters<Tool>.LayoutFilter)
+                                .Where(EntityQueryFilters<Tool>.LayoutFilter)
                                 .OrderBy(OrderFilters<Tool>.ByCreatedDate)
                                 .Select((value, i) => (i, value)))
                                 {
@@ -321,7 +335,7 @@
                         <div class="flex">
 
                             @foreach (var (index, topic) in Model.Course.Template.Topics
-                                .Where(QueryFilters<Topic>.LayoutFilter)
+                                .Where(EntityQueryFilters<Topic>.LayoutFilter)
                                 .OrderBy(OrderFilters<Topic>.ByCreatedDate)
                                 .Select((value, i) => (i, value)))
                             {
@@ -373,7 +387,7 @@
                             @if(Model.Course.Template?.Prices.Count() > 0)
                             {
                                 foreach(var price in Model.Course.Template.Prices
-                                    .Where(QueryFilters<Price>.LayoutFilter)
+                                    .Where(EntityQueryFilters<Price>.LayoutFilter)
                                     .OrderBy(OrderFilters<Price>.ByCreatedDate))
                                 {
                                     <div class="course-pricing-card">
@@ -386,7 +400,7 @@
                                             @if(price.PriceInfos.Count() > 0)
                                             {
                                                 foreach(var priceInfo in price.PriceInfos
-                                                    .Where(QueryFilters<PriceInfo>.LayoutFilter)
+                                                    .Where(EntityQueryFilters<PriceInfo>.LayoutFilter)
                                                     .OrderBy(OrderFilters<PriceInfo>.ByCreatedDate))
                                                 {
                                                     <div class="course-pricing-features">

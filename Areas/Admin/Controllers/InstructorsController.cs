@@ -19,9 +19,9 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> InstructorsPartial(string? searchFilter,string? statusFilter, int page = 1, int size = 4)
+        public async Task<IActionResult> InstructorsPartial(string? searchFilter,string? statusFilter)
         {
-            var pagination = await _instructorService.GetInstructorPaginationAsync(searchFilter, statusFilter, page, size);
+            var pagination = await _instructorService.GetInstructorPaginationAsync(searchFilter, statusFilter);
 
             if (pagination.Items?.ToList().Count == 0)
             {
@@ -67,10 +67,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
 
         [HttpDelete]
         public async Task<IActionResult> DeleteInstructor(Guid id)
-        {
-
-            return new JsonResult(new { success = true });
-        }
+            => new JsonResult(new { success = await _instructorService.DeleteAsync(id) });
 
         public async Task<IActionResult> Profile(Guid id)
         {

@@ -42,10 +42,10 @@ namespace CodinaxProjectMvc.Controllers
 
             List<Category> categories = courses.Select(c => c.Category).Distinct().ToList();
 
-            List<Instructor> instructors = await _instructorReadRepository.Table
+            List<Instructor> instructors = _instructorReadRepository.Table
                 .Include(x => x.Courses)
                 .ThenInclude(x => x.Students)
-                .Where(x => x.IsApproved && !x.IsBanned)
+                .Where(UserQueryFilters<Instructor>.GeneralFilter)
                 .Select(x => new
                 {
                     Instructor = x,
@@ -54,7 +54,7 @@ namespace CodinaxProjectMvc.Controllers
                 .OrderBy(x => x.TotalStudents)
                 .Take(4)
                 .Select(x => x.Instructor)
-                .ToListAsync();
+                .ToList();
 
             List<Faq> faqs = await _faqReadRepository.Table
                .Where(x => !x.IsDeleted && !x.IsArchived)
@@ -71,8 +71,7 @@ namespace CodinaxProjectMvc.Controllers
             return View(coursesVm);
         }
 
-        [HttpGet("[controller]/[action]/{categoryName}")]
-        public async Task<IActionResult> Filter(string categoryName)
+        public async Task<IActionResult> CoursesPartial(string? categoryName = null)
         {
             IQueryable<Course>? courses = _courseReadRepository.Table
                 .Include(c => c.Category)
@@ -87,10 +86,10 @@ namespace CodinaxProjectMvc.Controllers
                 courses = courses.Where(x => x.Category.Content.ToLower() == categoryName.ToLower());
             }
 
-            List<Instructor> instructors = await _instructorReadRepository.Table
+            List<Instructor> instructors = _instructorReadRepository.Table
                 .Include(x => x.Courses)
                 .ThenInclude(x => x.Students)
-                .Where(x => x.IsApproved && !x.IsBanned)
+                .Where(UserQueryFilters<Instructor>.GeneralFilter)
                 .Select(x => new
                 {
                     Instructor = x,
@@ -99,7 +98,7 @@ namespace CodinaxProjectMvc.Controllers
                 .OrderBy(x => x.TotalStudents)
                 .Take(4)
                 .Select(x => x.Instructor)
-                .ToListAsync();
+                .ToList();
 
             List<Faq> faqs = await _faqReadRepository.Table
                .Where(x => !x.IsDeleted && !x.IsArchived)
@@ -113,8 +112,8 @@ namespace CodinaxProjectMvc.Controllers
                 Faqs = faqs,
                 BaseUrl = _configuration["BaseUrl:Azure"],
             };
-            return View(viewName: nameof(Index), coursesVm);
-        }
+            return PartialView(viewName: nameof(CoursesPartial), coursesVm);
+        }   
 
         [HttpGet]
         public async Task<IActionResult> Single(Guid id)

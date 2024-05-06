@@ -34,14 +34,14 @@ namespace CodinaxProjectMvc.Controllers
                 .Include(x => x.Students)
                 .Include(x => x.Template)
                 .Where(QueryFilters.CoursesLayoutFilter())
-                .OrderBy(x => x.Students.Count())
-                .Take(3)
+                .Where(x => x.IsPrimary)
+                .OrderBy(OrderFilters.ByTitle)
                 .ToList();
 
-            List<Instructor> instructors = await _db.Instructors
+            List<Instructor> instructors = _db.Instructors
                 .Include(x => x.Courses)
                 .ThenInclude(x => x.Students)
-                .Where(x => x.IsApproved && !x.IsBanned)
+                .Where(UserQueryFilters<Instructor>.GeneralFilter)
                 .Select(x => new
                 {
                     Instructor = x,
@@ -50,7 +50,7 @@ namespace CodinaxProjectMvc.Controllers
                 .OrderBy(x => x.TotalStudents)
                 .Take(4)
                 .Select(x => x.Instructor)
-                .ToListAsync();
+                .ToList();
 
             HomeVm homeVm = new HomeVm()
             {

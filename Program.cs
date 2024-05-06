@@ -111,6 +111,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
 builder.Services.AddScoped<IMailManager, MailManager>();
+builder.Services.AddScoped<INotificationManager, NotificationManager>();
 builder.Services.AddPersistenceServices();
 
 builder.Services.AddScoped<PropertyAccessCourseFilter>();

@@ -7,13 +7,13 @@
             type: 'POST',
             url: `/Admin/Instructors/ApproveInstructor/${id}`,
             success: (data) => {
-                if(data.success){
+                if (data.success) {
                     const status_element = document.getElementById(`status_${id}`);
                     status_element.innerHTML = `
-                                        <span class="badge badge-dot mr-4 text-secondary">
-                                                        <i class="bg-success"></i> approved
-                                                    </span>
-                                                    `;
+                                            <span class="badge badge-dot mr-4 text-secondary">
+                                                            <i class="bg-success"></i> approved
+                                                        </span>
+                                                        `;
 
                     const approve_element = document.getElementById(`approve_${id}`);
                     approve_element.innerHTML = "";
@@ -35,20 +35,20 @@
             type: 'POST',
             url: `/Admin/Instructors/BanInstructor/${id}`,
             success: (data) => {
-                if(data.success){
+                if (data.success) {
                     const status_element = document.getElementById(`status_${id}`);
                     status_element.innerHTML = `
-                                                <span class="badge badge-dot mr-4 text-secondary">
-                                                <i class="bg-warning"></i> banned
-                                            </span>
-                                                        `;
+                                                    <span class="badge badge-dot mr-4 text-secondary">
+                                                    <i class="bg-warning"></i> banned
+                                                </span>
+                                                            `;
 
                     const ban_element = document.getElementById(`ban_${id}`);
                     ban_element.innerHTML = `
-                                                <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unbanInstructor('${id}')">
-                                                <i class="fa-solid fa-check"></i>
-                                            </a>
-                            `;
+                                                    <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unbanInstructor('${id}')">
+                                                    <i class="fa-solid fa-check"></i>
+                                                </a>
+                                `;
 
                     showToaster('success', 'Instructor Banned Successfull');
                 }
@@ -68,20 +68,20 @@
             type: 'POST',
             url: `/Admin/Instructors/UnBanInstructor/${id}`,
             success: (data) => {
-                if(data.success){
+                if (data.success) {
                     const status_element = document.getElementById(`status_${id}`);
                     status_element.innerHTML = `
-                                                         <span class="badge badge-dot mr-4 text-secondary">
-                                                            <i class="bg-success"></i> approved
-                                                        </span>
-                                                            `;
+                                                             <span class="badge badge-dot mr-4 text-secondary">
+                                                                <i class="bg-success"></i> approved
+                                                            </span>
+                                                                `;
 
                     const unban_element = document.getElementById(`ban_${id}`);
                     unban_element.innerHTML = `
-                                                        <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="banInstructor('${id}')">
-                                                <i class="fa-solid fa-ban"></i>
-                                            </a>
-                                `;
+                                                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="banInstructor('${id}')">
+                                                    <i class="fa-solid fa-ban"></i>
+                                                </a>
+                                    `;
 
                     showToaster('success', 'Instructor Unbanned Successfull');
 
@@ -95,7 +95,7 @@
         });
     }
 
-    function sendConfirmationMail(id){
+    function sendConfirmationMail(id) {
         $.ajax({
             type: 'POST',
             url: `/Admin/Instructors/SendConfirmationMail/${id}`,
@@ -112,7 +112,28 @@
         });
     }
 
-    function showToaster(type, content){
+    function deleteInstructor(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: `/Admin/Instructors/DeleteInstructor/${id}`,
+            success: (data) => {
+
+                if (data.success) {
+                    $(`#table_${id}`).fadeOut(500);
+                    showToaster('success', 'Instructor Deleted')
+                }
+                else {
+                    showToaster('success', 'Failed to delete')
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText, error);
+                showToaster('error', 'Failed to delete');
+            }
+        });
+    }
+
+    function showToaster(type, content) {
         Command: toastr[type](content);
         toastr.options = {
             "closeButton": false,
@@ -143,6 +164,7 @@
                 <th scope="col">Status</th>
                 <th scope="col">Approve</th>
                 <th scope="col">Ban</th>
+                <th scope="col">Delete</th>
                 <th scope="col">Email Confirmed</th>
                 <th scope="col">View</th>
             </tr>
@@ -201,11 +223,11 @@
                                     </span>
                                 }
                             }
-                            
+
                         }
 
                     </td>
-                    
+
                     <td id="approve_@item.Id">
                         @if (item.IsApproved != true && item.EmailConfirmed)
                         {
@@ -234,6 +256,11 @@
                         }
                     </td>
                     <td>
+                        <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="deleteInstructor('@item.Id')">
+                            <i class="fa-solid fa-delete-left"></i>
+                        </a>
+                    </td>
+                    <td>
                         @if (item.EmailConfirmed)
                         {
                             <span class="badge badge-dot mr-4 text-secondary">
@@ -244,7 +271,7 @@
                         {
                             <a class="btn btn-sm text-light" role="button"
                                onclick="sendConfirmationMail('@item.Id')">
-                                Send <i class="fa-regular fa-paper-plane"></i> 
+                                Send <i class="fa-regular fa-paper-plane"></i>
                             </a>
                         }
                     </td>

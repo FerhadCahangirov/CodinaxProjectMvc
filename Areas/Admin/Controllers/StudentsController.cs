@@ -78,16 +78,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
 
         [HttpDelete]
         public async Task<IActionResult> DeleteStudent(Guid id)
-        {
-            DataAccess.Models.Student? student = await _db.Students.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (student == null) return NotFound();
-
-            _db.Students.Remove(student);
-            await _db.SaveChangesAsync();
-
-            return new JsonResult(new { success = true });
-        }
+            => new JsonResult(new { success = await _studentService.DeleteAsync(id) });
 
         public async Task<IActionResult> Profile(Guid id)
         {

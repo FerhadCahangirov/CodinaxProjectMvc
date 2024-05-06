@@ -4,6 +4,7 @@ using CodinaxProjectMvc.Context;
 using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.DataAccess.Models.Identity;
+using CodinaxProjectMvc.DataList;
 using CodinaxProjectMvc.ViewModel.StudentVm;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -35,6 +36,7 @@ namespace CodinaxProjectMvc.Areas.Auth.Controllers
                      "Text"
                    );
 
+            ViewBag.Countries = new SelectList(Countries.All, nameof(Country.Name), nameof(Country.Name));
             return View();
         }
 
@@ -52,6 +54,8 @@ namespace CodinaxProjectMvc.Areas.Auth.Controllers
                              "Id",
                              "Text"
                     );
+
+                ViewBag.Countries = new SelectList(Countries.All, nameof(Country.Name), nameof(Country.Name));
                 return View(studentApplyVm);
             }
 

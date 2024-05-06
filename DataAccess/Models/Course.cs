@@ -12,6 +12,8 @@ namespace CodinaxProjectMvc.DataAccess.Models
 
         public bool Showcase { get; set; } = true;
 
+        public bool IsPrimary { get; set; } = false; 
+
         public CourseLevels CourseLevel { get; set; }
 
         public IEnumerable<Instructor> Instructors { get; set; }
@@ -20,7 +22,6 @@ namespace CodinaxProjectMvc.DataAccess.Models
         public Category Category { get; set; }
 
         public Template Template { get; set; }
-
 
         public Course()
         {

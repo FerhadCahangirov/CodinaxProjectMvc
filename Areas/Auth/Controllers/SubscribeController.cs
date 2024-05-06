@@ -16,6 +16,7 @@ namespace CodinaxProjectMvc.Areas.Auth.Controllers
         public async Task<IActionResult> Index(string email, string token)
         {
             bool result = await _subscriberService.ConfirmAsync(email, token);
+            TempData["SubscriptionSuccess"] = true;
             return Redirect("/Home");
         }
 

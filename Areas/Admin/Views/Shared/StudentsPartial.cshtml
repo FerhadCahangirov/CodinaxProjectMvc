@@ -130,6 +130,27 @@
         });
     }
 
+    function deleteStudent(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: `/Admin/Students/DeleteStudent/${id}`,
+            success: (data) => {
+
+                if (data.success) {
+                    $(`#table_${id}`).fadeOut(500);
+                    showToaster('success', 'Student Deleted')
+                }
+                else {
+                    showToaster('success', 'Failed to delete')
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText, error);
+                showToaster('error', 'Failed to delete');
+            }
+        });
+    }
+
     function showToaster(type, content) {
         Command: toastr[type](content);
         toastr.options = {
@@ -161,6 +182,7 @@
                 <th scope="col">Status</th>
                 <th scope="col">Approve</th>
                 <th scope="col">Ban</th>
+                <th scope="col">Delete</th>
                 <th scope="col">Email Confirmed</th>
                 <th scope="col">View</th>
             </tr>
@@ -236,6 +258,11 @@
                                 </a>
                             }
                         }
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="deleteStudent('@item.Id')">
+                            <i class="fa-solid fa-delete-left"></i>
+                        </a>
                     </td>
                     <td>
                         @if (item.EmailConfirmed)

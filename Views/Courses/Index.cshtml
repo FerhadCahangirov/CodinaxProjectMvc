@@ -44,14 +44,20 @@
                         <div class="course-category-list-wrapper w-dyn-list">
                             <div role="list" class="course-category-list w-dyn-items">
                                 <div role="listitem" class="course-category-item w-dyn-item">
-                                    <a href="/courses" aria-current="page" class="button is-secondary w-button w--current">All Courses</a>
+                                    <a onclick="getAllCourses()" aria-current="page" id="all" class="button is-secondary w-button w--current">All Courses</a>
                                 </div>
                                 @if(Model.Categories != null)
                                 {
                                     @foreach (var category in Model.Categories)
                                     {
                                         <div role="listitem" class="course-category-item w-dyn-item">
-                                            <a class="button is-secondary w-button" href="/courses/filter/@category.Content">@category.Content</a>
+                                            <a
+                                                class="button is-secondary w-button"
+                                                onclick="filterByCategory('@category.Content')"
+                                                id="@category.Content"
+                                            >
+                                                @category.Content
+                                            </a>
                                         </div>
                                     }    
                                 }
@@ -61,42 +67,8 @@
                     <div class="padding-bottom padding-large"></div>
                     <div data-w-id="c5dcbdd9-f1f6-0162-b671-dd49d2c2095d" style="-webkit-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0" class="courses-omponent">
                         <div class="courses-list-wrapper w-dyn-list">
-                            <div role="list" class="courses-list w-dyn-items">
-                                @if (Model.Courses != null)
-                                {
-                                   @foreach (var course in Model.Courses)
-                                        {
-                                            <div role="listitem" class="courses-item w-dyn-item">
-                                                <div class="courses-card">
-                                                    <a href="/courses/single/@course..Id" class="courses-image-link w-inline-block">
-                                                        <div class="courses-image-wrapper">
-                                                    
-                                                                <img src="@Model.BaseUrl/@course.Template.CourseImagePathOrContainer/@course.Template.CourseImageName" loading="lazy" alt="@course.Template.CourseImageName" sizes="(max-width: 479px) 100vw, (max-width: 767px) 83vw, (max-width: 991px) 39vw, 25vw" class="courses-image" />
-                                                    
-                                                    
-                                                        </div>
-                                                    </a>
-                                                    <div class="courses-item-content">
-                                                        <div class="courses-item-content-top">
-                                                            <a href="/courses/single/@course.Id" class="courses-title-link w-inline-block">
-                                                                <h3 class="heading-style-h5">@course.Title</h3>
-                                                            </a>
-                                                            <div class="text-size-regular">@(course.Template.Description.Length > 150 ? $"{course.Template.Description.Substring(0, 150)}..." : course.Template.Description)</div>
-                                                        </div>
-                                                        <div class="course-content-bottom">
-                                                            <div></div>
-                                                            <div>
-                                                                <a href="/courses/single/@course.Id" class="button is-secondary w-button">View Course</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }  
-                                }
-                               
-
-
+                            <div role="list" class="courses-list w-dyn-items" id="courses_partial_container">
+                                <partial name="CoursesPartial" model="@Model"/>
                             </div>
                         </div>
                     </div>
@@ -234,3 +206,56 @@
     </section>
     @await Component.InvokeAsync("Subscribe")
 </main>
+
+<script>
+    function filterByCategory(content){
+        $.ajax({
+            type: 'GET',
+            url: `/Courses/CoursesPartial`,
+            data: {
+                categoryName: content
+            },
+            success: (data) => {
+                const element = document.getElementById('courses_partial_container');
+                element.innerHTML = data;
+                const currentClass = "w--current";
+                const category_elements = document.querySelectorAll('.course-category-list .course-category-item a');
+                
+
+                category_elements.forEach(category_element => {
+                    category_element.classList.remove(currentClass)
+                    if(category_element.id.toLowerCase() == content.toLowerCase()){
+                        category_element.classList.add(currentClass);
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText, error);
+            }
+        });
+    }
+
+    function getAllCourses(){
+        $.ajax({
+            type: 'GET',
+            url: `/Courses/CoursesPartial`,
+            success: (data) => {
+                const element = document.getElementById('courses_partial_container');
+                element.innerHTML = data;
+
+                const currentClass = "w--current";
+                const category_elements = document.querySelectorAll('.course-category-list .course-category-item a');
+
+                category_elements.forEach(category_element => {
+                    category_element.classList.remove(currentClass)
+                    if(category_element.id.toLowerCase() == "all"){
+                        category_element.classList.add(currentClass);
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText, error);
+            }
+        });
+    }
+</script>

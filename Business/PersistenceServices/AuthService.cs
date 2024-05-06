@@ -20,20 +20,18 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager; 
         private readonly IActionContextAccessor _actionContextAccessor;
-        private readonly IConfiguration _configuration;
         private readonly CodinaxDbContext _db;
         private readonly IMailManager _mailManager;
-        private readonly IReadRepository<Course> _readRepository;
+        private readonly INotificationManager _notificationManager;
 
-        public AuthService(SignInManager<AppUser> signInManager, IActionContextAccessor actionContextAccessor, UserManager<AppUser> userManager, CodinaxDbContext db, IConfiguration configuration, IMailManager mailManager, IReadRepository<Course> readRepository)
+        public AuthService(SignInManager<AppUser> signInManager, IActionContextAccessor actionContextAccessor, UserManager<AppUser> userManager, CodinaxDbContext db, IMailManager mailManager, INotificationManager notificationManager)
         {
             _signInManager = signInManager;
             _actionContextAccessor = actionContextAccessor;
             _userManager = userManager;
             _db = db;
-            _configuration = configuration;
             _mailManager = mailManager;
-            _readRepository = readRepository;
+            _notificationManager = notificationManager;
         }
 
         public async Task<bool> ConfirmMailAsync(string token, string email)
@@ -57,7 +55,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             if (!_actionContextAccessor.ActionContext.ModelState.IsValid)
                 return false;
 
-            DataAccess.Models.Instructor instructor = instructorApplyVm.FromInstructorApplyVm_ToInstructor();
+            Instructor instructor = instructorApplyVm.FromInstructorApplyVm_ToInstructor();
 
             AppUser? user = user = await _db.Users
                 .FirstOrDefaultAsync(x => x.Email == instructor.Email);
@@ -95,6 +93,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(instructor);
 
             await _mailManager.SendConfirmationMailAsync(token, instructor);
+            await _notificationManager.SendInstructorApplymentNotificationMailAsync(instructor);
 
             return true;
         }
@@ -196,6 +195,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(student);
 
             await _mailManager.SendConfirmationMailAsync(token, student);
+            await _notificationManager.SendStudentApplymentNotificationMailAsync(student);
 
             return true;
         }

@@ -78,6 +78,9 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         public async Task<IActionResult> ChangeShowcase(Guid id)
             => new JsonResult(new { success = await _courseService.ChangeShowcaseAsync(id) });
 
+        [HttpPut]
+        public async Task<IActionResult> SetCoursePrimary(Guid id)
+            => ReturnActionJson(await _courseService.SetCoursePrimaryAsync(id));
 
         public async Task<IActionResult> Single(Guid id)
         {
@@ -89,57 +92,51 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteCourse(Guid id)
             => new JsonResult(new { success = await _courseService.DeleteCourseAsync(id) });
 
+        [NonAction]
+        private IActionResult ReturnActionJson(PrimaryCourseActionReturnType primaryCourseActionReturnType)
+        {
+            if (primaryCourseActionReturnType == PrimaryCourseActionReturnType.Oversized)
+            {
+                return new JsonResult(new { success = false, message = FeatureActionReturnType.Oversized.ToString() });
+            }
+
+            if (primaryCourseActionReturnType == PrimaryCourseActionReturnType.Failure)
+            {
+                return new JsonResult(new { success = false, message = FeatureActionReturnType.Failure.ToString() });
+            }
+
+            return new JsonResult(new { success = true });
+
+        }
+
         #endregion
 
         #region Manage Course Instructors Controllers
         [HttpPost]
-        public async Task<IActionResult> AssignInstructorsPartial([FromRoute] Guid id, string? searchFilter, int page = 0, int size = 10)
+        public async Task<IActionResult> AssignInstructorsPartial([FromRoute] Guid id, string? searchFilter)
         {
-            Course course = await _courseReadRepository.GetByIdAsync(Convert.ToString(id));
+            var data = await _courseService.GetAssignableInstructorsAsync(id, searchFilter);
 
-            var pagination = await _instructorService.GetInstructorPaginationAsync(searchFilter: searchFilter, page: page, size: size);
-
-            CourseInstructorsAssignVm courseInstructorsAssignVm = new CourseInstructorsAssignVm()
-            {
-                InstructorPagination = pagination,
-                Course = course
-            };
-
-
-            if (pagination.Items?.ToList().Count == 0)
+            if (data.InstructorPagination?.Items?.Count() == 0)
             {
                 ViewBag.Message = "Nothing Found";
             }
 
-            return PartialView(viewName: "AssignInstructorPartial", courseInstructorsAssignVm);
-
+            return PartialView(viewName: "AssignInstructorPartial", data);
         }
 
         [HttpGet]
         public async Task<IActionResult> AssignInstructors([FromRoute] Guid id)
         {
 
-            Course? course = await _courseReadRepository.Table
-                .Include(x => x.Instructors)
-                .Include(x => x.Students)
-                .FirstOrDefaultAsync(x => x.Id == id);
-            if (course == null) return NotFound();
+            var data = await _courseService.GetAssignableInstructorsAsync(id);
 
-            var pagination = await _instructorService.GetInstructorPaginationAsync(string.Empty);
-
-            CourseInstructorsAssignVm courseInstructorsAssignVm = new CourseInstructorsAssignVm()
-            {
-                InstructorPagination = pagination,
-                Course = course,
-            };
-
-            if (pagination.Items?.Count() == 0)
+            if (data.InstructorPagination?.Items?.Count() == 0)
             {
                 ViewBag.Message = "Nothing Found";
             }
 
-            return View(courseInstructorsAssignVm);
-
+            return View(data);
         }
 
         [HttpPost]

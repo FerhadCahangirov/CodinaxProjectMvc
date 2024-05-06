@@ -6,8 +6,9 @@ namespace CodinaxProjectMvc.DataAccess.Models.Identity
 {
     public class AppUser : IdentityUser<Guid>, IBaseGenericEntity
     {
-        public bool IsApproved { get; set; }
-        public bool IsBanned { get; set; }
+        public bool IsApproved { get; set; } = false;
+        public bool IsBanned { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 

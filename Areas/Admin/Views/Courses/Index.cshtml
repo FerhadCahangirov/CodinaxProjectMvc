@@ -33,18 +33,80 @@
         })
     }
 
-    function changeShowcase(id){
+    function changeShowcase(id) {
         $.ajax({
             type: 'PUT',
             url: `/Admin/Courses/ChangeShowcase/${id}`,
             success: (response) => {
+                const isPrimary = document.getElementById(`item_view_input_${id}`).value;
+                const showcase = document.getElementById(`item_showcase_input_${id}`).value;
+                const view_element = document.getElementById(`item_view_${id}`);
+
                 if (response.success) {
                     showToaster('success', 'Change Showcase Successfull');
-                    const element = document.getElementById(`item_checkbox_${item.Id}`);
+                    const element = document.getElementById(`item_checkbox_${id}`);
                     element.toggleAttribute('checked');
+                    
+                    if(showcase === 'true' && isPrimary === 'true'){
+                        showToaster('success', 'Course set to home page successfull');
+                        view_element.innerHTML = `
+                                <i class="fa-solid fa-eye"></i>
+                            `;
+                        document.getElementById(`item_view_input_${id}`).value = 'false';
+                        document.getElementById(`item_showcase_input_${id}`).value = 'false';
+                    }
+                    else if (showcase === 'true') {
+                        document.getElementById(`item_showcase_input_${id}`).value = 'false';
+                    }
+                    else{
+                        document.getElementById(`item_showcase_input_${id}`).value = 'true';
+                    }
                 }
                 else {
                     showToaster('error', 'Failed to change showcase');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                showToaster('error', 'Failed to change showcase');
+            }
+        });
+    }
+
+    function setPrimary(id) {
+        $.ajax({
+            type: 'PUT',
+            url: `/Admin/Courses/SetCoursePrimary/${id}`,
+            success: (response) => {
+                if (response.success) {
+
+                    const element = document.getElementById(`item_view_${id}`);
+                    const isPrimary = document.getElementById(`item_view_input_${id}`).value;
+                    const showcase = document.getElementById(`item_showcase_input_${id}`).value;
+                    const showcase_element = document.getElementById(`item_checkbox_${id}`);
+
+                    if (isPrimary === 'false') {
+                        showToaster('success', 'Course removed from home page successfull');
+                        element.innerHTML = `
+                            <i class="fa-solid fa-eye-slash"></i>
+                        `;
+                        document.getElementById(`item_view_input_${id}`).value = 'true';
+
+                        if(showcase === 'false'){
+                            showcase_element.checked = true;
+                            document.getElementById(`item_showcase_input_${id}`).value = 'true';
+                        }
+                    }
+                    else if (isPrimary === 'true') {
+                        showToaster('success', 'Course set to home page successfull');
+                        element.innerHTML = `
+                            <i class="fa-solid fa-eye"></i>
+                        `;
+                        document.getElementById(`item_view_input_${id}`).value = 'false';
+                    }
+                }
+                else {
+                    showToaster('error', response.message);
                 }
             },
             error: function (xhr, status, error) {
@@ -93,6 +155,8 @@
 
     @foreach (var item in Model)
     {
+        <input hidden value="@item.IsPrimary.ToString().ToLower()" id="item_view_input_@item.Id">
+        <input hidden value="@item.Showcase.ToString().ToLower()" id="item_showcase_input_@item.Id">
         <div class="course_card" id="item_@item.Id">
             <div class="course_card_content">
                 <a title="EU9-Java Programming" href="#">
@@ -118,8 +182,24 @@
                     </div>
                     <div class="course_card_bottom">
                         <div class="course_modules_info">
-                            <i class="fa-solid fa-shapes align-middle mr-2"></i>
-                            @item.Modules.Count() modules
+                            <div class="course_modules_info_inner">
+                                <div>
+                                    <i class="fa-solid fa-shapes align-middle mr-2"></i>
+                                    @item.Modules.Count() modules
+
+                                </div>
+                                <a class="button_bookmark" onclick="setPrimary('@item.Id')" style="display: flex;justify-content: center;align-items: center;" id="item_view_@item.Id">
+                                    
+                                    @if (item.IsPrimary)
+                                    {
+                                        <i class="fa-solid fa-eye-slash"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-eye"></i>
+                                    }
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

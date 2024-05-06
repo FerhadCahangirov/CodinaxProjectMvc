@@ -17,7 +17,7 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <param name="page">Page number for pagination (default is 0).</param>
         /// <param name="size">Number of items per page (default is 10).</param>
         /// <returns>A task representing the asynchronous operation, returning a pagination view model of instructors.</returns>
-        public Task<PaginationVm<IEnumerable<Instructor>>> GetInstructorPaginationAsync(string? searchFilter = null, string? statusFilter = null, int page = 0, int size = 10);
+        public Task<PaginationVm<IEnumerable<Instructor>>> GetInstructorPaginationAsync(string? searchFilter = null, string? statusFilter = null);
 
         /// <summary>
         /// Approves an instructor with the specified ID.
@@ -83,5 +83,9 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <param name="id">The unique identifier associated with the confirmation email.</param>
         /// <returns>A task representing the asynchronous operation, returning true if the email sending is successful, otherwise false.</returns>
         public Task<bool> SendConfirmationMailAsync(Guid id);
+
+        Task<PaginationVm<IEnumerable<Instructor>>> GetAssignableInstructorPaginationAsync(string? searchFilter = null);
+
+        Task<bool> DeleteAsync(Guid id);
     }
 }

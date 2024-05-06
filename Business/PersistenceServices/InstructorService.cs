@@ -34,12 +34,9 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             _userManager = userManager;
         }
 
-        public async Task<PaginationVm<IEnumerable<Instructor>>> GetInstructorPaginationAsync(string? searchFilter = null, string? statusFilter = null, int page = 0, int size = 10)
+        public async Task<PaginationVm<IEnumerable<Instructor>>> GetInstructorPaginationAsync(string? searchFilter = null, string? statusFilter = null)
         {
-            var query = _instructorReadRepository.GetAll();
-
-            int take = size;
-            int skip = (page - 1) * take;
+            var query = _instructorReadRepository.GetWhere(x => !x.IsDeleted);
 
             if (!string.IsNullOrEmpty(searchFilter))
             {
@@ -50,18 +47,37 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     x.Email.ToLower().Contains(searchFilter));
             }
 
-
             var instructors = await query.ToListAsync();
 
-            int total = await query.CountAsync();
+            var paginatedData = instructors.ToList();
 
-            var paginatedData = instructors.Skip(skip).Take(take).ToList();
-
-            PaginationVm<IEnumerable<Instructor>> pagination = new PaginationVm<IEnumerable<Instructor>>(total, page, (int)Math.Ceiling((decimal)total / take), paginatedData, take);
+            PaginationVm<IEnumerable<Instructor>> pagination = new PaginationVm<IEnumerable<Instructor>>(paginatedData);
 
             pagination.BaseUrl = _configuration[ConfigurationStrings.AzureBasuUrl];
 
             return pagination;
+        }
+
+        public Task<PaginationVm<IEnumerable<Instructor>>> GetAssignableInstructorPaginationAsync(string? searchFilter = null)
+        {
+            var query = _instructorReadRepository.Table.Where(UserQueryFilters<Instructor>.GeneralFilter);
+
+            if (!string.IsNullOrEmpty(searchFilter))
+            {
+                searchFilter = searchFilter.ToLower();
+                query = query.Where(x => x.UserName.ToLower().Contains(searchFilter) ||
+                    x.FirstName.ToLower().Contains(searchFilter) ||
+                    x.LastName.ToLower().Contains(searchFilter) ||
+                    x.Email.ToLower().Contains(searchFilter));
+            }
+
+            var paginatedData = query.ToList();
+
+            PaginationVm<IEnumerable<Instructor>> pagination = new PaginationVm<IEnumerable<Instructor>>(paginatedData);
+
+            pagination.BaseUrl = _configuration[ConfigurationStrings.AzureBasuUrl];
+
+            return Task.FromResult(pagination);
         }
 
         public async Task<bool> ApproveAsync(Guid id)
@@ -107,6 +123,20 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             _instructorWriteRepository.Update(instructor);
             await _instructorWriteRepository.SaveAsync();
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            Instructor? instructor = await _instructorReadRepository.GetSingleAsync(x => x.Id == id);
+
+            if (instructor == null) return false;
+
+            instructor.IsDeleted = true;
+
+            _instructorWriteRepository.Update(instructor);
+            await _instructorWriteRepository.SaveAsync();
+
             return true;
         }
 

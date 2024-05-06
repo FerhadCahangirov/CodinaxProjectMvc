@@ -959,10 +959,19 @@ li.breadcrumb_item {
     align-items: center;
 }
 
-    .course_modules_info a{
-        line-height: 0;
-        margin-right: 8px;
-    }
+.course_modules_info_inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.course_modules_info a {
+    line-height: 0;
+    margin-right: 8px;
+    color: #947afd;
+    cursor: pointer;    
+}
 
 
 .ck.ck-toolbar,

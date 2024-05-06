@@ -30,7 +30,7 @@ namespace CodinaxProjectMvc.Policies
 
             var instructor = await _db.Instructors.SingleOrDefaultAsync (x => x.UserName == userName);
 
-            if (instructor != null && instructor.IsApproved == true && instructor.IsBanned == false)
+            if (instructor != null && instructor.IsApproved == true && instructor.IsBanned == false && instructor.IsDeleted == false)
             {
                 context.Succeed(requirement);
             }

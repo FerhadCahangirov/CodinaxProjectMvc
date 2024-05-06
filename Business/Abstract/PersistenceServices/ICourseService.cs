@@ -82,7 +82,30 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <param name="id">The unique identifier of the course.</param>
         /// <returns>A task representing the asynchronous operation, returning true if the change is successful, otherwise false.</returns>
         Task<bool> ChangeShowcaseAsync(Guid id);
+
+        Task<PrimaryCourseActionReturnType> SetCoursePrimaryAsync(Guid id);
+
+        Task<CourseInstructorsAssignVm> GetAssignableInstructorsAsync(Guid id, string? searchFilter = null);
     }
 
+    /// <summary>
+    /// Enumeration indicating the outcome of an action related to primary course.
+    /// </summary>
+    public enum PrimaryCourseActionReturnType
+    {
+        /// <summary>
+        /// The action was successful.
+        /// </summary>
+        Success,
 
+        /// <summary>
+        /// The action failed.
+        /// </summary>
+        Failure,
+
+        /// <summary>
+        /// The action failed due to an oversized entry.
+        /// </summary>
+        Oversized
+    }
 }

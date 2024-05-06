@@ -33,6 +33,8 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <returns>A task representing the asynchronous operation, returning true if the ban succeeds, otherwise false.</returns>
         Task<bool> BanAsync(Guid id);
 
+        Task<bool> DeleteAsync(Guid id);
+
         /// <summary>
         /// Unbans a previously banned student with the specified ID.
         /// </summary>

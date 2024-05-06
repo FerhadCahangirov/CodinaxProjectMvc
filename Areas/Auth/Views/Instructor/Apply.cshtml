@@ -128,7 +128,9 @@
                                                 <label class="c504b47d1 no-js cc454c27b c38729609" asp-for="CountryOfBirth">
                                                 </label>
 
-                                                <input class="input c9396bda3 c1fec96e1" type="text" autocapitalize="none" spellcheck="false" autofocus="" asp-for="CountryOfBirth">
+                                                <select class="input c9396bda3 c1fec96e1" asp-items="@ViewBag.Countries" asp-for="CountryOfBirth">
+                                                    <option selected disabled>Select Country</option>
+                                                </select>
 
                                                 <span class="text-danger" asp-validation-for="CountryOfBirth"></span>
                                             </div>
@@ -142,7 +144,9 @@
                                                 <label class="c504b47d1 no-js cc454c27b c38729609" asp-for="CountryOfResidence">
                                                 </label>
 
-                                                <input class="input c9396bda3 c1fec96e1" type="text" autocapitalize="none" spellcheck="false" autofocus="" asp-for="CountryOfResidence">
+                                                <select class="input c9396bda3 c1fec96e1" asp-items="@ViewBag.Countries" asp-for="CountryOfResidence">
+                                                    <option selected disabled>Select Country</option>
+                                                </select>
 
                                                 <span class="text-danger" asp-validation-for="CountryOfResidence"></span>
                                             </div>

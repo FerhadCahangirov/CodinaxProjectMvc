@@ -8,6 +8,7 @@ using CodinaxProjectMvc.ViewModel.CourseVm;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Identity;
+using System.Linq.Expressions;
 
 namespace CodinaxProjectMvc.Business.PersistenceServices
 {
@@ -26,6 +27,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly IAzureStorage _storage;
         private readonly IConfiguration _configuration;
         private readonly IActionContextAccessor _actionContextAccessor;
+        private readonly IInstructorService _instructorService;
 
         #region Constructor for Dependency Injection
         public CourseService(
@@ -38,7 +40,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             IReadRepository<Instructor> instructorReadRepository,
             IReadRepository<Template> templateReadRepository,
             IWriteRepository<Advice> adviceWriteRepository,
-            IReadRepository<Advice> adviceReadRepository)
+            IReadRepository<Advice> adviceReadRepository,
+            IInstructorService instructorService)
         {
             _courseReadRepository = courseReadRepository;
             _courseWriteRepository = courseWriteRepository;
@@ -50,6 +53,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             _templateReadRepository = templateReadRepository;
             _adviceWriteRepository = adviceWriteRepository;
             _adviceReadRepository = adviceReadRepository;
+            _instructorService = instructorService;
         }
 
         #endregion
@@ -244,6 +248,11 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 return false;
             }
 
+            if (course.Showcase && course.IsPrimary)
+            {
+                course.IsPrimary = !course.IsPrimary;
+            }
+
             course.Showcase = !course.Showcase;
 
             _courseWriteRepository.Update(course);
@@ -252,11 +261,39 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             return true;
         }
 
+        public async Task<PrimaryCourseActionReturnType> SetCoursePrimaryAsync(Guid id)
+        {
+            Course? course = await _courseReadRepository.GetSingleAsync(x => x.Id == id);
+
+            if (course == null)
+            {
+                return PrimaryCourseActionReturnType.Failure;
+            }
+
+            if (!course.IsPrimary && _courseReadRepository.GetWhere(x => x.IsPrimary).Count() >= 3)
+            {
+                return PrimaryCourseActionReturnType.Oversized;
+            }
+
+            if (!course.Showcase && !course.IsPrimary)
+            {
+                course.Showcase = !course.Showcase;
+            }
+
+            course.IsPrimary = !course.IsPrimary;
+
+            _courseWriteRepository.Update(course);
+            await _courseWriteRepository.SaveAsync();
+
+            return PrimaryCourseActionReturnType.Success;
+        }
+
         public Task<IEnumerable<Course>> GetCoursesAsync()
         {
             IEnumerable<Course> courses = _courseReadRepository
                 .GetWhere(x => !x.IsDeleted && !x.IsArchived)
                 .OrderBy(x => x.Title)
+                .OrderBy(x => !x.IsPrimary)
                 .Include(c => c.Instructors)
                 .Include(c => c.Students)
                 .Include(c => c.Modules);
@@ -365,7 +402,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             if (course == null) return new CourseInstructorsVm();
 
-            var query = course.Instructors.AsQueryable();
+            var query = course.Instructors.Where(UserQueryFilters<Instructor>.GeneralFilter).AsQueryable();
 
             if (!string.IsNullOrEmpty(searchFilter))
             {
@@ -387,6 +424,27 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             return instructorsVm;
         }
+
+        public async Task<CourseInstructorsAssignVm> GetAssignableInstructorsAsync(Guid id, string? searchFilter = null)
+        {
+            Course? course = await _courseReadRepository.Table
+                .Include(x => x.Instructors)
+                .Include(x => x.Students)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (course == null) return new CourseInstructorsAssignVm();
+
+            var pagination = await _instructorService.GetAssignableInstructorPaginationAsync(searchFilter);
+
+            CourseInstructorsAssignVm courseInstructorsAssignVm = new CourseInstructorsAssignVm()
+            {
+                InstructorPagination = pagination,
+                Course = course,
+            };
+
+            return courseInstructorsAssignVm;
+
+        }
+
 
         public async Task<bool> ReassignInstructorAsync(Guid courseId, Guid instructorId)
         {

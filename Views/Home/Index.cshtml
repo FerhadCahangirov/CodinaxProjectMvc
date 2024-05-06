@@ -7,53 +7,51 @@
 @section Scripts {
     @if (TempData["InstructorApplySuccess"] != null && (bool)TempData["InstructorApplySuccess"] == true)
     {
-
         <script>
-            Command: toastr["success"]("Confirmation link sent to your mail.");
-            toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": false,
-                "positionClass": "toast-top-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "500",
-                "timeOut": "1000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            };
+            Swal.fire({
+                icon: "success",
+                title: "Confirmation link sent to your mail.",
+                showConfirmButton: false,
+                timer: 1500
+            });
         </script>
     }
 
 
     @if (TempData["StudentApplySuccess"] != null && (bool)TempData["StudentApplySuccess"] == true)
     {
-
         <script>
-            Command: toastr["success"]("Confirmation link sent to your mail.");
-            toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": false,
-                "progressBar": false,
-                "positionClass": "toast-top-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "500",
-                "timeOut": "1000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            };
+            Swal.fire({
+                icon: "success",
+                title: "Confirmation link sent to your mail.",
+                showConfirmButton: false,
+                timer: 1500
+            });
         </script>
+    }
+
+    @if (TempData["MailConfirmed"] != null && (bool)TempData["MailConfirmed"] == true)
+    {
+        <script>
+            Swal.fire({
+                icon: "success",
+                title: "Mail has been confirmed. Your data has been received and will be processed within 2 to 3 working days.",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script> 
+    }
+
+    @if (TempData["SubscriptionSuccess"] != null && (bool)TempData["SubscriptionSuccess"] == true)
+    {
+        <script>
+            Swal.fire({
+                icon: "success",
+                title: "You're now subscribed to our newsletter! Get ready for exclusive updates and offers delivered straight to your inbox.",
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script> 
     }
 }
 

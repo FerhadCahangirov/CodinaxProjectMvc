@@ -2,10 +2,12 @@
 using CodinaxProjectMvc.Business.Abstract.PersistenceServices;
 using CodinaxProjectMvc.Constants;
 using CodinaxProjectMvc.DataAccess.Models.Identity;
+using CodinaxProjectMvc.DataList;
 using CodinaxProjectMvc.ViewModel.InstructorVm;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CodinaxProjectMvc.Areas.Auth.Controllers
 {
@@ -24,6 +26,7 @@ namespace CodinaxProjectMvc.Areas.Auth.Controllers
 
         public IActionResult Apply()
         {
+            ViewBag.Countries = new SelectList(Countries.All, nameof(Country.Name), nameof(Country.Name));
             return View();
         }
 
@@ -34,6 +37,7 @@ namespace CodinaxProjectMvc.Areas.Auth.Controllers
                 
             if (!result)
             {
+                ViewBag.Countries = new SelectList(Countries.All, nameof(Country.Name), nameof(Country.Name));
                 return View(instructorApplyVm);
             }
 
