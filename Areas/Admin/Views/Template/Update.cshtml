@@ -203,9 +203,13 @@
                 document.getElementById('course-location-input').value = response.courseLocation;
 
                 const courseStartingDate = new Date(response.courseStartingDate);
+                console.log(response.courseStartingDate," - ", courseStartingDate);
+                courseStartingDate.setDate(courseStartingDate.getDate() + 1);
                 setDateInputValue('course-starting-date-input', courseStartingDate);
 
                 const courseFinishingDate = new Date(response.courseFinishingDate);
+                courseFinishingDate.setDate(courseFinishingDate.getDate() + 1);
+
                 setDateInputValue('course-finishing-date-input', courseFinishingDate);
 
                 document.getElementById('future-job-description-input').value = response.futureJobDescription;
