@@ -5,8 +5,19 @@ namespace CodinaxProjectMvc.DataAccess.Models
 {
     public class LectureFile : FileEntity
     {
+        public string? Title { get; set; }
+
+        public bool IsCompleted { get; set; }
+
+        public FileType FileType { get; set; }
+
+        public string? FileSize { get; set; }
+
+        public string? Duration { get; set; }
+
+        public string? Url { get; set; }
+
         public Lecture Lecture { get; set; }
-        public FileTypes FileType { get; set; }
 
         public LectureFile()
         {

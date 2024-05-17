@@ -1,0 +1,74 @@
+﻿@model CourseStudentsAssignVm
+
+
+
+<script>
+    function filterSearch(id) {
+        const searchFilter = document.getElementById('searchFilter').value;
+
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Students/AssignStudentsPartial/${id}`,
+            data: {
+                searchFilter: searchFilter,
+            },
+            success: (data) => {
+                $('#assignStudentsContainer').html(data);
+
+                localStorage.setItem("studentSearchFilter", searchFilter);
+                localStorage.setItem("studentStatusFilter", statusText);
+            },
+            error: (xhr, status, error) => {
+                console.error(`Error! ${error}`);
+            }
+        });
+    }
+</script>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+<div class="main-content">
+    <div class="container mt-7">
+        <div class="row">
+            <div class="col-lg-6">
+                <a href="/Admin/Courses/Single/@Model.Course.Id">
+                    <h2 class="mb-5"> <i class="fa-solid fa-arrow-left ml-2"></i> Back To Cdourse</h2>
+                </a>
+            </div>
+            <div class="col-lg-6 ">
+                <h2 class="mb-5 text-right">Assign To <strong>@Model.Course.CourseCode - @Model.Course.Title </strong></h2>
+
+            </div>
+        </div>
+        <!-- Table -->
+
+        <div class="row">
+
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="add-course-info">
+                                    <div class="input-block">
+                                        <input type="text" class="form-control" placeholder="Search Student..."
+                                               id="searchFilter" oninput="filterSearch('@Model.Course.Id')">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="assignStudentsContainer">
+                        <partial name="AssignStudentsPartial" model="@Model">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+

@@ -161,7 +161,57 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
 
         #endregion
 
-        
+        #region Manage Course Students Controllers
+        [HttpPost]
+        public async Task<IActionResult> AssignStudentsPartial([FromRoute] Guid id, string? searchFilter)
+        {
+            var data = await _courseService.GetAssignableStudentsAsync(id, searchFilter);
+
+            if (data.StudentPagination?.Items?.Count() == 0)
+            {
+                ViewBag.Message = "Nothing Found";
+            }
+
+            return PartialView(viewName: "AssignStudentPartial", data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AssignStudents([FromRoute] Guid id)
+        {
+
+            var data = await _courseService.GetAssignableStudentsAsync(id);
+
+            if (data.StudentPagination?.Items?.Count() == 0)
+            {
+                ViewBag.Message = "Nothing Found";
+            }
+
+            return View(data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignStudent(Guid courseId, Guid studentId)
+        {
+            bool result = await _courseService.AssignStudentAsync(courseId, studentId);
+            return new JsonResult(new { success = result });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReassignStudent(Guid courseId, Guid studentId)
+        {
+            await _courseService.ReassignStudentAsync(courseId, studentId);
+            return new JsonResult(new { success = true });
+        }
+
+        public async Task<IActionResult> CourseStudentsPartial(Guid id, string? searchFilter)
+        {
+            CourseStudentsVm courseStudentsVm = await _courseService.GetCourseStudentsAsync(id, searchFilter);
+            return PartialView(viewName: "CourseStudentsPartial", courseStudentsVm);
+        }
+
+        #endregion
+
+
     }
 }
 

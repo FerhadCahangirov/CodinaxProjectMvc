@@ -104,82 +104,65 @@
 
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active " id="modules" role="tabpanel" aria-labelledby="modules-tab">
+
+        <script>
+            function applyGradientColors() {
+                const courseCardImages = document.querySelectorAll('.course_card_image');
+                courseCardImages.forEach((element, index) => {
+                    const gradientIndex = Math.floor(index % 6) + 1;
+                    element.classList.add('gradient-' + gradientIndex);
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                applyGradientColors();
+            });
+        </script>
+
         <div class="items_grid">
-            <div class="course_card">
-                <div class="course_card_content">
-                    <a title="EU9-Java Programming" href="#">
-                        <div class="course_card_image" style="--aspect-ratio: 16/9;">
-                            <img class="object-fit-cover" src="https://platform-prod-images.s3.us-east-1.amazonaws.com/thumbnails/course-thumbnails/usmDm5pxY8RAe2zS1688690736392/egPaKxm4p5kOeTm4Wig15J3ZDMg7d3Oq_v320x180.png" alt="EU9-Java Programming">
-                        </div>
-                    </a>
-                    <div class="course_card_text">
-                        <div class="course_card_top">
-                            <a class="course_card_title" title="EU9-Java Programming" href="#"> EU9-Java Programming </a>
 
-                            <button class="button_bookmark">
-                                <i class="fa-regular fa-star align-middle"></i>
-                            </button>
-                        </div>
-                        <div class="course_card_bottom">
-                            <div class="course_modules_info">
-                                <i class="fa-solid fa-shapes align-middle"></i>
-                                66 modules
+
+            @foreach (var item in Model.Course.Modules)
+            {
+                <div class="course_card" id="item_@item.Id">
+                    <div class="course_card_content">
+                        <a title="EU9-Java Programming" href="javascript:void(0)">
+                            <div class="course_card_image" style="--aspect-ratio: 16/9;">
+                                <div class="course_card_image_title">
+                                    @item.Title
+                                </div>
+                            </div>
+                        </a>
+                        <div class="course_card_text">
+                            <div class="course_card_top">
+                                <a class="course_card_title" title="@item.Title" href="javascript:void(0)"> @item.Title</a>
+
+                                <button class="button_bookmark">
+                                    <i class="fa-solid fa-trash align-middle"></i>
+                                </button>
+                                <a class="button_bookmark"
+                                   style="display: flex;justify-content: center;align-items: center;"
+                                   href="javascript:void(0)">
+                                    <i class="fa-solid fa-pen-to-square align-middle"></i>
+                                </a>
+                            </div>
+                            <div class="course_card_bottom">
+                                <div class="course_modules_info">
+                                    <div class="course_modules_info_inner">
+                                        <div>
+                                            <i class="fa-solid fa-shapes align-middle mr-2"></i>
+                                            @item.Lectures.Count() lectures
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="course_card">
-                <div class="course_card_content">
-                    <a title="EU9-Java Programming" href="#">
-                        <div class="course_card_image" style="--aspect-ratio: 16/9;">
-                            <img class="object-fit-cover" src="https://platform-prod-images.s3.us-east-1.amazonaws.com/thumbnails/course-thumbnails/ElQnwN1oz49b55mc1688690754841/pKIlNtBs9LelQ4TOqSIwGSVsXnfPppJW_v320x180.png" alt="EU9-Java Programming">
-                        </div>
-                    </a>
-                    <div class="course_card_text">
-                        <div class="course_card_top">
-                            <a class="course_card_title" title="EU9-Java Programming" href="#">  EU9-Interview Preparation </a>
-
-                            <button class="button_bookmark">
-                                <i class="fa-regular fa-star align-middle"></i>
-                            </button>
-                        </div>
-                        <div class="course_card_bottom">
-                            <div class="course_modules_info">
-                                <i class="fa-solid fa-shapes align-middle"></i>
-                                12 modules
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="course_card">
-                <div class="course_card_content">
-                    <a title="EU9-Java Programming" href="#">
-                        <div class="course_card_image" style="--aspect-ratio: 16/9;">
-                            <img class="object-fit-cover" src="https://platform-prod-images.s3.us-east-1.amazonaws.com/thumbnails/course-thumbnails/eRhV9Evo7XJxW4WE1688690768654/m6jcIIsErloczUisjupa3ewlbFsmgbZZ_v320x180.png" alt="EU9-Java Programming">
-                        </div>
-                    </a>
-                    <div class="course_card_text">
-                        <div class="course_card_top">
-                            <a class="course_card_title" title="EU9-Java Programming" href="#">  EU9-Test Automation  </a>
-
-                            <button class="button_bookmark">
-                                <i class="fa-regular fa-star align-middle"></i>
-                            </button>
-                        </div>
-                        <div class="course_card_bottom">
-                            <div class="course_modules_info">
-                                <i class="fa-solid fa-shapes align-middle"></i>
-                                52 modules
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
+
 
     </div>
     <div class="tab-pane fade" id="instructors" role="tabpanel" aria-labelledby="instructors-tab">
@@ -200,12 +183,27 @@
             BaseUrl = Model.BaseUrl
         }" />
     </div>
-    <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="students-tab">Students</div>
+    <div class="tab-pane fade" id="students" role="tabpanel" aria-labelledby="students-tab">
+        <div class="tabs__wrapper">
+            <ul class="tabs__container__between">
+                <li class="ns-tabs--tab">
+                    <a class="ns-tab--item ns-tab--item-active"> Students </a>
+                </li>
+                <li class="ns-tabs--tab">
+                    <a class="ns-tab--item ns-tab--item--button" href="/Admin/Courses/AssignStudents/@Model.Course.Id"> + Assign Student </a>
+                </li>
+            </ul>
+        </div>
+
+        <partial name="CourseStudentsPartial" model="new CourseStudentsVm(){
+            Students = Model.Course.Students.Where(UserQueryFilters<Student>.GeneralFilter),
+            Course = Model.Course,
+            BaseUrl = Model.BaseUrl
+        }" />
+    </div>
 </div>
 
-
-
-
 <div class="items_grid collapse" id="modules">
+    
 </div>
 

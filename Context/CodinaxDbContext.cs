@@ -1,6 +1,4 @@
-﻿
-using CodinaxProjectMvc.DataAccess;
-using CodinaxProjectMvc.DataAccess.Models;
+﻿using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.DataAccess.Models.Common;
 using CodinaxProjectMvc.DataAccess.Models.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -22,7 +20,6 @@ namespace CodinaxProjectMvc.Context
         public DbSet<Course> Courses { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Lecture> Lectures { get; set; }
-        public DbSet<LectureVideo> LectureVideos { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Reply> Replies { get; set; }
         public DbSet<Review> Reviews { get; set; }

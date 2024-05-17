@@ -1,0 +1,54 @@
+﻿@model ModuleUpdateVm
+
+@section Scripts{
+    @if (TempData["ModuleUpdatedSuccess"] != null && (bool)TempData["ModuleUpdatedSuccess"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Module has been updated.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+}
+
+<div class="widget-content multistep-form">
+    <fieldset class="field-card">
+        <form method="post">
+            <div class="add-course-info">
+                <div class="add-course-inner-header">
+                    <h4>Update Module</h4>
+                </div>
+                <div class="add-course-form">
+                    <div class="input-block">
+                        <input asp-for="Id" hidden>
+                        <span class="text-danger" asp-validation-for="Id"></span>
+                    </div>
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="Title"></label>
+                        <input type="text" class="form-control" asp-for="Title">
+                        <span class="text-danger" asp-validation-for="Title"></span>
+                    </div>
+
+                    <div class="widget-btn">
+                        <button class="btn btn-info-light next_btn" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</div>

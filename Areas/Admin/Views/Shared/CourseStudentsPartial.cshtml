@@ -1,0 +1,164 @@
+﻿@model CourseStudentsVm
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    var $j = jQuery.noConflict();
+
+    function reassignStudent(courseId, studentId) {
+        $j.ajax({
+            type: 'POST',
+            url: `/Admin/Courses/ReassignStudent`,
+            data: {
+                courseId: courseId,
+                studentId: studentId
+            },
+            success: (response) => {
+                $j(`#table_${studentId}`).fadeOut(500);
+
+                showToaster('Student Reassigned');
+            },
+            error: (xhr, status, error) => {
+                console.error(`Error! ${error}`);
+            }
+        });
+    }
+
+    function showToaster(content) {
+        Command: toastr["success"](content);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    }
+</script>
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Fullname</th>
+                <th scope="col">Reassign</th>
+                <th scope="col">View</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Students)
+            {
+                <tr id="table_@item.Id">
+                    <th scope="row">
+                        <div class="media align-items-center">
+                            <a href="#" class="avatar rounded-circle mr-3">
+                                @if (string.IsNullOrEmpty(item.ProfileImageName) && string.IsNullOrEmpty(item.ProfileImagePathOrContainer))
+                                {
+                                    <img alt="Image placeholder" src="/Assets/panel/assets/img/icon/user.png">
+
+                                }
+                                else
+                                {
+                                    <img alt="Image placeholder" src="@Model.BaseUrl/@item.ProfileImagePathOrContainer/@item.ProfileImageName">
+
+                                }
+                            </a>
+                            <div class="media-body">
+                                <span class="mb-0 text-sm">@item.FirstName @item.LastName</span>
+                            </div>
+                        </div>
+                    </th>
+                    <td>
+                        <a class="btn btn-sm btn-icon-only text-light" onclick="reassignStudent('@Model.Course.Id', '@item.Id')">
+                            <i class="fa-regular fa-window-restore"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-icon-only text-light" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop_@item.Id">
+                            <i class="fa-solid fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                <div class="modal modal-bg fade" id="staticBackdrop_@item.Id" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog container py-5 h-100 centered">
+                        <div class="modal-custom-content row d-flex justify-content-center align-items-center h-100">
+                            <div class="col col-lg-6 mb-4 mb-lg-0">
+                                <div class="card bg-none mb-3" style="border-radius: .5rem;">
+                                    <div class="row g-0">
+                                        <div class="col-md-4 gradient-custom text-center text-white"
+                                             style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+
+                                            @if (string.IsNullOrEmpty(item.ProfileImageName) && string.IsNullOrEmpty(item.ProfileImagePathOrContainer))
+                                            {
+                                                <img src="/Assets/panel/assets/img/icon/user.png"
+                                                     alt="Avatar" class="img-fluid my-5" style="width: 80px;object-fit:cover" />
+                                            }
+                                            else
+                                            {
+
+                                                <img src="@Model.BaseUrl/@item.ProfileImagePathOrContainer/@item.ProfileImageName"
+                                                     alt="Avatar" class="img-fluid my-5" style="width: 80px; height: 80px;object-fit:cover; border-radius: 50%" />
+                                            }
+
+                                            <h5>@item.FirstName @item.LastName</h5>
+                                            <p>@item.UserName</p>
+                                            <a href="/Admin/Students/Profile/@item.Id">
+                                                <i class="far fa-edit mb-5 pointer"></i>
+
+                                            </a>
+                                        </div>
+                                        <div class="col-md-8 bg-white border-rad">
+                                            <div class="card-body p-4">
+                                                <h6>Information</h6>
+                                                <hr class="mt-0 mb-4">
+                                                <div class="row pt-1">
+                                                    <div class="col-6 mb-3">
+                                                        <h6>Email</h6>
+                                                        <p class="text-muted">@item.Email</p>
+                                                    </div>
+                                                    <div class="col-6 mb-3">
+                                                        <h6>Phone</h6>
+                                                        <p class="text-muted">@item.PhoneNumber</p>
+                                                    </div>
+                                                </div>
+                                                <h6>Participated Courses</h6>
+                                                <hr class="mt-0 mb-4">
+                                                @foreach (var course in item.Courses)
+                                                {
+                                                    <div class="row pt-1">
+                                                        <div class="col-6 mb-3">
+                                                            <h6>Code</h6>
+                                                            <p class="text-muted">@course.CourseCode</p>
+                                                        </div>
+                                                        <div class="col-6 mb-3">
+                                                            <h6>Title</h6>
+                                                            <p class="text-muted">@course.Title</p>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </tbody>
+    </table>
+</div>
+

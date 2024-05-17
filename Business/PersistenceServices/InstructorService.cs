@@ -6,6 +6,7 @@ using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.DataAccess.Models.Identity;
 using CodinaxProjectMvc.Managers.Abstract;
 using CodinaxProjectMvc.ViewModel;
+using CodinaxProjectMvc.ViewModel.CourseVm;
 using CodinaxProjectMvc.ViewModel.InstructorVm;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -53,7 +54,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             PaginationVm<IEnumerable<Instructor>> pagination = new PaginationVm<IEnumerable<Instructor>>(paginatedData);
 
-            pagination.BaseUrl = _configuration[ConfigurationStrings.AzureBasuUrl];
+            pagination.BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl];
 
             return pagination;
         }
@@ -75,7 +76,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             PaginationVm<IEnumerable<Instructor>> pagination = new PaginationVm<IEnumerable<Instructor>>(paginatedData);
 
-            pagination.BaseUrl = _configuration[ConfigurationStrings.AzureBasuUrl];
+            pagination.BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl];
 
             return Task.FromResult(pagination);
         }
@@ -270,6 +271,45 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             await _mailManager.SendConfirmationMailAsync(token, instructor);
 
             return true;
+        } 
+
+        #region Instructor Panel Services
+        
+        public async Task<IEnumerable<Course>> GetInstructorCoursesAsync(string email)
+        {
+            Instructor? instructor = await _instructorReadRepository.Table
+                .Include(x => x.Courses)
+                .FirstOrDefaultAsync(x => x.Email == email);
+
+            if (instructor == null) return Enumerable.Empty<Course>();
+
+            return instructor.Courses; 
         }
+
+        public async Task<CourseSingleVm> GetInstructorCourseSingleAsync(string email, Guid id)
+        {
+            Instructor? instructor = await _instructorReadRepository.Table
+                .Include(x => x.Courses)
+                .ThenInclude(x => x.Template)
+                .Include(x => x.Courses)
+                .ThenInclude(x => x.Modules)
+                .ThenInclude(x => x.Lectures)
+                .FirstOrDefaultAsync(x => x.Email == email);
+
+            Course? course = instructor?.Courses.FirstOrDefault(x => x.Id == id);
+
+            if (course == null) return new CourseSingleVm();
+
+            CourseSingleVm courseSingleVm = new CourseSingleVm()
+            {
+                BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl],
+                Course = course,
+                Template = course.Template,
+            };
+
+            return courseSingleVm;
+        }
+
+        #endregion
     }
 }

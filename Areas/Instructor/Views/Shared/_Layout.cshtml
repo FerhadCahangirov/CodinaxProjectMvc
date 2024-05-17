@@ -1,10 +1,25 @@
-﻿<!DOCTYPE html>
+﻿@using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
+@inject IReadRepository<Instructor> _instructorReadRepository;
+
+<!DOCTYPE html>
 <html lang="en">
+
+@{
+    var isCoursesPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "courses";
+}
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Codinax Instructor Panel</title>
+
+    
+        <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/css/bootstrap.min.css">
+
+    <!-- Add CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/css/table.css" />
+    <link rel="stylesheet" href="/Assets/panel/assets/css/cardcss.css" />
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="/Assets/panel/assets/css/style.css" />
@@ -13,6 +28,20 @@
     <link rel="stylesheet" href="/Assets/panel/assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/Assets/panel/assets/plugins/fontawesome/css/all.min.css">
 
+    <!-- Feather CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/css/feather.css">
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/plugins/select2/css/select2.min.css">
+
+    
+    <!-- Loader CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/css/loader.css">
+
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
 </head>
 
 <body>
@@ -20,7 +49,7 @@
     <div class="container_view">
         <!-- Side Bar -->
         <div class="sidemenu_position">
-            <div class="active-overlay pointer"></div>
+            <div class="active-overlay pointer" onclick="toggleMenu()"></div>
 
             <div class="sidemenu_view">
                 <div class="sidemenu_bar">
@@ -49,7 +78,14 @@
                     <div class="sidemenu_user">
                         <div class="sidemenu_profile">
                             <div _ngcontent-vdy-c47="" class="avatar-container" style="width: 120px; height: 120px;" bis_skin_checked="1">
-                                <div _ngcontent-vdy-c47="" class="avatar-content" style="text-align: center; border-radius: 100%; text-transform: uppercase; color: rgb(255, 255, 255); background-color: rgb(127, 140, 141); font: 40px / 120px Helvetica, Arial, sans-serif;" bis_skin_checked="1"> FF </div>
+                                <div _ngcontent-vdy-c47="" class="avatar-content" style="text-align: center; border-radius: 100%; text-transform: uppercase; color: rgb(255, 255, 255); background-color: rgb(127, 140, 141); font: 40px / 120px Helvetica, Arial, sans-serif;" bis_skin_checked="1">
+                                    @(
+                                    _instructorReadRepository.Table.Single(x => x.Email == User.Identity.Name).FirstName[0].ToString().ToUpper()
+                                    )
+                                    @(
+                                    _instructorReadRepository.Table.Single(x => x.Email == User.Identity.Name).LastName[0].ToString().ToUpper()
+                                    )
+                                  </div>
                             </div>
                         </div>
 
@@ -60,7 +96,8 @@
                         </div>
 
                         <div class="sidemenu_profile_info">
-                            Hi Farhad
+                            Hi @(
+                                _instructorReadRepository.Table.Single(x => x.Email == User.Identity.Name).FirstName)
 
                             <button class="sidemenu_button_dropdown" aria-expanded="false" data-theme-state="light">
                                 <svg-icon height="20px" width="20px">
@@ -71,42 +108,17 @@
                     </div>
 
                     <ul class="sidemenu_items">
+                        
                         <li>
-                            <a class="sidemenu_link" href="/member/dashboard">
+                            <a class="@(isCoursesPage ? "sidemenu_link_active" : "") sidemenu_link" href="/Instructor/Courses/Index">
                                 <svg-icon height="20px" width="20px">
-                                    <i class="fa-solid fa-house align-middle"></i>
-                                </svg-icon>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="sidemenu_link sidemenu_link_active" href="/member/dashboard">
-                                <svg-icon height="20px" width="20px">
-                                    <i class="fa-solid fa-display align-middle"></i>
+                                    <i class="fa-solid fa-layer-group align-middle"></i>
                                 </svg-icon>
                                 <span>Courses</span>
                             </a>
                         </li>
-                        <li>
-                            <a class="sidemenu_link" href="/member/dashboard">
-                                <svg-icon height="20px" width="20px">
-                                    <i class="fa-regular fa-bookmark align-middle"></i>
-                                </svg-icon>
-                                <span>Bookmark</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="sidemenu_link" href="/member/dashboard">
-                                <svg-icon height="20px" width="20px">
-                                    <i class="fa-regular fa-calendar align-middle"></i>
-                                </svg-icon>
-                                <span>Calendar</span>
-                            </a>
-                        </li>
+                        
                     </ul>
-
-
-
                 </div>
             </div>
 
@@ -123,6 +135,9 @@
                     </div>
                 </div>
             </div>
+            <div class="pointer burger-icon ml-2" onclick="toggleMenu()">
+               <i class="fa-solid fa-bars-staggered align-middle"></i>
+            </div>
             <div class="header_right">
                 <div class="popup-wrapper">
                     <button class="ml-2 settings-button">
@@ -138,8 +153,42 @@
             </div>
         </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		
+		<!-- Bootstrap Core JS -->
+		<script src="/Assets/panel/assets/js/bootstrap.bundle.min.js"></script>
+
+		<!-- Select2 JS -->
+	  	<script src="/Assets/panel/assets/plugins/select2/js/select2.min.js"></script>
+
+	  	<!-- Ckeditor JS -->
+	  	<script src="/Assets/panel/assets/js/ckeditor.js"></script>
+
+	  	<!-- Bootstrap Tagsinput JS -->
+		<script src="/Assets/panel/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
+		
+
+		<!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
 
+
+    <script>
+        function toggleMenu() {
+            const sidemenu = document.querySelector('.sidemenu_position');
+            if (sidemenu.classList.contains('active')) {
+                sidemenu.classList.remove('active');
+            }
+            else {
+                sidemenu.classList.add('active');
+
+            }
+        }
+    </script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

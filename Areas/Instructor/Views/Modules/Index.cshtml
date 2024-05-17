@@ -1,0 +1,521 @@
+﻿@model Module
+
+@section Scripts{
+    @if (TempData["LectureCreatedSuccess"] != null && (bool)TempData["LectureCreatedSuccess"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Lecture has been created.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+
+    @if (TempData["LectureFileCreatedSuccess"] != null && (bool)TempData["LectureFileCreatedSuccess"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Lecture file has been added.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+}
+
+<nav>
+    <ol class="breadcrumb p-0 my-1 mb-3">
+        <li class="breadcrumb_item">
+            <div class="link_breadcrumb">
+                <a href="/member/dashboard">Instructor</a>
+                <div class="slash">/</div>
+            </div>
+        </li>
+        <li class="breadcrumb_item active">
+            Courses
+        </li>
+    </ol>
+</nav>
+
+<div class="program_container">
+    <div class="program_container_section">
+        <div class="line"></div>
+
+        <div class="program_container_flex">
+            <div style="flex: none;">
+            </div>
+
+            <div class="program_info_container" id="courseSingleNoVideo">
+                <div class="program_info">
+                    <h1 class="title_info"> EU9-Java Programming </h1>
+                    <p class="description_info">
+                        With this course, you will gain foundational knowledge in Java, which is the first step towards becoming a successful JAVA SDET. The course starts with basic Java concepts such as variables and methods used to keep track of information. It will be followed by conditional statements, loops, and arrays for processing and solving complex problems. At the end of the source, you will learn advanced Java concepts such as Object-Oriented Programming and Data structures.
+                    </p>
+                </div>
+                <div class="program_meta_info">
+                    <div class="meta_info">
+                        <div class="meta_info_icon">
+                            <i class="fa-regular fa-file align-middle"></i>
+                        </div>
+                        <div class="meta_info_text">
+                            <p class="meta_title">9 Modlues</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="line"></div>
+    </div>
+</div>
+
+<div class="tabs--wrapper display-flex align-items-center justify-space-between">
+    <ul class="tabs--container">
+        <li class="tabs--tab">
+            <a class="tab--item tab--item-active"> Modules </a>
+        </li>
+        <!---->
+        <!---->
+    </ul>
+
+    <div class="display-flex">
+
+        <div class="button-set text-right">
+            <div class="toggle-module-button">
+                <a href="/Instructor/Lectures/Create/@Model.Id">
+                    Add +
+                </a>
+            </div>
+        </div>
+
+        <div class="button-set text-right">
+            <button class="toggle-module-button"> Expand All </button>
+        </div>
+
+
+    </div>
+
+    <!---->
+</div>
+
+<div class="items_list">
+    <div class="item_container">
+        <div class="item_card_wrapper item_card_wrapper_open">
+            <div id="module_expander" class="item_card_header item_card_header_open">
+                <div class="card_header_left">
+                    INTELLIJ ULTIMATE IDE INSTALLATION INSTRUCTIONS
+                </div>
+                <div class="card_header_right">
+
+                    @* <Header Bookmark Icon> *@
+
+                    @* <button class="card_header_button button_bookmark bookmark_outline">
+                    <i class="fa-regular fa-bookmark"></i>
+                    </button> *@
+
+                    @*! </Header Icon> *@
+
+                    <button class="card_header_button button_bookmark bookmark_outline">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+
+                    <button class="card_header_button expand_button">
+                        <i class="fa-solid fa-arrow-down"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="cards_content_wrapper ">
+                <div class="items_cards_container">
+                    <div class="item_card_content">
+                        <div class="card_wrapper_content">
+                            <div class="item_content_container item_indent_0">
+                                <div class="content_left_container">
+                                    <div class="icon_content_item">
+                                        <i class="fa-solid fa-link"></i>
+                                    </div>
+                                    <div class="text_card_info_content">
+                                        <a class="text_card_info_title"> Jetbrains Account SignUp Link </a>
+                                        <span class="text_card_info_small">Url</span>
+                                    </div>
+                                </div>
+                                <div class="content_right_container">
+
+                                    @* <Bookmark Icon> *@
+
+                                    @* <button class="card_header_button button_bookmark bookmark_outline">
+                                    <i class="fa-regular fa-bookmark"></i>
+                                    </button> *@
+
+                                    @*! </Bookmark Icon> *@
+
+
+                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+
+                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item_card_content">
+                        <div class="card_wrapper_content">
+                            <div class="item_content_container item_indent_0">
+                                <div class="content_left_container">
+                                    <div class="icon_content_item">
+                                        <i class="fa-solid fa-video"></i>
+                                    </div>
+                                    <div class="text_card_info_content">
+                                        <a class="text_card_info_title">  IntelliJ Ultimate Easy Installation SetUp for Windows-2  </a>
+                                        <span class="text_card_info_small"> Video ● 4m 54s </span>
+                                    </div>
+                                </div>
+                                <div class="content_right_container">
+                                    @* <VideoStatus Progress> *@
+
+                                    @* <div class="video-status">
+                                    <div class="progress-wrapper progress-auto">
+                                    <div data-height="12px" class="progress-container">
+                                    <div role="progressbar" class="progress-bar" style="width: 38%;"></div>
+                                    </div>
+                                    <span class="progress-info">38%</span>
+                                    </div>
+                                    </div> *@
+
+                                    @*! </VideoStatus Progress> *@
+
+
+                                    @* <ViewLater Icon> *@
+
+                                    @* <button class="card_header_button button_bookmark bookmark_outline">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false" style="pointer-events: none; display: inherit; width: 24px; height: 24px;"><path d="M22 13h-4v4h-2v-4h-4v-2h4V7h2v4h4v2zm-8-6H2v1h12V7zM2 12h8v-1H2v1zm0 4h8v-1H2v1z"></path></svg>
+                                    </button> *@
+
+                                    @*! </ViewLater Icon> *@
+
+
+                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+
+                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="item_container">
+        <div class="item_card_wrapper item_card_wrapper_open">
+            <div id="module_expander" class="item_card_header item_card_header_open">
+                <div class="card_header_left">
+                    INTELLIJ ULTIMATE IDE INSTALLATION INSTRUCTIONS
+                </div>
+                <div class="card_header_right">
+
+                    @* <Header Bookmark Icon> *@
+
+                    @* <button class="card_header_button button_bookmark bookmark_outline">
+                    <i class="fa-regular fa-bookmark"></i>
+                    </button> *@
+
+                    @*! </Header Icon> *@
+
+                    <button class="card_header_button button_bookmark bookmark_outline">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+
+                    <button class="card_header_button expand_button">
+                        <i class="fa-solid fa-arrow-down"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="cards_content_wrapper ">
+                <div class="items_cards_container">
+                    <div class="item_card_content">
+                        <div class="card_wrapper_content">
+                            <div class="item_content_container item_indent_0">
+                                <div class="content_left_container">
+                                    <div class="icon_content_item">
+                                        <i class="fa-solid fa-link"></i>
+                                    </div>
+                                    <div class="text_card_info_content">
+                                        <a class="text_card_info_title"> Jetbrains Account SignUp Link </a>
+                                        <span class="text_card_info_small">Url</span>
+                                    </div>
+                                </div>
+                                <div class="content_right_container">
+
+                                    @* <Bookmark Icon> *@
+
+                                    @* <button class="card_header_button button_bookmark bookmark_outline">
+                                    <i class="fa-regular fa-bookmark"></i>
+                                    </button> *@
+
+                                    @*! </Bookmark Icon> *@
+
+
+                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+
+                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item_card_content">
+                        <div class="card_wrapper_content">
+                            <div class="item_content_container item_indent_0">
+                                <div class="content_left_container">
+                                    <div class="icon_content_item">
+                                        <i class="fa-solid fa-video"></i>
+                                    </div>
+                                    <div class="text_card_info_content">
+                                        <a class="text_card_info_title">  IntelliJ Ultimate Easy Installation SetUp for Windows-2  </a>
+                                        <span class="text_card_info_small"> Video ● 4m 54s </span>
+                                    </div>
+                                </div>
+                                <div class="content_right_container">
+                                    @* <VideoStatus Progress> *@
+
+                                    @* <div class="video-status">
+                                    <div class="progress-wrapper progress-auto">
+                                    <div data-height="12px" class="progress-container">
+                                    <div role="progressbar" class="progress-bar" style="width: 38%;"></div>
+                                    </div>
+                                    <span class="progress-info">38%</span>
+                                    </div>
+                                    </div> *@
+
+                                    @*! </VideoStatus Progress> *@
+
+
+                                    @* <ViewLater Icon> *@
+
+                                    @* <button class="card_header_button button_bookmark bookmark_outline">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false" style="pointer-events: none; display: inherit; width: 24px; height: 24px;"><path d="M22 13h-4v4h-2v-4h-4v-2h4V7h2v4h4v2zm-8-6H2v1h12V7zM2 12h8v-1H2v1zm0 4h8v-1H2v1z"></path></svg>
+                                    </button> *@
+
+                                    @*! </ViewLater Icon> *@
+
+
+                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+
+                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @foreach(Lecture lecture in Model.Lectures)
+    {
+        <div class="item_container">
+            <div class="item_card_wrapper item_card_wrapper_open">
+                <div id="module_expander" class="item_card_header item_card_header_open">
+                    <div class="card_header_left">
+                        @lecture.Title
+                    </div>
+                    <div class="card_header_right">
+
+                        @* <Header Bookmark Icon> *@
+
+                        @* <button class="card_header_button button_bookmark bookmark_outline">
+                    <i class="fa-regular fa-bookmark"></i>
+                    </button> *@
+
+                        @*! </Header Icon> *@
+
+                        <button class="card_header_button button_bookmark bookmark_outline">
+                            <a href="/Instructor/Lectures/AddFile/@Model.Id/@lecture.Id">
+                                <i class="fa-solid fa-plus"></i>
+                            </a>
+                        </button>
+                        <button class="card_header_button button_bookmark bookmark_outline">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button class="card_header_button button_bookmark bookmark_outline">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+
+                        <button class="card_header_button expand_button">
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </button>
+                    </div>
+                </div>
+
+                @if (lecture.LectureFiles != null && lecture.LectureFiles.Count() > 0)
+                {
+                    <div class="cards_content_wrapper ">
+                        <div class="items_cards_container">
+
+                            @foreach (LectureFile lectureFile in lecture.LectureFiles)
+                            {
+                                if (lectureFile.FileType == FileType.MP4)
+                                {
+                                    <div class="item_card_content">
+                                        <div class="card_wrapper_content">
+                                            <div class="item_content_container item_indent_0">
+                                                <div class="content_left_container">
+                                                    <div class="icon_content_item">
+                                                        <i class="fa-solid fa-video"></i>
+                                                    </div>
+                                                    <div class="text_card_info_content">
+                                                        <a class="text_card_info_title"> @lectureFile.Title </a>
+                                                        <span class="text_card_info_small"> Video ● @lectureFile.Duration </span>
+                                                    </div>
+                                                </div>
+                                                <div class="content_right_container">
+
+                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </button>
+
+                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (lectureFile.FileType == FileType.URL)
+                                {
+                                    <div class="item_card_content">
+                                        <div class="card_wrapper_content">
+                                            <div class="item_content_container item_indent_0">
+                                                <div class="content_left_container">
+                                                    <div class="icon_content_item">
+                                                        <i class="fa-solid fa-link"></i>
+                                                    </div>
+                                                    <div class="text_card_info_content">
+                                                        <a class="text_card_info_title" href="@lectureFile.Url"> @lectureFile.Title </a>
+                                                        <span class="text_card_info_small">Url</span>
+                                                    </div>
+                                                </div>
+                                                <div class="content_right_container">
+                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </button>
+
+                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (lectureFile.FileType == FileType.TXT)
+                                {
+                                    <div class="item_card_content">
+                                        <div class="card_wrapper_content">
+                                            <div class="item_content_container item_indent_0">
+                                                <div class="content_left_container">
+                                                    <div class="icon_content_item">
+                                                        <i class="fa-solid fa-file"></i>
+                                                    </div>
+                                                    <div class="text_card_info_content">
+                                                        <a class="text_card_info_title" href="@lectureFile.Url"> @lectureFile.Title </a>
+                                                        <span class="text_card_info_small">Txt ● @lectureFile.FileSize</span>
+                                                    </div>
+                                                </div>
+                                                <div class="content_right_container">
+                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </button>
+
+                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (lectureFile.FileType == FileType.PDF)
+                                {
+                                    <div class="item_card_content">
+                                        <div class="card_wrapper_content">
+                                            <div class="item_content_container item_indent_0">
+                                                <div class="content_left_container">
+                                                    <div class="icon_content_item">
+                                                        <i class="fa-solid fa-file"></i>
+                                                    </div>
+                                                    <div class="text_card_info_content">
+                                                        <a class="text_card_info_title" href="@lectureFile.Url"> @lectureFile.Title </a>
+                                                        <span class="text_card_info_small">Pdf ● @lectureFile.FileSize</span>
+                                                    </div>
+                                                </div>
+                                                <div class="content_right_container">
+                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </button>
+
+                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                }
+                
+            </div>
+        </div>
+    }
+
+</div>

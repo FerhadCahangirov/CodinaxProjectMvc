@@ -1,5 +1,6 @@
 ﻿using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.ViewModel;
+using CodinaxProjectMvc.ViewModel.CourseVm;
 using CodinaxProjectMvc.ViewModel.InstructorVm;
 
 namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
@@ -87,5 +88,9 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         Task<PaginationVm<IEnumerable<Instructor>>> GetAssignableInstructorPaginationAsync(string? searchFilter = null);
 
         Task<bool> DeleteAsync(Guid id);
+
+        Task<IEnumerable<Course>> GetInstructorCoursesAsync(string email);
+
+        Task<CourseSingleVm> GetInstructorCourseSingleAsync(string email, Guid id);
     }
 }

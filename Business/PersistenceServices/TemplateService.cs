@@ -184,7 +184,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             TemplatesVm templatesVm = new TemplatesVm()
             {
                 Templates = templates,
-                BaseUrl = _configuration[ConfigurationStrings.AzureBasuUrl]
+                BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl]
             };
 
             return Task.FromResult(templatesVm);
@@ -202,7 +202,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             TemplateUpdateVm templateUpdateVm = template.FromTemplate_ToTemplateUpdateVm();
 
-            templateUpdateVm.BaseUrl = _configuration[ConfigurationStrings.AzureBasuUrl];
+            templateUpdateVm.BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl];
 
             return templateUpdateVm;
         }
@@ -567,7 +567,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             {
                 Tools = template.Tools.Where(x => !x.IsDeleted).OrderBy(OrderFilters<Tool>.ByCreatedDate),
                 TemplateId = template.Id,
-                BaseUrl = _configuration[ConfigurationStrings.AzureBasuUrl]
+                BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl]
             };
 
             return vm;

@@ -1,5 +1,4 @@
 ﻿using CodinaxProjectMvc.Business.Abstract.PersistenceServices;
-using CodinaxProjectMvc.DataAccess;
 using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 using CodinaxProjectMvc.DataAccess.Abstract.Storages;
 using CodinaxProjectMvc.DataAccess.Models;
@@ -19,6 +18,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly IReadRepository<Category> _categoryReadRepository;
         private readonly IWriteRepository<Course> _courseWriteRepository;
         private readonly IReadRepository<Instructor> _instructorReadRepository;
+        private readonly IReadRepository<Student> _studentReadRepository;
         private readonly IReadRepository<Template> _templateReadRepository;
         private readonly IWriteRepository<Advice> _adviceWriteRepository;
         private readonly IReadRepository<Advice> _adviceReadRepository;
@@ -28,6 +28,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly IConfiguration _configuration;
         private readonly IActionContextAccessor _actionContextAccessor;
         private readonly IInstructorService _instructorService;
+        private readonly IStudentService _studentService;
 
         #region Constructor for Dependency Injection
         public CourseService(
@@ -41,7 +42,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             IReadRepository<Template> templateReadRepository,
             IWriteRepository<Advice> adviceWriteRepository,
             IReadRepository<Advice> adviceReadRepository,
-            IInstructorService instructorService)
+            IInstructorService instructorService,
+            IStudentService studentService)
         {
             _courseReadRepository = courseReadRepository;
             _courseWriteRepository = courseWriteRepository;
@@ -54,6 +56,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             _adviceWriteRepository = adviceWriteRepository;
             _adviceReadRepository = adviceReadRepository;
             _instructorService = instructorService;
+            _studentService = studentService;
         }
 
         #endregion
@@ -308,6 +311,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 .Include(x => x.Students)
                 .Include(x => x.Category)
                 .Include(x => x.Template)
+                .Include(x => x.Modules).ThenInclude(x => x.Lectures).ThenInclude(x => x.LectureFiles)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (course == null)
@@ -393,7 +397,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
         #endregion
 
-        #region Manage Instructors Services
+        #region Managing Instructors Services
         public async Task<CourseInstructorsVm> GetCourseInstructorsAsync(Guid id, string? searchFilter)
         {
             var course = await _courseReadRepository.Table
@@ -493,6 +497,105 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
         #endregion
 
+        #region  Managing Students Services
 
+        public async Task<CourseStudentsVm> GetCourseStudentsAsync(Guid id, string? searchFilter)
+        {
+            var course = await _courseReadRepository.Table
+                .Include(x => x.Students)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (course == null) return new CourseStudentsVm();
+
+            var query = course.Students.Where(UserQueryFilters<Student>.GeneralFilter).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchFilter))
+            {
+                searchFilter = searchFilter.ToLower();
+                query = query.Where(x => x.UserName.ToLower().Contains(searchFilter) ||
+                    x.FirstName.ToLower().Contains(searchFilter) ||
+                    x.LastName.ToLower().Contains(searchFilter) ||
+                    x.Email.ToLower().Contains(searchFilter));
+            }
+
+            var students = await query.ToListAsync();
+
+            CourseStudentsVm studentsVm = new CourseStudentsVm()
+            {
+                Students = students,
+                Course = course,
+                BaseUrl = _configuration["BaseUrl:Azure"]
+            };
+
+            return studentsVm;
+        }
+
+        public async Task<CourseStudentsAssignVm> GetAssignableStudentsAsync(Guid id, string? searchFilter = null)
+        {
+            Course? course = await _courseReadRepository.Table
+                .Include(x => x.Students)
+                .Include(x => x.Students)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (course == null) return new CourseStudentsAssignVm();
+
+            var pagination = await _studentService.GetAssignableStudentPaginationAsync(searchFilter);
+
+            CourseStudentsAssignVm courseStudentsAssignVm = new CourseStudentsAssignVm()
+            {
+                StudentPagination = pagination,
+                Course = course,
+            };
+
+            return courseStudentsAssignVm;
+
+        }
+
+
+        public async Task<bool> ReassignStudentAsync(Guid courseId, Guid studentId)
+        {
+            Course? course = await _courseReadRepository.Table
+                .Include(x => x.Students)
+                .FirstOrDefaultAsync(x => x.Id == courseId);
+
+            if (course == null) return false;
+
+            Student? student = await _studentReadRepository.GetSingleAsync(x => x.Id == studentId);
+            if (student == null) return false;
+
+            if (course.Students.Any(x => x.Id == student.Id))
+            {
+                List<Student> students = course.Students.ToList();
+                students.Remove(student);
+                course.Students = students;
+                _courseWriteRepository.Update(course);
+                await _courseWriteRepository.SaveAsync();
+            }
+
+            return true;
+        }
+
+        public async Task<bool> AssignStudentAsync(Guid courseId, Guid studentId)
+        {
+            Course? course = await _courseReadRepository.Table
+                .Include(x => x.Students)
+                .FirstOrDefaultAsync(x => x.Id == courseId);
+
+            if (course == null) return false;
+
+            Student? student = await _studentReadRepository.GetSingleAsync(x => x.Id == studentId);
+            if (student == null) return false;
+
+            List<Student> students = course.Students.ToList();
+            students.Add(student);
+
+            course.Students = students;
+
+            _courseWriteRepository.Update(course);
+            await _courseWriteRepository.SaveAsync();
+
+            return true;
+        }
+
+        #endregion
     }
 }

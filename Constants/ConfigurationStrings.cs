@@ -2,7 +2,7 @@
 {
     public class ConfigurationStrings
     {
-        public const string AzureBasuUrl = "BaseUrl:Azure";
+        public const string AzureBaseUrl = "BaseUrl:Azure";
         public const string DomainUrl = "BaseUrl:Domain";
         public const string AzureAccessKey = "Storage:Azure";
 

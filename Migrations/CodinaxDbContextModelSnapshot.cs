@@ -22,7 +22,33 @@ namespace CodinaxProjectMvc.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Advice", b =>
+            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.About", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Abouts");
+                });
+
+            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Advice", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,32 +84,6 @@ namespace CodinaxProjectMvc.Migrations
                     b.HasIndex("SecondAdvicedCourseId");
 
                     b.ToTable("Advices");
-                });
-
-            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.About", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Abouts");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Category", b =>
@@ -392,25 +392,13 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsArchived")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsPublic")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("LectureNumber")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("LectureVideoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SectionId")
+                    b.Property<Guid>("ModuleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
@@ -421,9 +409,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LectureVideoId");
-
-                    b.HasIndex("SectionId");
+                    b.HasIndex("ModuleId");
 
                     b.ToTable("Lectures");
                 });
@@ -437,13 +423,22 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Duration")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileSize")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FileType")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsArchived")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
@@ -455,43 +450,20 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<string>("PathOrContainer")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LectureId");
 
                     b.ToTable("LectureFile");
-                });
-
-            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.LectureVideo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FileName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PathOrContainer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LectureVideos");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Module", b =>
@@ -512,10 +484,8 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -988,7 +958,7 @@ namespace CodinaxProjectMvc.Migrations
                     b.HasDiscriminator().HasValue("Student");
                 });
 
-            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Advice", b =>
+            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Advice", b =>
                 {
                     b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "FirstAdvicedCourse")
                         .WithMany()
@@ -1044,21 +1014,13 @@ namespace CodinaxProjectMvc.Migrations
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Lecture", b =>
                 {
-                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.LectureVideo", "LectureVideo")
-                        .WithMany()
-                        .HasForeignKey("LectureVideoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Module", "Section")
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Module", "Module")
                         .WithMany("Lectures")
-                        .HasForeignKey("SectionId")
+                        .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("LectureVideo");
-
-                    b.Navigation("Section");
+                    b.Navigation("Module");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.LectureFile", b =>

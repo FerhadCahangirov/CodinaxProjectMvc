@@ -1,0 +1,184 @@
+﻿@model CourseSingleVm
+
+@{
+    ViewData["Title"] = "Single";
+}
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+
+    @if (TempData["ModuleCreatedSuccess"] != null && (bool)TempData["ModuleCreatedSuccess"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Module has been created.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+}
+
+<script>
+    function applyGradientColors() {
+        const courseCardImages = document.querySelectorAll('.course_card_image');
+        courseCardImages.forEach((element, index) => {
+            const gradientIndex = Math.floor(index % 6) + 1;
+            element.classList.add('gradient-' + gradientIndex);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        applyGradientColors();
+    });
+</script>
+
+
+<div class="program_container">
+    <div class="program_container_section">
+        <div class="line"></div>    
+
+        <div class="program_container_flex">
+            <div style="flex: none;">
+
+
+                @if (!string.IsNullOrEmpty(Model.Course.Template.CourseFragmentVideoPathOrContainer) && !string.IsNullOrEmpty(Model.Course.Template.CourseFragmentVideoName))
+                {
+                    <div class="program_image" style="--aspect-ratio: 16/9;">
+
+                        <video src="@Model.BaseUrl/@Model.Course.Template.CourseFragmentVideoPathOrContainer/@Model.Course.Template.CourseFragmentVideoName" controls></video>
+                    </div>
+
+                }
+
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Course.Template.CourseFragmentVideoPathOrContainer) && !string.IsNullOrEmpty(Model.Course.Template.CourseFragmentVideoName))
+            {
+                <div class="program_info_container">
+                    <div class="program_info">
+                        <h1 class="title_info"> @Model.Course.CourseCode-@Model.Course.Title </h1>
+                        <p class="description_info"> @Model.Course.Template.Description </p>
+                    </div>
+                    <div class="program_meta_info">
+                        <div class="meta_info">
+                            <div class="meta_info_icon">
+                                <i class="fa-regular fa-file align-middle"></i>
+                            </div>
+                            <div class="meta_info_text">
+                                <p class="meta_title">9 Modlues</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <div class="program_info_container" id="courseSingleNoVideo">
+                    <div class="program_info">
+                        <h1 class="title_info"> @Model.Course.CourseCode-@Model.Course.Title </h1>
+                        <p class="description_info"> @Model.Course.Template.Description </p>
+                    </div>
+                    <div class="program_meta_info">
+                        <div class="meta_info">
+                            <div class="meta_info_icon">
+                                <i class="fa-regular fa-file align-middle"></i>
+                            </div>
+                            <div class="meta_info_text">
+                                <p class="meta_title">9 Modlues</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+
+        <div class="line"></div>
+    </div>
+</div>
+
+<div class="tabs--wrapper display-flex align-items-center justify-space-between">
+    <ul class="tabs--container">
+        <li class="tabs--tab ">
+            <h2 class="tab--item tab--item-active"> Modules </h2>
+        </li>
+        <!---->
+        <!---->
+    </ul>
+
+    <div class="button-set text-right">
+        <a class="toggle-module-button" style="display: block; height: 35px;" href="/Instructor/Modules/Create/@Model.Course.Id"> + Add Module </a>
+    </div>
+
+    <!---->
+</div>
+
+<div class="items_grid">
+
+
+    @foreach (var item in Model.Course.Modules)
+    {
+        <div class="course_card" id="item_@item.Id">
+            <div class="course_card_content">
+                <a title="EU9-Java Programming" href="/Instructor/Modules/index/@item.Id">
+                    <div class="course_card_image" style="--aspect-ratio: 16/9;">
+                        <div class="course_card_image_title">
+                            @item.Title
+                        </div>
+                    </div>
+                </a>
+                <div class="course_card_text">
+                    <div class="course_card_top">
+                        <a class="course_card_title" title="@item.Title" href="/Instructor/Modules/index/@item.Id"> @item.Title</a>
+
+                        <button class="button_bookmark">
+                            <i class="fa-solid fa-trash align-middle"></i>
+                        </button>
+                        <a class="button_bookmark"
+                           style="display: flex;justify-content: center;align-items: center;"
+                           href="/Instructor/Modules/Update/@item.Id">
+                            <i class="fa-solid fa-pen-to-square align-middle"></i>
+                        </a>
+                    </div>
+                    <div class="course_card_bottom">
+                        <div class="course_modules_info">
+                            <div class="course_modules_info_inner">
+                                <div>
+                                    <i class="fa-solid fa-shapes align-middle mr-2"></i>
+                                    @item.Lectures.Count() lectures
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+<div class="items_grid collapse" id="modules">
+</div>
+

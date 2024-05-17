@@ -73,7 +73,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             PaginationVm<IEnumerable<Feature>> data = new PaginationVm<IEnumerable<Feature>>(total, features);
 
-            data.BaseUrl = _configuration[ConfigurationStrings.AzureBasuUrl];
+            data.BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl];
 
             return data;
         }

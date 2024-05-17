@@ -85,6 +85,8 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <param name="id">The unique identifier associated with the confirmation email.</param>
         /// <returns>A task representing the asynchronous operation, returning true if the email sending is successful, otherwise false.</returns>
         public Task<bool> SendConfirmationMailAsync(Guid id);
+
+        Task<PaginationVm<IEnumerable<Student>>> GetAssignableStudentPaginationAsync(string? searchFilter = null);
     }
 
 }

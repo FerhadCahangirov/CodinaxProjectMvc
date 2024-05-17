@@ -24,6 +24,8 @@ namespace CodinaxProjectMvc.Registrations
             services.AddScoped<IContactService, ContactService>();
             services.AddScoped<ITemplateService, TemplateService>();
             services.AddScoped<ISubscriberService, SubscriberService>();
+            services.AddScoped<IModuleService, ModuleService>();
+            services.AddScoped<ILectureService, LectureService>();
 
             services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
             services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));

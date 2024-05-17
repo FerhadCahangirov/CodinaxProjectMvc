@@ -24,13 +24,19 @@ namespace CodinaxProjectMvc.DataAccess.Storages
             }
         }
 
+        public BlobItem GetFile(string pathOrContainerName, string fileName)
+        {
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(pathOrContainerName);
+            return _blobContainerClient.GetBlobs().SingleOrDefault(x => x.Name == fileName);
+        }
+
         public List<string> GetFiles(string containerName)
         {
             _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
             return _blobContainerClient.GetBlobs().Select(b => b.Name).ToList();
         }
 
-        public bool HasFile(string containerName, string fileName)
+        public new bool HasFile(string containerName, string fileName)
         {
             _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
             return _blobContainerClient.GetBlobs().Any(b => b.Name == fileName);

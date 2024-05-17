@@ -8,5 +8,6 @@
         public const string StudentProfileImages = "student-profile-images";
         public const string FeatureIcons = "feature-icons";
         public const string CourseToolIcons = "course-tool-icons";
+        public const string LectureFiles = "lecture-files";
     }
 }

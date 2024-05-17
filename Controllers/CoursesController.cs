@@ -1,5 +1,4 @@
 ﻿using CodinaxProjectMvc.Context;
-using CodinaxProjectMvc.DataAccess;
 using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.ViewModel.CourseVm;

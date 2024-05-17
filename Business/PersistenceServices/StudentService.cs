@@ -263,5 +263,27 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             return true;
         }
+
+        public Task<PaginationVm<IEnumerable<Student>>> GetAssignableStudentPaginationAsync(string? searchFilter = null)
+        {
+            var query = _studentReadRepository.Table.Where(UserQueryFilters<Student>.GeneralFilter);
+
+            if (!string.IsNullOrEmpty(searchFilter))
+            {
+                searchFilter = searchFilter.ToLower();
+                query = query.Where(x => x.UserName.ToLower().Contains(searchFilter) ||
+                    x.FirstName.ToLower().Contains(searchFilter) ||
+                    x.LastName.ToLower().Contains(searchFilter) ||
+                    x.Email.ToLower().Contains(searchFilter));
+            }
+
+            var paginatedData = query.ToList();
+
+            PaginationVm<IEnumerable<Student>> pagination = new PaginationVm<IEnumerable<Student>>(paginatedData);
+
+            pagination.BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl];
+
+            return Task.FromResult(pagination);
+        }
     }
 }

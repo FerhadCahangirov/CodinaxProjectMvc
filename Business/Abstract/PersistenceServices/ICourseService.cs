@@ -45,6 +45,29 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <returns>A task representing the asynchronous operation, returning the view model containing details of the course.</returns>
         Task<CourseSingleVm> GetCourseSingleAsync(Guid id);
 
+
+
+        
+
+        /// <summary>
+        /// Deletes a course asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the course to delete.</param>
+        /// <returns>A task representing the asynchronous operation, returning true if the deletion is successful, otherwise false.</returns>
+        Task<bool> DeleteCourseAsync(Guid id);
+
+        /// <summary>
+        /// Changes the showcase status of a course asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the course.</param>
+        /// <returns>A task representing the asynchronous operation, returning true if the change is successful, otherwise false.</returns>
+        Task<bool> ChangeShowcaseAsync(Guid id);
+
+        Task<PrimaryCourseActionReturnType> SetCoursePrimaryAsync(Guid id);
+
+
+        #region Managing Course Instructors
+
         /// <summary>
         /// Assigns an instructor to a course asynchronously.
         /// </summary>
@@ -69,23 +92,22 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <returns>A task representing the asynchronous operation, returning the view model containing course instructors.</returns>
         Task<CourseInstructorsVm> GetCourseInstructorsAsync(Guid id, string? searchFilter);
 
-        /// <summary>
-        /// Deletes a course asynchronously.
-        /// </summary>
-        /// <param name="id">The unique identifier of the course to delete.</param>
-        /// <returns>A task representing the asynchronous operation, returning true if the deletion is successful, otherwise false.</returns>
-        Task<bool> DeleteCourseAsync(Guid id);
-
-        /// <summary>
-        /// Changes the showcase status of a course asynchronously.
-        /// </summary>
-        /// <param name="id">The unique identifier of the course.</param>
-        /// <returns>A task representing the asynchronous operation, returning true if the change is successful, otherwise false.</returns>
-        Task<bool> ChangeShowcaseAsync(Guid id);
-
-        Task<PrimaryCourseActionReturnType> SetCoursePrimaryAsync(Guid id);
-
         Task<CourseInstructorsAssignVm> GetAssignableInstructorsAsync(Guid id, string? searchFilter = null);
+
+        #endregion
+
+        #region Managing Course Students
+
+        Task<bool> AssignStudentAsync(Guid courseId, Guid studentId);
+
+        Task<bool> ReassignStudentAsync(Guid courseId, Guid studentId);
+
+        Task<CourseStudentsVm> GetCourseStudentsAsync(Guid id, string? searchFilter);
+
+        Task<CourseStudentsAssignVm> GetAssignableStudentsAsync(Guid id, string? searchFilter = null);
+
+        #endregion
+
     }
 
     /// <summary>
