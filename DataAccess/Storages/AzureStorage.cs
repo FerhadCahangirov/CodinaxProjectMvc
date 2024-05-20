@@ -60,6 +60,20 @@ namespace CodinaxProjectMvc.DataAccess.Storages
             }
             return datas;
         }
+
+        public async Task<(string fileName, string pathOrContainerName)> UploadAsync(string containerName, IFormFile file)
+        {
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            await _blobContainerClient.CreateIfNotExistsAsync();
+            await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.Blob);
+
+            string newFileName = await FileRenameAsync(containerName, file.FileName, HasFile);
+            BlobClient blobClient = _blobContainerClient.GetBlobClient(newFileName);
+
+            await blobClient.UploadAsync(file.OpenReadStream());
+
+            return (newFileName, containerName);
+        }
     }
 
     public class Storage

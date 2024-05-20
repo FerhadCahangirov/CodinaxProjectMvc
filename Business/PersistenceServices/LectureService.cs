@@ -8,7 +8,6 @@ using CodinaxProjectMvc.Enums;
 using CodinaxProjectMvc.Helpers;
 using CodinaxProjectMvc.ViewModel.LectureVm;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.EntityFrameworkCore;
 using NReco.VideoInfo;
 
 namespace CodinaxProjectMvc.Business.PersistenceServices
@@ -19,6 +18,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly IWriteRepository<Lecture> _lectureWriteRepository;
         private readonly IWriteRepository<LectureFile> _lectureFileWriteRepository;
         private readonly IReadRepository<LectureFile> _lectureFileReadRepository;
+        private readonly IReadRepository<Module> _moduleReadRepository;
         private readonly IModuleService _moduleService;
         private readonly IActionContextAccessor _actionContextAccessor;
         private readonly IAzureStorage _storage;
@@ -32,7 +32,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             IConfiguration configuration,
             IActionContextAccessor actionContextAccessor,
             IWriteRepository<LectureFile> lectureFileWriteRepository,
-            IReadRepository<LectureFile> lectureFileReadRepository)
+            IReadRepository<LectureFile> lectureFileReadRepository,
+            IReadRepository<Module> moduleReadRepository)
         {
             _lectureReadRepository = lectureReadRepository;
             _lectureWriteRepository = lectureWriteRepository;
@@ -42,6 +43,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             _actionContextAccessor = actionContextAccessor;
             _lectureFileWriteRepository = lectureFileWriteRepository;
             _lectureFileReadRepository = lectureFileReadRepository;
+            _moduleReadRepository = moduleReadRepository;
         }
 
 
@@ -115,11 +117,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             (string fileName, string pathOrContainerName) = uploadedFiles[0];
 
-            string filePath = $"{_configuration[ConfigurationStrings.AzureBaseUrl]}/{pathOrContainerName}/{fileName}";
-
-            FFProbe ffProbe = new FFProbe();
-            MediaInfo videoInfo = ffProbe.GetMediaInfo(filePath);
-            string duration = videoInfo.Duration.FormatTimeSpan();
+            string duration = GetVideoDuration(fileName, pathOrContainerName);
 
             LectureFile lectureFile = new LectureFile()
             {
@@ -158,25 +156,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             (string fileName, string pathOrContainerName) = uploadedFiles[0];
 
-            string filePath = $"{_configuration[ConfigurationStrings.AzureBaseUrl]}/{pathOrContainerName}/{fileName}";
-
-            BlobItem blobItem = _storage.GetFile(AzureContainerNames.LectureFiles, fileName);
-
-            long? sizeinB = blobItem.Properties.ContentLength;
-
-            string fileSize = $"{sizeinB}B";
-
-            if (sizeinB > 1024)
-            {
-                long? sizeinKB = sizeinB / 1024;
-                fileSize = $"{sizeinKB}KB";
-
-                if (sizeinKB > 1024)
-                {
-                    long? sizeinMB = sizeinB / (1024 * 1024);
-                    fileSize = $"{sizeinMB}MB";
-                }
-            }
+            string fileSize = GetFileSize(fileName);
 
             LectureFile lectureFile = new LectureFile()
             {
@@ -244,6 +224,156 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             await _lectureWriteRepository.SaveAsync();
             
             return true;
+        }
+
+        public async Task<LectureFileUpdateVm> GetLectureFileUpdateDataAsync(Guid lectureFileId)
+        {
+            LectureFile? lectureFile = await _lectureFileReadRepository.GetSingleAsync(x => x.Id == lectureFileId);
+            if (lectureFile == null) return new LectureFileUpdateVm();
+
+            LectureFileUpdateVm lectureFileUpdateVm = new LectureFileUpdateVm()
+            {
+                LectureFileId = lectureFileId,
+                Title = lectureFile.Title,
+                FileType = lectureFile.FileType,
+                BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl]
+            };
+
+            if(lectureFile.FileType == FileType.URL)
+            {
+                lectureFileUpdateVm.Url = lectureFile.Url;
+            }
+            else
+            {
+                lectureFileUpdateVm.FileName = lectureFile.FileName;
+                lectureFileUpdateVm.FilePathOrContainer = lectureFile.PathOrContainer;
+            }
+
+
+            return lectureFileUpdateVm;
+        }
+
+
+        public async Task<bool> UpdateLectureFileAsync(LectureFileUpdateVm lectureFileUpdateVm)
+        {
+            if(!_actionContextAccessor.ActionContext.ModelState.IsValid)
+            {
+                return false;
+            }
+
+            LectureFile? lectureFile = await _lectureFileReadRepository.GetSingleAsync(x => x.Id == lectureFileUpdateVm.LectureFileId);
+            
+            if (lectureFile == null)
+            {
+                _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(LectureFileUpdateVm.LectureFileId), "Lecture File Not Found.");
+                return false;
+            }
+
+            lectureFile.Title = lectureFileUpdateVm.Title;
+
+            switch (lectureFile.FileType)
+            {
+                case FileType.URL:
+
+                    if(lectureFileUpdateVm.Url == null)
+                    {
+                        _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(LectureFileUpdateVm.Url), "Url is required.");
+                        return false;
+                    }
+
+                    lectureFile.Url = lectureFileUpdateVm.Url;
+                    break;
+                case FileType.PDF:
+                    
+                    if(lectureFileUpdateVm.File != null)
+                    {
+                        await _storage.DeleteAsync(lectureFileUpdateVm.FilePathOrContainer, lectureFileUpdateVm.FileName);
+
+                        (string fileName, string pathOrContainerName) = await _storage.UploadAsync(AzureContainerNames.LectureFiles, lectureFileUpdateVm.File);
+
+                        string fileSize = GetFileSize(fileName);
+
+                        lectureFile.FileSize = fileSize;
+                        lectureFile.FileName = fileName;
+                        lectureFile.PathOrContainer = pathOrContainerName;
+                    }
+
+                    break;
+                case FileType.TXT:
+
+                    if (lectureFileUpdateVm.File != null)
+                    {
+                        await _storage.DeleteAsync(lectureFileUpdateVm.FilePathOrContainer, lectureFileUpdateVm.FileName);
+
+                        (string fileName, string pathOrContainerName) = await _storage.UploadAsync(AzureContainerNames.LectureFiles, lectureFileUpdateVm.File);
+
+                        string fileSize = GetFileSize(fileName);
+
+                        lectureFile.FileSize = fileSize;
+                        lectureFile.FileName = fileName;
+                        lectureFile.PathOrContainer = pathOrContainerName;
+                    }
+
+                    break;
+                case FileType.MP4:
+                    
+                    if(lectureFileUpdateVm.File != null)
+                    {
+                        await _storage.DeleteAsync(lectureFileUpdateVm.FilePathOrContainer, lectureFileUpdateVm.FileName);
+
+                        (string fileName, string pathOrContainerName) = await _storage.UploadAsync(AzureContainerNames.LectureFiles, lectureFileUpdateVm.File);
+
+                        string duration = GetVideoDuration(fileName, pathOrContainerName);
+
+                        lectureFile.Duration = duration;
+                        lectureFile.FileName = fileName;
+                        lectureFile.PathOrContainer = pathOrContainerName;
+                    }
+
+                    break;
+                default:
+                    _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(LectureFileUpdateVm.FileType), "No Such File Type Found.");
+                    return false;
+            }
+
+            _lectureFileWriteRepository.Update(lectureFile);
+            await _lectureFileWriteRepository.SaveAsync();
+
+            return true;
+        }
+
+
+        private string GetFileSize(string fileName)
+        {
+            BlobItem blobItem = _storage.GetFile(AzureContainerNames.LectureFiles, fileName);
+
+            long? sizeinB = blobItem.Properties.ContentLength;
+
+            string fileSize = $"{sizeinB}B";
+
+            if (sizeinB > 1024)
+            {
+                long? sizeinKB = sizeinB / 1024;
+                fileSize = $"{sizeinKB}KB";
+
+                if (sizeinKB > 1024)
+                {
+                    long? sizeinMB = sizeinB / (1024 * 1024);
+                    fileSize = $"{sizeinMB}MB";
+                }
+            }
+
+            return fileSize;
+        }
+
+        private string GetVideoDuration(string pathOrContainerName, string fileName)
+        {
+            string filePath = $"{_configuration[ConfigurationStrings.AzureBaseUrl]}/{pathOrContainerName}/{fileName}";
+
+            FFProbe ffProbe = new FFProbe();
+            MediaInfo videoInfo = ffProbe.GetMediaInfo(filePath);
+
+            return videoInfo.Duration.FormatTimeSpan();
         }
 
         public async Task<LectureUpdateVm> GetLectureUpdateDataAsync(Guid id)

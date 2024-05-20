@@ -9,9 +9,9 @@
     --NS_secondary-color-hover: #00b9ed;
     --NS_secondary-color-active: #24d0ff;
     --NS_secondary-color-rgb: 0,201,255;
-    --NS-SideMenu-margin-right: 0px;
+    --SideMenu-margin-right: 0px;
     --NS_Background-Color: #fff;
-    --NS-Header-Background: #e8e7e7;
+    --Header-Background: #e8e7e7;
     --NS_Card-Header-Open-Bg: #eeeef0;
     --NS_Card-Header-Button-Bg: #eaeaea;
     --NS_Card-Header-Button-Expand-Bg: #eaeaea;
@@ -34,7 +34,7 @@
     --quiz-times-up-bg: #fff
 }
 
-.NS-Light-Theme, :root, [data-theme=light] {
+.Light-Theme, :root, [data-theme=light] {
     --progress-container-bg: rgba(0,0,0,0.2);
     --text-color: #000;
     --text-color-revert: #fff;
@@ -107,7 +107,7 @@
     --labelQuestionWrapperBG: #e9e4ff
 }
 
-.NS-Light-Theme, [data-theme=light] {
+.Light-Theme, [data-theme=light] {
     --conversation-sidebar-color: #0e0c3a;
     --student-calendar-text-color: #000;
     --attempts-points-background-color: #e3f3fe;
@@ -142,7 +142,7 @@
     --quiz-times-up-bg: #fff
 }
 
-.NS-Dark-Theme, [data-theme=dark] {
+.Dark-Theme, [data-theme=dark] {
     --mt-dashboard-dropdown: #212121;
     --quiz-times-up-bg: #222;
     --search-result-bg: #1b1b1b;
@@ -413,7 +413,7 @@ a {
 }
 
 .sidemenu_items {
-    --NS-SideMenu-margin-right: 0;
+    --SideMenu-margin-right: 0;
     font-weight: 500;
     pointer-events: auto;
     outline: 0;
@@ -474,7 +474,8 @@ a {
 
 .main_container {
     margin-left: 0;
-    transition: all .2s ease
+    transition: all .2s ease;
+    min-height: 100vh;
 }
 
 @media (min-width: 1200px) {
@@ -664,8 +665,8 @@ li.breadcrumb_item {
 
 @media (min-width: 1200px) {
     .program_info_container {
-        --NS-program-info-container-margin-left: 40px;
-        margin-left: var(--NS-program-info-container-margin-left);
+        --program-info-container-margin-left: 40px;
+        margin-left: var(--program-info-container-margin-left);
     }
 
     #courseSingleNoVideo {
@@ -675,8 +676,8 @@ li.breadcrumb_item {
 
 @media (max-width: 1200px) {
     .program_info_container {
-        --NS-program-info-container-margin-top: 40px;
-        margin-top: var(--NS-program-info-container-margin-top);
+        --program-info-container-margin-top: 40px;
+        margin-top: var(--program-info-container-margin-top);
     }
 }
 
@@ -686,8 +687,8 @@ li.breadcrumb_item {
 
 @media (min-width: 1200px) {
     .program_info {
-        --NS-program-info-margin-left: 80px;
-        margin-right: var(--NS-program-info-margin-left);
+        --program-info-margin-left: 80px;
+        margin-right: var(--program-info-margin-left);
     }
 }
 
@@ -1887,7 +1888,6 @@ li.breadcrumb_item {
     padding: 0 30px;
     border-radius: 4px;
     transition: all .2s ease;
-    cursor: pointer;
     background: var(--item-card-header-bg);
 }
 
@@ -1910,8 +1910,6 @@ li.breadcrumb_item {
     --NS_Content-Size: 55px;
 }
 
-
-
 .card_header_left {
     flex: 1;
     line-height: normal;
@@ -1919,6 +1917,7 @@ li.breadcrumb_item {
     align-items: center;
     font-weight: 500;
     color: var(--header-color-text);
+    cursor: pointer;
 }
 
 @media screen and (max-width: 480px) {
@@ -2069,7 +2068,7 @@ li.breadcrumb_item {
 }
 
 @media screen and (max-width: 600px) and (min-width: 280px) {
-    .video-status{
+    .video-status {
         position: absolute;
         bottom: 4px;
         width: 145px !important;
@@ -2095,7 +2094,7 @@ li.breadcrumb_item {
     border-radius: 20px;
 }
 
-.progress-info{
+.progress-info {
     display: block;
     flex: none;
     margin-left: 6px;
@@ -2105,7 +2104,6 @@ li.breadcrumb_item {
 
 .expand_button:hover {
     background-color: var(--NS_Card-Header-Button-Expand-Bg-Hover);
-
 }
 
 .display-flex.justify-space-between, .justify-space-between.breadcrumb {
@@ -2125,47 +2123,6 @@ li.breadcrumb_item {
     align-items: center;
 }
 
-.tab--item, .tabs--container, .tabs--tab {
-    height: 100%;
-}
-
-
-.tabs--container {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-
-.tab--item, .tabs--container, .tabs--tab {
-    height: 100%;
-}
-
-.tabs--tab {
-    margin-right: 35px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-}
-
-
-.tab--item, .tabs--tab {
-    display: flex;
-    align-items: center;
-}
-
-.tab--item-active {
-    color: var(--tab-active-color);
-}
-
-.tab--item {
-    cursor: pointer;
-    color: var(--tab-default-color);
-}
-
 .form-label, .text-right {
     text-align: right !important;
 }
@@ -2183,4 +2140,322 @@ li.breadcrumb_item {
 
     .toggle-module-button:hover {
         background: #00000015;
+    }
+
+
+
+
+/* Bookmark */
+
+
+
+
+
+.tabs--wrapper {
+    height: auto;
+    margin-bottom: 30px;
+}
+
+.tabs-member-wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (min-width: 992px) {
+    .tabs--wrapper {
+        height: auto;
+    }
+}
+
+
+.tab--item, .tabs--container, .tabs--tab {
+    height: 100%;
+}
+
+.tabs--container {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.tab--item, .tabs--tab {
+    display: flex;
+    align-items: center;
+}
+
+.tabs--tab {
+    margin-right: 35px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.tab--item, .tabs--container, .tabs--tab {
+    height: 100%;
+}
+
+
+.tab--item {
+    cursor: pointer;
+    color: var(--tab-default-color);
+}
+
+tab--item.active {
+    color: var(--tab-active-color);
+}
+
+.tabs-member-wrap .tab--item {
+    color: var(--NS_secondary-color);
+}
+
+.tabs-member-wrap .active {
+    color: var(--bookmark-meta-icon-color);
+}
+
+.tab--item, .tabs--tab {
+    display: flex;
+    align-items: center;
+}
+
+.history-link {
+    background: var(--NS_secondary-color);
+    padding: 5px;
+    border-radius: 20px;
+    display: flex;
+    height: 33px;
+    width: 89px;
+    color: #fff;
+    justify-content: center;
+    cursor: pointer;
+}
+
+
+
+.empty_area {
+    color: #002333;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    vertical-align: baseline;
+    font-size: 13px;
+    line-height: 18px;
+    padding: 26px 0;
+    text-align: center;
+    border: 2px dashed #dcdee1;
+    width: 100%;
+    display: block;
+}
+
+    .empty_area.empty_text {
+        display: flex;
+        align-items: center;
+        min-height: var(--empty-text-size);
+        flex-direction: column;
+        justify-content: center;
+    }
+
+
+.empty_area_message {
+    color: var(--empty-area-color);
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.empty_area_button, .empty_area_message {
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+    text-align: center;
+    vertical-align: baseline;
+    line-height: 20px;
+}
+
+
+/*Bookmark Cards*/
+
+.bookmark_wrapper {
+    border-radius: 4px;
+    box-shadow: var(--bookmark-box-shadow);
+    padding: 20px;
+    background: var(--bookmark-wrapper-bg);
+    transition: all .2s ease;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    position: relative;
+}
+
+
+@media (min-width: 768px) {
+    .bookmark_wrapper {
+        align-items: center;
+        flex-direction: row;
+    }
+}
+
+.bookmark_wrapper {
+    margin-top: 15px;
+}
+
+.bookmark_meta_container {
+    display: flex;
+    flex: 1;
+    width: 100%;
+}
+
+.bookmark_meta_icon {
+    flex: none;
+}
+
+.meta-icon-wrapper {
+    --bookmark-icon-size: 45px;
+    width: var(--bookmark-icon-size);
+    height: var(--bookmark-icon-size);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s ease;
+    color: var(--bookmark-meta-icon-color);
+}
+
+.bookmark_meta_text {
+    margin-left: 20px;
+    flex: 1;
+}
+
+.bookmark_card_meta_title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+    .bookmark_card_meta_title a {
+        cursor: pointer;
+        word-break: break-all;
+    }
+
+.bookmark-card-meta_links {
+    font-size: 13px;
+    color: rgba(var(--text-color-rgb), .5);
+    font-weight: 500;
+    line-height: 16px;
+}
+
+.bookmark-card-date {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.bookmark-card-action, .bookmark-card-date {
+    flex: none;
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.bookmark-card-action, .bookmark-card-date {
+    flex: none;
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+}
+
+
+
+.accordion--dropdown {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    align-self: center;
+    color: var(--text-color);
+}
+
+    .accordion--dropdown.active {
+        background: rgba(0, 0, 0, .06);
+        opacity: 1;
+    }
+
+
+.bookmark_wrapper:hover .bookmark_card_meta_title a, .bookmark_wrapper:hover .bookmark_meta_icon i {
+    color: var(--NS_secondary-color)
+}
+/*Bookmark Dropdown*/
+.overlay_panel {
+    pointer-events: none;
+    box-sizing: border-box;
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    position: absolute;
+    z-index: -1000;
+    opacity: 0;
+    right: 18px;
+    bottom: -40px;
+}
+
+    .overlay_panel.active {
+        pointer-events: auto;
+        z-index: 1000;
+        opacity: 1;
+    }
+
+.dropdown-content {
+    min-width: 17rem;
+    padding: .5rem 0;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 10px 20px rgba(64, 64, 64, .15);
+}
+
+.dropdown--dashboard-content {
+    background: var(--mt-dashboard-dropdown);
+    width: 200px;
+}
+
+
+.dropdown-item {
+    pointer-events: auto;
+    font-size: 13px;
+    font-weight: 400;
+    background: transparent !important;
+    color: rgba(0, 0, 0, .87);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 35px;
+    height: 35px;
+    padding: 0 16px;
+    text-align: left;
+    text-decoration: none;
+    max-width: 100%;
+    position: relative;
+    width: 100%;
+    display: block;
+}
+
+    .dropdown-item:hover {
+        background: #0000000a !important;
+    }
+
+    .dropdown-item.dropdown--dsh-item {
+        color: var(--ns-text-color);
     }

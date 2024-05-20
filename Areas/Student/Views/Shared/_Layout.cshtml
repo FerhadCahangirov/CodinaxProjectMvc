@@ -1,16 +1,30 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+﻿@using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
+@using CodinaxProjectMvc.DataAccess.Models;
+@inject IReadRepository<Student> _studentReadRepository;
 
+<!DOCTYPE html>
+<html lang="en">
+
+@{
+    var isCoursesPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "courses";
+    var isBookmarksPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "bookmarks";
+}
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Codinax Instructor Panel</title>
+    <title>Codinax Student Panel</title>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/Assets/panel/assets/img/favicon.svg">
-
-    <!-- Bootstrap CSS -->
+    
+        <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/Assets/panel/assets/css/bootstrap.min.css">
+
+    <!-- Add CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/css/table.css" />
+    <link rel="stylesheet" href="/Assets/panel/assets/css/cardcss.css" />
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/css/style.css" />
 
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="/Assets/panel/assets/plugins/fontawesome/css/fontawesome.min.css">
@@ -22,443 +36,169 @@
     <!-- Select2 CSS -->
     <link rel="stylesheet" href="/Assets/panel/assets/plugins/select2/css/select2.min.css">
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="/Assets/panel/assets/css/style.css">
+    
+    <!-- Loader CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/css/loader.css">
+
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
 </head>
+
 <body>
 
-    <!-- Main Wrapper -->
-    <div class="main-wrapper">
+    <div class="container_view">
+        <!-- Side Bar -->
+        <div class="sidemenu_position">
+            <div class="active-overlay pointer" onclick="toggleMenu()"></div>
 
-        <!-- Header -->
-        <header class="header header-page">
-            <div class="header-fixed">
-                <nav class="navbar navbar-expand-lg header-nav scroll-sticky">
-                    <div class="container ">
-                        <div class="navbar-header">
-                            <a id="mobile_btn" href="javascript:void(0);">
-                                <span class="bar-icon">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </span>
-                            </a>
-                            <a href="index.html" class="navbar-brand logo">
-                                <img src="/Assets/imgs/logos/logo(panel).png" class="img-fluid" alt="Logo">
-                            </a>
-                        </div>
-                        <div class="main-menu-wrapper">
-                            <div class="menu-header">
-                                <a href="index.html" class="menu-logo">
-                                    <img src="/Assets/panel/assets/img/logo.svg" class="img-fluid" alt="Logo">
-                                </a>
-                                <a id="menu_close" class="menu-close" href="javascript:void(0);">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </div>
+            <div class="sidemenu_view">
+                <div class="sidemenu_bar">
+                    <a class="sidemenu_logo">
+                       <?xml version="1.0" encoding="UTF-8"?>
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 433.17 151.9" width="160px">
+                          <defs>
+                            <style>
+                              .cls-1 {
+                                fill: #fff;
+                              }
+                            </style>
+                          </defs>
+                          <path class="cls-1" d="M138.92,56.8c-4.47-5.68-10.67-8.48-18.69-8.48s-15.29,2.57-21.11,7.72c-5.83,5.15-9.38,11.5-10.67,19.07,0,0,0,.01,0,.02h3c-3.02,14.52,7.58,28.82,23.69,28.44,8.32,0,15.36-2.57,21.04-7.72,5.75-5.15,9.31-11.58,10.6-19.22,.09-.5,.16-1,.22-1.5h-3c.83-6.94-.89-13.03-5.06-18.33Zm-5.63,19.15c-.68,4.16-2.65,7.57-5.98,10.37-3.25,2.65-6.96,4.01-10.97,4.01s-7.19-1.36-9.38-4.01c-2.12-2.65-2.8-6.13-2.04-10.37,.05-.28,.12-.54,.18-.82h-3c.86-3.8,2.75-7,5.65-9.48,3.18-2.72,6.81-4.09,10.9-4.09s7.27,1.36,9.46,4.09c2.05,2.47,2.83,5.68,2.31,9.48h3c-.04,.27-.06,.54-.11,.82Zm-75.01-10.15c3.04-2.6,6.6-3.93,10.6-3.93,4.89,0,8.3,1.93,10.31,5.86h4.37s2.14-13.71,2.14-13.71c-3.95-3.28-9.19-5.12-15.56-5.12-7.71,0-14.46,2.45-20.17,7.41-5.69,4.95-9.17,11.23-10.44,18.83h3s0,.04-.01,.06c-1.26,7.93,.22,14.53,4.6,19.8,4.37,5.34,10.53,8.01,18.54,8.01,6.05,0,11.71-2.32,16.41-5.44l2.07-13.58h-4.36c-3.11,4.15-8.26,6.04-13.23,6.04-3.93,0-6.9-1.33-8.9-3.93-2-2.6-2.6-6.01-1.93-10.16,.05-.28,.12-.55,.18-.82h-2.99c.83-3.77,2.62-6.9,5.38-9.32Zm153.28-17.22l-4.67,26.56h3l-4.95,28.19h14l4.95-28.19h-3l4.67-26.56h-14Zm66.71,0h-13.92l-4.72,26.56h-1.4l-13.21-26.56h-10.87l-4.67,26.56h3l-4.95,28.19h14l5.01-28.19h1.4l12.92,28.19h10.79l4.95-28.19h-3l4.67-26.56Zm-82.59,8.29c-4.3-5.55-10.01-8.29-17.28-8.29h-22.29l-4.67,26.56h3l-4.95,28.19h22.29c8.06,0,14.94-2.5,20.65-7.43s9.31-11.34,10.72-19.16c.09-.54,.17-1.07,.23-1.6h-3c.87-7.05-.69-13.1-4.69-18.27Zm-6.15,18.85c-.78,4.22-2.66,7.66-5.55,10.25-2.89,2.58-6.26,3.83-10.25,3.83h-7.51l2.61-14.66h-3l2.32-13.03h7.9c7.4,0,11.59,5.15,10.55,13.03h3c-.03,.2-.04,.38-.07,.58Zm133.88-.58l-4.1-26.56h-17.05l-13.43,26.56h3l-14.26,28.19h15.41l3.75-7.9h18.22l.86,7.9h14.94l-4.35-28.19h-3Zm-20.89,8.25l3.95-8.25h-3l5.12-10.68,1.15,10.68h3l.89,8.25h-11.11Zm74.23-12.42l16.88-22.38h-16.27l-10.25,13.53-5.71-13.53h-15.17l9.5,22.38h21.02Zm-23.86,9.98l-16.89,22.38h16.27l11.03-14. 55,6.18,14.55h15.1l-9.46-22.38h-22.21Z"/>
+                        </svg>
+                    </a>
 
-                        </div>
-                        <ul class="nav header-navbar-rht">
-                            <li class="nav-item">
-                                <a href="instructor-chat.html"><img src="/Assets/panel/assets/img/icon/messages.svg" alt="img"></a>
-                            </li>
-                            <li class="nav-item cart-nav">
-                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
-                                    <img src="/Assets/panel/assets/img/icon/cart.svg" alt="img">
-                                </a>
-                                <div class="wishes-list dropdown-menu dropdown-menu-right">
-                                    <div class="wish-header">
-                                        <a href="#">View Cart</a>
-                                        <a href="javascript:void(0)" class="float-end">Checkout</a>
-                                    </div>
-                                    <div class="wish-content">
-                                        <ul>
-                                            <li>
-                                                <div class="media">
-                                                    <div class="d-flex media-wide">
-                                                        <div class="avatar">
-                                                            <a href="course-details.html">
-                                                                <img alt="" src="/Assets/panel/assets/img/course/course-04.jpg">
-                                                            </a>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6><a href="course-details.html">Learn Angular...</a></h6>
-                                                            <p>By Dave Franco</p>
-                                                            <h5>$200 <span>$99.00</span></h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="remove-btn">
-                                                        <a href="#" class="btn">Remove</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="media">
-                                                    <div class="d-flex media-wide">
-                                                        <div class="avatar">
-                                                            <a href="course-details.html">
-                                                                <img alt="" src="/Assets/panel/assets/img/course/course-14.jpg">
-                                                            </a>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6><a href="course-details.html">Build Responsive Real...</a></h6>
-                                                            <p>Jenis R.</p>
-                                                            <h5>$200 <span>$99.00</span></h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="remove-btn">
-                                                        <a href="#" class="btn">Remove</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="media">
-                                                    <div class="d-flex media-wide">
-                                                        <div class="avatar">
-                                                            <a href="course-details.html">
-                                                                <img alt="" src="/Assets/panel/assets/img/course/course-15.jpg">
-                                                            </a>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6><a href="course-details.html">C# Developers Double ...</a></h6>
-                                                            <p>Jesse Stevens</p>
-                                                            <h5>$200 <span>$99.00</span></h5>
-                                                        </div>
-                                                    </div>
-                                                    <div class="remove-btn">
-                                                        <a href="#" class="btn">Remove</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="total-item">
-                                            <h6>Subtotal : $ 600</h6>
-                                            <h5>Total : $ 600</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="nav-item wish-nav">
-                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
-                                    <img src="/Assets/panel/assets/img/icon/wish.svg" alt="img">
-                                </a>
-                                <div class="wishes-list dropdown-menu dropdown-menu-right">
-                                    <div class="wish-content">
-                                        <ul>
-                                            <li>
-                                                <div class="media">
-                                                    <div class="d-flex media-wide">
-                                                        <div class="avatar">
-                                                            <a href="course-details.html">
-                                                                <img alt="" src="/Assets/panel/assets/img/course/course-04.jpg">
-                                                            </a>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6><a href="course-details.html">Learn Angular...</a></h6>
-                                                            <p>By Dave Franco</p>
-                                                            <h5>$200 <span>$99.00</span></h5>
-                                                            <div class="remove-btn">
-                                                                <a href="#" class="btn">Add to cart</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="media">
-                                                    <div class="d-flex media-wide">
-                                                        <div class="avatar">
-                                                            <a href="course-details.html">
-                                                                <img alt="" src="/Assets/panel/assets/img/course/course-14.jpg">
-                                                            </a>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6><a href="course-details.html">Build Responsive Real...</a></h6>
-                                                            <p>Jenis R.</p>
-                                                            <h5>$200 <span>$99.00</span></h5>
-                                                            <div class="remove-btn">
-                                                                <a href="#" class="btn">Add to cart</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="media">
-                                                    <div class="d-flex media-wide">
-                                                        <div class="avatar">
-                                                            <a href="course-details.html">
-                                                                <img alt="" src="/Assets/panel/assets/img/course/course-15.jpg">
-                                                            </a>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6><a href="course-details.html">C# Developers Double ...</a></h6>
-                                                            <p>Jesse Stevens</p>
-                                                            <h5>$200 <span>$99.00</span></h5>
-                                                            <div class="remove-btn">
-                                                                <a href="#" class="btn">Remove</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="nav-item noti-nav">
-                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
-                                    <img src="/Assets/panel/assets/img/icon/notification.svg" alt="img">
-                                </a>
-                                <div class="notifications dropdown-menu dropdown-menu-right">
-                                    <div class="topnav-dropdown-header">
-                                        <span class="notification-title">
-                                            Notifications
-                                            <select>
-                                                <option>All</option>
-                                                <option>Unread</option>
-                                            </select>
-                                        </span>
-                                        <a href="javascript:void(0)" class="clear-noti">Mark all as read <i class="fa-solid fa-circle-check"></i></a>
-                                    </div>
-                                    <div class="noti-content">
-                                        <ul class="notification-list">
-                                            <li class="notification-message">
-                                                <div class="media d-flex">
-                                                    <div>
-                                                        <a href="notifications.html" class="avatar">
-                                                            <img class="avatar-img" alt="" src="/Assets/panel/assets/img/user/user1.jpg">
-                                                        </a>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6><a href="notifications.html">Lex Murphy requested <span>access to</span> UNIX directory tree hierarchy </a></h6>
-                                                        <button class="btn btn-accept">Accept</button>
-                                                        <button class="btn btn-reject">Reject</button>
-                                                        <p>Today at 9:42 AM</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="notification-message">
-                                                <div class="media d-flex">
-                                                    <div>
-                                                        <a href="notifications.html" class="avatar">
-                                                            <img class="avatar-img" alt="" src="/Assets/panel/assets/img/user/user2.jpg">
-                                                        </a>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6><a href="notifications.html">Ray Arnold left 6 <span>comments on</span> Isla Nublar SOC2 compliance report</a></h6>
-                                                        <p>Yesterday at 11:42 PM</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="notification-message">
-                                                <div class="media d-flex">
-                                                    <div>
-                                                        <a href="notifications.html" class="avatar">
-                                                            <img class="avatar-img" alt="" src="/Assets/panel/assets/img/user/user3.jpg">
-                                                        </a>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6><a href="notifications.html">Dennis Nedry <span>commented on</span> Isla Nublar SOC2 compliance report</a></h6>
-                                                        <p class="noti-details">“Oh, I finished de-bugging the phones, but the system's compiling for eighteen minutes, or twenty.  So, some minor systems may go on and off for a while.”</p>
-                                                        <p>Yesterday at 5:42 PM</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="notification-message">
-                                                <div class="media d-flex">
-                                                    <div>
-                                                        <a href="notifications.html" class="avatar">
-                                                            <img class="avatar-img" alt="" src="/Assets/panel/assets/img/user/user1.jpg">
-                                                        </a>
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h6><a href="notifications.html">John Hammond <span>created</span> Isla Nublar SOC2 compliance report </a></h6>
-                                                        <p>Last Wednesday at 11:15 AM</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="nav-item user-nav">
-                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
-                                    <span class="user-img">
-                                        <img src="/Assets/panel/assets/img/instructor/profile-avatar.jpg" alt="">
-                                        <span class="status online"></span>
-                                    </span>
-                                </a>
-                                <div class="users dropdown-menu dropdown-menu-right" data-popper-placement="bottom-end">
-                                    <div class="user-header">
-                                        <div class="avatar avatar-sm">
-                                            <img src="/Assets/panel/assets/img/instructor/profile-avatar.jpg" alt="User Image" class="avatar-img rounded-circle">
-                                        </div>
-                                        <div class="user-text">
-                                            <h6>Jenny Wilson</h6>
-                                            <p class="text-muted mb-0">Instructor</p>
-                                        </div>
-                                    </div>
-                                    <a class="dropdown-item" href="instructor-dashboard.html"><i class="feather-home me-1"></i> Dashboard</a>
-                                    <a class="dropdown-item" href="instructor-edit-profile.html"><i class="feather-star me-1"></i> Edit Profile</a>
-                                    <div class="dropdown-item night-mode">
-                                        <span><i class="feather-moon me-1"></i> Night Mode </span>
-                                        <div class="form-check form-switch check-on m-0">
-                                            <input class="form-check-input" type="checkbox" id="night-mode">
-                                        </div>
-                                    </div>
-                                    <a class="dropdown-item" href="index.html"><i class="feather-log-out me-1"></i> Logout</a>
-                                </div>
-                            </li>
-                        </ul>
+                    <div class="close pointer">
+                        <svg-icon height="20" name="close" width="20">
+                            <svg class="align-middle" width="20" height="20">
+                                <use xlink:href="#close"></use>
+                            </svg>
+                        </svg-icon>
                     </div>
-                </nav>
+
+                    <div class="sidemenu_user">
+                        <div class="sidemenu_profile">
+                            <div _ngcontent-vdy-c47="" class="avatar-container" style="width: 120px; height: 120px;" bis_skin_checked="1">
+                                <div _ngcontent-vdy-c47="" class="avatar-content" style="text-align: center; border-radius: 100%; text-transform: uppercase; color: rgb(255, 255, 255); background-color: rgb(127, 140, 141); font: 40px / 120px Helvetica, Arial, sans-serif;" bis_skin_checked="1">
+                                    @(
+                                    _studentReadRepository.Table.Single(x => x.Email == User.Identity.Name).FirstName[0].ToString().ToUpper()
+                                    )
+                                    @(
+                                    _studentReadRepository.Table.Single(x => x.Email == User.Identity.Name).LastName[0].ToString().ToUpper()
+                                    )
+                                  </div>
+                            </div>
+                        </div>
+
+                        <div class="edit_profile_icon">
+                            <svg-icon height="20px" id="avatar-icon-popOver" name="ns-edit-icon" width="20px">
+                                <i class="fa-solid fa-pen-to-square align-middle"></i>
+                            </svg-icon>
+                        </div>
+
+                        <div class="sidemenu_profile_info">
+                            Hi @(
+                                _studentReadRepository.Table.Single(x => x.Email == User.Identity.Name).FirstName)
+
+                            <button class="sidemenu_button_dropdown" aria-expanded="false" data-theme-state="light">
+                                <svg-icon height="20px" width="20px">
+                                    <i class="fa-solid fa-ellipsis align-middle"></i>
+                                </svg-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <ul class="sidemenu_items">
+                        
+                        <li>
+                            <a class="@(isCoursesPage ? "sidemenu_link_active" : "") sidemenu_link" href="/Student/Courses/Index">
+                                <svg-icon height="20px" width="20px">
+                                    <i class="fa-solid fa-layer-group align-middle"></i>
+                                </svg-icon>
+                                <span>Courses</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="@(isBookmarksPage ? "sidemenu_link_active" : "") sidemenu_link" href="/Student/Bookmarks/Index">
+                                <svg-icon height="20px" width="20px">
+                                    <i class="fa-regular fa-bookmark"></i>
+                                </svg-icon>
+                                <span>Bookmarks</span>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <main class="main_container">
+        <header class="header_container">
+            <div class="header_left">
+                <div class="header_search_container">
+                    <input class="header_search_input" type="text" placeholder="Search" />
+                    <div class="header_search_icon">
+                        <i class="fa-solid fa-magnifying-glass align-middle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="pointer burger-icon ml-2" onclick="toggleMenu()">
+               <i class="fa-solid fa-bars-staggered align-middle"></i>
+            </div>
+            <div class="header_right">
+                <div class="popup-wrapper">
+                    <button class="ml-2 settings-button">
+                        <i class="fa-solid fa-gear align-middle"></i>
+                    </button>
+                </div>
             </div>
         </header>
-        <!-- /Header -->
-        @RenderBody()
 
-        <!-- Footer -->
-        <footer class="footer">
-
-            <!-- Footer Top -->
-            <div class="footer-top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6">
-
-                            <!-- Footer Widget -->
-                            <div class="footer-widget footer-about">
-                                <div class="footer-logo">
-                                    <img src="/Assets/imgs/logos/logo(panel).png" alt="logo">
-                                </div>
-                                <div class="footer-about-content">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat mauris Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat mauris</p>
-                                </div>
-                            </div>
-                            <!-- /Footer Widget -->
-
-                        </div>
-
-                        <div class="col-lg-2 col-md-6">
-
-                            <!-- Footer Widget -->
-                            <div class="footer-widget footer-menu">
-                                <h2 class="footer-title">For Instructor</h2>
-                                <ul>
-                                    <li><a href="instructor-profile.html">Profile</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="register.html">Register</a></li>
-                                    <li><a href="instructor-list.html">Instructor</a></li>
-                                    <li><a href="deposit-instructor-dashboard.html"> Dashboard</a></li>
-                                </ul>
-                            </div>
-                            <!-- /Footer Widget -->
-
-                        </div>
-
-                        <div class="col-lg-2 col-md-6">
-
-                            <!-- Footer Widget -->
-                            <div class="footer-widget footer-menu">
-                                <h2 class="footer-title">For Student</h2>
-                                <ul>
-                                    <li><a href="student-profile.html">Profile</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="register.html">Register</a></li>
-                                    <li><a href="students-list.html">Student</a></li>
-                                    <li><a href="deposit-student-dashboard.html"> Dashboard</a></li>
-                                </ul>
-                            </div>
-                            <!-- /Footer Widget -->
-
-                        </div>
-
-                        <div class="col-lg-4 col-md-6">
-
-                            <!-- Footer Widget -->
-                            <div class="footer-widget footer-contact">
-                                <h2 class="footer-title">News letter</h2>
-                                <div class="news-letter">
-                                    <form>
-                                        <input type="text" class="form-control" placeholder="Enter your email address" name="email">
-                                    </form>
-                                </div>
-                                <div class="footer-contact-info">
-                                    <div class="footer-address">
-                                        <img src="/Assets/panel/assets/img/icon/icon-20.svg" alt="" class="img-fluid">
-                                        <p> 3556  Beech Street, San Francisco,<br> California, CA 94108 </p>
-                                    </div>
-                                    <p>
-                                        <img src="/Assets/panel/assets/img/icon/icon-19.svg" alt="" class="img-fluid">
-                                        dreamslms@example.com
-                                    </p>
-                                    <p class="mb-0">
-                                        <img src="/Assets/panel/assets/img/icon/icon-21.svg" alt="" class="img-fluid">
-                                        +19 123-456-7890
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- /Footer Widget -->
-
-                        </div>
-
-                    </div>
-                </div>
+        <div class="main_content">
+            <div class="main_wrapper">
+                @RenderBody()
             </div>
-            <!-- /Footer Top -->
-            <!-- Footer Bottom -->
-            <div class="footer-bottom">
-                <div class="container">
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		
+		<!-- Bootstrap Core JS -->
+		<script src="/Assets/panel/assets/js/bootstrap.bundle.min.js"></script>
 
-                    <!-- Copyright -->
-                    <div class="copyright">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="privacy-policy">
-                                    <ul>
-                                        <li><a href="term-condition.html">Terms</a></li>
-                                        <li><a href="privacy-policy.html">Privacy</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="copyright-text">
-                                    <p class="mb-0">&copy; 2023 Codinax. All rights reserved.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Copyright -->
+		<!-- Select2 JS -->
+	  	<script src="/Assets/panel/assets/plugins/select2/js/select2.min.js"></script>
 
-                </div>
-            </div>
-            <!-- /Footer Bottom -->
+	  	<!-- Ckeditor JS -->
+	  	<script src="/Assets/panel/assets/js/ckeditor.js"></script>
 
-        </footer>
-        <!-- /Footer -->
+	  	<!-- Bootstrap Tagsinput JS -->
+		<script src="/Assets/panel/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
+		
 
-    </div>
-    <!-- /Main Wrapper -->
-    <!-- jQuery -->
-    <script src="/Assets/panel/assets/js/jquery-3.7.1.min.js"></script>
+		<!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <!-- Bootstrap Core JS -->
-    <script src="/Assets/panel/assets/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Select2 JS -->
-    <script src="/Assets/panel/assets/plugins/select2/js/select2.min.js"></script>
 
-    <!-- Feature JS -->
-    <script src="/Assets/panel/assets/plugins/feather/feather.min.js"></script>
 
-    <!-- Sticky Sidebar JS -->
-    <script src="/Assets/panel/assets/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
-    <script src="/Assets/panel/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+    <script>
+        function toggleMenu() {
+            const sidemenu = document.querySelector('.sidemenu_position');
+            if (sidemenu.classList.contains('active')) {
+                sidemenu.classList.remove('active');
+            }
+            else {
+                sidemenu.classList.add('active');
 
-    <!-- Custom JS -->
-    <script src="/Assets/panel/assets/js/script.js"></script>
+            }
+        }
+    </script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

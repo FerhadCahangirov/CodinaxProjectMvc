@@ -279,6 +279,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         {
             Instructor? instructor = await _instructorReadRepository.Table
                 .Include(x => x.Courses)
+                .ThenInclude(x => x.Modules)
                 .FirstOrDefaultAsync(x => x.Email == email);
 
             if (instructor == null) return Enumerable.Empty<Course>();

@@ -19,9 +19,12 @@ namespace CodinaxProjectMvc.DataAccess.Models
 
         public Lecture Lecture { get; set; }
 
+        public IEnumerable<Bookmark> Bookmarks { get; set; }
+
         public LectureFile()
         {
             Lecture = new Lecture();
+            Bookmarks = new List<Bookmark>();
         }
     }
 }

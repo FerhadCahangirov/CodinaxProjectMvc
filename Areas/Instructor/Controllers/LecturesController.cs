@@ -59,5 +59,20 @@ namespace CodinaxProjectMvc.Areas.Instructor.Controllers
             TempData["LectureFileCreatedSuccess"] = true;
             return Redirect($"/Instructor/Modules/Index/{lectureFileCreateVm.ModuleId}");
         }
+
+        public async Task<IActionResult> UpdateFile(Guid id)
+            => View(await _lectureService.GetLectureFileUpdateDataAsync(id));
+        
+            
+        [HttpPost]
+        public async Task<IActionResult> UpdateFile(LectureFileUpdateVm lectureFileUpdateVm)
+        {
+            bool result = await _lectureService.UpdateLectureFileAsync(lectureFileUpdateVm);
+            if (!result)
+                return View(lectureFileUpdateVm);
+            TempData["LectureFileUpdatedSuccess"] = true;
+            return View(lectureFileUpdateVm);
+        }
+
     }
 }

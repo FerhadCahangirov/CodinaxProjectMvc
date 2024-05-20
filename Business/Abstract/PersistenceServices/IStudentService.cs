@@ -1,5 +1,6 @@
 ﻿using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.ViewModel;
+using CodinaxProjectMvc.ViewModel.CourseVm;
 using CodinaxProjectMvc.ViewModel.StudentVm;
 
 namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
@@ -87,6 +88,10 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         public Task<bool> SendConfirmationMailAsync(Guid id);
 
         Task<PaginationVm<IEnumerable<Student>>> GetAssignableStudentPaginationAsync(string? searchFilter = null);
+
+        Task<IEnumerable<Course>> GetStudentCoursesAsync(string email);
+
+        Task<CourseSingleVm> GetStudentCourseSingleAsync(string email, Guid id);
     }
 
 }

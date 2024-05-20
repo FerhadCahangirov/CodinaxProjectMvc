@@ -1,0 +1,196 @@
+﻿@model LectureFileUpdateVm
+
+@switch (Model.FileType)
+{
+    case FileType.URL:
+        <form method="post" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
+            <fieldset class="field-card">
+                <div class="add-course-info">
+                    <div class="add-course-inner-header">
+                        <h4>Lecture Url Link</h4>
+                    </div>
+                    <div class="add-course-form">
+
+                        <input hidden asp-for="FileType" value="@(FileType.URL)">
+                        <input hidden asp-for="LectureFileId">
+                        <input hidden asp-for="BaseUrl">
+
+                        <div class="input-block">
+                            <label class="add-course-label" asp-for="Title"></label>
+                            <input type="text" class="form-control" placeholder="Url Title..." asp-for="Title">
+                            <span class="text-danger" asp-validation-for="Title"></span>
+                        </div>
+
+                        <div class="input-block">
+                            <label class="add-course-label" asp-for="Url"></label>
+                            <input type="url" class="form-control" placeholder="Url..." asp-for="Url">
+                            <span class="text-danger" asp-validation-for="Url"></span>
+                        </div>
+
+                    </div>
+                    <div class="widget-btn">
+                        <button class="btn btn-info-light" type="submit">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        break;
+    case FileType.TXT:
+        <form method="post" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
+            <fieldset class="field-card">
+                <div class="add-course-info">
+                    <div class="add-course-inner-header">
+                        <h4>Lecture Text File</h4>
+                    </div>
+                    <div class="add-course-form">
+                        <input hidden asp-for="FileType" value="@(FileType.TXT)">
+                        <input hidden asp-for="LectureFileId">
+                        <input hidden asp-for="BaseUrl">
+
+                        <div class="input-block">
+                            <label class="add-course-label" asp-for="Title"></label>
+                            <input type="text" class="form-control" placeholder="File Title..." asp-for="Title">
+                            <span class="text-danger" asp-validation-for="Title"></span>
+                        </div>
+
+                        <div class="input-block mt-5">
+                            <label class="add-course-label">Lecture Text File</label>
+                            <div class="relative-form" id="relativeTxtForm">
+                                <span>@Model.FileName</span>
+                                <label class="relative-file-upload">
+                                    Upload File <input type="file" accept="text/*" id="lecture-txt-input" asp-for="File">
+                                </label>
+                            </div>
+                            <span class="text-danger" asp-validation-for="File"></span>
+
+                        </div>
+
+                    </div>
+                    <div class="widget-btn">
+                        <button class="btn btn-info-light" type="submit">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('lecture-txt-input').addEventListener('change', () => {
+                    const files = document.getElementById('lecture-txt-input').files;
+                    if (files.length > 0) {
+                        document.querySelector('#relativeTxtForm span').textContent = files[0].name;
+                    }
+                });
+            })
+        </script>
+        break;
+    case FileType.PDF:
+        <form method="post" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
+            <fieldset class="field-card">
+                <div class="add-course-info">
+                    <div class="add-course-inner-header">
+                        <h4>Lecture PDF File</h4>
+                    </div>
+                    <div class="add-course-form">
+
+                        <input hidden asp-for="FileType" value="@(FileType.PDF)">
+                        <input hidden asp-for="LectureFileId">
+                        <input hidden asp-for="BaseUrl">
+
+                        <div class="input-block">
+                            <label class="add-course-label" asp-for="Title"></label>
+                            <input type="text" class="form-control" placeholder="File Title..." asp-for="Title">
+                            <span class="text-danger" asp-validation-for="Title"></span>
+                        </div>
+
+                        <div class="input-block mt-5">
+                            <label class="add-course-label">Lecture PDF File</label>
+                            <div class="relative-form" id="relativePdfForm">
+                                <span>@Model.FileName</span>
+                                <label class="relative-file-upload">
+                                    Upload File <input type="file" accept="application/pdf" id="lecture-pdf-input" asp-for="File">
+                                </label>
+                            </div>
+                            <span class="text-danger" asp-validation-for="File"></span>
+                        </div>
+
+                    </div>
+                    <div class="widget-btn">
+                        <button class="btn btn-info-light" type="submit">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('lecture-pdf-input').addEventListener('change', () => {
+                    const files = document.getElementById('lecture-pdf-input').files;
+                    if (files.length > 0) {
+                        document.querySelector('#relativePdfForm span').textContent = files[0].name;
+                    }
+                });
+            })
+        </script>
+        break;
+    case FileType.MP4:
+        <form method="post" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
+            <fieldset class="field-card">
+                <div class="add-course-info">
+                    <div class="add-course-inner-header">
+                        <h4>Lecture Video</h4>
+                    </div>
+                    <div class="add-course-form">
+                        <input hidden asp-for="FileType" value="@(FileType.MP4)">
+                        <input hidden asp-for="LectureFileId">
+                        <input hidden asp-for="BaseUrl">
+
+                        <div class="input-block">
+                            <label class="add-course-label" id="title" asp-for="Title"></label>
+                            <input type="text" class="form-control" placeholder="Video Title..." asp-for="Title">
+                            <span class="text-danger" asp-validation-for="Title"></span>
+                        </div>
+
+                        <div class="input-block mt-5">
+                            <label class="add-course-label">Lecture Video</label>
+                            <div class="relative-form" id="relativeVideoForm">
+                                <span>@Model.FileName</span>
+                                <label class="relative-file-upload">
+                                    Upload File <input type="file" accept="video/*" id="lecture-video-input" asp-for="File">
+                                </label>
+                            </div>
+                            <span class="text-danger" asp-validation-for="File"></span>
+                        </div>
+
+                        <div class="input-block" id="videoBox">
+                            <video class="add-image-box add-video-box" src="@Model.BaseUrl/@Model.FilePathOrContainer/@Model.FileName">
+                            </video>
+                        </div>
+
+                    </div>
+                    <div class="widget-btn">
+                        <button class="btn btn-info-light" type="submit">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('lecture-video-input').addEventListener('change', () => {
+                    const files = document.getElementById('lecture-video-input').files;
+                    if (files.length > 0) {
+                        document.querySelector('#relativeVideoForm span').textContent = files[0].name;
+
+                        const video = document.createElement('video');
+                        video.controls = true;
+                        video.src = URL.createObjectURL(files[0]);
+                        video.classList.add('add-image-box', 'add-video-box');
+                        const videoBox = document.getElementById('videoBox');
+                        videoBox.removeChild(videoBox.firstElementChild);
+                        videoBox.appendChild(video);
+                    }
+                });
+            });
+        </script>
+        break;
+    default:
+        break;
+}

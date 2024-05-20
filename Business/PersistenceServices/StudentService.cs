@@ -6,7 +6,7 @@ using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.DataAccess.Models.Identity;
 using CodinaxProjectMvc.Managers.Abstract;
 using CodinaxProjectMvc.ViewModel;
-using CodinaxProjectMvc.ViewModel.InstructorVm;
+using CodinaxProjectMvc.ViewModel.CourseVm;
 using CodinaxProjectMvc.ViewModel.StudentVm;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -285,5 +285,43 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             return Task.FromResult(pagination);
         }
+
+        #region Student Panel Services
+
+        public async Task<IEnumerable<Course>> GetStudentCoursesAsync(string email)
+        {
+            Student? student = await _studentReadRepository.Table
+                .Include(x => x.Courses)
+                .ThenInclude(x => x.Modules)
+                .FirstOrDefaultAsync(x => x.Email == email);
+
+            if (student == null) return Enumerable.Empty<Course>();
+
+            return student.Courses;
+        }
+
+        public async Task<CourseSingleVm> GetStudentCourseSingleAsync(string email, Guid id)
+        {
+            Student? student = await _studentReadRepository.Table
+                .Include(x => x.Courses).ThenInclude(x => x.Template)
+                .Include(x => x.Courses).ThenInclude(x => x.Modules).ThenInclude(x => x.Bookmarks)
+                .Include(x => x.Courses).ThenInclude(x => x.Modules).ThenInclude(x => x.Lectures)
+                .FirstOrDefaultAsync(x => x.Email == email);
+
+            Course? course = student?.Courses.FirstOrDefault(x => x.Id == id);
+
+            if (course == null) return new CourseSingleVm();
+
+            CourseSingleVm courseSingleVm = new CourseSingleVm()
+            {
+                BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl],
+                Course = course,
+                Template = course.Template,
+            };
+
+            return courseSingleVm;
+        }
+
+        #endregion
     }
 }

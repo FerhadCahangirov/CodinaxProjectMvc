@@ -1,0 +1,499 @@
+﻿@model Module
+
+@section Scripts{
+    @if (TempData["LectureCreatedSuccess"] != null && (bool)TempData["LectureCreatedSuccess"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Lecture has been created.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+
+    @if (TempData["LectureFileCreatedSuccess"] != null && (bool)TempData["LectureFileCreatedSuccess"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Lecture file has been added.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+}
+
+<nav>
+    <ol class="breadcrumb p-0 my-1 mb-3">
+        <li class="breadcrumb_item">
+            <div class="link_breadcrumb">
+                <a href="/member/dashboard">Student</a>
+                <div class="slash">/</div>
+            </div>
+        </li>
+        <li class="breadcrumb_item active">
+            Courses
+        </li>
+    </ol>
+</nav>
+
+<div class="program_container">
+    <div class="program_container_section">
+        <div class="line"></div>
+
+        <div class="program_container_flex">
+            <div style="flex: none;">
+            </div>
+
+            <div class="program_info_container" id="courseSingleNoVideo">
+                <div class="program_info">
+                    <h1 class="title_info"> EU9-Java Programming </h1>
+                    <p class="description_info">
+                        With this course, you will gain foundational knowledge in Java, which is the first step towards becoming a successful JAVA SDET. The course starts with basic Java concepts such as variables and methods used to keep track of information. It will be followed by conditional statements, loops, and arrays for processing and solving complex problems. At the end of the source, you will learn advanced Java concepts such as Object-Oriented Programming and Data structures.
+                    </p>
+                </div>
+                <div class="program_meta_info">
+                    <div class="meta_info">
+                        <div class="meta_info_icon">
+                            <i class="fa-regular fa-file align-middle"></i>
+                        </div>
+                        <div class="meta_info_text">
+                            <p class="meta_title">9 Modlues</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="line"></div>
+    </div>
+</div>
+
+<div class="tabs--wrapper display-flex align-items-center justify-space-between">
+    <ul class="tabs--container">
+        <li class="tabs--tab">
+            <a class="tab--item tab--item-active"> Modules </a>
+        </li>
+        <!---->
+        <!---->
+    </ul>
+
+    <div class="display-flex">
+
+
+
+        <div class="button-set text-right">
+            <button class="toggle-module-button" onclick="expandAll()"> Expand All </button>
+        </div>
+
+
+    </div>
+
+    <!---->
+</div>
+
+<div class="items_list">
+
+
+    @foreach (Lecture lecture in Model.Lectures)
+    {
+        <div class="item_container">
+            <div class="item_card_wrapper" id="item_card_wrapper_@lecture.Id">
+                <div class="item_card_header" id="item_card_header_@lecture.Id">
+                    <div class="card_header_left" onclick="handleItemExpand('@lecture.Id')">
+                        @lecture.Title
+                    </div>
+                    <div class="card_header_right">
+
+                        @* <Header Bookmark Icon> *@
+
+                        @if (lecture.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
+                        {
+                            <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_button_@lecture.Id" onclick="removeLectureBookmark('@lecture.Id')">
+                                <i class="fa-solid fa-bookmark"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_button_@lecture.Id" onclick="addLectureBookmark('@lecture.Id')">
+                                <i class="fa-regular fa-bookmark"></i>
+                            </button>
+                        }
+
+                        @*! </Header Icon> *@
+
+                        <button class="card_header_button expand_button" onclick="handleItemExpand('@lecture.Id')" id="expand_button_@lecture.Id">
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </button>
+                    </div>
+                </div>
+
+                @if (lecture.LectureFiles != null && lecture.LectureFiles.Count() > 0)
+                {
+                    <div class="cards_content_wrapper ">
+                        <div class="items_cards_container">
+
+                            @foreach (LectureFile lectureFile in lecture.LectureFiles)
+                            {
+                                if (lectureFile.FileType == FileType.MP4)
+                                {
+                                    <div class="item_card_content">
+                                        <div class="card_wrapper_content">
+                                            <div class="item_content_container item_indent_0">
+                                                <div class="content_left_container">
+                                                    <div class="icon_content_item">
+                                                        <i class="fa-solid fa-video"></i>
+                                                    </div>
+                                                    <div class="text_card_info_content">
+                                                        <a class="text_card_info_title"> @lectureFile.Title </a>
+                                                        <span class="text_card_info_small"> Video ● @lectureFile.Duration </span>
+                                                    </div>
+                                                </div>
+                                                <div class="content_right_container">
+                                                    @* <VideoStatus Progress> *@
+
+                                                    <div class="video-status">
+                                                        <div class="progress-wrapper progress-auto">
+                                                            <div data-height="12px" class="progress-container">
+                                                                <div role="progressbar" class="progress-bar" style="width: 38%;"></div>
+                                                            </div>
+                                                            <span class="progress-info">38%</span>
+                                                        </div>
+                                                    </div>
+
+                                                    @*! </VideoStatus Progress> *@
+
+
+                                                    @* <ViewLater Icon> *@
+
+                                                    @if(lectureFile.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
+                                                    {
+                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_video_button_@lectureFile.Id" onclick="removeVideoBookmark('@lectureFile.Id')">
+                                                            <i class="fa-solid fa-circle-check"></i>
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_video_button_@lectureFile.Id" onclick="addVideoBookmark('@lectureFile.Id')">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false" style="pointer-events: none; display: inherit; width: 24px; height: 24px;"><path d="M22 13h-4v4h-2v-4h-4v-2h4V7h2v4h4v2zm-8-6H2v1h12V7zM2 12h8v-1H2v1zm0 4h8v-1H2v1z"></path></svg>
+                                                        </button>
+                                                    }
+                                                    
+
+                                                    @*! </ViewLater Icon> *@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (lectureFile.FileType == FileType.URL)
+                                {
+                                    <div class="item_card_content">
+                                        <div class="card_wrapper_content">
+                                            <div class="item_content_container item_indent_0">
+                                                <div class="content_left_container">
+                                                    <div class="icon_content_item">
+                                                        <i class="fa-solid fa-link"></i>
+                                                    </div>
+                                                    <div class="text_card_info_content">
+                                                        <a class="text_card_info_title" href="@lectureFile.Url"> @lectureFile.Title </a>
+                                                        <span class="text_card_info_small">Url</span>
+                                                    </div>
+                                                </div>
+                                                <div class="content_right_container">
+                                                    @if(lectureFile.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
+                                                    {
+                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="removeContentBookmark('@lectureFile.Id')">
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="addContentBookmark('@lectureFile.Id')">
+                                                            <i class="fa-regular fa-bookmark"></i>
+                                                        </button>
+                                                    }
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (lectureFile.FileType == FileType.TXT)
+                                {
+                                    <div class="item_card_content">
+                                        <div class="card_wrapper_content">
+                                            <div class="item_content_container item_indent_0">
+                                                <div class="content_left_container">
+                                                    <div class="icon_content_item">
+                                                        <i class="fa-solid fa-file"></i>
+                                                    </div>
+                                                    <div class="text_card_info_content">
+                                                        <a class="text_card_info_title" href="@lectureFile.Url"> @lectureFile.Title </a>
+                                                        <span class="text_card_info_small">Txt ● @lectureFile.FileSize</span>
+                                                    </div>
+                                                </div>
+                                                <div class="content_right_container">
+                                                    @if (lectureFile.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
+                                                    {
+                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="removeContentBookmark('@lectureFile.Id')">
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="addContentBookmark('@lectureFile.Id')">
+                                                            <i class="fa-regular fa-bookmark"></i>
+                                                        </button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (lectureFile.FileType == FileType.PDF)
+                                {
+                                    <div class="item_card_content">
+                                        <div class="card_wrapper_content">
+                                            <div class="item_content_container item_indent_0">
+                                                <div class="content_left_container">
+                                                    <div class="icon_content_item">
+                                                        <i class="fa-solid fa-file"></i>
+                                                    </div>
+                                                    <div class="text_card_info_content">
+                                                        <a class="text_card_info_title" href="@lectureFile.Url"> @lectureFile.Title </a>
+                                                        <span class="text_card_info_small">Pdf ● @lectureFile.FileSize</span>
+                                                    </div>
+                                                </div>
+                                                <div class="content_right_container">
+                                                    @if (lectureFile.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
+                                                    {
+                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="removeContentBookmark('@lectureFile.Id')">
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="addContentBookmark('@lectureFile.Id')">
+                                                            <i class="fa-regular fa-bookmark"></i>
+                                                        </button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
+
+</div>
+
+<script>
+    const BookmarkType = Object.freeze({
+        Module: 0, Video: 1, Lecture: 2, Content: 3
+    });
+
+    const addLectureBookmark = (id) => addBookmark(id, BookmarkType.Lecture);
+    const addContentBookmark = (id) => addBookmark(id, BookmarkType.Content);
+    const addVideoBookmark = (id) => addBookmark(id, BookmarkType.Video);
+
+    function addBookmark(id, bookmarkType) {
+        $.ajax({
+            type: 'POST',
+            url: '/Student/Bookmarks/AddBookmark',
+            data: {
+                id: id,
+                bookmarkType: bookmarkType
+            },
+            success: (response) => {
+                if (response.success) {
+                    if (bookmarkType === BookmarkType.Lecture) {
+                        const bookmark_button = document.getElementById(`bookmark_button_${id}`);
+                        bookmark_button.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+                        bookmark_button.removeAttribute('onclick');
+                        bookmark_button.setAttribute('onclick', `removeLectureBookmark('${id}')`);
+                        showToaster('success', 'Lecture bookmarked.');
+                    }
+                    else if (bookmarkType === BookmarkType.Content) {
+                        const bookmark_content_button = document.getElementById(`bookmark_content_${id}`);
+                        bookmark_content_button.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
+                        bookmark_content_button.removeAttribute('onclick');
+                        bookmark_content_button.setAttribute('onclick', `removeContentBookmark('${id}')`);
+
+                        showToaster('success', 'Content bookmarked.');
+                    }
+                    else if (bookmarkType === BookmarkType.Video) {
+                        const bookmark_video_button = document.getElementById(`bookmark_video_button_${id}`);
+                        bookmark_video_button.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                        bookmark_video_button.removeAttribute('onclick');
+                        bookmark_video_button.setAttribute('onclick', `removeVideoBookmark('${id}')`);
+
+                        showToaster('success', 'Video saved to watch later.');
+                    }
+                }
+                else {
+                    showToaster('error', 'Failed to add bookmark.');
+                }
+            },
+            error: (xhr, status, error) => {
+                console.log(error);
+            }
+        });
+    }
+
+    const removeLectureBookmark = (id) => removeBookmark(id, BookmarkType.Lecture);
+    const removeContentBookmark = (id) => removeBookmark(id, BookmarkType.Content);
+    const removeVideoBookmark = (id) => removeBookmark(id, BookmarkType.Video);
+
+    function removeBookmark(id, bookmarkType) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/Student/Bookmarks/RemoveBookmark',
+            data: {
+                id: id,
+                bookmarkType: bookmarkType
+            },
+            success: (response) => {
+                if (response.success) {
+                    if (bookmarkType === BookmarkType.Lecture) {
+                        const bookmark_button = document.getElementById(`bookmark_button_${id}`);
+                        bookmark_button.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+                        bookmark_button.removeAttribute('onclick');
+                        bookmark_button.setAttribute('onclick', `addLectureBookmark('${id}')`);
+                        showToaster('success', 'Lecture bookmark removed.');
+                    }
+                    else if (bookmarkType === BookmarkType.Content) {
+                        const bookmark_content_button = document.getElementById(`bookmark_content_${id}`);
+                        bookmark_content_button.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
+                        bookmark_content_button.removeAttribute('onclick');
+                        bookmark_content_button.setAttribute('onclick', `addContentBookmark('${id}')`);
+                        showToaster('success', 'Content bookmark removed.');
+                    }
+                    else if (bookmarkType === BookmarkType.Video) {
+                        const bookmark_video_button = document.getElementById(`bookmark_video_button_${id}`);
+                        bookmark_video_button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false" style="pointer-events: none; display: inherit; width: 24px; height: 24px;"><path d="M22 13h-4v4h-2v-4h-4v-2h4V7h2v4h4v2zm-8-6H2v1h12V7zM2 12h8v-1H2v1zm0 4h8v-1H2v1z"></path></svg>';
+
+                        bookmark_video_button.removeAttribute('onclick');
+                        bookmark_video_button.setAttribute('onclick', `addVideoBookmark('${id}')`);
+                        showToaster('success', 'Video bookmark removed.');
+                    }
+                }
+                else {
+                    showToaster('error', 'Failed to remove bookmark.');
+                }
+            },
+            error: (xhr, status, error) => {
+                console.log(error);
+            }
+        });
+    }
+
+    function handleItemExpand(id) {
+        const item_card_wrapper = document.getElementById(`item_card_wrapper_${id}`);
+        const item_card_header = document.getElementById(`item_card_header_${id}`);
+        const expand_button = document.getElementById(`expand_button_${id}`);
+
+        if (
+            item_card_wrapper.classList.contains('item_card_wrapper_open') &&
+            item_card_header.classList.contains('item_card_header_open')
+
+        ) {
+            item_card_wrapper.classList.remove('item_card_wrapper_open');
+            item_card_header.classList.remove('item_card_header_open');
+
+            expand_button.innerHTML = `<i class="fa-solid fa-arrow-down"></i>`;
+        }
+        else {
+            console.log(item_card_header);
+
+            item_card_wrapper.classList.add('item_card_wrapper_open');
+            item_card_header.classList.add('item_card_header_open');
+
+            expand_button.innerHTML = ` <i class="fa-solid fa-arrow-up"></i> `;
+        }
+    }
+
+    function expandAll() {
+        const items = document.querySelectorAll('.item_container')
+
+        items?.forEach(item => {
+            const item_card_wrapper = item.querySelector('.item_card_wrapper');
+            const item_card_header = item.querySelector('.item_card_header');
+            const expand_button = item.querySelector('.expand_button');
+
+            if (
+                !item_card_wrapper.classList.contains('item_card_wrapper_open') &&
+                !item_card_header.classList.contains('item_card_header_open')
+            ) {
+                item_card_wrapper.classList.add('item_card_wrapper_open');
+                item_card_header.classList.add('item_card_header_open');
+
+                expand_button.innerHTML = ` <i class="fa-solid fa-arrow-up"></i> `;
+            }
+
+        });
+    }
+
+    function showToaster(type, content) {
+        Command: toastr[type](content);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,    
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    }
+
+</script>
+
+
+
+

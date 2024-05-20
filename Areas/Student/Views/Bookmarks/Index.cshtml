@@ -1,0 +1,370 @@
+﻿@model ListBookmarksVm
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}
+
+<nav>
+    <ol class="breadcrumb p-0 mt-2 mb-4">
+        <li class="breadcrumb_item">
+            <div class="link_breadcrumb">
+                <a href="/member/dashboard">Courses</a>
+                <div class="slash">/</div>
+            </div>
+        </li>
+        <li class="breadcrumb_item active">
+            Bookmarks
+        </li>
+    </ol>
+</nav>
+
+<div class="tabs--wrapper tabs-member-wrap">
+    <ul class="tabs--container" id="myTab" role="tablist">
+        <li class="tabs--tab ng-star-inserted">
+            <a class="tab--item active" id="modules-tab" data-toggle="tab" href="#modules" role="tab" aria-controls="modules" aria-selected="true"> Modules </a>
+        </li>
+        <li class="tabs--tab ng-star-inserted">
+            <a class="tab--item" id="lectures-tab" data-toggle="tab" href="#lectures" role="tab" aria-controls="lectures" aria-selected="true"> Lectures </a>
+        </li>
+        <li class="tabs--tab ng-star-inserted">
+            <a class="tab--item" id="contents-tab" data-toggle="tab" href="#contents" role="tab" aria-controls="contents" aria-selected="true"> Contents </a>
+        </li>
+        <li class="tabs--tab ng-star-inserted">
+            <a class="tab--item" id="videos-tab" data-toggle="tab" href="#videos" role="tab" aria-controls="videos" aria-selected="true"> Watch Later </a>
+        </li>
+        <!---->
+    </ul>
+    <a class="history-link"> History </a>
+</div>
+
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="modules" role="tabpanel" aria-labelledby="modules-tab">
+        @if (Model.Modules != null && Model.Modules.Count() > 0)
+        {
+            foreach (var module in Model.Modules)
+            {
+                <div class="ng-star-inserted" id="bookmark_box_@module.Id">
+                    <div class="bookmark_wrapper ng-star-inserted">
+                        <div class="bookmark_meta_container">
+                            <div class="bookmark_meta_icon">
+                                <div class="meta-icon-wrapper">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                </div>
+                            </div>
+                            <div class="bookmark_meta_text">
+                                <div class="bookmark_card_meta_title"><a href=""> @module.Title </a></div>
+                                <div class="bookmark-card-meta_links">Course: <a>@module.Course.Title</a></div>
+                            </div>
+                        </div>
+                        <div class="bookmark-card-date">Date created: @module.CreatedDate.ToString("MMMM dd, yyyy")</div>
+                        <div class="bookmark-card-action">
+                            <button class="accordion--dropdown dpd--b" id="accordion_dropdown_@module.Id" onclick="toggleModal('@module.Id')">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+
+                            <div class="overlay_panel" id="overlay_panel_@module.Id">
+                                <div class="dropdown--dashboard-content dropdown-content ng-star-inserted">
+                                    <button class="dropdown-item dropdown--dsh-item" onclick="removeModuleBookmark('@module.Id')">
+                                        <i class="fa-solid fa-circle-minus"></i>
+                                        Remove
+                                    </button>
+                                    <div id="click-event"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty_area empty_text ng-star-inserted">
+                <p class="empty_area_message"> You do not have any bookmarked modules </p>
+            </div>
+        }
+
+    </div>
+
+    <div class="tab-pane fade " id="lectures" role="tabpanel" aria-labelledby="lectures-tab">
+        @if (Model.Lectures != null && Model.Lectures.Count() > 0)
+        {
+            foreach (var lecture in Model.Lectures)
+            {
+                <div class="ng-star-inserted" id="bookmark_box_@lecture.Id">
+                    <div class="bookmark_wrapper ng-star-inserted">
+                        <div class="bookmark_meta_container">
+                            <div class="bookmark_meta_icon">
+                                <div class="meta-icon-wrapper">
+                                    <i class="fa-solid fa-cube"></i>
+                                </div>
+                            </div>
+                            <div class="bookmark_meta_text">
+                                <div class="bookmark_card_meta_title"><a href=""> @lecture.Title </a></div>
+                                <div class="bookmark-card-meta_links">Module: <a>@lecture.Module.Title</a></div>
+                                <div class="bookmark-card-meta_links">Course: <a>@lecture.Module.Course.Title</a></div>
+                            </div>
+                        </div>
+                        <div class="bookmark-card-date">Date created: @lecture.CreatedDate.ToString("MMMM dd, yyyy")</div>
+                        <div class="bookmark-card-action">
+                            <button class="accordion--dropdown dpd--b" id="accordion_dropdown_@lecture.Id" onclick="toggleModal('@lecture.Id')">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+
+                            <div class="overlay_panel" id="overlay_panel_@lecture.Id">
+                                <div class="dropdown--dashboard-content dropdown-content ng-star-inserted">
+                                    <button class="dropdown-item dropdown--dsh-item" onclick="removeLectureBookmark('@lecture.Id')">
+                                        <i class="fa-solid fa-circle-minus"></i>
+                                        Remove
+                                    </button>
+                                    <div id="click-event"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty_area empty_text ng-star-inserted">
+                <p class="empty_area_message"> You do not have any bookmarked lectures   </p>
+            </div>
+        }
+
+    </div>
+
+    <div class="tab-pane fade" id="contents" role="tabpanel" aria-labelledby="contents-tab">
+        @if (Model.Contents != null && Model.Contents.Count() > 0)
+        {
+            foreach (var content in Model.Contents)
+            {
+                <div class="ng-star-inserted" id="bookmark_box_@content.Id">
+                    <div class="bookmark_wrapper ng-star-inserted">
+                        <div class="bookmark_meta_container">
+                            <div class="bookmark_meta_icon">
+                                <div class="meta-icon-wrapper">
+                                    @if (content.FileType == FileType.URL)
+                                    {
+                                        <i class="fa-solid fa-link"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-file"></i>
+                                    }
+                                </div>
+                            </div>
+                            <div class="bookmark_meta_text">
+                                <div class="bookmark_card_meta_title"><a href=""> @content.Title </a></div>
+                                <div class="bookmark-card-meta_links">Lecture: <a>@content.Lecture.Title</a></div>
+                                <div class="bookmark-card-meta_links">Module: <a>@content.Lecture.Module.Title</a></div>
+                                <div class="bookmark-card-meta_links">Course: <a>@content.Lecture.Module.Course.Title</a></div>
+                            </div>
+                        </div>
+                        <div class="bookmark-card-date">Date created: @content.CreatedDate.ToString("MMMM dd, yyyy")</div>
+                        <div class="bookmark-card-action">
+                            <button class="accordion--dropdown dpd--b" id="accordion_dropdown_@content.Id" onclick="toggleModal('@content.Id')">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+
+                            <div class="overlay_panel" id="overlay_panel_@content.Id">
+                                <div class="dropdown--dashboard-content dropdown-content ng-star-inserted">
+                                    <button class="dropdown-item dropdown--dsh-item" onclick="removeContentBookmark('@content.Id')">
+                                        <i class="fa-solid fa-circle-minus"></i>
+                                        Remove
+                                    </button>
+                                    <div id="click-event"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty_area empty_text ng-star-inserted">
+                <p class="empty_area_message"> You do not have any bookmarked contents</p>
+            </div>
+        }
+    </div>
+
+    <div class="tab-pane fade" id="videos" role="tabpanel" aria-labelledby="videos-tab">
+        @if (Model.Videos != null && Model.Videos.Count() > 0)
+        {
+            foreach (var video in Model.Videos)
+            {
+                <div class="ng-star-inserted" id="bookmark_box_@video.Id">
+                    <div class="bookmark_wrapper ng-star-inserted">
+                        <div class="bookmark_meta_container">
+                            <div class="bookmark_meta_icon">
+                                <div class="meta-icon-wrapper">
+                                    <i class="fa-solid fa-video"></i>
+                                </div>
+                            </div>
+                            <div class="bookmark_meta_text">
+                                <div class="bookmark_card_meta_title"><a href=""> @video.Title </a></div>
+                                <div class="bookmark-card-meta_links">Lecture: <a>@video.Lecture.Title</a></div>
+                                <div class="bookmark-card-meta_links">Module: <a>@video.Lecture.Module.Title</a></div>
+                                <div class="bookmark-card-meta_links">Course: <a>@video.Lecture.Module.Course.Title</a></div>
+                            </div>
+                        </div>
+                        <div class="bookmark-card-date">Date created: @video.CreatedDate.ToString("MMMM dd, yyyy")</div>
+                        <div class="bookmark-card-action">
+                            <button class="accordion--dropdown dpd--b" id="accordion_dropdown_@video.Id" onclick="toggleModal('@video.Id')">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </button>
+
+                            <div class="overlay_panel" id="overlay_panel_@video.Id">
+                                <div class="dropdown--dashboard-content dropdown-content ng-star-inserted">
+                                    <button class="dropdown-item dropdown--dsh-item" onclick="removeVideoBookmark('@video.Id')">
+                                        <i class="fa-solid fa-circle-minus"></i>
+                                        Remove
+                                    </button>
+                                    <div id="click-event"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty_area empty_text ng-star-inserted">
+                <p class="empty_area_message"> There is no any videos saved to watch later.</p>
+            </div>
+        }
+    </div>
+</div>
+
+
+<script>
+    var elements = document.querySelectorAll('.tabs--container li a')
+
+    elements.forEach(element => {
+        element.addEventListener('click', (event) => {
+            elements.forEach(element_inner => {
+                if (
+                    element_inner.id !== event.target.id && element_inner.classList.contains('active')
+                ) {
+                    element_inner.classList.remove('active');
+                }
+            })
+        });
+    });
+
+    function toggleModal(id) {
+        const accordion_button = document.getElementById(`accordion_dropdown_${id}`);
+        const overlay_panel = document.getElementById(`overlay_panel_${id}`);
+
+
+        if (
+            overlay_panel.classList.contains('active') &&
+            accordion_button.classList.contains('active')
+        ) {
+            overlay_panel.classList.remove('active');
+            accordion_button.classList.remove('active');
+        }
+        else{
+
+            collapseModals();
+
+            if (
+                !overlay_panel.classList.contains('active') &&
+                !accordion_button.classList.contains('active')
+            ){
+                overlay_panel.classList.add('active');
+                accordion_button.classList.add('active');
+            }
+        }
+    }
+
+    function collapseModals() {
+        const elements = document.querySelectorAll('.bookmark-card-action');
+
+        elements.forEach(element => {
+            const dropdown_inner = element.querySelector('.accordion--dropdown');
+            const overlay_inner = element.querySelector('.overlay_panel');
+
+            if (
+                dropdown_inner.classList.contains('active') &&
+                overlay_inner.classList.contains('active')
+            ) {
+                dropdown_inner.classList.remove('active');
+                overlay_inner.classList.remove('active');
+            }
+        })
+
+    }
+
+    const BookmarkType = Object.freeze({
+        Module: 0, Video: 1, Lecture: 2, Content: 3
+    });
+
+    const removeModuleBookmark = (id) => removeBookmark(id, BookmarkType.Module);
+    const removeLectureBookmark = (id) => removeBookmark(id, BookmarkType.Lecture);
+    const removeContentBookmark = (id) => removeBookmark(id, BookmarkType.Content);
+    const removeVideoBookmark = (id) => removeBookmark(id, BookmarkType.Video);
+
+    function removeBookmark(id, bookmarkType) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/Student/Bookmarks/RemoveBookmark',
+            data: {
+                id: id,
+                bookmarkType: bookmarkType
+            },
+            success: (response) => {
+                if (response.success) {
+                    $(`#bookmark_box_${id}`).fadeOut(500);
+                    if (bookmarkType === BookmarkType.Lecture) {
+                        showToaster('success', 'Lecture bookmark removed.');
+                    }
+                    else if (bookmarkType === BookmarkType.Content) {
+                        showToaster('success', 'Content bookmark removed.');
+                    }
+                    else if (bookmarkType === BookmarkType.Video) {
+                        showToaster('success', 'Video bookmark removed.');
+                    } 
+                    else if (bookmarkType === BookmarkType.Module) {
+                        showToaster('success', 'Module bookmark removed.');
+                    }
+                }
+                else {
+                    showToaster('error', 'Failed to remove bookmark.');
+                }
+            },
+            error: (xhr, status, error) => {
+                console.log(error);
+            }
+        });
+    }
+
+    function showToaster(type, content) {
+        Command: toastr[type](content);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    }
+</script>

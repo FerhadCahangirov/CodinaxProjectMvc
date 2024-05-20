@@ -96,30 +96,30 @@ strong {
     font-weight: bolder;
 }
 
-a {
+table a {
     text-decoration: none;
     color: #5e72e4;
     background-color: transparent;
     -webkit-text-decoration-skip: objects;
 }
 
-    a:hover {
+    table a:hover {
         text-decoration: none;
         color: #233dd2;
     }
 
-    a:not([href]):not([tabindex]) {
+    table a:not([href]):not([tabindex]) {
         text-decoration: none;
         color: inherit;
     }
 
-        a:not([href]):not([tabindex]):hover,
-        a:not([href]):not([tabindex]):focus {
+        table a:not([href]):not([tabindex]):hover,
+        table a:not([href]):not([tabindex]):focus {
             text-decoration: none;
             color: inherit;
         }
 
-        a:not([href]):not([tabindex]):focus {
+        table a:not([href]):not([tabindex]):focus {
             outline: 0;
         }
 

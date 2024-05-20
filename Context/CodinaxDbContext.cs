@@ -34,6 +34,7 @@ namespace CodinaxProjectMvc.Context
         public DbSet<Template> Templates { get; set; }
         public DbSet<Advice> Advices { get; set; }
         public DbSet<Subscriber> Subscribers { get; set; }
+        public DbSet<Bookmark> Bookmarks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

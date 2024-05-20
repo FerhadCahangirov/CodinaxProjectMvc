@@ -26,8 +26,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Areas\Student\Data\" />
-		<Folder Include="Areas\Student\Models\" />
 		<Folder Include="Migrations\" />
 	</ItemGroup>
 

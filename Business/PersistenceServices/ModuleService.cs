@@ -73,7 +73,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         public async Task<ModuleUpdateVm> GetModuleUpdateDataAsync(Guid id)
         {
             Module? module = await _moduleReadRepository.GetSingleAsync(x => x.Id == id);
-            if(module == null)
+            if (module == null)
                 return new ModuleUpdateVm();
 
             return new(module.Id, module.Title);
@@ -83,8 +83,9 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             => await _moduleReadRepository.Table
                 .Include(x => x.Course)
                 .Include(x => x.Lectures)
-                .ThenInclude(x => x.LectureFiles)
+                .ThenInclude(x => x.LectureFiles).ThenInclude(x => x.Bookmarks).ThenInclude(x => x.Student)
+                .Include(x => x.Lectures).ThenInclude(x => x.Bookmarks).ThenInclude(x => x.Student)
             .FirstOrDefaultAsync(x => x.Id == id);
-                
+
     }
 }

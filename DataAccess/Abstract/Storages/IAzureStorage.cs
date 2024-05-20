@@ -4,7 +4,8 @@ namespace CodinaxProjectMvc.DataAccess.Abstract.Storages;
 
 public interface IAzureStorage
 {
-    Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string path, IFormFileCollection files);
+    Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string containerName, IFormFileCollection files);
+    Task<(string fileName, string pathOrContainerName)> UploadAsync(string containerName, IFormFile file);
     Task DeleteAsync(string pathOrContainerName, string fileName);
 
     List<string> GetFiles(string pathOrContainerName);

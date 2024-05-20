@@ -11,10 +11,13 @@ namespace CodinaxProjectMvc.DataAccess.Models
 
         public IEnumerable<LectureFile> LectureFiles { get; set; }
 
+        public IEnumerable<Bookmark> Bookmarks { get; set; }
+
         public Lecture() : base()
         {
             Module = new Module();
             LectureFiles = new List<LectureFile>();
+            Bookmarks = new List<Bookmark>();
         }
     }
 }
