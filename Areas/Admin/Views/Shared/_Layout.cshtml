@@ -188,7 +188,7 @@
         <header class="header_container">
             <div class="header_left">
                 <div class="header_search_container">
-                    <input class="header_search_input" type="text" placeholder="Search" />
+                    <input class="header_search_input" type="text" placeholder="Search" oninput="searchContent(event)"/>
                     <div class="header_search_icon">
                         <i class="fa-solid fa-magnifying-glass align-middle"></i>
                     </div>
@@ -218,8 +218,6 @@
 		<!-- Bootstrap Core JS -->
 		<script src="/Assets/panel/assets/js/bootstrap.bundle.min.js"></script>
 
-		<!-- Select2 JS -->
-	  	<script src="/Assets/panel/assets/plugins/select2/js/select2.min.js"></script>
 
 	  	<!-- Ckeditor JS -->
 	  	<script src="/Assets/panel/assets/js/ckeditor.js"></script>
@@ -244,6 +242,19 @@
                 sidemenu.classList.add('active');
 
             }
+        }
+
+        function searchContent(event){
+            $.ajax({
+                type: 'POST',
+                url: `/admin/search?content=${event.target.value}`,
+                success: (response) => {
+                    $('.main_content .main_wrapper').html(response);
+                },
+                error: (data) => {
+                    console.log(data);
+                }
+            })
         }
     </script>
 

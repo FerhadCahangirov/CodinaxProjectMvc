@@ -1,0 +1,617 @@
+﻿@section Styles {
+    <link href="~/assets/panel/assets/plugins/fullcalendar/core/main.css" rel="stylesheet" />
+    <link href="~/assets/panel/assets/plugins/fullcalendar/core/main.min.css" rel="stylesheet" />
+
+    <link href="~/assets/panel/assets/plugins/fullcalendar/daygrid/main.css" rel="stylesheet" />
+    <link href="~/assets/panel/assets/plugins/fullcalendar/daygrid/main.min.css" rel="stylesheet" />
+
+    <link href="~/assets/panel/assets/plugins/fullcalendar/timegrid/main.css" rel="stylesheet" />
+    <link href="~/assets/panel/assets/plugins/fullcalendar/timegrid/main.min.css" rel="stylesheet" />
+
+    <link href="~/assets/panel/assets/plugins/fullcalendar/bootstrap/main.css" rel="stylesheet" />
+    <link href="~/assets/panel/assets/plugins/fullcalendar/bootstrap/main.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css"
+          integrity="sha512-3JRrEUwaCkFUBLK1N8HehwQgu8e23jTH4np5NHOmQOobuC4ROQxFwFgBLTnhcnQRMs84muMh0PnnwXlPq5MGjg=="
+          crossorigin="anonymous" />
+
+
+}
+
+<div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="saveModalLabel">Event Add/Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input hidden id="eventId" />
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Starting Date: </label>
+                            <div class="input-group date" id="startDatePicker" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input"
+                                       data-target="#startDatePicker" id="inputStartDate" style="pointer-events: none;" />
+                                <div class="input-group-append" data-target="#startDatePicker"
+                                     data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">End Date: </label>
+                            <div class="input-group date" id="endDatePicker" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input"
+                                       data-target="#endDatePicker" id="inputEndDate" style="pointer-events: none;" />
+                                <div class="input-group-append" data-target="#endDatePicker"
+                                     data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Title: </label>
+                            <input id="inputTitle" type="text" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Url: </label>
+                            <input id="inputUrl" type="url" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Background Color: </label>
+                            <input id="inputBgColor" type="color" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Text Color: </label>
+                            <input id="inputTxtColor" type="color" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Courses: </label>
+                            <select id="selectCourseId" asp-items="@ViewBag.Courses" class="form-control">
+                                <option value="0" disabled selected>Please Select Course.</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSave">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Meeting Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input hidden id="eventIdDetail" />
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Starting Date: </label>
+                            <div class="input-group date" id="startDatePickerDetail" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input"
+                                       data-target="#startDatePickerDetail" id="inputStartDateDetail"
+                                       style="pointer-events: none;" disabled />
+                                <div class="input-group-append" data-target="#startDatePickerDetail"
+                                     data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">End Date: </label>
+                            <div class="input-group date" id="endDatePickerDetail" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input"
+                                       data-target="#endDatePickerDetail" id="inputEndDateDetail"
+                                       style="pointer-events: none;" disabled />
+                                <div class="input-group-append" data-target="#endDatePickerDetail"
+                                     data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Title: </label>
+                            <input id="inputTitleDetail" type="text" class="form-control" disabled>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Url: </label>
+                            <input id="inputUrlDetail" type="url" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Background Color: </label>
+                            <input id="inputBgColorDetail" type="color" class="form-control" disabled>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Text Color: </label>
+                            <input id="inputTxtColorDetail" type="color" class="form-control" disabled>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="form-control-label">Courses: </label>
+                            <select id="selectCourseIdDetail" asp-items="@ViewBag.Courses" class="form-control" disabled>
+                                <option value="0" disabled selected>Please Select Course.</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="calendar">
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var selectedEvent = null;
+        const dateFormatString = "DD/MM/YYYY HH:mm";
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: ['interaction', 'dayGrid', 'timeGrid', 'bootstrap', 'momentTimezone'],
+            themeSystem: 'bootstrap',
+            bootstrapFontAwesome: {
+                prev: 'fa-chevron-circle-left',
+                next: 'fa-chevron-circle-right',
+                settings: 'fa-gear'
+            },
+            header: {
+                left: 'prev, today, next',
+                center: 'title',
+                right: 'dayGridMonth, timeGridWeek, settings'
+
+            },
+            footer: {
+                left: 'prevYear',
+                right: 'nextYear'
+            },
+            customButtons: {
+                settings: {
+                    click: function () {
+
+                    }
+                }
+            },
+            snapDuration: '00:05:00',
+            slotDuration: '00:15:00',
+            slotLabelInterval: '00:15:00',
+            slotLabelFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                meridiemLocation: 'long'
+            },
+            fixedWeekCount: true,
+            showNonCurrentDates: false,
+            handleWindowResize: true,
+            handleWindowDelay: 100,
+            contentHeight: 650,
+            defaultView: 'dayGridMonth',
+            weekends: true,
+            hiddenDays: [0],
+            allDaysSlot: false,
+            firstDay: 1, //Pazardan baslayacak sekilde 0, 1, 2 ...
+            titleFormat: {
+                year: 'numeric',
+                month: 'short',
+            },
+            titleRangeSeparator: ' - ',
+            columnHeaderFormat: {
+                weekday: 'long',
+            },
+            views: {
+                timeGridForFourDay: {
+                    type: 'timeGrid',
+                    dayCount: 4,
+                    buttonText: '4 day'
+                }
+            },
+            eventColor: 'white',
+            eventBackgroundColor: 'red',
+            eventBorderColor: 'black',
+            eventTimeFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                meridiemLocation: 'long'
+            },
+            displayEventTime: true,
+            displayEventEnd: true,
+            eventOrder: 'title',
+            timeZone: 'UTC',
+            events: [],
+            selectable: true,
+            select: (selectionInfo) => {
+
+                selectedEvent = {
+                    id: null,
+                    start: moment(selectionInfo.start),
+                    end: moment(selectionInfo.end),
+                    title: "",
+                    urlString: "",
+                    backgroundColor: "",
+                    textColor: "",
+                    courseId: "",
+                }
+
+                openAddOrUpdateModal();
+            },
+            eventRender: function (info) {
+                var event = info.event;
+                var element = info.el;
+
+                var customContent = `
+                        <div class="fc-content">
+                            <div class="custom-event-content" style="cursor: initial;padding: .6rem;">
+                                <small>${moment(event.start).format("HH:mm")} - ${moment(event.end).format("HH:mm")} </small><br/>
+                                <a style="color: ${event.textColor};text-decoration: none;" href="${event.extendedProps.urlString}"><strong> ${event.title} </strong></a><br/>
+                                <i class="fa-solid fa-eye pointer mt-2"></i>
+                            </div>
+                        </div>
+                        <div class="fc-resizer fc-resizer-start"></div>
+                        <div class="fc-resizer fc-resizer-end"></div>
+                    `;
+
+                element.innerHTML = customContent;
+
+
+                var eyeIcon = element.querySelector('.fa-eye');
+                console.log(eyeIcon)
+                if (eyeIcon) {
+                    eyeIcon.addEventListener('click', function () {
+                        openDetailModal(info);
+                    });
+                }
+            },
+            editable: true,
+            eventDrop: (dropEventInfo) => {
+                var event = {
+                    EventId: dropEventInfo.event.id,
+                    CourseId: dropEventInfo.event.extendedProps.courseId,
+                    StartDate: dropEventInfo.event.start.toUTCString(),
+                    EndDate: dropEventInfo.event.end.toUTCString(),
+                    Title: dropEventInfo.event.title,
+                    BackgroundColor: dropEventInfo.event.backgroundColor,
+                    TextColor: dropEventInfo.event.textColor,
+                    Url: dropEventInfo.event.extendedProps.urlString
+                };
+
+                saveEvent(event);
+            },
+            eventResize: (resizeEventInfo) => {
+                var event = {
+                    EventId: resizeEventInfo.event.id,
+                    CourseId: resizeEventInfo.event.extendedProps.courseId,
+                    StartDate: resizeEventInfo.event.start.toUTCString(),
+                    EndDate: resizeEventInfo.event.end.toUTCString(),
+                    Title: resizeEventInfo.event.title,
+                    BackgroundColor: resizeEventInfo.event.backgroundColor,
+                    TextColor: resizeEventInfo.event.textColor,
+                    Url: resizeEventInfo.event.extendedProps.urlString
+                };
+
+                saveEvent(event);
+            },
+        });
+
+        calendar.render();
+        getEvents();
+
+        function openAddOrUpdateModal() {
+
+            if (selectedEvent != null) {
+                $("#eventId").val(selectedEvent.id);
+                $("#inputStartDate").val(moment(selectedEvent.start).format(dateFormatString));
+                $("#inputEndDate").val(moment(selectedEvent.end).format(dateFormatString));
+                $("#inputTitle").val(selectedEvent.title);
+                $("#inputUrl").val(selectedEvent.urlString);
+                $("#inputBgColor").val(selectedEvent.backgroundColor);
+                $("#inputTxtColor").val(selectedEvent.textColor);
+                $("#selectCourseId").val(selectedEvent.courseId);
+            }
+
+            $('#saveModal').modal();
+        }
+
+        function saveEvent(data) {
+            $.ajax({
+                type: 'POST',
+                url: '/instructor/events/addOrUpdateEvent',
+                data: data,
+                success: (response) => {
+                    if (response.success === true) {
+                        $('#saveModal').modal('hide');
+
+                        data.id === ""
+                            ? showToaster('success', 'Successfully Added.')
+                            : showToaster('success', 'Successfully Updated.');
+
+                        getEvents();
+                    }
+                    else {
+                        showToaster('error', 'Failed action.');
+                    }
+                },
+                error: () => {
+                    showToaster('error', 'Failed action.');
+                }
+            });
+        }
+
+        function getEvents() {
+            $.ajax({
+                type: 'GET',
+                url: '/instructor/events/listevents',
+                success: (response) => {
+                    events = [];
+                    var sources = calendar.getEventSources();
+
+                    sources.forEach(source => {
+                        source.remove();
+                    });
+
+                    for (var i = 0; i < response.length; i++) {
+                        events.push({
+                            id: response[i].id,
+                            title: response[i].title,
+                            urlString: response[i].url,
+                            start: response[i].startDate,
+                            end: response[i].endDate,
+                            backgroundColor: response[i].backgroundColor,
+                            textColor: response[i].textColor,
+                            isBelong: response[i].isBelong,
+                            courseId: response[i].courseId,
+                        });
+
+                    }
+
+                    console.log(events);
+                    calendar.addEventSource(events);
+                },
+                error: () => {
+                    $('#saveModal').modal('hide');
+                    showToaster('error', 'Failed.');
+                }
+            });
+        }
+
+        function openDetailModal(info) {
+
+            selectedEvent = {
+                id: info.event.id,
+                start: info.event.start.toUTCString(),
+                end: info.event.end.toUTCString(),
+                title: info.event.title,
+                textColor: info.event.textColor,
+                backgroundColor: info.event.backgroundColor,
+                urlString: info.event.extendedProps.urlString,
+                courseId: info.event.extendedProps.courseId.toUpperCase(),
+                isBelong: info.event.extendedProps.isBelong
+            };
+
+            console.log(selectedEvent);
+
+            $('#eventIdDetail').val(info.event.id);
+            $('#selectCourseIdDetail').val(info.event.extendedProps.courseId.toUpperCase());
+            $('#inputStartDateDetail').val(moment(info.event.start).format('DD/MM/YYYY HH:mm'));
+            $('#inputEndDateDetail').val(moment(info.event.end).format('DD/MM/YYYY HH:mm'));
+            $('#inputTxtColorDetail').val(info.event.textColor);
+            $('#inputBgColorDetail').val(info.event.backgroundColor);
+            $('#inputTitleDetail').val(info.event.title);
+            $('#inputUrlDetail').val(info.event.extendedProps.urlString);
+
+            const isBelongContent = `
+                    <button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
+                    <button type="button" class="btn btn-primary" id="btnUpdate">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                `;
+
+            const isNotBelongContent = `
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                `;
+
+            if (selectedEvent.isBelong) {
+                console.log($("#detailModal .modal-footer"));
+                $("#detailModal .modal-footer").html(isBelongContent);
+            }
+            else {
+                $("#detailModal .modal-footer").html(isNotBelongContent);
+            }
+
+            $("#detailModal").modal();
+
+            $("#btnUpdate").click(function () {
+                $('#detailModal').modal('hide');
+                openAddOrUpdateModal();
+            });
+
+            $("#btnDelete").click(function () {
+                console.log('click handled');
+                $.ajax({
+                    type: 'DELETE',
+                    url: `/instructor/events/deleteEvent?id=${selectedEvent.id}`,
+                    success: (response) => {
+                        if (response.success === true) {
+                            $('#detailModal').modal('hide');
+                            getEvents();
+                            showToaster('success', 'Event deleted success.');
+                        }
+                        else {
+                            $('#detailModal').modal('hide');
+                            showToaster('error', 'Failed to delete event.');
+                        }
+                    },
+                    error: () => {
+                        $('#detailModal').modal('hide');
+                        showToaster('error', 'An error occured.');
+                    }
+                });
+
+            });
+        }
+
+
+        $("#btnSave").click(function () {
+            var startDate = parseDate($('#inputStartDate').val());
+            var endDate = parseDate($('#inputEndDate').val());
+
+            console.log(startDate, endDate);
+
+            var event = {
+                EventId: $('#eventId').val(),
+                CourseId: $('#selectCourseId').val(),
+                StartDate: startDate.toUTCString(),
+                EndDate: endDate.toUTCString(),
+                Title: $('#inputTitle').val(),
+                BackgroundColor: $('#inputBgColor').val(),
+                TextColor: $('#inputTxtColor').val(),
+                Url: $('#inputUrl').val()
+            };
+
+            console.log(event);
+
+            saveEvent(event);
+        });
+
+
+
+    });
+
+    function parseDate(dateString) {
+        var parts = dateString.split(' ');
+        var dateParts = parts[0].split('/');
+        var timeParts = parts[1].split(':');
+
+        return new Date(parseInt(dateParts[2]), parseInt(dateParts[1]) - 1, parseInt(dateParts[0]), timeParts[0], timeParts[1]);
+    }
+
+    function showToaster(type, content) {
+        Command: toastr[type](content);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    }
+</script>
+
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"
+            integrity="sha512-hUhvpC5f8cgc04OZb55j0KNGh4eh7dLxd/dPSJ5VyzqDWxsayYbojWyl5Tkcgrmb/RVKCRJI1jNlRbVP4WWC4w=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment-with-locales.min.js"
+            integrity="sha512-4F1cxYdMiAW98oomSLaygEwmCnIP38pb4Kx70yQYqRwLVCs3DbRumfBq82T08g/4LJ/smbFGFpmeFlQgoDccgg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.45/moment-timezone.min.js"
+            integrity="sha512-EUm65YBi2BbIovgy8ZNxiNEa0xnA3LSxYYcMuYdCpxwNILaHa+IXNJcnJQo9AugzC3uQ9tsf0n2aoSRaHIfQjg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.45/moment-timezone-utils.js"
+            integrity="sha512-t71EvIZwO1NDzwq+GOGqRyQXUCmqtSfmtdP8cKod8Lm1v3LG4B1Wkk7tDaR5x+++UCysmMjsVav4+XelisEU1A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.45/moment-timezone-utils.min.js"
+            integrity="sha512-2ambGDwV8DfaZMSXtFS5sNCCSS/Fsk7ilNgzr1B5Lvk1IF9ibIS6sVCMlk6/y4fPvNxQAc3RCbMmzK+FIQoHMw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"
+            integrity="sha512-k6/Bkb8Fxf/c1Tkyl39yJwcOZ1P4cRrJu77p83zJjN2Z55prbFHxPs9vN7q3l3+tSMGPDdoH51AEU8Vgo1cgAA=="
+            crossorigin="anonymous"></script>
+
+    <script src="~/assets/panel/assets/plugins/fullcalendar/core/main.esm.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/core/main.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/core/main.min.js"></script>
+
+    <script src="~/assets/panel/assets/plugins/fullcalendar/daygrid/main.esm.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/daygrid/main.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/daygrid/main.min.js"></script>
+
+    <script src="~/assets/panel/assets/plugins/fullcalendar/timegrid/main.esm.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/timegrid/main.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/timegrid/main.min.js"></script>
+
+    <script src="~/assets/panel/assets/plugins/fullcalendar/bootstrap/main.esm.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/bootstrap/main.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/bootstrap/main.min.js"></script>
+
+    <script src="~/assets/panel/assets/plugins/fullcalendar/interaction/main.esm.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/interaction/main.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/interaction/main.min.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/moment/main.esm.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/moment/main.min.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/moment/main.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/moment-timezone/main.esm.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/moment-timezone/main.min.js"></script>
+    <script src="~/assets/panel/assets/plugins/fullcalendar/moment-timezone/main.js"></script>
+    <script src="~/js/secretary.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#startDatePicker, #endDatePicker').datetimepicker({
+                format: 'DD/MM/YYYY HH:mm'
+            });
+        });
+    </script>
+
+
+}

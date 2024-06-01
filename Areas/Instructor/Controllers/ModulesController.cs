@@ -40,6 +40,7 @@ namespace CodinaxProjectMvc.Areas.Instructor.Controllers
         public async Task<IActionResult> Update(Guid id)
             => View(await _moduleService.GetModuleUpdateDataAsync(id));
 
+
         [HttpPost]
         public async Task<IActionResult> Update(ModuleUpdateVm moduleUpdateVm)
         {
@@ -54,6 +55,8 @@ namespace CodinaxProjectMvc.Areas.Instructor.Controllers
             return View(moduleUpdateVm);
         }
 
-
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid id)
+            => new JsonResult(new { success = await _moduleService.DeleteModuleAsync(id)});
     }
 }

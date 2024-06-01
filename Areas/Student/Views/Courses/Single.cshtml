@@ -132,7 +132,7 @@
 <div class="items_grid">
 
 
-    @foreach (var item in Model.Course.Modules)
+    @foreach (var item in Model.Course.Modules.Where(x => !x.IsDeleted))
     {
         <div class="course_card" id="item_@item.Id">
             <div class="course_card_content">
@@ -164,7 +164,7 @@
                             <div class="course_modules_info_inner">
                                 <div>
                                     <i class="fa-solid fa-shapes align-middle mr-2"></i>
-                                    @item.Lectures.Count() lectures
+                                    @item.Lectures.Where(x => !x.IsDeleted).Count() lectures
                                 </div>
 
                             </div>

@@ -19,6 +19,7 @@ namespace CodinaxProjectMvc.DataAccess.Models
         public IEnumerable<Instructor> Instructors { get; set; }
         public IEnumerable<Student> Students { get; set; }
         public IEnumerable<Module> Modules { get; set; }
+        public IEnumerable<Event> Events { get; set; }
         public Category Category { get; set; }
 
         public Template Template { get; set; }
@@ -30,6 +31,7 @@ namespace CodinaxProjectMvc.DataAccess.Models
             Category = new Category();
             Modules = new List<Module>();
             Template = new Template();
+            Events = new List<Event>();
         }
     }
 }

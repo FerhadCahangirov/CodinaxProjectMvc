@@ -385,5 +385,35 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             return new LectureUpdateVm(lecture.Id, lecture.Title);
         }
+
+        public async Task<bool> DeleteLectureAsync(Guid id)
+        {
+            Lecture? lecture = await _lectureReadRepository.GetSingleAsync(x => x.Id == id);
+
+            if (lecture == null)
+                return false;
+
+            lecture.IsDeleted = true;
+
+            _lectureWriteRepository.Update(lecture);
+            await _lectureWriteRepository.SaveAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteLectureFileAsync(Guid id)
+        {
+            LectureFile? lectureFile = await _lectureFileReadRepository.GetSingleAsync(x => x.Id == id);
+
+            if (lectureFile == null)
+                return false;
+
+            lectureFile.IsDeleted = true;
+
+            _lectureFileWriteRepository.Update(lectureFile);
+            await _lectureFileWriteRepository.SaveAsync();
+
+            return true;
+        }
     }
 }

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Course>
+
+<div class="search-results-container">
+    <h5 class="title-results">Search results for courses <span>"@(Context.Request.Query["content"])"</span></h5>
+    <hr>
+    @if (Model != null && Model.Count() > 0)
+    {
+        <div class="grid-search-results-nest">
+            @foreach (var course in Model)
+            {
+                <a class="card-result_nest ng-star-inserted">
+                    <div class="card-search-single">
+                        <div class="top-card">
+                            <div class="icon program ng-star-inserted">
+                                <i class="fa-solid fa-desktop align-middle"></i>
+
+                                <!----><!---->
+                            </div>
+                            <!---->
+                        </div>
+                        <div class="info-search-card-single">
+                            <a href="/student/courses/single/@course.Id"><h3 class="info-search-title general-link">@course.Title</h3></a>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<LectureFile>
+
+<div class="search-results-container">
+    <h5 class="title-results">Search results for courses <span>"@(Context.Request.Query["content"])"</span></h5>
+    <hr>
+    @if (Model != null && Model.Count() > 0)
+    {
+        <div class="grid-search-results-nest">
+            @foreach (var content in Model)
+            {
+                <a class="card-result_nest ng-star-inserted">
+                    <div class="card-search-single">
+                        <div class="top-card">
+                            <div class="icon content ng-star-inserted">
+                                @if(content.FileType == FileType.URL)
+                                {
+                                    <i class="fa-solid fa-link align-middle"></i>
+
+                                }
+                                else if (content.FileType == FileType.PDF || content.FileType == FileType.TXT)
+                                {
+                                    <i class="fa-regular fa-file align-middle"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-video align-middle"></i>
+                                }
+                                <!----><!---->
+                            </div>
+                            <!---->
+                        </div>
+                        <div class="info-search-card-single">
+                            <a href="/instructor/modules/index/@content.Lecture.Module.Id"><h3 class="info-search-title general-link">@content.Title</h3></a>
+                            <ul class="pl-0">
+                                <li class="info-search-desc ng-star-inserted">Course: <strong>@content.Lecture.Module.Course.Title</strong></li>
+                                <li class="info-search-desc ng-star-inserted">Module: <strong>@content.Lecture.Module.Title</strong></li>
+                                <li class="info-search-desc ng-star-inserted">Lecture: <strong>@content.Lecture.Title</strong></li>
+
+                            </ul>
+                            <!---->
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</div>

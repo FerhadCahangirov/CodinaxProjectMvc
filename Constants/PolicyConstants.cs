@@ -7,5 +7,6 @@
         public const string StudentPolicy = "StudentPolicy";
         public const string AuthRequiredPolicy = "AuthRequiredPolicy";
         public const string NotAuthRequiredPolicy = "NotAuthRequiredPolicy";
+        public const string InstructorCoursePolicy = "InstructorCoursePolicy";
     }
 }

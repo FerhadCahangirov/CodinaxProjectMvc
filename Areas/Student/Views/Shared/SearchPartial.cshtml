@@ -1,0 +1,165 @@
+﻿@model SearchListVm
+
+<div class="search-results-container">
+    <h5 class="title-results">Search results for <span>"@Model.Query"</span></h5>
+    <hr>
+    <div class="mt-2">
+        @if (Model.Courses != null && Model.Courses.Count() > 0)
+        {
+            <h5 class="found-text">Found <span>@Model.Courses.Count()</span> courses</h5>
+            <div class="grid-search-results">
+                @foreach (var course in Model.Courses)
+                {
+                    <a href="/student/courses/single/@course.Id" class="search-result general-link">
+                        <div class="card-search">
+                            <div class="top-card">
+                                <div class="icon program">
+                                    <i class="fa-solid fa-desktop align-middle"></i>
+                                </div>
+                                <!---->
+                            </div>
+                            <div class="info-search-card">
+                                <h3 class="info-search-title">@course.Title</h3>
+                                <p class="info-search-desc">@course.CourseCode - @course.Title</p>
+                            </div>
+                        </div>
+                    </a>
+                }
+
+                <!----><!----><!---->
+            </div>
+            <a class="link-view" href="/student/search/searchByCourse?content=@Model.Query">
+                View all courses for "@Model.Query"
+                <svg fill="currentColor" width="15px" viewBox="0 0 20 20" class="w-8 h-8 transform scale-95">
+                    <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+        }
+
+        <!----><!---->
+        <!---->
+        @if (Model.Modules != null && Model.Modules.Count() > 0)
+        {
+            <h5 class="found-text">Found <span>@Model.Modules.Count()</span> modules</h5>
+            <div class="grid-search-results">
+
+                @foreach (var module in Model.Modules)
+                {
+
+                    <a href="/student/modules/index/@module.Id" class="search-result general-link">
+                        <div class="card-search">
+                            <div class="top-card">
+                                <div class="course icon">
+                                    <i class="fa-solid fa-layer-group align-middle"></i>
+
+                                </div>
+                                <!---->
+                            </div>
+                            <div class="info-search-card">
+                                <h3 class="info-search-title">@module.Title</h3>
+                                <p class="info-search-desc">@module.Title</p>
+                            </div>
+                        </div>
+                    </a>
+                }
+                <!----><!---->
+
+            </div>
+            <a class="link-view" href="/student/search/searchByModule?content=@Model.Query">
+                View all modules for "@Model.Query"
+                <svg fill="currentColor" width="15px" viewBox="0 0 20 20" class="w-8 h-8 transform scale-95">
+                    <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+        }
+
+        <!----><!---->
+        <!---->
+        @if (Model.Lectures != null && Model.Lectures.Count() > 0)
+        {
+            <h5 class="found-text">Found <span>@Model.Lectures.Count()</span> lectures</h5>
+            <div class="grid-search-results">
+                @foreach (var lecture in Model.Lectures)
+                {
+                    <a href="/student/modules/index/@lecture.Module.Id" class="search-result general-link">
+                        <div class="card-search">
+                            <div class="top-card">
+
+                                <div class="icon module">
+                                    <i class="fa-solid fa-cube align-middle"></i>
+
+                                </div>
+                                <!---->
+                            </div>
+                            <div class="info-search-card">
+                                <h3 class="info-search-title">@lecture.Title</h3>
+                                <p class="info-search-desc">@lecture.Title</p>
+                            </div>
+                        </div>
+                    </a>
+                    <!---->
+                }
+                <!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
+            </div>
+            <a class="link-view" href="/student/search/searchByLecture?content=@Model.Query">
+                View all lectures for "@Model.Query"
+                <svg fill="currentColor" width="15px" viewBox="0 0 20 20" class="w-8 h-8 transform scale-95">
+                    <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+        }
+
+        <!----><!---->
+        <!---->
+        @if (Model.Contents != null && Model.Contents.Count() > 0)
+        {
+            <h5 class="found-text">Found <span>@Model.Contents.Count()</span> contents</h5>
+            <div class="grid-search-results">
+                @foreach (var content in Model.Contents)
+                {
+                    <a href="/student/modules/index/@content.Lecture.Module.Id" class="search-result general-link">
+                        <div class="card-search">
+                            <div class="top-card">
+                                <div class="content icon">
+                                    @if (content.FileType == FileType.URL)
+                                    {
+                                        <i class="fa-solid fa-link align-middle"></i>
+
+                                    }
+                                    else if (content.FileType == FileType.PDF || content.FileType == FileType.TXT)
+                                    {
+                                        <i class="fa-regular fa-file align-middle"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-video align-middle"></i>
+                                    }
+                                </div>
+                                <!---->
+                            </div>
+                            <div class="info-search-card">
+                                <h3 class="info-search-title">@content.Title</h3>
+                                <p class="info-search-desc">@content.Title</p>
+                            </div>
+                        </div>
+                    </a>
+                    <!---->
+                    <!---->
+                }
+
+
+                <!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
+            </div>
+            <a class="link-view" href="/student/search/searchByContent?content=@Model.Query">
+                View all contents for "@Model.Query"
+                <svg fill="currentColor" width="15px" viewBox="0 0 20 20" class="w-8 h-8 transform scale-95">
+                    <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+            </a>
+
+        }
+
+        <!----><!---->
+        <!----><!----><!----><!---->
+    </div>
+</div>

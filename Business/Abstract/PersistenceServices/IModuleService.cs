@@ -11,6 +11,8 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
 
         Task<bool> UpdateModuleAsync(ModuleUpdateVm moduleUpdateVm);
 
-        Task<Module?> GetModuleByIdAsync(Guid id); 
+        Task<Module?> GetModuleByIdAsync(Guid id);
+
+        Task<bool> DeleteModuleAsync(Guid id);
     }
 }

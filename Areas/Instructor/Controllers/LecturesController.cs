@@ -29,7 +29,7 @@ namespace CodinaxProjectMvc.Areas.Instructor.Controllers
             if (!result)
                 return View(lectureCreateVm);
             TempData["LectureCreatedSuccess"] = true;
-            return Redirect($"/Instructor/Modules/Index/{lectureCreateVm.ModuleId}");   
+            return Redirect($"/Instructor/Modules/Index/{lectureCreateVm.ModuleId}");
         }
 
         public async Task<IActionResult> Update(Guid id)
@@ -39,11 +39,15 @@ namespace CodinaxProjectMvc.Areas.Instructor.Controllers
         public async Task<IActionResult> Update(LectureUpdateVm lectureUpdateVm)
         {
             bool result = await _lectureService.UpdateLecturesAsync(lectureUpdateVm);
-            if(!result)
+            if (!result)
                 return View(lectureUpdateVm);
             TempData["LectureUpdatedSuccess"] = true;
             return View(lectureUpdateVm);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid id)
+            => new JsonResult(new { success = await _lectureService.DeleteLectureAsync(id) });
 
         [HttpGet("Instructor/[controller]/{action}/{moduleId}/{lectureId}")]
         public IActionResult AddFile(Guid moduleId, Guid lectureId)
@@ -53,7 +57,7 @@ namespace CodinaxProjectMvc.Areas.Instructor.Controllers
         public async Task<IActionResult> AddFile(LectureFileCreateVm lectureFileCreateVm)
         {
             bool result = await _lectureService.AddLectureFileAsync(lectureFileCreateVm);
-            if(!result)
+            if (!result)
                 return View(lectureFileCreateVm);
 
             TempData["LectureFileCreatedSuccess"] = true;
@@ -62,8 +66,8 @@ namespace CodinaxProjectMvc.Areas.Instructor.Controllers
 
         public async Task<IActionResult> UpdateFile(Guid id)
             => View(await _lectureService.GetLectureFileUpdateDataAsync(id));
-        
-            
+
+
         [HttpPost]
         public async Task<IActionResult> UpdateFile(LectureFileUpdateVm lectureFileUpdateVm)
         {
@@ -73,6 +77,10 @@ namespace CodinaxProjectMvc.Areas.Instructor.Controllers
             TempData["LectureFileUpdatedSuccess"] = true;
             return View(lectureFileUpdateVm);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteFile(Guid id)
+            => new JsonResult(new { success = await _lectureService.DeleteLectureFileAsync(id) });
 
     }
 }

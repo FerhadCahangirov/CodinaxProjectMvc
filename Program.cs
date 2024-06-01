@@ -89,7 +89,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddTransient<IAuthorizationHandler, InstructorAuthorizationHandler>();
 builder.Services.AddTransient<IAuthorizationHandler, StudentAuthorizationHandler>();
-    
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy(PolicyConstants.AdminPolicy, policy => policy.RequireRole(Roles.Admin.ToString()));
@@ -115,7 +115,7 @@ builder.Services.AddScoped<INotificationManager, NotificationManager>();
 builder.Services.AddPersistenceServices();
 
 builder.Services.AddScoped<PropertyAccessCourseFilter>();
-
+builder.Services.AddScoped<EventViewFilter>();
 
 var app = builder.Build();
 
@@ -143,7 +143,7 @@ using (var service = app.Services.CreateScope())
             FirstName = "Admin",
             LastName = "Adminov",
             Email = "admin@mail.ru",
-            UserName = "admin123"
+            UserName = "admin@mail.ru"
         };
         var result = _userManager.CreateAsync(user, "Admin123$").GetAwaiter().GetResult();
         _userManager.AddToRoleAsync(user, "Admin").GetAwaiter().GetResult();

@@ -7,7 +7,8 @@
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     @if (TempData["ModuleCreatedSuccess"] != null && (bool)TempData["ModuleCreatedSuccess"] == true)
     {
@@ -81,7 +82,7 @@
                                 <i class="fa-regular fa-file align-middle"></i>
                             </div>
                             <div class="meta_info_text">
-                                <p class="meta_title">9 Modlues</p>
+                                <p class="meta_title">@Model.Course.Modules.Where(x => !x.IsDeleted).Count() Modules</p>
                             </div>
                         </div>
                     </div>
@@ -101,7 +102,7 @@
                                 <i class="fa-regular fa-file align-middle"></i>
                             </div>
                             <div class="meta_info_text">
-                                <p class="meta_title">9 Modlues</p>
+                                <p class="meta_title">@Model.Course.Modules.Where(x => !x.IsDeleted).Count() Modules</p>
                             </div>
                         </div>
                     </div>
@@ -134,7 +135,7 @@
 <div class="items_grid">
 
 
-    @foreach (var item in Model.Course.Modules)
+    @foreach (var item in Model.Course.Modules.Where(x => !x.IsDeleted))
     {
         <div class="course_card" id="item_@item.Id">
             <div class="course_card_content">
@@ -149,7 +150,7 @@
                     <div class="course_card_top">
                         <a class="course_card_title" title="@item.Title" href="/Instructor/Modules/index/@item.Id"> @item.Title</a>
 
-                        <button class="button_bookmark">
+                        <button class="button_bookmark" onclick="deleteModule('@item.Id')">
                             <i class="fa-solid fa-trash align-middle"></i>
                         </button>
                         <a class="button_bookmark"
@@ -163,7 +164,7 @@
                             <div class="course_modules_info_inner">
                                 <div>
                                     <i class="fa-solid fa-shapes align-middle mr-2"></i>
-                                    @item.Lectures.Count() lectures
+                                    @item.Lectures.Where(x => !x.IsDeleted).Count() lectures
                                 </div>
 
                             </div>
@@ -179,6 +180,40 @@
 
 
 
-<div class="items_grid collapse" id="modules">
-</div>
-
+<script>
+    function deleteModule(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: `/Instructor/Modules/Delete/${id}`,
+            success: (response) => {
+                if (response.success) {
+                    $(`#item_${id}`).fadeOut(500);
+                    Command: toastr["success"]("Module has been created.");
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "500",
+                        "timeOut": "1000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    };
+                }
+                else {
+                    showToaster('error', 'Failed to delete module.');
+                }
+            },
+            error: (error) => {
+                showToaster('error', 'Failed to delete module.');
+            }
+        });
+    }
+</script>

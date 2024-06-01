@@ -17,5 +17,8 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         Task<LectureFileUpdateVm> GetLectureFileUpdateDataAsync(Guid lectureFileId);
 
         Task<bool> UpdateLectureFileAsync(LectureFileUpdateVm lectureFileUpdateVm);
+
+        Task<bool> DeleteLectureAsync(Guid id);
+        Task<bool> DeleteLectureFileAsync(Guid id);
     }
 }

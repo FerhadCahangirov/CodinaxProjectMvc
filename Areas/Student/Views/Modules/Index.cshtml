@@ -125,7 +125,7 @@
 <div class="items_list">
 
 
-    @foreach (Lecture lecture in Model.Lectures)
+    @foreach (Lecture lecture in Model.Lectures.Where(x => !x.IsDeleted))
     {
         <div class="item_container">
             <div class="item_card_wrapper" id="item_card_wrapper_@lecture.Id">
@@ -158,12 +158,12 @@
                     </div>
                 </div>
 
-                @if (lecture.LectureFiles != null && lecture.LectureFiles.Count() > 0)
+                @if (lecture.LectureFiles.Where(x => !x.IsDeleted) != null && lecture.LectureFiles.Where(x => !x.IsDeleted).Count() > 0)
                 {
                     <div class="cards_content_wrapper ">
                         <div class="items_cards_container">
 
-                            @foreach (LectureFile lectureFile in lecture.LectureFiles)
+                            @foreach (LectureFile lectureFile in lecture.LectureFiles.Where(x => !x.IsDeleted))
                             {
                                 if (lectureFile.FileType == FileType.MP4)
                                 {

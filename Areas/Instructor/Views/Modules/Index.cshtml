@@ -85,7 +85,7 @@
                             <i class="fa-regular fa-file align-middle"></i>
                         </div>
                         <div class="meta_info_text">
-                            <p class="meta_title">9 Modlues</p>
+                            <p class="meta_title">@Model.Lectures.Where(x => !x.IsDeleted).Count() Lectures</p>
                         </div>
                     </div>
                 </div>
@@ -130,9 +130,9 @@
 
 <div class="items_list">
 
-    @foreach (Lecture lecture in Model.Lectures)
+    @foreach (Lecture lecture in Model.Lectures.Where(x => !x.IsDeleted))
     {
-        <div class="item_container">
+        <div class="item_container" id="lecture_box_@lecture.Id">
             <div class="item_card_wrapper" id="item_card_wrapper_@lecture.Id">
                 <div class="item_card_header" id="item_card_header_@lecture.Id" >
                     <div class="card_header_left" onclick="handleItemExpand('@lecture.Id')">
@@ -146,7 +146,7 @@
                         <a class="card_header_button button_bookmark bookmark_outline" href="/Instructor/Lectures/Update/@lecture.Id">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <button class="card_header_button button_bookmark bookmark_outline">
+                        <button class="card_header_button button_bookmark bookmark_outline" onclick="deleteLecture('@lecture.Id')">
                             <i class="fa-solid fa-trash"></i>
                         </button>
 
@@ -156,16 +156,16 @@
                     </div>
                 </div>
 
-                @if (lecture.LectureFiles != null && lecture.LectureFiles.Count() > 0)
+                @if (lecture.LectureFiles != null && lecture.LectureFiles.Where(x => !x.IsDeleted).Count() > 0)
                 {
                     <div class="cards_content_wrapper ">
                         <div class="items_cards_container">
 
-                            @foreach (LectureFile lectureFile in lecture.LectureFiles)
+                            @foreach (LectureFile lectureFile in lecture.LectureFiles.Where(x => !x.IsDeleted))
                             {
                                 if (lectureFile.FileType == FileType.MP4)
                                 {
-                                    <div class="item_card_content">
+                                    <div class="item_card_content" id="lectureFile_box_@lectureFile.Id">
                                         <div class="card_wrapper_content">
                                             <div class="item_content_container item_indent_0">
                                                 <div class="content_left_container">
@@ -183,7 +183,7 @@
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
 
-                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                    <button class="card_header_button button_bookmark bookmark_outline" onclick="deleteLectureFile('@lectureFile.Id')">
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </div>
@@ -193,7 +193,7 @@
                                 }
                                 else if (lectureFile.FileType == FileType.URL)
                                 {
-                                    <div class="item_card_content">
+                                    <div class="item_card_content" id="lectureFile_box_@lectureFile.Id">
                                         <div class="card_wrapper_content">
                                             <div class="item_content_container item_indent_0">
                                                 <div class="content_left_container">
@@ -210,7 +210,7 @@
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
 
-                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                    <button class="card_header_button button_bookmark bookmark_outline" onclick="deleteLectureFile('@lectureFile.Id')">
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </div>
@@ -220,7 +220,7 @@
                                 }
                                 else if (lectureFile.FileType == FileType.TXT)
                                 {
-                                    <div class="item_card_content">
+                                    <div class="item_card_content" id="lectureFile_box_@lectureFile.Id">
                                         <div class="card_wrapper_content">
                                             <div class="item_content_container item_indent_0">
                                                 <div class="content_left_container">
@@ -237,7 +237,7 @@
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
 
-                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                    <button class="card_header_button button_bookmark bookmark_outline" onclick="deleteLectureFile('@lectureFile.Id')">
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </div>
@@ -247,7 +247,7 @@
                                 }
                                 else if (lectureFile.FileType == FileType.PDF)
                                 {
-                                    <div class="item_card_content">
+                                    <div class="item_card_content" id="lectureFile_box_@lectureFile.Id">
                                         <div class="card_wrapper_content">
                                             <div class="item_content_container item_indent_0">
                                                 <div class="content_left_container">
@@ -264,7 +264,7 @@
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                     </a>
 
-                                                    <button class="card_header_button button_bookmark bookmark_outline">
+                                                    <button class="card_header_button button_bookmark bookmark_outline" onclick="deleteLectureFile('@lectureFile.Id')">
                                                         <i class="fa-solid fa-trash"></i>
                                                     </button>
                                                 </div>
@@ -285,6 +285,45 @@
 </div>
 
 <script>
+
+    function deleteLecture(id){
+        $.ajax({
+            type: 'DELETE',
+            url: `/Instructor/Lectures/Delete/${id}`,
+            success: (response) => {
+                if(response.success){
+                    $(`#lecture_box_${id}`).fadeOut(500);
+                    showToaster('success', 'Lecture deleted.');
+                }
+                else{
+                    showToaster('error', 'Failed to delete lecture.');
+                }
+            },
+            error: (error) => {
+                showToaster('error', 'Failed to delete lecture.');
+            }
+        });
+    }
+
+    function deleteLectureFile(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: `/Instructor/Lectures/DeleteFile/${id}`,
+            success: (response) => {
+                if (response.success) {
+                    $(`#lectureFile_box_${id}`).fadeOut(500);
+                    showToaster('success', 'Lecture File deleted.');
+                }
+                else {
+                    showToaster('error', 'Failed to delete lecture file.');
+                }
+            },
+            error: (error) => {
+                showToaster('error', 'Failed to delete lecture file.');
+            }
+        });
+    }
+
     function handleItemExpand(id) {
         const item_card_wrapper = document.getElementById(`item_card_wrapper_${id}`);
         const item_card_header = document.getElementById(`item_card_header_${id}`);
@@ -332,5 +371,26 @@
             }
 
         });
+    }
+
+    function showToaster(type, content) {
+        Command: toastr[type](content);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
     }
 </script>

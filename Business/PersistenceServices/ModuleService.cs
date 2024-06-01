@@ -85,7 +85,20 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 .Include(x => x.Lectures)
                 .ThenInclude(x => x.LectureFiles).ThenInclude(x => x.Bookmarks).ThenInclude(x => x.Student)
                 .Include(x => x.Lectures).ThenInclude(x => x.Bookmarks).ThenInclude(x => x.Student)
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
 
+        public async Task<bool> DeleteModuleAsync(Guid id)
+        {
+            Module? module = await _moduleReadRepository.GetSingleAsync(x => x.Id == id);
+            if (module == null)
+                return false;
+
+            module.IsDeleted = true;
+
+            _moduleWriteRepository.Update(module);
+            await _moduleWriteRepository.SaveAsync();
+
+            return true;
+        }
     }
 }

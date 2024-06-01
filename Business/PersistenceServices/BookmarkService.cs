@@ -123,14 +123,27 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             ListBookmarksVm vm = new ListBookmarksVm()
             {
-                Modules = bookmarks.Where(x => x.Module != null).Select(x => x.Module).ToList(),
-                Lectures = bookmarks.Where(x => x.Lecture!= null).Select(x => x.Lecture).ToList(),
+                Modules = bookmarks
+                .Where(x => x.Module != null).Select(x => x.Module)
+                .Where(x => !x.IsDeleted)
+                .OrderByDescending(x => x.CreatedDate).ToList(),
+                Lectures = bookmarks
+                .Where(x => x.Lecture!= null).Select(x => x.Lecture)
+                .Where(x => !x.IsDeleted && !x.Module.IsDeleted)
+                .OrderByDescending(x => x.CreatedDate)
+                .ToList(),
                 Contents = bookmarks
                     .Where(x => x.LectureFile != null && x.LectureFile.FileType != FileType.MP4)
-                    .Select(x => x.LectureFile).ToList(),
+                    .Select(x => x.LectureFile)
+                    .Where(x => !x.IsDeleted && !x.Lecture.IsDeleted && !x.Lecture.Module.IsDeleted)
+                    .OrderByDescending(x => x.CreatedDate)
+                    .ToList(),
                 Videos = bookmarks
                     .Where(x => x.LectureFile != null && x.LectureFile.FileType == FileType.MP4)
-                    .Select(x => x.LectureFile).ToList(),
+                    .Select(x => x.LectureFile)
+                    .Where(x => !x.IsDeleted && !x.Lecture.IsDeleted && !x.Lecture.Module.IsDeleted)
+                    .OrderByDescending(x => x.CreatedDate)
+                    .ToList(),
             };
 
             return vm;

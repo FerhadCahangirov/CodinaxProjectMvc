@@ -19,6 +19,7 @@ namespace CodinaxProjectMvc.Areas.Instructor.Controllers
         public async Task<IActionResult> Index()
             => View(await _instructorService.GetInstructorCoursesAsync(HttpContext.User.Identity.Name));
 
+
         public async Task<IActionResult> Single(Guid id)
             => View(await _instructorService.GetInstructorCourseSingleAsync(HttpContext.User.Identity.Name, id));
     }

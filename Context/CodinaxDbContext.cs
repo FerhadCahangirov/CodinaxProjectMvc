@@ -24,7 +24,7 @@ namespace CodinaxProjectMvc.Context
         public DbSet<Reply> Replies { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Student> Students { get; set; }
-        public DbSet<Instructor> Instructors { get; set; }
+        public DbSet<Instructor> Instructors { get; set; }  
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<FutureJobTitle> FutureJobTitles { get; set; }
         public DbSet<Topic> Topics { get; set; }
@@ -35,6 +35,8 @@ namespace CodinaxProjectMvc.Context
         public DbSet<Advice> Advices { get; set; }
         public DbSet<Subscriber> Subscribers { get; set; }
         public DbSet<Bookmark> Bookmarks { get; set; }
+        public DbSet<LectureFile> LectureFiles { get; set; }
+        public DbSet<Event> Events { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -76,22 +78,20 @@ namespace CodinaxProjectMvc.Context
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            TimeZoneInfo aztTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time");
 
             foreach (var entry in ChangeTracker.Entries<BaseEntity>())
             {
                 DateTime currentTimeUtc = DateTime.UtcNow;
-                DateTime currentTimeAzt = TimeZoneInfo.ConvertTimeFromUtc(currentTimeUtc, aztTimeZone);
 
                 if (entry.State == EntityState.Added)
                 {
                     entry.Entity.Id = Guid.NewGuid();
-                    entry.Entity.CreatedDate = currentTimeAzt;
+                    entry.Entity.CreatedDate = currentTimeUtc;
                     entry.Entity.UpdatedDate = null;
                 }
                 else if (entry.State == EntityState.Modified)
                 {
-                    entry.Entity.UpdatedDate = currentTimeAzt;
+                    entry.Entity.UpdatedDate = currentTimeUtc;
                     var modifiedProps = entry.Properties.Where(prop => prop.IsModified && !prop.Metadata.IsPrimaryKey());
                     if (!modifiedProps.Any())
                     {

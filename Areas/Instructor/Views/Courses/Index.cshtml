@@ -24,7 +24,7 @@
 
 <div class="items_grid">
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Where(x => !x.IsDeleted))
     {
         <div class="course_card" id="item_@item.Id">
             <div class="course_card_content">
