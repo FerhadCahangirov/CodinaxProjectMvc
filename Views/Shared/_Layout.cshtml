@@ -209,37 +209,37 @@
                     {
                         if (User.IsInRole(Roles.Admin.ToString()))
                         {
-                            <a href="/Admin/Instructors" target="_blank" class="button is-navbar w-button">
+                            <a href="/Admin/Instructors" class="button is-navbar w-button">
                                 Admin <i class="fa-solid fa-hat-cowboy" style="margin-left: 10px;"></i>
                             </a>
 
-                            <a href="/Auth/Logout" target="_blank" class="button is-navbar w-button">
+                            <a href="/Auth/Logout" class="button is-navbar w-button">
                                 Logout <i class="fa-solid fa-right-from-bracket" style="margin-left: 10px;"></i>
                             </a>
                         }
                         else if (User.IsInRole(Roles.Instructor.ToString()))
                         {
 
-                            <a href="/Auth/Login" target="_blank" class="button is-navbar w-button">Instructor Cabin <i class="fa-solid fa-chalkboard-user" style="margin-left: 10px;"></i></a>
+                            <a href="/Instructor/Courses" class="button is-navbar w-button">Instructor Cabin <i class="fa-solid fa-chalkboard-user" style="margin-left: 10px;"></i></a>
 
-                            <a href="/Auth/Logout" target="_blank" class="button is-navbar w-button">
+                            <a href="/Auth/Logout" class="button is-navbar w-button">
                                 Logout <i class="fa-solid fa-right-from-bracket" style="margin-left: 10px;"></i>
                             </a>
                         }
                         else if (User.IsInRole(Roles.Student.ToString()))
                         {
-                            <a href="/Auth/Login" target="_blank" class="button is-navbar w-button">Student Cabin <i class="fa-solid fa-graduation-cap" style="margin-left: 10px;"></i></a>
+                            <a href="/Student/Courses" class="button is-navbar w-button">Student Cabin <i class="fa-solid fa-graduation-cap" style="margin-left: 10px;"></i></a>
 
-                            <a href="/Auth/Logout" target="_blank" class="button is-navbar w-button">
+                            <a href="/Auth/Logout" class="button is-navbar w-button">
                                 Logout <i class="fa-solid fa-right-from-bracket" style="margin-left: 10px;"></i>
                             </a>
                         }
                     }
                     else
                     {
-                        <a href="/Auth/Student/Apply" target="_blank" class="button is-navbar w-button active">Apply Now</a>
+                        <a href="/Auth/Student/Apply" class="button is-navbar w-button active">Apply Now</a>
 
-                        <a href="/Auth/Login" target="_blank" class="button is-navbar w-button">Login <i class="fa-solid fa-right-to-bracket" style="margin-left: 10px;"></i></a>
+                        <a href="/Auth/Login" class="button is-navbar w-button">Login <i class="fa-solid fa-right-to-bracket" style="margin-left: 10px;"></i></a>
                     }
 
                 </div>

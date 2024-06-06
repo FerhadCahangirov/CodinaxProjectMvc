@@ -1,14 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CodinaxProjectMvc.Business.Abstract.PersistenceServices;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CodinaxProjectMvc.Areas.Student.Controllers
 {
     [Area("Student")]
-    [Route("[area]/video-player")]
     public class VideoPlayerController : Controller
     {
-        public IActionResult Index()
+        private readonly IPlayerService _playerService;
+
+        public VideoPlayerController(IPlayerService playerService)
         {
-            return View();
+            _playerService = playerService;
         }
+
+        [HttpGet("[area]/video-player/{id}")]
+        public async Task<IActionResult> Index(Guid id)
+            => View(await _playerService.GetActiveVideoAsync(id));
+
     }
 }

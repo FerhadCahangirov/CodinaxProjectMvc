@@ -26,7 +26,7 @@
     background: radial-gradient(10px,var(--ns-sidemenu-background) 94%,#0000);
 }
 
-    .loader:before {
+    .loader::before {
         content: '';
         position: absolute;
         inset: 0;

@@ -117,7 +117,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             (string fileName, string pathOrContainerName) = uploadedFiles[0];
 
-            string duration = GetVideoDuration(fileName, pathOrContainerName);
+            string duration = GetVideoDuration(pathOrContainerName, fileName);
 
             LectureFile lectureFile = new LectureFile()
             {
@@ -323,7 +323,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
                         (string fileName, string pathOrContainerName) = await _storage.UploadAsync(AzureContainerNames.LectureFiles, lectureFileUpdateVm.File);
 
-                        string duration = GetVideoDuration(fileName, pathOrContainerName);
+                        string duration = GetVideoDuration(pathOrContainerName, fileName);
 
                         lectureFile.Duration = duration;
                         lectureFile.FileName = fileName;
@@ -397,7 +397,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             _lectureWriteRepository.Update(lecture);
             await _lectureWriteRepository.SaveAsync();
-
+            
             return true;
         }
 

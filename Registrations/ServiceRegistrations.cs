@@ -29,6 +29,8 @@ namespace CodinaxProjectMvc.Registrations
             services.AddScoped<IBookmarkService, BookmarkService>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<ISearchService, SearchService>();
+            services.AddScoped<IPlayerService, PlayerService>();
+            services.AddScoped<IHistoryService, HistoryService>();
 
             services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
             services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));

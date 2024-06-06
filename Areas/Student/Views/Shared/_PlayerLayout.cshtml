@@ -1,0 +1,293 @@
+﻿@using CodinaxProjectMvc.Business.Abstract.PersistenceServices;
+@using CodinaxProjectMvc.DataAccess.Abstract.Repositories
+@using CodinaxProjectMvc.DataAccess.Models;
+@using Microsoft.EntityFrameworkCore;
+@inject IReadRepository<Student> _studentReadRepository
+@inject IPlayerService _playerService
+@inject IConfiguration _configuration
+@inject IReadRepository<LectureFile> _lectureFileReadRepository
+
+<!DOCTYPE html>
+<html lang="en">
+
+@{
+    var isCoursesPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "courses";
+    var isEventsPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "events";
+    var isBookmarksPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "bookmarks";
+    Guid id = Guid.Parse(ViewContext.RouteData.Values["id"]?.ToString());
+
+    var current_video = _lectureFileReadRepository.Table
+    .Include(x => x.Lecture)
+    .ThenInclude(x => x.Module)
+    .First(x => x.Id == id);
+
+}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Codinax Student Panel</title>
+
+    <style class="vjs-styles-defaults">
+        .video-js {
+            width: 300px;
+            height: 150px;
+        }
+
+        .vjs-fluid {
+            padding-top: 56.25%
+        }
+    </style>
+
+    <style class="vjs-styles-dimensions">
+        .vjs_video_3-dimensions {
+            width: 1920px;
+            height: 1080px;
+        }
+
+            .vjs_video_3-dimensions.vjs-fluid {
+                padding-top: 56.25%;
+            }
+    </style>
+
+    <!-- Video CSS -->
+
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/videojs-qualityselector@0.0.4/dist/videojs-qualityselector.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/Assets/panel/assets/plugins/fontawesome/css/all.min.css">
+
+    <!-- Loader CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/css/loader.css">
+
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Main CSS -->
+    <link href="~/assets/panel/assets/css/playerpage.css" rel="stylesheet" />
+
+    <style>
+        html, body {
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+    </style>
+
+    @await RenderSectionAsync("Styles", required: false)
+
+</head>
+
+<body>
+    <div class="container-view">
+        <main class="main_container main_content_video_player">
+            <div class="main_content main_content_video_player">
+                <div class="main_wrapper">
+                    <div class="video-player-wrapper">
+                        <div class="video-player-row">
+                            <div class="video-player-container">
+                                <a class="button-show-modules">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                </a>
+                                <!---->
+                                <!-- Video Player -->
+                                @RenderBody()
+
+                            </div>
+
+                            <!-- Side Bar -->
+                            <div class="course-position">
+                                <div class="course-outline-wrapper ">
+                                    <div class="course-flex">
+                                        <div class="course-outline-header">
+                                            <div class="course-outline-info">
+                                                <a class="course-outline-title" href="/student/modules/index/@current_video.Lecture.Module.Id">
+                                                    @current_video.Lecture.Module.Title
+                                            </a></div>
+                                            <div class="course-table-of-content">
+                                                <span class="table-of-content-line"></span>
+                                                <p>Table of Content</p>
+                                            </div>
+                                        </div>
+                                        <div class="course-outline-list">
+                                            <!---->
+                                            <div class="modules-outline-wrapper">
+                                                @foreach (var lecture in _playerService.ListStudentVideosAsync(id).Result.Lectures)
+                                                {
+                                                    <div class="module-container" data-value="@(lecture.LectureFiles.Any(x => x.Id == id) ? @lecture.LectureFiles.Single(x => x.Id == id).Id : @lecture.Id)">
+                                                        <div class="module-header @(lecture.LectureFiles.Any(x => x.Id == id) ? "module-header-active" : "")">
+                                                            <svg-icon width="24" height="24" class="checkmark-icon">
+                                                                <svg _ngcontent-lfl-c91="" class="align-middle" width="24" height="24">
+                                                                    <use _ngcontent-lfl-c91="" xlink:href="#checkmark-icon"></use>
+                                                                </svg>
+                                                            </svg-icon>
+                                                            <div class="module-header-title">
+                                                                <h1 class="vp-module-title">@lecture.Title</h1>
+                                                            </div>
+                                                            <div class="module-header-action">
+                                                                <!---->
+                                                                @if (lecture.LectureFiles.Any(x => x.Id == id))
+                                                                {
+                                                                    <span id="pulse"></span>
+                                                                }
+
+                                                                <a>
+                                                                    <i class="fa-solid fa-chevron-down"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="module-contents-wrapper @(lecture.LectureFiles.Any(x => x.Id == id) ? "module-contents-wrapper-open" : "")">
+
+                                                            @foreach (var video in lecture.LectureFiles
+                                                                .Where(x => !x.IsDeleted && !x.IsArchived && x.FileType == FileType.MP4)
+                                                                .OrderBy(x => x.CreatedDate)
+                                                            )
+                                                            {
+                                                                <div class="list-content-wrapper">
+                                                                    <div class="@(video.Id == id ? "content-playing": "")">
+                                                                        <div class="content-container">
+                                                                            @if (video.Id == id)
+                                                                            {
+                                                                                <span>
+                                                                                    <i class="fa-solid fa-circle-pause"></i>
+                                                                                </span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span>
+                                                                                    <i class="fa-solid fa-circle-play"></i>
+                                                                                </span>
+                                                                            }   
+
+                                                                            <!---->
+
+                                                                            <a href="/student/video-player/@video.Id" class="list-content-title">@video.Title</a>
+
+                                                                            <!---->
+                                                                        </div>
+                                                                        <div class="label-time-info">
+                                                                            <i class="fa-regular fa-clock"></i>
+                                                                            <span>@video.Duration</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            }
+                                                            <!---->
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                                <!---->
+                                            </div>
+
+                                            <!---->
+                                        </div>
+                                        <div class="course-copyright">
+                                            <div>
+                                            </div>
+                                            <p class="course-copyright-text">©2024 Codinax - All Rights Reserved</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            document.querySelector('.button-show-modules').addEventListener('click', () => {
+                var element = document.querySelector('.course-outline-wrapper');
+                var icon = document.querySelector('.button-show-modules i');
+
+                if (element.classList.contains('course-outline-wrapper-hide')) {
+                    element.classList.remove('course-outline-wrapper-hide');
+                    icon.classList.remove('fa-square-caret-left');
+                    icon.classList.add('fa-arrow-right-from-bracket');
+                }
+                else {
+                    element.classList.add('course-outline-wrapper-hide');
+                    icon.classList.remove('fa-arrow-right-from-bracket');
+                    icon.classList.add('fa-square-caret-left');
+                }
+            });
+        })
+    </script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
+            integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Ckeditor JS -->
+    <script src="/Assets/panel/assets/js/ckeditor.js"></script>
+
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
+    <script src="https://cdn.sc.gl/videojs-hotkeys/0.2/videojs.hotkeys.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/videojs-qualityselector@0.0.4/dist/videojs-qualityselector.min.js" integrity="sha256-3EwY+SJaKsT3gcM+jztqOASx77lyqf5NwTlswe7Aoa0=" crossorigin="anonymous"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        $(".module-container .module-header").not(function () {
+            return $(this).closest('.module-container').data('value') === '@id';
+        }).click(function (e) {
+            e.stopPropagation();
+
+            var moduleHeader = $(this);
+            var moduleContainer = moduleHeader.closest('.module-container');
+            var moduleContentsWrapper = moduleContainer.find(".module-contents-wrapper");
+            var dataValue = '@id';
+
+            if (moduleHeader.hasClass('module-header-active')) {
+                if ($(this).closest('.module-container').data('value') !== dataValue) {
+                    moduleHeader.removeClass('module-header-active');
+                }
+            } else {
+                $(".module-container .module-header").not(function () {
+                    return $(this).closest('.module-container').data('value') === dataValue;
+                }).removeClass('module-header-active');
+
+                moduleHeader.addClass('module-header-active');
+            }
+
+            if (moduleContentsWrapper.hasClass('module-contents-wrapper-open')) {
+                moduleContentsWrapper.removeClass('module-contents-wrapper-open');
+            } else {
+                $(".module-container .module-contents-wrapper").not(function () {
+                    return $(this).closest('.module-container').data('value') === dataValue;
+                }).removeClass('module-contents-wrapper-open');
+
+                moduleContentsWrapper.addClass('module-contents-wrapper-open');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
