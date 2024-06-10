@@ -82,9 +82,9 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         public async Task<Module?> GetModuleByIdAsync(Guid id)
             => await _moduleReadRepository.Table
                 .Include(x => x.Course)
-                .Include(x => x.Lectures)
-                .ThenInclude(x => x.LectureFiles).ThenInclude(x => x.Bookmarks).ThenInclude(x => x.Student)
+                .Include(x => x.Lectures).ThenInclude(x => x.LectureFiles).ThenInclude(x => x.Bookmarks).ThenInclude(x => x.Student)
                 .Include(x => x.Lectures).ThenInclude(x => x.Bookmarks).ThenInclude(x => x.Student)
+                .Include(x => x.Lectures).ThenInclude(x => x.LectureFiles).ThenInclude(x => x.Progresses).ThenInclude(x => x.Student)
             .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
 
         public async Task<bool> DeleteModuleAsync(Guid id)

@@ -17,17 +17,20 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly IActionContextAccessor _actionContextAccessor;
         private readonly IReadRepository<Student> _studentReadRepository;
         private readonly IConfiguration _configuration;
+        private readonly IHistoryService _historyService;
 
         public PlayerService(
             IReadRepository<LectureFile> lectureFileReadRepository,
             IActionContextAccessor actionContextAccessor,
             IReadRepository<Student> studentReadRepository,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IHistoryService historyService)
         {
             _lectureFileReadRepository = lectureFileReadRepository;
             _actionContextAccessor = actionContextAccessor;
             _studentReadRepository = studentReadRepository;
             _configuration = configuration;
+            _historyService = historyService;
         }
 
 
@@ -58,6 +61,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl]
                 };
             }
+
+            await _historyService.AddOrUpdateHistoryAsync(current_video.Id);
 
             return new PlayerSingleVm()
             {

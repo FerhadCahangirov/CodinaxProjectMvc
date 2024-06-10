@@ -23,7 +23,7 @@
     aspect-ratio: 1;
     color: #f03355;
     position: relative;
-    background: radial-gradient(10px,var(--ns-sidemenu-background) 94%,#0000);
+    background: radial-gradient(10px,#0e0c3a 94%,#0000);
 }
 
     .loader::before {
@@ -31,7 +31,7 @@
         position: absolute;
         inset: 0;
         border-radius: 50%;
-        background: radial-gradient(9px at bottom right,#0000 94%,var(--ns-sidemenu-background)) top left, radial-gradient(9px at bottom left,#0000 94%,var(--ns-sidemenu-background)) top right, radial-gradient(9px at top right,#0000 94%,var(--ns-sidemenu-background)) bottom left, radial-gradient(9px at top left,#0000 94%,var(--ns-sidemenu-background)) bottom right;
+        background: radial-gradient(9px at bottom right,#0000 94%,#0e0c3a) top left, radial-gradient(9px at bottom left,#0000 94%,#0e0c3a) top right, radial-gradient(9px at top right,#0000 94%,#0e0c3a) bottom left, radial-gradient(9px at top left,#0000 94%,#0e0c3a) bottom right;
         background-size: 20px 20px;
         background-repeat: no-repeat;
         animation: l18 1.5s infinite cubic-bezier(0.3,1,0,1);

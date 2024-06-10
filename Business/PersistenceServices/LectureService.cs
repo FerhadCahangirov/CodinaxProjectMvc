@@ -117,6 +117,9 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             (string fileName, string pathOrContainerName) = uploadedFiles[0];
 
+            var datas = await _storage.BitrateAsync(fileName, pathOrContainerName, file);
+
+
             string duration = GetVideoDuration(pathOrContainerName, fileName);
 
             LectureFile lectureFile = new LectureFile()

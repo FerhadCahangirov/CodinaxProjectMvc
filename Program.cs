@@ -13,6 +13,7 @@ using CodinaxProjectMvc.Policies;
 using CodinaxProjectMvc.Registrations;
 using Grpc.Core;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -71,6 +72,8 @@ builder.Services.Configure<FormOptions>(options =>
 
 builder.Services.AddScoped<IAzureStorage, AzureStorage>();
 builder.Services.AddScoped<IMailSender, MailSender>();
+
+//builder.Services.AddProtectedBrowserStorage();
 
 builder.Services.AddRazorPages();
 

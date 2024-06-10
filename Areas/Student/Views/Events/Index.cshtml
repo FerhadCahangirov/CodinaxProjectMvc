@@ -18,6 +18,11 @@
           crossorigin="anonymous" />
 
 
+    <style>
+        .fc-right button:nth-child(3){
+            border-radius: 50%;
+        }
+    </style>
 }
 
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
@@ -105,6 +110,24 @@
         </div>
     </div>
 </div>
+<div class="popup-wrapper-calendar">
+    <div class="dropdown-content day-switch-dropdown">
+        <div class="dropdown-content-wrapper pointer-none">
+            <p> First day of the week</p>
+            <div class="theme-wrapper">
+                <div class="Header-State" data-theme-state="monday">
+                    <label for="firstDay" class="">SUN</label>
+                    <label class="Header-Switch">
+                        <input type="checkbox" id="firstDay" class="Checkbox-Toggle" data-theme-state="monday">
+                        <span class="Switch-Slider Switch-Slider-round"></span>
+                    </label>
+                    <label for="firstDay" class="selected-day">MON</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div id="calendar">
 </div>
@@ -134,15 +157,30 @@
                 right: 'nextYear'
             },
             customButtons: {
+
                 settings: {
                     click: function () {
+                        const popup = document.querySelector('.popup-wrapper-calendar');
+                        const dropdown_content = document.querySelector('.popup-wrapper-calendar .dropdown-content');
+                        const switch_slider = document.querySelector('.popup-wrapper-calendar .Switch-Slider.Switch-Slider-round');
+
+                        if (popup.classList.contains('active')) {
+                            popup.classList.remove('active')
+                            dropdown_content.classList.remove('active')
+                            switch_slider.classList.remove('active')
+                        }
+                        else {
+                            popup.classList.add('active')
+                            dropdown_content.classList.add('active')
+                            switch_slider.classList.add('active')
+                        }
 
                     }
                 }
             },
             snapDuration: '00:05:00',
-            slotDuration: '00:15:00',
-            slotLabelInterval: '00:15:00',
+            slotDuration: '00:30:00',
+            slotLabelInterval: '00:30:00',
             slotLabelFormat: {
                 hour: '2-digit',
                 minute: '2-digit',
@@ -152,7 +190,7 @@
             showNonCurrentDates: false,
             handleWindowResize: true,
             handleWindowDelay: 100,
-            contentHeight: 650,
+            contentHeight: 950,
             defaultView: 'dayGridMonth',
             weekends: true,
             // hiddenDays: [0],
@@ -192,18 +230,17 @@
                 var element = info.el;
 
                 var customContent = `
-                    <div class="custom-event-content" style="cursor: initial;padding: .6rem;">
-                        <small>${moment(event.start).format("HH:mm")} - ${moment(event.end).format("HH:mm")} </small><br/>
-                        <a style="color: ${event.textColor};text-decoration: none;" href="${event.extendedProps.urlString}"><strong> ${event.title} </strong></a><br/>
-                        <i class="fa-solid fa-eye pointer mt-2"></i>
-                    </div>
-                `;
+                                    <div class="custom-event-content" style="cursor: initial;padding: .6rem;">
+                                        <small>${moment(event.start).format("HH:mm")} - ${moment(event.end).format("HH:mm")} </small><br/>
+                                        <a style="color: ${event.textColor};text-decoration: none;" href="${event.extendedProps.urlString}"><strong> ${event.title} </strong></a><br/>
+                                        <i class="fa-solid fa-eye pointer mt-2"></i>
+                                    </div>
+                                `;
 
                 element.innerHTML = customContent;
 
 
                 var eyeIcon = element.querySelector('.fa-eye');
-                console.log(eyeIcon)
                 if (eyeIcon) {
                     eyeIcon.addEventListener('click', function () {
                         openDetailModal(info);
@@ -217,6 +254,24 @@
         calendar.render();
         getEvents();
 
+
+
+        $('#firstDay').click(() => {
+            console.log($('.Header-State').data('theme-state'));
+
+            if ($('.Header-State').data('theme-state') === 'monday') {
+                $('.Header-State').data('theme-state', 'sunday').attr('data-theme-state', 'sunday');
+                $('#firstDay').data('theme-state', 'sunday').attr('data-theme-state', 'sunday');
+
+                calendar.setOption('firstDay', 0);
+            }
+            else {
+                $('.Header-State').data('theme-state', 'monday').attr('data-theme-state', 'monday');
+                $('#firstDay').data('theme-state', 'monday').attr('data-theme-state', 'monday');
+
+                calendar.setOption('firstDay', 1);
+            }
+        });
 
         function openDetailModal(info) {
 
@@ -314,7 +369,7 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
+        
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"
             integrity="sha512-k6/Bkb8Fxf/c1Tkyl39yJwcOZ1P4cRrJu77p83zJjN2Z55prbFHxPs9vN7q3l3+tSMGPDdoH51AEU8Vgo1cgAA=="
             crossorigin="anonymous"></script>
@@ -344,7 +399,6 @@
     <script src="~/assets/panel/assets/plugins/fullcalendar/moment-timezone/main.esm.js"></script>
     <script src="~/assets/panel/assets/plugins/fullcalendar/moment-timezone/main.min.js"></script>
     <script src="~/assets/panel/assets/plugins/fullcalendar/moment-timezone/main.js"></script>
-    <script src="~/js/secretary.js"></script>
 
     <script type="text/javascript">
         $(function () {

@@ -54,12 +54,18 @@
     <ol class="breadcrumb p-0 my-1 mb-3">
         <li class="breadcrumb_item">
             <div class="link_breadcrumb">
-                <a href="/member/dashboard">Instructor</a>
+                <a>Instructor</a>
+                <div class="slash">/</div>
+            </div>
+        </li>
+        <li class="breadcrumb_item">
+            <div class="link_breadcrumb">
+                <a href="/instructor/courses">Courses</a>
                 <div class="slash">/</div>
             </div>
         </li>
         <li class="breadcrumb_item active">
-            Courses
+            @Model.Course.Title
         </li>
     </ol>
 </nav>
@@ -74,10 +80,8 @@
 
             <div class="program_info_container" id="courseSingleNoVideo">
                 <div class="program_info">
-                    <h1 class="title_info"> EU9-Java Programming </h1>
-                    <p class="description_info">
-                        With this course, you will gain foundational knowledge in Java, which is the first step towards becoming a successful JAVA SDET. The course starts with basic Java concepts such as variables and methods used to keep track of information. It will be followed by conditional statements, loops, and arrays for processing and solving complex problems. At the end of the source, you will learn advanced Java concepts such as Object-Oriented Programming and Data structures.
-                    </p>
+                    <h1 class="title_info"> @Model.Title </h1>
+                    
                 </div>
                 <div class="program_meta_info">
                     <div class="meta_info">
@@ -119,7 +123,7 @@
         </div>
 
         <div class="button-set text-right">
-            <button class="toggle-module-button" onclick="expandAll()"> Expand All </button>
+            <button class="toggle-module-button" onclick="expandAll(event)"> Expand All </button>
         </div>
 
 
@@ -130,7 +134,7 @@
 
 <div class="items_list">
 
-    @foreach (Lecture lecture in Model.Lectures.Where(x => !x.IsDeleted))
+    @foreach (Lecture lecture in Model.Lectures.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedDate))
     {
         <div class="item_container" id="lecture_box_@lecture.Id">
             <div class="item_card_wrapper" id="item_card_wrapper_@lecture.Id">
@@ -161,7 +165,7 @@
                     <div class="cards_content_wrapper ">
                         <div class="items_cards_container">
 
-                            @foreach (LectureFile lectureFile in lecture.LectureFiles.Where(x => !x.IsDeleted))
+                            @foreach (LectureFile lectureFile in lecture.LectureFiles.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedDate))
                             {
                                 if (lectureFile.FileType == FileType.MP4)
                                 {
@@ -352,8 +356,8 @@
         }
     }
 
-    function expandAll() {
-        const items = document.querySelectorAll('.item_container')
+    function expandAll(event) {
+        const items = document.querySelectorAll('.item_container');
 
         items?.forEach(item => {
             const item_card_wrapper = item.querySelector('.item_card_wrapper');
@@ -371,6 +375,39 @@
             }
 
         });
+
+        const button = event.target;
+
+        button.removeAttribute('onclick');
+        button.setAttribute('onclick', `collapseAll(event)`);
+        button.innerText = 'Collapse All';
+    }
+
+    function collapseAll(event) {
+        const items = document.querySelectorAll('.item_container')
+
+        items?.forEach(item => {
+            const item_card_wrapper = item.querySelector('.item_card_wrapper');
+            const item_card_header = item.querySelector('.item_card_header');
+            const expand_button = item.querySelector('.expand_button');
+
+            if (
+                item_card_wrapper.classList.contains('item_card_wrapper_open') &&
+                item_card_header.classList.contains('item_card_header_open')
+            ) {
+                item_card_wrapper.classList.remove('item_card_wrapper_open');
+                item_card_header.classList.remove('item_card_header_open');
+
+                expand_button.innerHTML = ` <i class="fa-solid fa-arrow-down"></i> `;
+            }
+
+        });
+
+        const button = event.target;
+
+        button.removeAttribute('onclick');
+        button.setAttribute('onclick', `expandAll(event)`);
+        button.innerText = 'Expand All';
     }
 
     function showToaster(type, content) {

@@ -8,5 +8,6 @@ namespace CodinaxProjectMvc.ViewModel.BookmarkVm
         public IEnumerable<Lecture>? Lectures { get; set; }
         public IEnumerable<LectureFile>? Contents{ get; set; }
         public IEnumerable<LectureFile>? Videos { get; set; }
+        public IEnumerable<History>? Histories { get; set; }
     }
 }

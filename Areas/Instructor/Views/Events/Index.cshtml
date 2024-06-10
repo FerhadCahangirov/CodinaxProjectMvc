@@ -17,6 +17,11 @@
           integrity="sha512-3JRrEUwaCkFUBLK1N8HehwQgu8e23jTH4np5NHOmQOobuC4ROQxFwFgBLTnhcnQRMs84muMh0PnnwXlPq5MGjg=="
           crossorigin="anonymous" />
 
+    <style>
+        .fc-right button:nth-child(3) {
+            border-radius: 50%;
+        }
+    </style>
 
 }
 
@@ -178,6 +183,24 @@
     </div>
 </div>
 
+<div class="popup-wrapper-calendar">
+    <div class="dropdown-content day-switch-dropdown">
+        <div class="dropdown-content-wrapper pointer-none">
+            <p> First day of the week</p>
+            <div class="theme-wrapper">
+                <div class="Header-State" data-theme-state="monday">
+                    <label for="firstDay" class="">SUN</label>
+                    <label class="Header-Switch">
+                        <input type="checkbox" id="firstDay" class="Checkbox-Toggle" data-theme-state="monday">
+                        <span class="Switch-Slider Switch-Slider-round"></span>
+                    </label>
+                    <label for="firstDay" class="selected-day">MON</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="calendar">
 </div>
 
@@ -207,8 +230,23 @@
                 right: 'nextYear'
             },
             customButtons: {
+
                 settings: {
                     click: function () {
+                        const popup = document.querySelector('.popup-wrapper-calendar');
+                        const dropdown_content = document.querySelector('.popup-wrapper-calendar .dropdown-content');
+                        const switch_slider = document.querySelector('.popup-wrapper-calendar .Switch-Slider.Switch-Slider-round');
+
+                        if (popup.classList.contains('active')) {
+                            popup.classList.remove('active')
+                            dropdown_content.classList.remove('active')
+                            switch_slider.classList.remove('active')
+                        }
+                        else {
+                            popup.classList.add('active')
+                            dropdown_content.classList.add('active')
+                            switch_slider.classList.add('active')
+                        }
 
                     }
                 }
@@ -228,7 +266,6 @@
             contentHeight: 650,
             defaultView: 'dayGridMonth',
             weekends: true,
-            hiddenDays: [0],
             allDaysSlot: false,
             firstDay: 1, //Pazardan baslayacak sekilde 0, 1, 2 ...
             titleFormat: {
@@ -280,22 +317,22 @@
                 var element = info.el;
 
                 var customContent = `
-                        <div class="fc-content">
-                            <div class="custom-event-content" style="cursor: initial;padding: .6rem;">
-                                <small>${moment(event.start).format("HH:mm")} - ${moment(event.end).format("HH:mm")} </small><br/>
-                                <a style="color: ${event.textColor};text-decoration: none;" href="${event.extendedProps.urlString}"><strong> ${event.title} </strong></a><br/>
-                                <i class="fa-solid fa-eye pointer mt-2"></i>
-                            </div>
-                        </div>
-                        <div class="fc-resizer fc-resizer-start"></div>
-                        <div class="fc-resizer fc-resizer-end"></div>
-                    `;
+                                        <div class="fc-content">
+                                            <div class="custom-event-content" style="cursor: initial;padding: .6rem;">
+                                                <small>${moment(event.start).format("HH:mm")} - ${moment(event.end).format("HH:mm")} </small><br/>
+                                                <a style="color: ${event.textColor};text-decoration: none;" href="${event.extendedProps.urlString}"><strong> ${event.title} </strong></a><br/>
+                                                <i class="fa-solid fa-eye pointer mt-2"></i>
+                                            </div>
+                                        </div>
+                                        <div class="fc-resizer fc-resizer-start"></div>
+                                        <div class="fc-resizer fc-resizer-end"></div>
+                                    `;
 
                 element.innerHTML = customContent;
 
 
                 var eyeIcon = element.querySelector('.fa-eye');
-                console.log(eyeIcon)
+
                 if (eyeIcon) {
                     eyeIcon.addEventListener('click', function () {
                         openDetailModal(info);
@@ -335,6 +372,23 @@
 
         calendar.render();
         getEvents();
+
+        $('#firstDay').click(() => {
+            console.log($('.Header-State').data('theme-state'));
+
+            if ($('.Header-State').data('theme-state') === 'monday') {
+                $('.Header-State').data('theme-state', 'sunday').attr('data-theme-state', 'sunday');
+                $('#firstDay').data('theme-state', 'sunday').attr('data-theme-state', 'sunday');
+
+                calendar.setOption('firstDay', 0);
+            }
+            else {
+                $('.Header-State').data('theme-state', 'monday').attr('data-theme-state', 'monday');
+                $('#firstDay').data('theme-state', 'monday').attr('data-theme-state', 'monday');
+
+                calendar.setOption('firstDay', 1);
+            }
+        });
 
         function openAddOrUpdateModal() {
 
@@ -440,14 +494,14 @@
             $('#inputUrlDetail').val(info.event.extendedProps.urlString);
 
             const isBelongContent = `
-                    <button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
-                    <button type="button" class="btn btn-primary" id="btnUpdate">Update</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                `;
+                                    <button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
+                                    <button type="button" class="btn btn-primary" id="btnUpdate">Update</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                `;
 
             const isNotBelongContent = `
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                `;
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                `;
 
             if (selectedEvent.isBelong) {
                 console.log($("#detailModal .modal-footer"));
@@ -603,7 +657,6 @@
     <script src="~/assets/panel/assets/plugins/fullcalendar/moment-timezone/main.esm.js"></script>
     <script src="~/assets/panel/assets/plugins/fullcalendar/moment-timezone/main.min.js"></script>
     <script src="~/assets/panel/assets/plugins/fullcalendar/moment-timezone/main.js"></script>
-    <script src="~/js/secretary.js"></script>
 
     <script type="text/javascript">
         $(function () {
@@ -612,6 +665,8 @@
             });
         });
     </script>
+
+
 
 
 }

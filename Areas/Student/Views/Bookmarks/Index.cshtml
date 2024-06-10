@@ -35,9 +35,13 @@
         <li class="tabs--tab ng-star-inserted">
             <a class="tab--item" id="videos-tab" data-toggle="tab" href="#videos" role="tab" aria-controls="videos" aria-selected="true"> Watch Later </a>
         </li>
+
+
         <!---->
     </ul>
-    <a class="history-link"> History </a>
+
+    <a class="history-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="true" onclick="toggleHistory()"> History </a>
+
 </div>
 
 <div class="tab-content" id="myTabContent">
@@ -242,6 +246,53 @@
             </div>
         }
     </div>
+
+    <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+
+        <div class="history-table-header">
+            <div class="history-column history-main-column">Title</div>
+            <div class="history-column history-fixed-column">First Viewed</div>
+            <div class="history-column history-fixed-column">Last Viewed</div>
+        </div>
+        <hr class="history-line">
+        @if (Model.Videos != null && Model.Videos.Count() > 0)
+        {
+            foreach (var history in Model.Histories)
+            {
+                <div class="history-card-wrapper">
+                    <div class="history-card-container ng-star-inserted">
+                        <div class="history-card-info">
+                            <div class="bookmark_meta_icon">
+                                <div class="meta-icon-wrapper">
+                                    <i class="fa-solid fa-video"></i>
+                                </div>
+                            </div>
+                            <div class="bookmark_meta_text">
+                                <div class="bookmark_card_meta_title"><a href=""> @history.LectureFile.Title </a></div>
+                                <div class="bookmark-card-meta_links">Lecture: <a>@history.LectureFile.Lecture.Title</a></div>
+                                <div class="bookmark-card-meta_links">Module: <a>@history.LectureFile.Lecture.Module.Title</a></div>
+                                <div class="bookmark-card-meta_links">Course: <a>@history.LectureFile.Lecture.Module.Course.Title</a></div>
+                            </div>
+                        </div>
+                        <div class="history-card-meta">
+                            <span class="m-view">First Viewed:</span> @history.CreatedDate.ToString("MMMM dd, yyyy")
+                        </div>
+
+                        <div class="history-card-meta">
+                            <span class="m-view">Last Viewed:</span>
+                            @(history.UpdatedDate != null ? history.UpdatedDate?.ToString("MMMM dd, yyyy") : history.CreatedDate.ToString("MMMM dd, yyyy"))
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty_area empty_text ng-star-inserted">
+                <p class="empty_area_message"> History Is Empty.</p>
+            </div>
+        }
+    </div>
 </div>
 
 
@@ -250,6 +301,9 @@
 
     elements.forEach(element => {
         element.addEventListener('click', (event) => {
+            if (document.querySelector('.history-link').classList.contains('active')) {
+                document.querySelector('.history-link').classList.remove('active')
+            }
             elements.forEach(element_inner => {
                 if (
                     element_inner.id !== event.target.id && element_inner.classList.contains('active')
@@ -260,10 +314,16 @@
         });
     });
 
+
+    function toggleHistory() {
+        elements.forEach(element_inner => {
+            element_inner.classList.remove('active');
+        })
+    }
+
     function toggleModal(id) {
         const accordion_button = document.getElementById(`accordion_dropdown_${id}`);
         const overlay_panel = document.getElementById(`overlay_panel_${id}`);
-
 
         if (
             overlay_panel.classList.contains('active') &&
@@ -272,14 +332,14 @@
             overlay_panel.classList.remove('active');
             accordion_button.classList.remove('active');
         }
-        else{
+        else {
 
             collapseModals();
 
             if (
                 !overlay_panel.classList.contains('active') &&
                 !accordion_button.classList.contains('active')
-            ){
+            ) {
                 overlay_panel.classList.add('active');
                 accordion_button.classList.add('active');
             }
@@ -332,7 +392,7 @@
                     }
                     else if (bookmarkType === BookmarkType.Video) {
                         showToaster('success', 'Video bookmark removed.');
-                    } 
+                    }
                     else if (bookmarkType === BookmarkType.Module) {
                         showToaster('success', 'Module bookmark removed.');
                     }

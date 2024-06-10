@@ -45,7 +45,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Abouts", (string)null);
+                    b.ToTable("Abouts");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Advice", b =>
@@ -83,7 +83,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("SecondAdvicedCourseId");
 
-                    b.ToTable("Advices", (string)null);
+                    b.ToTable("Advices");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Bookmark", b =>
@@ -129,7 +129,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Bookmarks", (string)null);
+                    b.ToTable("Bookmarks");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Category", b =>
@@ -156,7 +156,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Course", b =>
@@ -204,7 +204,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("TemplateId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Event", b =>
@@ -259,7 +259,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Faq", b =>
@@ -288,7 +288,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Faqs", (string)null);
+                    b.ToTable("Faqs");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Feature", b =>
@@ -320,7 +320,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Features", (string)null);
+                    b.ToTable("Features");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.FutureJobTitle", b =>
@@ -351,7 +351,40 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("TemplateId");
 
-                    b.ToTable("FutureJobTitles", (string)null);
+                    b.ToTable("FutureJobTitles");
+                });
+
+            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.History", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("LectureFileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LectureFileId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Histories");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Identity.AppRole", b =>
@@ -512,7 +545,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("ModuleId");
 
-                    b.ToTable("Lectures", (string)null);
+                    b.ToTable("Lectures");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.LectureFile", b =>
@@ -564,7 +597,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("LectureId");
 
-                    b.ToTable("LectureFiles", (string)null);
+                    b.ToTable("LectureFiles");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Module", b =>
@@ -596,7 +629,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Modules", (string)null);
+                    b.ToTable("Modules");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Price", b =>
@@ -627,7 +660,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("TemplateId");
 
-                    b.ToTable("Price", (string)null);
+                    b.ToTable("Price");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.PriceInfo", b =>
@@ -658,7 +691,43 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("PriceId");
 
-                    b.ToTable("PriceInfo", (string)null);
+                    b.ToTable("PriceInfo");
+                });
+
+            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Progress", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("Percentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("videoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("videoId");
+
+                    b.ToTable("Progresses");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Reply", b =>
@@ -694,7 +763,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Replies", (string)null);
+                    b.ToTable("Replies");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Review", b =>
@@ -733,7 +802,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Subscriber", b =>
@@ -767,7 +836,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subscribers", (string)null);
+                    b.ToTable("Subscribers");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Template", b =>
@@ -832,7 +901,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Templates", (string)null);
+                    b.ToTable("Templates");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Tool", b =>
@@ -869,7 +938,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("TemplateId");
 
-                    b.ToTable("Tools", (string)null);
+                    b.ToTable("Tools");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Topic", b =>
@@ -900,7 +969,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("TemplateId");
 
-                    b.ToTable("Topics", (string)null);
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("CourseInstructor", b =>
@@ -915,7 +984,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("InstructorsId");
 
-                    b.ToTable("CourseInstructor", (string)null);
+                    b.ToTable("CourseInstructor");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -1033,7 +1102,7 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentCourse", (string)null);
+                    b.ToTable("StudentCourse");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Instructor", b =>
@@ -1164,6 +1233,25 @@ namespace CodinaxProjectMvc.Migrations
                     b.Navigation("Template");
                 });
 
+            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.History", b =>
+                {
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.LectureFile", "LectureFile")
+                        .WithMany("Histories")
+                        .HasForeignKey("LectureFileId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Student", "Student")
+                        .WithMany("Histories")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("LectureFile");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Lecture", b =>
                 {
                     b.HasOne("CodinaxProjectMvc.DataAccess.Models.Module", "Module")
@@ -1217,6 +1305,25 @@ namespace CodinaxProjectMvc.Migrations
                         .IsRequired();
 
                     b.Navigation("Price");
+                });
+
+            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Progress", b =>
+                {
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Student", "Student")
+                        .WithMany("Progresses")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.LectureFile", "LectureFile")
+                        .WithMany("Progresses")
+                        .HasForeignKey("videoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("LectureFile");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Reply", b =>
@@ -1389,6 +1496,10 @@ namespace CodinaxProjectMvc.Migrations
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.LectureFile", b =>
                 {
                     b.Navigation("Bookmarks");
+
+                    b.Navigation("Histories");
+
+                    b.Navigation("Progresses");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Module", b =>
@@ -1429,6 +1540,10 @@ namespace CodinaxProjectMvc.Migrations
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Student", b =>
                 {
                     b.Navigation("Bookmarks");
+
+                    b.Navigation("Histories");
+
+                    b.Navigation("Progresses");
                 });
 #pragma warning restore 612, 618
         }

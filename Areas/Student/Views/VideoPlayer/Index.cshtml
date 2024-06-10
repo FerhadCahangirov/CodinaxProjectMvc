@@ -3,6 +3,7 @@
 
 @{
     Layout = "_PlayerLayout";
+    var source = $"{Model.BaseUrl}/{Model.CurrentVideo.PathOrContainer}/{Model.CurrentVideo.FileName}";
 }
 
 <div class="container theo-player-container">
@@ -43,18 +44,20 @@
                     enableModifiersForNumber: false,
                     seekStep: 30,
                 },
-            },
+            }
         });
 
+        const sources = [
+            { format: 'hd1080', src: '@source', type: 'video/mp4' },
+            { format: 'hd720', src: '@source', type: 'video/mp4' },
+            { format: 'large', src: '@source', type: 'video/mp4' },
+            { format: 'medium', src: '@source', type: 'video/mp4' },
+            { format: 'small', src: '@source', type: 'video/mp4' },
+            { format: 'auto', src: '@source', type: 'video/mp4' }
+        ];
+
         player.qualityselector({
-            sources: [
-                { format: 'hd1080', src: 'https://codinaxstorage.blob.core.windows.net/course-fragment-videos/video3-1.mp4', type: 'video/mp4' },
-                { format: 'hd720', src: 'https://codinaxstorage.blob.core.windows.net/course-fragment-videos/video3-1.mp4', type: 'video/mp4' },
-                { format: 'large', src: 'https://codinaxstorage.blob.core.windows.net/course-fragment-videos/video3-1.mp4', type: 'video/mp4' },
-                { format: 'medium', src: 'https://codinaxstorage.blob.core.windows.net/course-fragment-videos/video3-1.mp4', type: 'video/mp4' },
-                { format: 'small', src: 'https://codinaxstorage.blob.core.windows.net/course-fragment-videos/video3-1.mp4', type: 'video/mp4' },
-                { format: 'auto', src: 'https://codinaxstorage.blob.core.windows.net/course-fragment-videos/video3-1.mp4', type: 'video/mp4' }
-            ],
+            sources: sources,
             formats: [
                 { code: 'hd1080', name: '1080p' },
                 { code: 'hd720', name: '720p' },
@@ -63,10 +66,90 @@
                 { code: 'small', name: '240p' },
                 { code: 'auto', name: 'Auto' }
             ],
-
             onFormatSelected: function (format) {
-                console.log(format);
+                console.log("Selected format:", format);
+
+                const currentTime = player.currentTime();
+                player.pause();
+
+                const selectedSource = sources.find(source => source.format === format.code);
+
+                console.log('format: ', format, 'selected: ', selectedSource);
+
+                if (selectedSource) {
+                    player.one('loadedmetadata', function () {
+                        if (isFinite(currentTime)) {
+                            player.currentTime(currentTime);
+                        }
+                        player.play();
+                    });
+
+                    player.src(selectedSource.src);
+                    player.load();
+                } else {
+                    console.error('Selected format source not found.');
+                }
             }
+
+        });
+
+        let timeoutId;
+        const delay = 10000;
+
+        function logWatchedPercentage() {
+            const currentTime = player.currentTime();
+            const duration = player.duration();
+            const watchedPercentage = (currentTime / duration) * 100;
+
+            $.ajax({
+                type: 'POST',
+                url: '/student/progress/index',
+                data: {
+                    videoId: '@Model.CurrentVideo.Id',
+                    percentage: watchedPercentage.toFixed(2)
+                },
+                success: (response) => {
+                    if(response.success){
+                        console.log(`Percentage of video watched: ${watchedPercentage.toFixed(2)}%`);
+                    }
+                },
+                error: (error) => {
+                    console.error(error)
+                }
+            });
+
+            timeoutId = setTimeout(logWatchedPercentage, delay);
+        }
+
+        player.on('play', function () {
+            if (!timeoutId) {
+                timeoutId = setTimeout(logWatchedPercentage, delay);
+            }
+        });
+
+        player.on('pause', function () {
+            if (!timeoutId) {
+                timeoutId = setTimeout(logWatchedPercentage, delay);
+            }
+        });
+
+        player.ended(function () {
+            console.log('video has been ended')
+        });
+        
+        let lastCurrentTime = player.currentTime();
+
+        player.on('timeupdate', function () {
+            if (!timeoutId) {
+                timeoutId = setTimeout(logWatchedPercentage, delay);
+            }
+
+            const currentTime = player.currentTime();
+            if (Math.abs(currentTime - lastCurrentTime) > 1) {
+                console.log(`Video current time changed to: ${currentTime}`);
+                lastCurrentTime = currentTime;
+            }
+            lastCurrentTime = currentTime;
         });
 
     </script>

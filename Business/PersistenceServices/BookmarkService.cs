@@ -16,7 +16,16 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly IReadRepository<Lecture> _lectureReadRepository;
         private readonly IReadRepository<LectureFile> _lectureFileReadRepository;
 
-        public BookmarkService(IReadRepository<Bookmark> bookmarkReadRepository, IWriteRepository<Bookmark> bookmarkWriteRepository, IReadRepository<Student> studentReadRepository, IReadRepository<Module> moduleReadRepository, IReadRepository<Lecture> lectureReadRepository, IReadRepository<LectureFile> lectureFileReadRepository)
+        private readonly IHistoryService _historyService;
+
+        public BookmarkService(
+            IReadRepository<Bookmark> bookmarkReadRepository,
+            IWriteRepository<Bookmark> bookmarkWriteRepository,
+            IReadRepository<Student> studentReadRepository,
+            IReadRepository<Module> moduleReadRepository,
+            IReadRepository<Lecture> lectureReadRepository,
+            IReadRepository<LectureFile> lectureFileReadRepository,
+            IHistoryService historyService)
         {
             _bookmarkReadRepository = bookmarkReadRepository;
             _bookmarkWriteRepository = bookmarkWriteRepository;
@@ -24,6 +33,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             _moduleReadRepository = moduleReadRepository;
             _lectureReadRepository = lectureReadRepository;
             _lectureFileReadRepository = lectureFileReadRepository;
+            _historyService = historyService;
         }
 
         public async Task<bool> AddBookmarkAsync(string email, Guid id, BookmarkType bookmarkType)
@@ -128,7 +138,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 .Where(x => !x.IsDeleted)
                 .OrderByDescending(x => x.CreatedDate).ToList(),
                 Lectures = bookmarks
-                .Where(x => x.Lecture!= null).Select(x => x.Lecture)
+                .Where(x => x.Lecture != null).Select(x => x.Lecture)
                 .Where(x => !x.IsDeleted && !x.Module.IsDeleted)
                 .OrderByDescending(x => x.CreatedDate)
                 .ToList(),
@@ -144,6 +154,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     .Where(x => !x.IsDeleted && !x.Lecture.IsDeleted && !x.Lecture.Module.IsDeleted)
                     .OrderByDescending(x => x.CreatedDate)
                     .ToList(),
+                Histories = await _historyService.ListHistoriesAsync()
             };
 
             return vm;

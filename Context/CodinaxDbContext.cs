@@ -10,7 +10,7 @@ namespace CodinaxProjectMvc.Context
     {
         public CodinaxDbContext(DbContextOptions options) : base(options)
         {
-            
+
         }
 
         public CodinaxDbContext()
@@ -24,7 +24,7 @@ namespace CodinaxProjectMvc.Context
         public DbSet<Reply> Replies { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Student> Students { get; set; }
-        public DbSet<Instructor> Instructors { get; set; }  
+        public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<FutureJobTitle> FutureJobTitles { get; set; }
         public DbSet<Topic> Topics { get; set; }
@@ -37,6 +37,8 @@ namespace CodinaxProjectMvc.Context
         public DbSet<Bookmark> Bookmarks { get; set; }
         public DbSet<LectureFile> LectureFiles { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<History> Histories { get; set; }
+        public DbSet<Progress> Progresses { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

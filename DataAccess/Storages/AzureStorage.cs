@@ -4,15 +4,23 @@ using CodinaxProjectMvc.Operations;
 using CodinaxProjectMvc.DataAccess.Abstract.Storages;
 using System.Configuration;
 using CodinaxProjectMvc.Constants;
+using System.Security.Cryptography.Pkcs;
 
 namespace CodinaxProjectMvc.DataAccess.Storages
 {
     public class AzureStorage : Storage, IAzureStorage
     {
         private readonly BlobServiceClient _blobServiceClient;
+        private readonly ILogger<AzureStorage> _logger;  
         BlobContainerClient _blobContainerClient;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AzureStorage(IConfiguration configuration) => _blobServiceClient = new(configuration[ConfigurationStrings.AzureAccessKey]);
+        public AzureStorage(IConfiguration configuration, ILogger<AzureStorage> logger, IWebHostEnvironment env)
+        {
+            _blobServiceClient = new(configuration[ConfigurationStrings.AzureAccessKey]);
+            _logger = logger;
+            _webHostEnvironment = env;
+        }
 
         public async Task DeleteAsync(string containerName, string fileName)
         {
@@ -73,6 +81,102 @@ namespace CodinaxProjectMvc.DataAccess.Storages
             await blobClient.UploadAsync(file.OpenReadStream());
 
             return (newFileName, containerName);
+        }
+
+        public async Task<List<(string fileName, string pathOrContainerName)>> BitrateAsync(string fileName, string containerName, IFormFile file)
+        {
+            if (file == null || file.Length <= 0 ||
+                !file.ContentType.StartsWith("video/"))
+            {
+                throw new ArgumentException("Invalid video file.");
+            }
+
+            var convertedVideos = new Dictionary<string, IFormFile>();
+
+            string tempDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            Directory.CreateDirectory(tempDirectory);
+
+            try
+            {
+                string videoFilePath = Path.Combine(tempDirectory, file.FileName);
+                using (var stream = new FileStream(videoFilePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var resolutions = new Dictionary<string, string>
+                {
+                    { "1080p", "1920x1080" },
+                    { "720p", "1280x720" },
+                    { "480p", "854x480" },
+                    { "360p", "640x360" },
+                    { "144p", "256x144" }
+                };
+
+                foreach (var resolution in resolutions)
+                {
+                    string outputFilePath = Path.Combine(tempDirectory, $"{resolution.Key}_{file.FileName}");
+
+                    await ExecuteFFmpegCommand($"-i \"{videoFilePath}\" -vf scale={resolution.Value} -c:a copy \"{outputFilePath}\"");
+
+                    var convertedVideo = new FormFile(
+                        baseStream: new FileStream(outputFilePath, FileMode.Open),
+                        baseStreamOffset: 0,
+                        length: new FileInfo(outputFilePath).Length,
+                        name: $"{resolution.Key}_{file.FileName}",
+                        fileName: $"{resolution.Key}_{file.FileName}"
+                    );
+
+                    convertedVideos.Add(resolution.Key, convertedVideo);
+                }
+            }
+            finally
+            {
+                Directory.Delete(tempDirectory, true);
+            }
+
+            //_blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            //await _blobContainerClient.CreateIfNotExistsAsync();
+            //await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.Blob);
+
+            List<(string fileName, string pathOrContainerName)> datas = new List<(string fileName, string pathOrContainerName)>();
+
+
+            foreach (var convertedVideo in convertedVideos)
+            {
+                string newFileName = $"{fileName.Replace(".mp4", "")}_{convertedVideo.Key}.mp4";
+
+                _logger.LogInformation("The converted to resolution: {Resulotion}, renamed as: {NewFileName}", convertedVideo.Key, newFileName);
+
+                //BlobClient blobClient = _blobContainerClient.GetBlobClient(newFileName);
+
+                //await blobClient.UploadAsync(file.OpenReadStream());
+                //datas.Add((newFileName, containerName));
+            }
+
+            return datas;
+        }
+
+        private async Task ExecuteFFmpegCommand(string arguments)
+        {
+            string ffmpegPath = Path.Combine(_webHostEnvironment.WebRootPath, "ffmpeg", "bin", "ffmpeg.exe");
+
+            var processInfo = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = ffmpegPath,
+                Arguments = arguments,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using (var process = new System.Diagnostics.Process())
+            {
+                process.StartInfo = processInfo;
+                process.Start();
+
+                await process.WaitForExitAsync();
+            }
         }
     }
 
