@@ -1,4 +1,5 @@
-﻿using CodinaxProjectMvc.Constants;
+﻿using CodinaxProjectMvc.Business.Abstract.PersistenceServices;
+using CodinaxProjectMvc.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,9 +10,15 @@ namespace CodinaxProjectMvc.Areas.Student.Controllers
 
     public class DashboardController : Controller
     {
-        public IActionResult Index()
+        private readonly IDashboardService _dashboardService;
+
+        public DashboardController(IDashboardService dashboardService)
         {
-            return View();
+            _dashboardService = dashboardService;
         }
+
+        public async Task<IActionResult> Index()
+            => View(await _dashboardService.ListDashboardAsync());
+        
     }
 }

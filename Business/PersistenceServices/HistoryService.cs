@@ -88,6 +88,9 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     .ThenInclude(x => x.Lecture)
                     .ThenInclude(x => x.Module)
                     .ThenInclude(x => x.Course)
+                    .Include(x => x.Histories)
+                    .ThenInclude(x => x.LectureFile)
+                    .ThenInclude(x => x.Progresses)
                     .FirstAsync(x => x.Email == _actionContextAccessor.ActionContext.HttpContext.User.Identity.Name).Result;
             }
         }

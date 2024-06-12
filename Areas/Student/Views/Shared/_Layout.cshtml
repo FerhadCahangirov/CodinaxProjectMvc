@@ -9,6 +9,7 @@
     var isCoursesPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "courses";
     var isEventsPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "events";
     var isBookmarksPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "bookmarks";
+    var isDashboardPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "dashboard";
 }
 
 <head>
@@ -115,7 +116,15 @@
                     </div>
 
                     <ul class="sidemenu_items">
-
+                        <li>
+                            <a class="@(isDashboardPage ? "sidemenu_link_active" : "") sidemenu_link"
+                                href="/Student/Dashboard/Index">
+                                <svg-icon height="20px" width="20px">
+                                    <i class="fa-solid fa-landmark align-middle"></i>
+                                </svg-icon>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
                         <li>
                             <a class="@(isCoursesPage ? "sidemenu_link_active" : "") sidemenu_link"
                                 href="/Student/Courses/Index">

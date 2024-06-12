@@ -1,1 +1,515 @@
-﻿
+﻿@using CodinaxProjectMvc.Enums;
+@using CodinaxProjectMvc.ViewModel.LayoutVm;
+@model DashboardVm
+
+@section Styles{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css" integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        .owl-nav {
+            position: absolute;
+            top: 70px;
+            right: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .owl-theme .owl-nav {
+            margin-top: 10px;
+            text-align: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+            .owl-theme .owl-nav [class*=owl-] {
+                color: #fff;
+                font-size: 14px;
+                margin: 5px;
+                padding: 4px 7px;
+                background: #d6d6d6;
+                display: inline-block;
+                cursor: pointer;
+                border-radius: 3px;
+            }
+
+        .owl-nav .owl-prev {
+            position: relative;
+            left: -50px;
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            transition: all .2s ease;
+            pointer-events: all;
+        }
+
+            .owl-nav .owl-prev:before {
+                transition: all .2s ease;
+                content: "";
+                background-image: url("data:image/svg+xml,%3Csvg _ngcontent-amx-c158='' id='ns-arrow-narrow-left' fill='%2300B3E3' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath _ngcontent-amx-c158='' fill-rule='evenodd' d='M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-size: 60%;
+                background-position: 50%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+
+        .owl-nav .owl-next {
+            position: relative;
+            right: -50px;
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            transition: all .2s ease;
+            pointer-events: all;
+            color: transparent;
+        }
+
+            .owl-nav .owl-next:before {
+                transition: all .2s ease;
+                content: "";
+                background-image: url("data:image/svg+xml,%3Csvg class='w-6 h-6' fill='%2300B3E3' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-size: 60%;
+                background-position: 50%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+
+            .owl-nav .owl-next:hover {
+                background-color: transparent !important;
+                transform: translateX(4px);
+            }
+
+        .owl-nav .owl-prev:hover {
+            background-color: transparent !important;
+            transform: translateX(-4px);
+        }
+
+    </style>
+}
+
+
+<div class="dsh-section mt-3">
+    <h1 class="dsh-title-section">Jump right back in</h1>
+    <div>
+        <div class="Header-State" data-theme-state="false">
+            <p class="header-state-section">Last Watched</p>
+            <!---->
+            <label class="Header-Switch ">
+                <input type="checkbox" class="Checkbox-Toggle" id="toggle_theme" data-theme-state="false">
+                <span class="Switch-Slider Switch-Slider-round"></span>
+            </label><!---->
+            <p class="header-state-section">Favorite</p>
+            <!---->
+        </div>
+        <!---->
+    </div>
+</div>
+
+<div data-index="INDEX-2">
+    <div class="Dashboard-Intro-Tooltip-Space intro-content-active_BG">
+        <div class="dashboard-last-watched-wrapper">
+            <div class="Section-Last-Watched position-relative">
+                <div class="position-relative card--holders">
+                    <div id="owl-one-last" class="owl-carousel">
+
+                        @foreach (var video in Model.LastWatchedVideos)
+                        {
+                            <div>
+                                <div class="Cardcontainer">
+                                    <div class="Cardimagecontainer" data-tippy-content="IntelliJ Ultimate Easy Install...">
+                                        <a href="#">
+                                            <div class="course_card_image" style="--aspect-ratio: 16/9;">
+                                                <div class="course_card_image_title">
+                                                    @video.LectureFile.Lecture.Module.Course.Title
+                                                </div>
+                                            </div>
+                                        </a>
+
+                                        <a target="_blank" class="Cardplaybutton" href="#">
+                                            <i class="fa-solid fa-play"></i>
+                                        </a>
+                                    </div>
+                                    <div class="Cardinformationcontainer">
+                                        <div class="Cardinformationbutton"><button>Resume</button></div>
+                                        <div class="Cardinformationwrapper">
+                                            <div class="Cardinformation-top"><a class="Cardinformation-title"> @video.LectureFile.Title </a></div>
+                                            <div class="Cardinformation-top">
+                                                <i class="fa-regular fa-file-lines"></i>
+                                                <a class="Cardinformation-subtitle"> Preview module </a>
+                                            </div>
+                                            <div class="Cardinformation-top">
+                                                <i class="fa-solid fa-file"></i>
+                                                <a class="Cardinformation-subtitle" href="#"> View in course </a>
+                                            </div>
+                                            <div class="progress-wrapper progress-auto">
+                                                <div data-height="12px" class="progress-container">
+                                                    <div role="progressbar" class="progress-bar" style="width: @(video.LectureFile.Progresses.Any(x => x.Student.Email == User.Identity.Name) ? video.LectureFile.Progresses.First(x => x.Student.Email == User.Identity.Name).Percentage : 0)%;"></div>
+                                                </div>
+                                                <span class="progress-info">@(video.LectureFile.Progresses.Any(x => x.Student.Email == User.Identity.Name) ? video.LectureFile.Progresses.First(x => x.Student.Email == User.Identity.Name).Percentage : 0)%</span>
+                                            </div>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        }
+                    </div>
+
+                    <div id="owl-one-fav" class="owl-carousel" style="display: none;">
+
+                        @foreach (var video in Model.FavouriteVideos)
+                        {
+                            <div>
+                                <div class="Cardcontainer">
+                                    <div class="Cardimagecontainer" data-tippy-content="IntelliJ Ultimate Easy Install...">
+                                        <a href="#">
+                                            <div class="course_card_image" style="--aspect-ratio: 16/9;">
+                                                <div class="course_card_image_title">
+                                                    @video.Lecture.Module.Course.Title
+                                                </div>
+                                            </div>
+                                        </a>
+
+                                        <a target="_blank" class="Cardplaybutton" href="#">
+                                            <i class="fa-solid fa-play"></i>
+                                        </a>
+                                    </div>
+                                    <div class="Cardinformationcontainer">
+                                        <div class="Cardinformationbutton"><button>Resume</button></div>
+                                        <div class="Cardinformationwrapper">
+                                            <div class="Cardinformation-top"><a class="Cardinformation-title"> @video.Title </a></div>
+                                            <div class="Cardinformation-top">
+                                                <i class="fa-regular fa-file-lines"></i>
+                                                <a class="Cardinformation-subtitle"> Preview module </a>
+                                            </div>
+                                            <div class="Cardinformation-top">
+                                                <i class="fa-solid fa-file"></i>
+                                                <a class="Cardinformation-subtitle" href="#"> View in course </a>
+                                            </div>
+                                            <div class="progress-wrapper progress-auto">
+                                                <div data-height="12px" class="progress-container">
+                                                    <div role="progressbar" class="progress-bar" style="width: @(video.Progresses.Any(x => x.Student.Email == User.Identity.Name) ? video.Progresses.First(x => x.Student.Email == User.Identity.Name).Percentage : 0)%;"></div>
+                                                </div>
+                                                <span class="progress-info">@(video.Progresses.Any(x => x.Student.Email == User.Identity.Name) ? video.Progresses.First(x => x.Student.Email == User.Identity.Name).Percentage : 0)%</span>
+                                            </div>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="display-flex align-items-center justify-space-between shortcut-tabs">
+    <div class="display-flex align-items-center">
+        <h1 class="Label-Section mb-none">Quick access</h1>
+        <div class="mt-dashboard--wrapper">
+            <button class="mt--select-button-dsh" id="toggle_bookmark">
+                <span class="mt--select--button-title">Modules</span>
+                <span class="icon--dsh">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </span>
+
+            </button>
+
+            <div class="dropdown--content dropdown--dashboard-content">
+                <button class="dropdown-item dropdown--dsh-item dropdown--item-active ng-star-inserted">
+                    Modules
+                    <i class="fa-solid fa-check"></i>
+                    <!---->
+                </button>
+                <button class="dropdown-item dropdown--dsh-item ng-star-inserted">
+                    Lectures <!---->
+                    <i class="fa-solid fa-check" style="visibility: hidden"></i>
+
+                </button>
+                <button class="dropdown-item dropdown--dsh-item ng-star-inserted">
+                    Contents <!---->
+                    <i class="fa-solid fa-check" style="visibility: hidden"></i>
+
+                </button>
+            </div>
+
+            <!---->
+        </div>
+    </div>
+    <a class="Label-Section-link" style="margin-right: 12px;" href="/member/bookmarks?seeAll=modules">Go to bookmarks</a><!---->
+</div>
+
+<div class="Section-Bookmarks">
+    <div class="position-relative">
+        <div id="owl-two-modules" class="owl-carousel" data-value="modules">
+            @foreach (var module in Model.Modules)
+            {
+                <div>
+                    <div class="__bookmark-wrapper " style="">
+                        <h1 class="__bookmark-title">@module.Title</h1>
+                        <div class="__bookmark-info">
+                            <h2 class="__bookmark-subtitle">@module.Course.Title</h2>
+                        </div>
+                        <div class="__bookmark-buttons">
+                            <a class="__bookmark-button">
+                                Go to module
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a class="__bookmark-button ">
+                                View
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+        <div id="owl-two-lectures" class="owl-carousel" style="display: none;" data-value="lectures">
+            @foreach (var module in Model.Lectures)
+            {
+                <div>
+                    <div class="__bookmark-wrapper " style="">
+                        <h1 class="__bookmark-title">@module.Title</h1>
+                        <div class="__bookmark-info">
+                            <h2 class="__bookmark-subtitle">@module.Module.Title</h2>
+                            <h2 class="__bookmark-subtitle">@module.Module.Course.Title</h2>
+                        </div>
+                        <div class="__bookmark-buttons">
+                            <a class="__bookmark-button">
+                                Go to module
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a class="__bookmark-button ">
+                                View
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <div id="owl-two-contents" class="owl-carousel" style="display: none;" data-value="contents">
+            @foreach (var module in Model.Contents)
+            {
+                <div>
+                    <div class="__bookmark-wrapper " style="">
+                        <h1 class="__bookmark-title">@module.Title</h1>
+                        <div class="__bookmark-info">
+                            <h2 class="__bookmark-subtitle">@module.Lecture.Title</h2>
+                            <h2 class="__bookmark-subtitle">@module.Lecture.Module.Title</h2>
+                            <h2 class="__bookmark-subtitle">@module.Lecture.Module.Course.Title</h2>
+                        </div>
+                        <div class="__bookmark-buttons">
+                            <a class="__bookmark-button">
+                                Go to module
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            <a class="__bookmark-button ">
+                                View
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="Content_Wrapper">
+    <h1 class="Label-Section">What's new</h1>
+
+    <div class="position-relative">
+        <div id="owl-three" class="owl-carousel">
+            @foreach(var content in Model.LastActions)
+            {
+                <div>
+                    <div class="Card-Item-Program" style="">
+                        <div class="Programs-Item-D-Info ">
+                            <span class="Programs-Item-D-Title ">@content.Title </span>
+                            <span class="Programs-Item-D-Title Programs-Item-D-subtitle ">@content.Title</span>
+                            <a class="Programs-Item-D-Title Programs-Item-D-subtitle ">@content.Lecture.Module.Course.Title</a>
+
+                            <div class="Programs-Item-D-bottom-content ">
+                                <div class="Programs-Item-D-file-type ">
+
+                                    @if(content.FileType == FileType.URL)
+                                    {
+                                        <h5 class="Programs-Item-D-file-type-heading ">Link</h5>
+                                        <i class="fa-solid fa-link video-svg-icon"></i>
+                                    }
+                                    else if (content.FileType == FileType.MP4)
+                                    {
+                                        <h5 class="Programs-Item-D-file-type-heading ">Video</h5>
+                                        <i class="fa-solid fa-video video-svg-icon"></i>
+                                    }
+                                    else if (content.FileType == FileType.PDF)
+                                    {
+                                        <h5 class="Programs-Item-D-file-type-heading ">PDF</h5>
+                                        <i class="fa-solid fa-file video-svg-icon"></i>
+                                    }
+                                    else if (content.FileType == FileType.TXT)
+                                    {
+                                        <h5 class="Programs-Item-D-file-type-heading ">Text</h5>
+                                        <i class="fa-solid fa-file video-svg-icon"></i>
+                                    }
+
+                                </div>
+                                <div class="Programs-Item-D-buttons">
+                                    <a href="/member/my-programs/75-java-selenium-sdet/courses/628-eu9-test-automation#12936-mobile-testing-with-appium-day-2-05-20-2022" class="">
+                                        Go To Module
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+                                    <a href="#" target="_blank" class=" ">
+                                        @(content.FileType == FileType.MP4 ? "Play" : "Open")
+
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+        </div>
+    </div>
+
+</div>
+
+
+
+<script>
+    function applyGradientColors() {
+        const courseCardImages = document.querySelectorAll('.course_card_image');
+        courseCardImages.forEach((element, index) => {
+            const gradientIndex = Math.floor(index % 6) + 1;
+            element.classList.add('gradient-' + gradientIndex);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        applyGradientColors();
+    });
+</script>
+
+
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js" integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js" integrity="sha512-gY25nC63ddE0LcLPhxUJGFxa2GoIyA5FLym4UJqHDEMHjp8RET6Zn/SHo1sltt3WuVtqfyxECP38/daUc/WVEA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#toggle_theme").click(() => {
+                if (!$("#toggle_theme").data("theme-state")) {
+                    $("#toggle_theme").data('theme-state', true).attr('data-theme-state', true);
+                    $("#owl-one-last").css('display', 'none');
+                    $("#owl-one-fav").css('display', 'block');
+                }
+                else {
+                    $("#toggle_theme").data('theme-state', false).attr('data-theme-state', false);
+                    $("#owl-one-fav").css('display', 'none');
+                    $("#owl-one-last").css('display', 'block');
+                }
+            });
+
+            $('.dropdown-item').on('click', function () {
+                $('.dropdown-item i').css('visibility', 'hidden');
+
+                $(this).find('i').css('visibility', 'visible');
+
+                if($(".mt--select--button-title").text().trim() !== $(this).text().trim()){
+                    const item_text = $(this).text().trim().toString();
+
+                    $(".mt--select--button-title").text(item_text);
+
+                    $("#owl-two-modules, #owl-two-lectures, #owl-two-contents").css("display", "none")
+
+                    $("#owl-two-modules, #owl-two-lectures, #owl-two-contents")
+                        .filter(function () {
+                            console.log($(this).data('value'));
+                            return $(this).data('value') === item_text.toLowerCase();
+                        })
+                        .css('display', 'block');
+
+                    $(".dropdown--dashboard-content").removeClass('active')
+                }
+            });
+
+
+            $("#owl-one-last, #owl-one-fav, #owl-two-modules, #owl-two-lectures, #owl-two-contents").owlCarousel({
+                loop: false,
+                autoplay: false,
+                nav: true,
+                navText: [" ", " "],
+                margin: 20,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 2
+                    },
+                    1000: {
+                        items: 3
+                    },
+                    1600: {
+                        items: 4
+                    },
+                },
+            });
+
+            $("#owl-three").owlCarousel({
+                loop: false,
+                autoplay: false,
+                nav: true,
+                navText: [" ", " "],
+                margin: 20,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    800: {
+                        items: 2
+                    },
+                    1300: {
+                        items: 3
+                    }
+                },
+                dots: false
+            });
+
+            $("#toggle_bookmark").click(() => {
+                if ($(".dropdown--dashboard-content").hasClass('active')) {
+                    $(".dropdown--dashboard-content").removeClass('active')
+                }
+                else {
+                    $(".dropdown--dashboard-content").addClass('active')
+                }
+            });
+
+        });
+    </script>
+}
