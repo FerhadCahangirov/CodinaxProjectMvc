@@ -1,7 +1,12 @@
 ﻿@model CourseUpdateVm
 
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
+
+
 <div class="widget-content multistep-form">
-    <form method="post">
+    <form method="post" onsubmit="activateLoading()">
         <input hidden asp-for="Id"/>
         <fieldset class="field-card">
             <div class="add-course-info">

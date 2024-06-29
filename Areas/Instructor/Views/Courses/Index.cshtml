@@ -17,7 +17,7 @@
 <div class="tabs__wrapper">
     <ul class="tabs__container__between">
         <li class="ns-tabs--tab">
-            <a class="ns-tab--item ns-tab--item-active"> Courses </a>
+            <h3 class="ns-tab--item ns-tab--item-active"> Courses </h3>
         </li>
     </ul>
 </div>
@@ -44,7 +44,7 @@
                             <div class="course_modules_info_inner">
                                 <div>
                                     <i class="fa-solid fa-shapes align-middle mr-2"></i>
-                                    @item.Modules.Count() modules
+                                    @item.Modules.Where(x => !x.IsDeleted && !x.IsArchived).Count() modules
 
                                 </div>
                             </div>

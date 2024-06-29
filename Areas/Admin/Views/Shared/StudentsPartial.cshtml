@@ -10,10 +10,10 @@
                 if (data.success) {
                     const status_element = document.getElementById(`status_${id}`);
                     status_element.innerHTML = `
-                                    <span class="badge badge-dot mr-4 text-secondary">
-                                                    <i class="bg-success"></i> approved
-                                                </span>
-                                                `;
+                                        <span class="badge badge-dot mr-4 text-secondary">
+                                                        <i class="bg-success"></i> approved
+                                                    </span>
+                                                    `;
 
                     const approve_element = document.getElementById(`approve_${id}`);
                     approve_element.innerHTML = "";
@@ -37,17 +37,17 @@
                 if (data.success) {
                     const status_element = document.getElementById(`status_${id}`);
                     status_element.innerHTML = `
-                                            <span class="badge badge-dot mr-4 text-secondary">
-                                            <i class="bg-warning"></i> banned
-                                        </span>
-                                                    `;
+                                                <span class="badge badge-dot mr-4 text-secondary">
+                                                <i class="bg-warning"></i> banned
+                                            </span>
+                                                        `;
 
                     const ban_element = document.getElementById(`ban_${id}`);
                     ban_element.innerHTML = `
-                                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unbanStudent('${id}')">
-                                            <i class="fa-solid fa-check"></i>
-                                        </a>
-                        `;
+                                                <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unbanStudent('${id}')">
+                                                <i class="fa-solid fa-check"></i>
+                                            </a>
+                            `;
 
                     showToaster('success', 'Student Banned Successfull');
 
@@ -70,17 +70,17 @@
                 if (data.success) {
                     const status_element = document.getElementById(`status_${id}`);
                     status_element.innerHTML = `
-                                                     <span class="badge badge-dot mr-4 text-secondary">
-                                                        <i class="bg-success"></i> approved
-                                                    </span>
-                                                        `;
+                                                         <span class="badge badge-dot mr-4 text-secondary">
+                                                            <i class="bg-success"></i> approved
+                                                        </span>
+                                                            `;
 
                     const unban_element = document.getElementById(`ban_${id}`);
                     unban_element.innerHTML = `
-                                                    <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="banStudent('${id}')">
-                                            <i class="fa-solid fa-ban"></i>
-                                        </a>
-                            `;
+                                                        <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="banStudent('${id}')">
+                                                <i class="fa-solid fa-ban"></i>
+                                            </a>
+                                `;
 
                     showToaster('success', 'Student Unbanned Successfull');
                 }
@@ -130,7 +130,23 @@
         });
     }
 
-    function deleteStudent(id) {
+    function sendPasswordGenerateMail(id) {
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Students/SendPasswordGenerateMail/${id}`,
+            success: (data) => {
+                if (data.success) {
+                    showToaster('success', 'Confirmation Link Has Been Sent');
+                }
+                else
+                    showToaster('error', 'Failed To Send Confirmation Link');
+            },
+            error: (data) => {
+                console.error(data);
+            }
+
+
+        function deleteStudent(id) {
         $.ajax({
             type: 'DELETE',
             url: `/Admin/Students/DeleteStudent/${id}`,
@@ -184,6 +200,7 @@
                 <th scope="col">Ban</th>
                 <th scope="col">Delete</th>
                 <th scope="col">Email Confirmed</th>
+                <th scope="col">Password Setup</th>
                 <th scope="col">View</th>
             </tr>
         </thead>
@@ -195,7 +212,16 @@
                     <th scope="row">
                         <div class="media align-items-center">
                             <a href="#" class="avatar rounded-circle mr-3">
-                                <img alt="Image placeholder" src="/Assets/panel/assets/img/icon/user.png">
+                                @if (string.IsNullOrEmpty(item.ProfileImageName) && string.IsNullOrEmpty(item.ProfileImagePathOrContainer))
+                                {
+                                    <img alt="Image placeholder" src="/Assets/panel/assets/img/icon/user.png">
+
+                                }
+                                else
+                                {
+                                    <img alt="Image placeholder" src="@Model.BaseUrl/@item.ProfileImagePathOrContainer/@item.ProfileImageName">
+
+                                }
                             </a>
                             <div class="media-body">
                                 <span class="mb-0 text-sm">@item.FirstName @item.LastName</span>
@@ -280,6 +306,31 @@
                         }
                     </td>
                     <td>
+                        @if (item.IsApproved)
+                        {
+                            @if (!string.IsNullOrEmpty(item.PasswordHash))
+                            {
+                                <span class="badge badge-dot mr-4 text-secondary">
+                                    <i class="bg-success"></i> setted
+                                </span>
+                            }
+                            else
+                            {
+                                <a class="btn btn-sm text-light" role="button"
+                                   onclick="sendPasswordGenerateMail('@item.Id')">
+                                    Send <i class="fa-regular fa-paper-plane"></i>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-warning"></i> not approved
+                            </span>
+                        }
+
+                    </td>
+                    <td>
                         <a class="btn btn-sm btn-icon-only text-light " role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop_@item.Id">
                             <i class="fa-solid fa-eye"></i>
                         </a>
@@ -294,13 +345,19 @@
                                     <div class="row g-0">
                                         <div class="col-md-4 gradient-custom text-center text-white"
                                              style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                                            <img src="/Assets/panel/assets/img/icon/user.png"
-                                                 alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                                            @if (string.IsNullOrEmpty(item.ProfileImageName))
+                                            {
+                                                <img src="/Assets/panel/assets/img/icon/user.png"
+                                                     alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                                            }
+                                            else
+                                            {
+                                                <img src="@Model.BaseUrl/@item.ProfileImagePathOrContainer/@item.ProfileImageName"
+                                                     alt="Avatar" class="img-fluid my-5" style="width: 100px;height: 100px;border-radius: 50%;object-fit: cover;" />
+                                            }
                                             <h5>@item.FirstName @item.LastName</h5>
-                                            <p>@item.Email</p>
                                             <a href="/Admin/Students/Profile/@item.Id" class="pointer">
                                                 <i class="far fa-edit mb-5 ">
-
                                                 </i>
                                             </a>
 
@@ -319,18 +376,35 @@
                                                         <p class="text-muted">@item.PhoneNumber</p>
                                                     </div>
                                                 </div>
+
+                                                @if (!string.IsNullOrEmpty(item.DiscountOrReference))
+                                                {
+                                                    <div class="row pt-1">
+                                                        <div class="col-6 mb-3">
+                                                            <h6>Discount or Reference</h6>
+                                                            <p class="text-muted">@item.DiscountOrReference</p>
+                                                        </div>
+                                                    </div>
+                                                }
+
                                                 <h6>Applied Course</h6>
                                                 <hr class="mt-0 mb-4">
                                                 @foreach (var course in item.Courses)
                                                 {
                                                     <div class="row pt-1">
-                                                        <div class="col-6 mb-3">
+                                                        <div class="col-4 mb-3">
                                                             <h6>Code</h6>
                                                             <p class="text-muted">@course.CourseCode</p>
                                                         </div>
-                                                        <div class="col-6 mb-3">
+                                                        <div class="col-4 mb-3">
                                                             <h6>Title</h6>
                                                             <p class="text-muted">@course.Title</p>
+                                                        </div>
+                                                        <div class="col-4 mb-3">
+                                                            <h6>View</h6>
+                                                            <a href="/Admin/Courses/Single/@course.Id">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 }

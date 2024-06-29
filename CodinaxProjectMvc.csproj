@@ -12,6 +12,7 @@
 		<PackageReference Include="Azure.Storage.Queues" Version="12.11.1" />
 		<PackageReference Include="CouchbaseNetClient" Version="3.4.15" />
 		<PackageReference Include="FFmpeg.AutoGen" Version="7.0.0" />
+		<PackageReference Include="MediaToolkit" Version="1.1.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.26" />
 		<PackageReference Include="Microsoft.AspNetCore.ProtectedBrowserStorage" Version="0.1.0-alpha.19521.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.26" />
@@ -25,57 +26,11 @@
 		<PackageReference Include="MlkPwgen" Version="0.3.0" />
 		<PackageReference Include="NReco" Version="2.0.3" />
 		<PackageReference Include="NReco.VideoInfo" Version="1.2.0" />
+		<PackageReference Include="Xabe.FFmpeg" Version="5.2.6" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Migrations\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Include="wwwroot\ffmpeg\bin\ffmpeg.exe" />
-	  <None Include="wwwroot\ffmpeg\bin\ffplay.exe" />
-	  <None Include="wwwroot\ffmpeg\bin\ffprobe.exe" />
-	  <None Include="wwwroot\ffmpeg\doc\bootstrap.min.css" />
-	  <None Include="wwwroot\ffmpeg\doc\community.html" />
-	  <None Include="wwwroot\ffmpeg\doc\default.css" />
-	  <None Include="wwwroot\ffmpeg\doc\developer.html" />
-	  <None Include="wwwroot\ffmpeg\doc\faq.html" />
-	  <None Include="wwwroot\ffmpeg\doc\fate.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffmpeg-all.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffmpeg-bitstream-filters.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffmpeg-codecs.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffmpeg-devices.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffmpeg-filters.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffmpeg-formats.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffmpeg-protocols.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffmpeg-resampler.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffmpeg-scaler.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffmpeg-utils.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffmpeg.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffplay-all.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffplay.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffprobe-all.html" />
-	  <None Include="wwwroot\ffmpeg\doc\ffprobe.html" />
-	  <None Include="wwwroot\ffmpeg\doc\general.html" />
-	  <None Include="wwwroot\ffmpeg\doc\git-howto.html" />
-	  <None Include="wwwroot\ffmpeg\doc\libavcodec.html" />
-	  <None Include="wwwroot\ffmpeg\doc\libavdevice.html" />
-	  <None Include="wwwroot\ffmpeg\doc\libavfilter.html" />
-	  <None Include="wwwroot\ffmpeg\doc\libavformat.html" />
-	  <None Include="wwwroot\ffmpeg\doc\libavutil.html" />
-	  <None Include="wwwroot\ffmpeg\doc\libswresample.html" />
-	  <None Include="wwwroot\ffmpeg\doc\libswscale.html" />
-	  <None Include="wwwroot\ffmpeg\doc\mailing-list-faq.html" />
-	  <None Include="wwwroot\ffmpeg\doc\nut.html" />
-	  <None Include="wwwroot\ffmpeg\doc\platform.html" />
-	  <None Include="wwwroot\ffmpeg\doc\style.min.css" />
-	  <None Include="wwwroot\ffmpeg\LICENSE" />
-	  <None Include="wwwroot\ffmpeg\presets\libvpx-1080p.ffpreset" />
-	  <None Include="wwwroot\ffmpeg\presets\libvpx-1080p50_60.ffpreset" />
-	  <None Include="wwwroot\ffmpeg\presets\libvpx-360p.ffpreset" />
-	  <None Include="wwwroot\ffmpeg\presets\libvpx-720p.ffpreset" />
-	  <None Include="wwwroot\ffmpeg\presets\libvpx-720p50_60.ffpreset" />
-	  <None Include="wwwroot\ffmpeg\README.txt" />
 	</ItemGroup>
 
 	<ItemGroup>

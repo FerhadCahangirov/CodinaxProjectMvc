@@ -33,6 +33,8 @@ namespace CodinaxProjectMvc.Registrations
             services.AddScoped<IHistoryService, HistoryService>();
             services.AddScoped<IProgressService, ProgressService>();
             services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<IApplicationService, ApplicationService>();
+            services.AddScoped<ICorporateService, CorporateService>();
 
             services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
             services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));

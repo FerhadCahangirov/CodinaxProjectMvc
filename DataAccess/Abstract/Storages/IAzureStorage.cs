@@ -12,7 +12,7 @@ public interface IAzureStorage
 
     BlobItem GetFile(string pathOrContainerName, string fileName);
 
-    Task<List<(string fileName, string pathOrContainerName)>> BitrateAsync(string fileName, string containerName, IFormFile file);
+    Task BitrateAsync(string fileName, string containerName);
 
     bool HasFile(string pathOrContainerName, string fileName);
 }

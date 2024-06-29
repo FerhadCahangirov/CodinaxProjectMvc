@@ -1,5 +1,7 @@
-﻿@using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
+﻿@using CodinaxProjectMvc.Constants;
+@using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 @inject IReadRepository<Instructor> _instructorReadRepository;
+@inject IConfiguration _configuration;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -77,24 +79,78 @@
                     <div class="sidemenu_user">
                         <div class="sidemenu_profile">
                             <div class="avatar-container" style="width: 120px; height: 120px;">
-                                <div class="avatar-content"
-                                    style="text-align: center; border-radius: 100%; text-transform: uppercase; color: rgb(255, 255, 255); background-color: rgb(127, 140, 141); font: 40px / 120px Helvetica, Arial, sans-serif;">
-                                    @(
-                                        _instructorReadRepository.Table.Single(x => x.Email ==
-                                        User.Identity.Name).FirstName[0].ToString().ToUpper()
-                                        )
-                                    @(
-                                        _instructorReadRepository.Table.Single(x => x.Email ==
-                                        User.Identity.Name).LastName[0].ToString().ToUpper()
-                                        )
-                                </div>
+                                @if(string.IsNullOrEmpty(_instructorReadRepository.Table.Single(x => x.Email == User.Identity.Name).ProfileImageName))
+                                        {
+                                        <div  class="avatar-content" style="text-align: center; border-radius: 100%; text-transform: uppercase; color: rgb(255, 255, 255); background-color: rgb(127, 140, 141); font: 46px / 140px Helvetica, Arial, sans-serif;">
+                                            @(
+                                            _instructorReadRepository.Table.Single(x => x.Email ==
+                                            User.Identity.Name).FirstName[0].ToString()
+                                            )
+                                            @(
+                                            _instructorReadRepository.Table.Single(x => x.Email ==
+                                            User.Identity.Name).LastName[0].ToString()
+                                            )
+                                        </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div  class="avatar-content" style="text-align: center; border-radius: 100%;height: 100%">
+                                                <img class="img-fluid" src="@_configuration[ConfigurationStrings.AzureBaseUrl]/@_instructorReadRepository.Table.Single(x => x.Email ==
+                                            User.Identity.Name).ProfileImagePathOrContainer/@_instructorReadRepository.Table.Single(x => x.Email ==
+                                            User.Identity.Name).ProfileImageName" style="width: 100%;height: 100%;object-fit: cover;">  
+                                            </div>
+                                        }
                             </div>
                         </div>
 
-                        <div class="edit_profile_icon">
+                        <div class="edit_profile_icon" id="editProfileIcon">
                             <svg-icon height="20px" id="avatar-icon-popOver" name="ns-edit-icon" width="20px">
                                 <i class="fa-solid fa-pen-to-square align-middle"></i>
                             </svg-icon>
+                        </div>
+
+                        <div  id="avatar-container-popover" class="avatar-pop-over">
+                            <div  class="avatar-holder">
+                                <div  class="avatar-user">
+                                <!---->
+                                    <div  class="avatar-container" style="width: 140px; height: 140px;">
+                                        @if(string.IsNullOrEmpty(_instructorReadRepository.Table.Single(x => x.Email == User.Identity.Name).ProfileImageName))
+                                        {
+                                        <div  class="avatar-content" style="text-align: center; border-radius: 100%; text-transform: uppercase; color: rgb(255, 255, 255); background-color: rgb(127, 140, 141); font: 46px / 140px Helvetica, Arial, sans-serif;">
+                                            @(
+                                            _instructorReadRepository.Table.Single(x => x.Email ==
+                                            User.Identity.Name).FirstName[0].ToString()
+                                            )
+                                            @(
+                                            _instructorReadRepository.Table.Single(x => x.Email ==
+                                            User.Identity.Name).LastName[0].ToString()
+                                            )
+                                        </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div  class="avatar-content" style="text-align: center; border-radius: 100%;height: 100%">
+                                                <img class="img-fluid" src="@_configuration[ConfigurationStrings.AzureBaseUrl]/@_instructorReadRepository.Table.Single(x => x.Email ==
+                                            User.Identity.Name).ProfileImagePathOrContainer/@_instructorReadRepository.Table.Single(x => x.Email ==
+                                            User.Identity.Name).ProfileImageName" style="width: 100%;height: 100%;object-fit: cover;">  
+                                            </div>
+                                        }
+                                    </div>
+                                <!---->
+                                </div>
+                            </div>
+                            <div  class="buttons-avatar-container">
+                                <div  class="buttons-avatar-wrapper">
+                                <a  class="button-avatar-action action--change" href="/Instructor/Account/Profile">
+                                    <i class="fa-solid fa-pen-to-square align-middle"></i>
+
+                                    Edit profile
+                                </a>
+                                <!---->
+                                </div>
+                            </div>
                         </div>
 
                         <div class="sidemenu_profile_info">
@@ -156,6 +212,26 @@
                     <button class="ml-2 settings-button">
                         <i class="fa-solid fa-gear align-middle"></i>
                     </button>
+
+                    <div class="dropdown-content day-switch-dropdown" >
+                       <div class="dropdown-holder" >
+                          <div class="theme-change" >
+                             <p class="settings-item-header">Theme</p>
+                             <div class="item-settings-holder" >
+                                <div class="Header-State" data-theme-state="light" >
+                                   <i class="fa-solid fa-moon"></i>
+                                   <label class="Header-Switch">
+                                       <input type="checkbox" class="Checkbox-Toggle" data-theme-state="light">
+                                       <span class="Switch-Slider Switch-Slider-round"></span>
+                                   </label>
+                                   <i class="fa-solid fa-sun"></i>
+                                </div>
+                                <span >Light</span>
+                             </div>
+                          </div>
+     
+                       </div>
+                    </div>
                 </div>
             </div>
         </header>
@@ -167,6 +243,12 @@
         </div>
     </main>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
+        integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Ckeditor JS -->
     <script src="/Assets/panel/assets/js/ckeditor.js"></script>
@@ -183,11 +265,13 @@
         function toggleMenu() {
             const sidemenu = document.querySelector('.sidemenu_position');
             if (sidemenu.classList.contains('active')) {
+                if($('#avatar-container-popover').hasClass('active')){
+                    $('#avatar-container-popover').removeClass('active');
+                }
                 sidemenu.classList.remove('active');
             }
             else {
                 sidemenu.classList.add('active');
-
             }
         }
 
@@ -203,6 +287,104 @@
                 }
             })
         }
+
+        function searchContent(event){
+            $.ajax({
+                type: 'POST',
+                url: `/student/search?content=${event.target.value}`,
+                success: (response) => {
+                    $('.main_content .main_wrapper').html(response);
+                },
+                error: (data) => {
+                    console.log(data);
+                }
+            })
+        }
+        
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const theme =  localStorage.getItem('theme-state');
+
+            $('.settings-button').click(() => {
+                if($('.popup-wrapper .dropdown-content').hasClass('active')){
+                    $('.popup-wrapper .dropdown-content').removeClass('active')
+                }
+                else{
+                    $('.popup-wrapper .dropdown-content').addClass('active')
+                }
+            });
+
+           
+            if(theme === null){
+                $('body').addClass('Light-Theme');
+                $('body').data('theme-state', 'light').attr('data-theme-state', 'light');
+
+                $('.popup-wrapper .Header-State').data('theme-state', 'light').attr('data-theme-state', 'light');
+                $('.popup-wrapper .Checkbox-Toggle').data('theme-state', 'light').attr('data-theme-state', 'light');
+
+            }
+            else if(theme === 'light'){
+                $('.popup-wrapper .Header-State').data('theme-state', 'light').attr('data-theme-state', 'light');
+                $('.popup-wrapper .Checkbox-Toggle').data('theme-state', 'light').attr('data-theme-state', 'light');
+
+                $('body').removeClass('Dark-Theme');
+                $('body').addClass('Light-Theme');
+
+                $('body').data('theme-state', 'light').attr('data-theme-state', 'light');
+
+            }
+            else if(theme === 'dark'){
+
+
+                $('.popup-wrapper .Header-State').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+                $('.popup-wrapper .Checkbox-Toggle').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+
+                $('body').removeClass('Light-Theme');
+                $('body').addClass('Dark-Theme');
+
+                $('body').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+
+            }
+
+
+            $('.popup-wrapper .Checkbox-Toggle').click(() => {
+                console.log($('.Header-State').data('theme-state'));
+
+                if ($('.popup-wrapper .Header-State').data('theme-state') === 'light') {
+                    $('.popup-wrapper .Header-State').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+                    $('.popup-wrapper .Checkbox-Toggle').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+
+                    $('body').removeClass('Light-Theme');
+                    $('body').addClass('Dark-Theme');
+
+                    $('body').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+
+                    localStorage.setItem('theme-state', 'dark');
+                }
+                else {
+                    $('.popup-wrapper .Header-State').data('theme-state', 'light').attr('data-theme-state', 'light');
+                    $('.popup-wrapper .Checkbox-Toggle').data('theme-state', 'light').attr('data-theme-state', 'light');
+
+                    $('body').removeClass('Dark-Theme');
+                    $('body').addClass('Light-Theme');
+
+                    $('body').data('theme-state', 'light').attr('data-theme-state', 'light');
+                    
+                    localStorage.setItem('theme-state', 'light');
+                } 
+            })
+
+
+            $('#editProfileIcon').click(() => {
+                if($('#avatar-container-popover').hasClass('active')){
+                    $('#avatar-container-popover').removeClass('active');
+                }
+                else{
+                    $('#avatar-container-popover').addClass('active');
+                }
+            });
+             
+        });
     </script>
 
 

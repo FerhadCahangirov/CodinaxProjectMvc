@@ -7,7 +7,10 @@ using CodinaxProjectMvc.Enums;
 using CodinaxProjectMvc.ViewModel.PlayerVm;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.CodeAnalysis.Differencing;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Text.RegularExpressions;
 
 namespace CodinaxProjectMvc.Business.PersistenceServices
 {
@@ -51,8 +54,10 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 .Include(x => x.Lecture)
                 .ThenInclude(x => x.Module)
                 .ThenInclude(x => x.Course)
+                .Include(x => x.Progresses).ThenInclude(x => x.Student)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
-
+                
             if (current_video == null)
             {
                 return new PlayerSingleVm()
@@ -64,11 +69,37 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             await _historyService.AddOrUpdateHistoryAsync(current_video.Id);
 
+            Progress? progress = current_video.Progresses.FirstOrDefault(x => x.Student.Email == ActiveStudent.Email);
+
+            TimeSpan? currentTime = null;
+
+            if (progress != null)
+            {
+                TimeSpan duration = FromStringToTimespan(current_video.Duration);
+                currentTime = CalculatePercentageOfTimeSpan(duration, (double) progress.Percentage);
+            }
+
             return new PlayerSingleVm()
             {
+                CurrentTime = currentTime,
                 CurrentVideo = current_video,
                 BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl]
             };
+        }
+
+        private TimeSpan CalculatePercentageOfTimeSpan(TimeSpan timeSpan, double percentage)
+        {
+            double factor = percentage / 100.0;
+            double totalSeconds = timeSpan.TotalSeconds * factor;
+            return TimeSpan.FromSeconds(totalSeconds);
+        }
+
+        private TimeSpan FromStringToTimespan(string timeString)
+        {
+            var match = Regex.Match(timeString, @"(\d+)m\s*(\d+)s");
+            int minutes = int.Parse(match.Groups[1].Value);
+            int seconds = int.Parse(match.Groups[2].Value);
+            return new TimeSpan(0, minutes, seconds); 
         }
 
 

@@ -58,7 +58,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     .Where(x => !x.IsDeleted && !x.IsArchived)
                     .SelectMany(x => x.LectureFiles)
                     .Where(x => !x.IsDeleted && !x.IsArchived)
-                    .OrderBy(x => x.CreatedDate).Take(10).ToList()
+                    .OrderByDescending(x => x.CreatedDate).Take(10).ToList()
              };
 
 
@@ -76,7 +76,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     .Include(x => x.Bookmarks).ThenInclude(x => x.LectureFile).ThenInclude(x => x.Lecture).ThenInclude(x => x.Module).ThenInclude(x => x.Course)
                     .Include(x => x.Bookmarks).ThenInclude(x => x.Lecture).ThenInclude(x => x.Module).ThenInclude(x => x.Course)
                     .Include(x => x.Bookmarks).ThenInclude(x => x.Module).ThenInclude(x => x.Course)
-                    .Include(x => x.Courses)
+                    .Include(x => x.Courses).ThenInclude(x => x.Modules).ThenInclude(x => x.Lectures).ThenInclude(x => x.LectureFiles)
+                    .AsSplitQuery().AsNoTracking()
                     .FirstAsync(x => x.Email == _actionContextAccessor.ActionContext.HttpContext.User.Identity.Name).Result;
             }
         }

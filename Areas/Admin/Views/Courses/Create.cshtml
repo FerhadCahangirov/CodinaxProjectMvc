@@ -1,7 +1,11 @@
 ﻿@model CourseCreateVm
 
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
+
 <div class="widget-content multistep-form">
-    <form method="post">
+    <form method="post" onsubmit="activateLoading()">
         <fieldset class="field-card">
             <div class="add-course-info">
                 <div class="add-course-inner-header">

@@ -39,6 +39,8 @@ namespace CodinaxProjectMvc.Context
         public DbSet<Event> Events { get; set; }
         public DbSet<History> Histories { get; set; }
         public DbSet<Progress> Progresses { get; set; }
+        public DbSet<Application> Applications { get; set; }
+        public DbSet<Corporate> Corporates { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

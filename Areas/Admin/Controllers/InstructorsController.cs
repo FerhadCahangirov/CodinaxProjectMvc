@@ -19,7 +19,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> InstructorsPartial(string? searchFilter,string? statusFilter)
+        public async Task<IActionResult> InstructorsPartial(string? searchFilter, string? statusFilter)
         {
             var pagination = await _instructorService.GetInstructorPaginationAsync(searchFilter, statusFilter);
 
@@ -76,7 +76,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Profile (InstructorAccountVm instructorAccountVm)
+        public async Task<IActionResult> Profile(InstructorAccountVm instructorAccountVm)
         {
             bool result = await _instructorService.UpdateProfileAsync(instructorAccountVm);
 
@@ -91,27 +91,31 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         public async Task<IActionResult> UploadProfileImage([FromRoute] Guid id, [FromForm] IFormFile file)
         {
             bool result = await _instructorService.UploadProfileImageAsync(id, file);
-            return new JsonResult(new { success = result});
+            return new JsonResult(new { success = result });
         }
 
         [HttpPut]
         public async Task<IActionResult> ChangeProfileImage(Guid id, IFormFile file)
         {
-            bool result = await _instructorService.ChangeProfileImageAsync(id, file);   
-            return new JsonResult(new { success = result});
+            bool result = await _instructorService.ChangeProfileImageAsync(id, file);
+            return new JsonResult(new { success = result });
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteProfileImage(Guid id)
         {
             bool result = await _instructorService.DeleteProfileImageAsync(id);
-            return new JsonResult(new {success = result}) ;
+            return new JsonResult(new { success = result });
         }
 
-        [HttpPost] 
-        public async Task<IActionResult> SendConfirmationMail(Guid id)
+        [HttpPost]
+        public async Task<JsonResult> SendConfirmationMail(Guid id)
             => new JsonResult(new { success = await _instructorService.SendConfirmationMailAsync(id) });
 
-       
+        [HttpPost]
+        public async Task<JsonResult> SendPasswordGenerateMail(Guid id)
+            => new JsonResult(new { success = await _instructorService.SendPasswordGenerateMailAsync(id) });
+
+
     }
 }

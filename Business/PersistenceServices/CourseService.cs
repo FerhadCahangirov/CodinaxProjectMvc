@@ -1,8 +1,10 @@
 ﻿using CodinaxProjectMvc.Business.Abstract.PersistenceServices;
+using CodinaxProjectMvc.Constants;
 using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 using CodinaxProjectMvc.DataAccess.Abstract.Storages;
 using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.Enums;
+using CodinaxProjectMvc.ViewModel.ApplicationVm;
 using CodinaxProjectMvc.ViewModel.CourseVm;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
         private readonly IReadRepository<Template> _templateReadRepository;
         private readonly IWriteRepository<Advice> _adviceWriteRepository;
         private readonly IReadRepository<Advice> _adviceReadRepository;
+        private readonly IWriteRepository<Application> _applicationWriteRepository;
+        private readonly IReadRepository<Application> _applicationReadRepository;
         #endregion
 
         private readonly IAzureStorage _storage;
@@ -43,7 +47,10 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             IWriteRepository<Advice> adviceWriteRepository,
             IReadRepository<Advice> adviceReadRepository,
             IInstructorService instructorService,
-            IStudentService studentService)
+            IStudentService studentService,
+            IReadRepository<Student> studentReadRepository,
+            IWriteRepository<Application> applicationWriteRepository,
+            IReadRepository<Application> applicationReadRepository)
         {
             _courseReadRepository = courseReadRepository;
             _courseWriteRepository = courseWriteRepository;
@@ -57,6 +64,9 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             _adviceReadRepository = adviceReadRepository;
             _instructorService = instructorService;
             _studentService = studentService;
+            _studentReadRepository = studentReadRepository;
+            _applicationWriteRepository = applicationWriteRepository;
+            _applicationReadRepository = applicationReadRepository;
         }
 
         #endregion
@@ -312,6 +322,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 .Include(x => x.Category)
                 .Include(x => x.Template)
                 .Include(x => x.Modules).ThenInclude(x => x.Lectures).ThenInclude(x => x.LectureFiles)
+                .Include(x => x.Applications)
+                .AsSplitQuery().AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (course == null)
@@ -394,6 +406,148 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             return true;
         }
 
+        #endregion
+
+        #region Managing Application Services
+
+        public async Task<bool> CreateApplicationAsync(ApplicationCreateVm applicationCreateVm)
+        {
+
+            if (!_actionContextAccessor.ActionContext.ModelState.IsValid)
+            {
+                return false;
+            }
+
+            Course? course = await _courseReadRepository.GetSingleAsync(x => x.Id == applicationCreateVm.CourseId);
+            if (course == null)
+            {
+                _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(ApplicationCreateVm.CourseId), "Course Not Found.");
+                return false;
+            }
+
+
+            (string fileName, string pathOrContainerName) = await _storage.UploadAsync(AzureContainerNames.ApplicationIcons, applicationCreateVm.File);
+
+            Application application = new Application()
+            {
+                Course = course,
+                Title = applicationCreateVm.Title,
+                Url = applicationCreateVm.Url,
+                IconName = fileName,
+                IconPath = pathOrContainerName
+            };
+
+            await _applicationWriteRepository.AddAsync(application);
+            await _applicationWriteRepository.SaveAsync();
+
+            return true;
+        }
+
+        public async Task<ApplicationUpdateVm> GetApplicationUpdateDataAsync(Guid id)
+        {
+            Application? application = await _applicationReadRepository.Table
+                .Include(x => x.Course).FirstOrDefaultAsync(x => x.Id == id);
+
+            if (application == null)
+            {
+                return new ApplicationUpdateVm();
+            }
+
+            ApplicationUpdateVm applicationUpdateVm = new ApplicationUpdateVm()
+            {
+                Id = id,
+                CourseId = application.Course.Id,
+                Title = application.Title,
+                Url = application.Url,
+                FileName = application.IconName
+            };
+
+            return applicationUpdateVm;
+        }
+
+        public async Task<bool> UpdateApplicationAsync(ApplicationUpdateVm applicationUpdateVm)
+        {
+            if (!_actionContextAccessor.ActionContext.ModelState.IsValid)
+            {
+                return false;
+            }
+
+            Application? application = await _applicationReadRepository.GetSingleAsync(x => x.Id == applicationUpdateVm.Id);
+
+            if (application == null)
+            {
+                _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(ApplicationUpdateVm.Id), "Application Not Found.");
+                return false;
+            }
+
+            if(applicationUpdateVm.File != null)
+            {
+                await _storage.DeleteAsync(application.IconPath, application.IconName);
+
+                (string fileName, string pathOrContainerName) = await _storage.UploadAsync(AzureContainerNames.ApplicationIcons, applicationUpdateVm.File);
+                application.IconName = fileName;
+                application.IconPath = pathOrContainerName;
+            }
+
+            application.Title = applicationUpdateVm.Title;
+            application.Url = applicationUpdateVm.Url;
+
+            _applicationWriteRepository.Update(application);
+            await _applicationWriteRepository.SaveAsync();
+
+            return true;
+        }
+
+        public async Task<bool> ArchiveApplicationAsync(Guid id)
+        {
+            Application? application = await _applicationReadRepository.GetSingleAsync(x => x.Id == id);
+
+            if(application == null)
+            {
+                return false;
+            }
+
+            application.IsArchived = true;
+
+            _applicationWriteRepository.Update(application);
+            await _applicationWriteRepository.SaveAsync();
+
+            return true;
+        }
+
+        public async Task<bool> UnArchiveApplicationAsync(Guid id)
+        {
+            Application? application = await _applicationReadRepository.GetSingleAsync(x => x.Id == id);
+
+            if (application == null)
+            {
+                return false;
+            }
+
+            application.IsArchived = false;
+
+            _applicationWriteRepository.Update(application);
+            await _applicationWriteRepository.SaveAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteApplicationAsync(Guid id)
+        {
+            Application? application = await _applicationReadRepository.GetSingleAsync(x => x.Id == id);
+
+            if (application == null)
+            {
+                return false;
+            }
+
+            application.IsDeleted = true;
+
+            _applicationWriteRepository.Update(application);
+            await _applicationWriteRepository.SaveAsync();
+
+            return true;
+        }
 
         #endregion
 

@@ -1,0 +1,22 @@
+﻿@model ApplicationListVm
+@{
+    Layout = "_ApplicationLayout";
+}
+
+<a class="sc-bdvvtL gpiuHs" href="/Student/Dashboard">
+    <div class="sc-gsDKAQ iVRSes"><img src="~/Assets/imgs/logos/CODINAX ( black ).png" alt="Codinax Learning logo" class="sc-dkPtRN gGmHvY"></div>
+    <div class="sc-hKwDye hZVNIV">Codinax Learning</div>
+</a>
+
+@if (Model.Applications.Any())
+{
+    @foreach (var app in Model.Applications)
+    {    
+        <a class="sc-bdvvtL gpiuHs" href="@app.Url">
+            <div class="sc-gsDKAQ iVRSes">
+                <img src="@Model.BaseUrl/@app.IconPath/@app.IconName" alt="@app.Title">
+            </div>
+            <div class="sc-hKwDye hZVNIV">@app.Title</div>
+        </a>
+    }
+}

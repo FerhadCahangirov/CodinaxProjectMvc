@@ -2,24 +2,30 @@
 using Azure.Storage.Blobs;
 using CodinaxProjectMvc.Operations;
 using CodinaxProjectMvc.DataAccess.Abstract.Storages;
-using System.Configuration;
 using CodinaxProjectMvc.Constants;
-using System.Security.Cryptography.Pkcs;
+
+using Azure.Storage;
+using MediaToolkit.Model;
+using MediaToolkit.Options;
+using MediaToolkit;
 
 namespace CodinaxProjectMvc.DataAccess.Storages
 {
     public class AzureStorage : Storage, IAzureStorage
     {
         private readonly BlobServiceClient _blobServiceClient;
-        private readonly ILogger<AzureStorage> _logger;  
+        private readonly ILogger<AzureStorage> _logger;
         BlobContainerClient _blobContainerClient;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _configuration;
 
         public AzureStorage(IConfiguration configuration, ILogger<AzureStorage> logger, IWebHostEnvironment env)
         {
             _blobServiceClient = new(configuration[ConfigurationStrings.AzureAccessKey]);
             _logger = logger;
             _webHostEnvironment = env;
+            _configuration = configuration;
+
         }
 
         public async Task DeleteAsync(string containerName, string fileName)
@@ -78,105 +84,137 @@ namespace CodinaxProjectMvc.DataAccess.Storages
             string newFileName = await FileRenameAsync(containerName, file.FileName, HasFile);
             BlobClient blobClient = _blobContainerClient.GetBlobClient(newFileName);
 
-            await blobClient.UploadAsync(file.OpenReadStream());
+            var progressHandler = new Progress<long>(progress =>
+            {
+                _logger.LogInformation("Uploaded {Progress} bytes of {Length} bytes.", progress, file.Length);
+            });
+
+            var uploadOptions = new BlobUploadOptions
+            {
+                TransferOptions = new StorageTransferOptions
+                {
+                    MaximumConcurrency = 1024 * 1024 * 1024,
+
+                    InitialTransferSize = 1024 * 1024 * 1024,
+
+                    MaximumTransferSize = 1024 * 1024 * 1024,
+                },
+                ProgressHandler = progressHandler
+            };
+
+            _logger.LogInformation("Upload Process Started...");
+
+
+            await blobClient.UploadAsync(file.OpenReadStream(), uploadOptions);
+
+            _logger.LogInformation("File {newFileName} uploaded successfully to container {containerName}.", newFileName, containerName);
 
             return (newFileName, containerName);
         }
 
-        public async Task<List<(string fileName, string pathOrContainerName)>> BitrateAsync(string fileName, string containerName, IFormFile file)
+        private async Task<MediaFile> GetBlobAsMediaFileAsync(string containerName, string blobName, string downloadPath)
         {
-            if (file == null || file.Length <= 0 ||
-                !file.ContentType.StartsWith("video/"))
-            {
-                throw new ArgumentException("Invalid video file.");
-            }
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
 
-            var convertedVideos = new Dictionary<string, IFormFile>();
+            BlobClient blobClient = _blobContainerClient.GetBlobClient(blobName);
+
+            await blobClient.DownloadToAsync(downloadPath);
+
+            return new MediaFile
+            {
+                Filename = downloadPath
+            };
+        }
+
+        public async Task BitrateAsync(string fileName, string containerName)
+        {
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            await _blobContainerClient.CreateIfNotExistsAsync();
+            await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.Blob);
+
+            _logger.LogInformation("Bitrate Process Started...");
 
             string tempDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
             Directory.CreateDirectory(tempDirectory);
 
             try
             {
-                string videoFilePath = Path.Combine(tempDirectory, file.FileName);
-                using (var stream = new FileStream(videoFilePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
+                //MediaFile inputFile = new()
+                //{
+                //    Filename = $"{_configuration[ConfigurationStrings.AzureBaseUrl]}/{containerName}/{fileName}"
+                //};
 
-                var resolutions = new Dictionary<string, string>
-                {
-                    { "1080p", "1920x1080" },
-                    { "720p", "1280x720" },
-                    { "480p", "854x480" },
-                    { "360p", "640x360" },
-                    { "144p", "256x144" }
+                MediaFile inputFile = await GetBlobAsMediaFileAsync(containerName, fileName, Path.Combine(tempDirectory, fileName));
+
+                var resulutions = new List<VideoSize> {
+                    VideoSize.Hd1080,
+                    VideoSize.Hd720,
+                    VideoSize.Nhd,
+                    VideoSize.Qcif,
                 };
 
-                foreach (var resolution in resolutions)
+                foreach (var res in resulutions)
                 {
-                    string outputFilePath = Path.Combine(tempDirectory, $"{resolution.Key}_{file.FileName}");
+                    string newFileName = fileName.Replace(".mp4", "") + "_" + res.ToString() + ".mp4";
 
-                    await ExecuteFFmpegCommand($"-i \"{videoFilePath}\" -vf scale={resolution.Value} -c:a copy \"{outputFilePath}\"");
+                    MediaFile outputFile = new MediaFile { Filename = Path.Combine(tempDirectory, newFileName) };
 
-                    var convertedVideo = new FormFile(
-                        baseStream: new FileStream(outputFilePath, FileMode.Open),
-                        baseStreamOffset: 0,
-                        length: new FileInfo(outputFilePath).Length,
-                        name: $"{resolution.Key}_{file.FileName}",
-                        fileName: $"{resolution.Key}_{file.FileName}"
-                    );
+                    var conversionOptions = new ConversionOptions
+                    {
+                        VideoSize = res,
+                    };
 
-                    convertedVideos.Add(resolution.Key, convertedVideo);
+                    using (var engine = new Engine())
+                    {
+                        engine.Convert(inputFile, outputFile, conversionOptions);
+                    }
+
+                    IFormFile newFile = await LoadFileAsIFormFile(Path.Combine(tempDirectory, newFileName));
+
+                    _logger.LogInformation("Upload Process Started...");
+
+                    BlobClient blobClient = _blobContainerClient.GetBlobClient(newFileName);
+
+                    var progressHandler = new Progress<long>(progress =>
+                    {
+                        _logger.LogInformation("Uploaded {Progress} bytes of {Length} bytes.", progress, newFile.Length);
+                    });
+
+                    var uploadOptions = new BlobUploadOptions
+                    {
+                        TransferOptions = new StorageTransferOptions
+                        {
+                            MaximumConcurrency = 1024 * 1024 * 1024,
+
+                            InitialTransferSize = 1024 * 1024 * 1024,
+
+                            MaximumTransferSize = 1024 * 1024 * 1024,
+                        },
+                        ProgressHandler = progressHandler
+                    };
+
+                    await blobClient.UploadAsync(newFile.OpenReadStream(), uploadOptions);
+
+                    _logger.LogInformation("File {newFileName} uploaded successfully to container {containerName}.", newFileName, containerName);
                 }
             }
             finally
             {
                 Directory.Delete(tempDirectory, true);
             }
-
-            //_blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-            //await _blobContainerClient.CreateIfNotExistsAsync();
-            //await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.Blob);
-
-            List<(string fileName, string pathOrContainerName)> datas = new List<(string fileName, string pathOrContainerName)>();
-
-
-            foreach (var convertedVideo in convertedVideos)
-            {
-                string newFileName = $"{fileName.Replace(".mp4", "")}_{convertedVideo.Key}.mp4";
-
-                _logger.LogInformation("The converted to resolution: {Resulotion}, renamed as: {NewFileName}", convertedVideo.Key, newFileName);
-
-                //BlobClient blobClient = _blobContainerClient.GetBlobClient(newFileName);
-
-                //await blobClient.UploadAsync(file.OpenReadStream());
-                //datas.Add((newFileName, containerName));
-            }
-
-            return datas;
         }
 
-        private async Task ExecuteFFmpegCommand(string arguments)
+        private async Task<IFormFile> LoadFileAsIFormFile(string filePath)
         {
-            string ffmpegPath = Path.Combine(_webHostEnvironment.WebRootPath, "ffmpeg", "bin", "ffmpeg.exe");
-
-            var processInfo = new System.Diagnostics.ProcessStartInfo
+            var memoryStream = new MemoryStream();
+            using (var stream = new FileStream(filePath, FileMode.Open))
             {
-                FileName = ffmpegPath,
-                Arguments = arguments,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
-            using (var process = new System.Diagnostics.Process())
-            {
-                process.StartInfo = processInfo;
-                process.Start();
-
-                await process.WaitForExitAsync();
+                await stream.CopyToAsync(memoryStream);
             }
+
+            memoryStream.Position = 0;
+            IFormFile formFile = new FormFile(memoryStream, 0, memoryStream.Length, "file", Path.GetFileName(filePath));
+            return formFile;
         }
     }
 

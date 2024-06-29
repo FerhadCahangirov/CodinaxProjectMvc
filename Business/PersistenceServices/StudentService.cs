@@ -6,6 +6,7 @@ using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.DataAccess.Models.Identity;
 using CodinaxProjectMvc.Managers.Abstract;
 using CodinaxProjectMvc.ViewModel;
+using CodinaxProjectMvc.ViewModel.ApplicationVm;
 using CodinaxProjectMvc.ViewModel.CourseVm;
 using CodinaxProjectMvc.ViewModel.StudentVm;
 using Microsoft.AspNetCore.Identity;
@@ -125,20 +126,30 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             return studentAccountVm;
         }
 
-        public async Task<PaginationVm<IEnumerable<Student>>> GetStudentsPaginationAsync(string? searchFilter = null, string? statusFilter = null, int page = 0, int size = 10)
+        public async Task<StudentAccountVm> GetProfileDataAsync()
+        {
+            Student? student = await _studentReadRepository.GetSingleAsync(x => x.Email == _actionContextAccessor.ActionContext.HttpContext.User.Identity.Name);
+            if (student == null) return new StudentAccountVm();
+
+            StudentAccountVm studentAccountVm = student.FromStudent_ToStudentAccountVm();
+            studentAccountVm.BaseUrl = _configuration["BaseUrl:Azure"];
+
+            return studentAccountVm;
+        }
+
+
+        public async Task<PaginationVm<IEnumerable<Student>>> GetStudentsPartialAsync(string? searchFilter = null, string? statusFilter = null)
         {
             var query = _studentReadRepository.GetWhere(x => !x.IsDeleted).Include(x => x.Courses).AsQueryable();
 
-            int take = size;
-            int skip = (page - 1) * take;
-
             if (!string.IsNullOrEmpty(searchFilter))
             {
-                searchFilter = searchFilter.ToLower();
+                searchFilter = searchFilter.ToLower().Replace(" ", "");
                 query = query.Where(x => x.UserName.ToLower().Contains(searchFilter) ||
-                    x.FirstName.ToLower().Contains(searchFilter) ||
-                    x.LastName.ToLower().Contains(searchFilter) ||
-                    x.Email.ToLower().Contains(searchFilter));
+                    x.FirstName.ToLower().Replace(" ", "").Contains(searchFilter) ||
+                    x.LastName.ToLower().Replace(" ", "").Contains(searchFilter) ||
+                    x.Email.ToLower().Replace(" ", "").Contains(searchFilter) ||
+                    (x.FirstName.ToLower() + x.LastName.ToLower()).Contains(searchFilter));
             }
 
             if (!string.IsNullOrEmpty(statusFilter))
@@ -156,9 +167,11 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             int total = await query.CountAsync();
 
-            var paginatedData = students.Skip(skip).Take(take).ToList();
+            var paginatedData = students.ToList();
 
-            PaginationVm<IEnumerable<Student>> pagination = new PaginationVm<IEnumerable<Student>>(total, page, (int)Math.Ceiling((decimal)total / take), paginatedData, take);
+            PaginationVm<IEnumerable<Student>> pagination = new PaginationVm<IEnumerable<Student>>(paginatedData);
+
+            pagination.BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl];
 
             return pagination;
         }
@@ -251,7 +264,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             await _studentWriteRepository.SaveAsync();
             return true;
         }
-
+        #region Mail Services
         public async Task<bool> SendConfirmationMailAsync(Guid id)
         {
             Student? student = await _studentReadRepository.GetSingleAsync(x => x.Id == id);
@@ -260,6 +273,40 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(student);
 
             await _mailManager.SendConfirmationMailAsync(token, student);
+
+            return true;
+        }
+
+        public async Task<bool> SendPasswordGenerateMailAsync(Guid id)
+        {
+            Student? student = await _studentReadRepository.GetSingleAsync(x => x.Id == id);
+            if (student == null) return false;
+
+            if (string.IsNullOrEmpty(student.PasswordHash))
+            {
+                string token = await _userManager.GeneratePasswordResetTokenAsync(student);
+
+                await _mailManager.SendPasswordSetupMailAsync(token, student);
+            }
+
+            return true;
+        }
+
+        #endregion
+
+        public async Task<bool> ChangePasswordAsync(StudentResetPasswordVm studentResetPasswordVm)
+        {
+            if (!_actionContextAccessor.ActionContext.ModelState.IsValid)
+            {
+                return false;
+            }
+
+            AppUser? user = await _userManager.FindByIdAsync(studentResetPasswordVm.Id.ToString());
+            if (user == null) return false;
+
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            await _userManager.ResetPasswordAsync(user, token, studentResetPasswordVm.Password);
 
             return true;
         }
@@ -320,6 +367,22 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             };
 
             return courseSingleVm;
+        }
+
+        public async Task<ApplicationListVm> ListApplicationsAsync()
+        {
+            Student student = await _studentReadRepository.Table
+                    .Include(x => x.Courses)
+                    .ThenInclude(x => x.Applications)
+                    .FirstAsync(x => x.Email == _actionContextAccessor.ActionContext.HttpContext.User.Identity.Name);
+
+            return new()
+            {
+                Applications = student.Courses
+                .Where(EntityQueryFilters<Course>.LayoutFilter)
+                .SelectMany(x => x.Applications).Where(EntityQueryFilters<Application>.LayoutFilter),
+                BaseUrl = _configuration[ConfigurationStrings.AzureBaseUrl],
+            };
         }
 
         #endregion

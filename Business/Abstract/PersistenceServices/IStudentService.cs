@@ -1,5 +1,6 @@
 ﻿using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.ViewModel;
+using CodinaxProjectMvc.ViewModel.ApplicationVm;
 using CodinaxProjectMvc.ViewModel.CourseVm;
 using CodinaxProjectMvc.ViewModel.StudentVm;
 
@@ -18,7 +19,7 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <param name="page">Page number for pagination (default is 0).</param>
         /// <param name="size">Number of items per page (default is 10).</param>
         /// <returns>A task representing the asynchronous operation, returning a pagination view model of students.</returns>
-        Task<PaginationVm<IEnumerable<Student>>> GetStudentsPaginationAsync(string? searchFilter = null, string? statusFilter = null, int page = 0, int size = 10);
+        Task<PaginationVm<IEnumerable<Student>>> GetStudentsPartialAsync(string? searchFilter = null, string? statusFilter = null);
 
         /// <summary>
         /// Approves a student with the specified ID.
@@ -49,6 +50,9 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <param name="id">The unique identifier of the student.</param>
         /// <returns>A task representing the asynchronous operation, returning the student's account view model.</returns>
         Task<StudentAccountVm> GetProfileDataAsync(Guid id);
+
+        Task<StudentAccountVm> GetProfileDataAsync();
+
 
         /// <summary>
         /// Updates the profile data of a student.
@@ -92,6 +96,12 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         Task<IEnumerable<Course>> GetStudentCoursesAsync(string email);
 
         Task<CourseSingleVm> GetStudentCourseSingleAsync(string email, Guid id);
+
+        Task<ApplicationListVm> ListApplicationsAsync();
+
+        Task<bool> SendPasswordGenerateMailAsync(Guid id);
+
+        Task<bool> ChangePasswordAsync(StudentResetPasswordVm studentResetPasswordVm);
     }
 
 }

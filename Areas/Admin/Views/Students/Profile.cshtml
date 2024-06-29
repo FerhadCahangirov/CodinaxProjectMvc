@@ -267,7 +267,7 @@
                 <h4>Personal Details</h4>
                 <p>Edit your personal information and address.</p>
             </div>
-            <form method="post">
+            <form method="post" onsubmit="activateLoading()">
                 <input hidden asp-for="Id">
                 <input hidden asp-for="IsEmailConfirmed">
                 <div class="row" bis_skin_checked="1">

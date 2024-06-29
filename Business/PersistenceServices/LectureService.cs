@@ -111,13 +111,9 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 return false;
             }
 
-            IFormFileCollection files = new FormFileCollection() { file };
+            (string fileName, string pathOrContainerName) = await _storage.UploadAsync(AzureContainerNames.LectureFiles, file);
 
-            List<(string fileName, string pathOrContainerName)> uploadedFiles = await _storage.UploadAsync(AzureContainerNames.LectureFiles, files);
-
-            (string fileName, string pathOrContainerName) = uploadedFiles[0];
-
-            //var datas = await _storage.BitrateAsync(fileName, pathOrContainerName, file);
+            await _storage.BitrateAsync(fileName, pathOrContainerName);
 
             string duration = GetVideoDuration(pathOrContainerName, fileName);
 
@@ -323,9 +319,12 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     {
                         await _storage.DeleteAsync(lectureFileUpdateVm.FilePathOrContainer, lectureFileUpdateVm.FileName);
 
+
                         (string fileName, string pathOrContainerName) = await _storage.UploadAsync(AzureContainerNames.LectureFiles, lectureFileUpdateVm.File);
 
                         string duration = GetVideoDuration(pathOrContainerName, fileName);
+
+                        await _storage.BitrateAsync(fileName, pathOrContainerName);
 
                         lectureFile.Duration = duration;
                         lectureFile.FileName = fileName;

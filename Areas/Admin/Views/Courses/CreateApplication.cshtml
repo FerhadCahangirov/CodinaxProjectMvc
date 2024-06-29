@@ -1,0 +1,41 @@
+﻿@model ApplicationCreateVm
+
+
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
+
+<div class="widget-content multistep-form">
+    <fieldset class="field-card">
+        <form method="post" enctype="multipart/form-data" onsubmit="activateLoading()">
+            <div class="add-course-info">
+                <div class="add-course-inner-header">
+                    <h4>Add Application</h4>
+                </div>
+                <div class="add-course-form">
+                    <input hidden asp-for="CourseId">
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="Title"></label>
+                        <input type="text" class="form-control" asp-for="Title"> 
+                        <span class="text-danger" asp-validation-for="Title"></span>
+                    </div>
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="Url"></label>
+                        <input type="url" class="form-control" asp-for="Url">
+                        <span class="text-danger" asp-validation-for="Url"></span>
+                    </div>
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="File"></label>
+                        <input type="text" class="form-control" asp-for="File" type="file" accept="image/png">
+                        <span class="text-danger" asp-validation-for="File"></span>
+                    </div>
+
+                    <div class="widget-btn">
+                        <button class="btn btn-info-light next_btn" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</div>
+

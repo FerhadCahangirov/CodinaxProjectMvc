@@ -86,6 +86,50 @@ namespace CodinaxProjectMvc.Migrations
                     b.ToTable("Advices");
                 });
 
+            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Application", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IconName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IconPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Applications");
+                });
+
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Bookmark", b =>
                 {
                     b.Property<Guid>("Id")
@@ -157,6 +201,68 @@ namespace CodinaxProjectMvc.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Corporate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AdditionalInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LogoName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LogoPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Occupation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Showcase")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("WorkingCompany")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Corporates");
                 });
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Course", b =>
@@ -1152,6 +1258,17 @@ namespace CodinaxProjectMvc.Migrations
                     b.Navigation("SecondAdvicedCourse");
                 });
 
+            modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Application", b =>
+                {
+                    b.HasOne("CodinaxProjectMvc.DataAccess.Models.Course", "Course")
+                        .WithMany("Applications")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Bookmark", b =>
                 {
                     b.HasOne("CodinaxProjectMvc.DataAccess.Models.LectureFile", "LectureFile")
@@ -1474,6 +1591,8 @@ namespace CodinaxProjectMvc.Migrations
 
             modelBuilder.Entity("CodinaxProjectMvc.DataAccess.Models.Course", b =>
                 {
+                    b.Navigation("Applications");
+
                     b.Navigation("Events");
 
                     b.Navigation("Modules");

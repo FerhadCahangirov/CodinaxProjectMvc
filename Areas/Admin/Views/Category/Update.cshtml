@@ -1,8 +1,12 @@
 ﻿@model CategoryUpdateVm
 
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
+
 <div class="widget-content multistep-form">
     <fieldset class="field-card">
-        <form method="post">
+        <form method="post" onsubmit="activateLoading()">
             <div class="add-course-info">
                 <div class="add-course-inner-header">
                     <h4>Add Cateogry</h4>

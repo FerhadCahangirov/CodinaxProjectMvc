@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Codinax Student Panel</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/Assets/panel/assets/plugins/fontawesome/css/all.min.css">
+
+    <!-- Loader CSS -->
+    <link rel="stylesheet" href="/Assets/panel/assets/css/loader.css">
+
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Main CSS -->
+    <link href="~/Assets/panel/assets/css/apps.css" rel="stylesheet" />
+
+    @await RenderSectionAsync("Styles", required: false)
+
+</head>
+
+<body>
+    <div class="sc-fotOHu dgtKYc">
+        <div class="sc-fFeiMQ geYALZ">
+            <img src="/Assets/imgs/logos/logo.png" alt="codinax logo" width="86" height="35">
+            </div>
+        <div class="sc-bkkeKt kCNvAQ">
+            <a class="sc-hBUSln gsEQBj" href="/apps/" style="color: rgb(251, 251, 255);">Apps</a>
+            <div class="sc-ieecCq cRnRKR">|</div>
+            <a class="sc-hBUSln gsEQBj" href="/apps/logout" style="color: rgb(6, 3, 53);">Log Out</a>
+        </div>
+    </div>
+
+    <div class="sc-eCImPb cozNua">My Apps</div>
+
+    <div class="sc-jRQBWg ckiiGT">
+        @RenderBody()
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
+            integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+
+</body>
+
+</html>

@@ -9,5 +9,8 @@
         public const string FeatureIcons = "feature-icons";
         public const string CourseToolIcons = "course-tool-icons";
         public const string LectureFiles = "lecture-files";
+        public const string ApplicationIcons = "application-icons";
+        public const string CorporateLogos = "corporate-logos";
+
     }
 }

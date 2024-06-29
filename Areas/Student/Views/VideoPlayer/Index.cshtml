@@ -23,7 +23,43 @@
 </div>
 
 @section Scripts{
+
+    @if (Model.CurrentVideo != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                if (localStorage.getItem("currentTime"))
+                {
+                    localStorage.removeItem("currentTime")
+                }
+
+
+                var timeSpan = "@Model.CurrentTime";
+                console.log(`********* TimeSpan : ${timeSpan} *********`);
+
+                const timeParts = timeSpan.split(':');
+                const hours = parseInt(timeParts[0], 10);
+                const minutes = parseInt(timeParts[1], 10);
+
+                let seconds = 0;
+
+                if (timeParts[2].includes('.')) {
+                    const secondsParts = timeParts[2].split('.');
+                    seconds = parseInt(secondsParts[0], 10);
+                } else {
+                    seconds = parseInt(timeParts[2], 10);
+                }
+
+                const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
+                localStorage.setItem("currentTime", totalSeconds);
+            })
+        </script>
+    }
+
     <script>
+        var source = '@source';
+
         const player = videojs('videoPlayer', {
             controls: true,
             controlBar: {
@@ -36,34 +72,47 @@
                     'fullscreenToggle',
                 ],
             },
-            loop: true,
-            fluid: false,
+            enableSmoothSeeking: true,
+            loop: false,
+            playsinline: true,
             playbackRates: [0.25, 0.5, 1, 1.5, 2],
+            userActions: {
+                click: true
+            },
             plugins: {
                 hotkeys: {
-                    enableModifiersForNumber: false,
-                    seekStep: 30,
+                    volumeStep: 0.1,
+                    seekStep: 5,
+                    enableModifiersForNumbers: false
                 },
             }
         });
 
+        player.on('loadedmetadata', function (msg) {
+            var current_time = localStorage.getItem("currentTime");
+            console.log("CurrenTime : ", current_time);
+            if (current_time){
+                player.play();  
+                player.currentTime(current_time);
+            }
+        });
+
+        let lastUpdatedTime = 0;
+
         const sources = [
-            { format: 'hd1080', src: '@source', type: 'video/mp4' },
-            { format: 'hd720', src: '@source', type: 'video/mp4' },
-            { format: 'large', src: '@source', type: 'video/mp4' },
-            { format: 'medium', src: '@source', type: 'video/mp4' },
-            { format: 'small', src: '@source', type: 'video/mp4' },
-            { format: 'auto', src: '@source', type: 'video/mp4' }
+            { format: 'hd1080', src: source.replace(".mp4", "") + "_Hd1080" + ".mp4", type: 'video/mp4' },
+            { format: 'hd720', src: source.replace(".mp4", "") + "_Hd720" + ".mp4", type: 'video/mp4' },
+            { format: 'medium', src: source.replace(".mp4", "") + "_Nhd" + ".mp4", type: 'video/mp4' },
+            { format: 'small', src: source.replace(".mp4", "") + "_Qcif" + ".mp4", type: 'video/mp4' },
+            { format: 'auto', src: source, type: 'video/mp4' }
         ];
 
         player.qualityselector({
-            sources: sources,
             formats: [
                 { code: 'hd1080', name: '1080p' },
                 { code: 'hd720', name: '720p' },
-                { code: 'large', name: '480p' },
                 { code: 'medium', name: '360p' },
-                { code: 'small', name: '240p' },
+                { code: 'small', name: '144p' },
                 { code: 'auto', name: 'Auto' }
             ],
             onFormatSelected: function (format) {
@@ -90,7 +139,6 @@
                     console.error('Selected format source not found.');
                 }
             }
-
         });
 
         let timeoutId;
@@ -109,7 +157,7 @@
                     percentage: watchedPercentage.toFixed(2)
                 },
                 success: (response) => {
-                    if(response.success){
+                    if (response.success) {
                         console.log(`Percentage of video watched: ${watchedPercentage.toFixed(2)}%`);
                     }
                 },
@@ -133,24 +181,23 @@
             }
         });
 
-        player.ended(function () {
-            console.log('video has been ended')
-        });
-        
-        let lastCurrentTime = player.currentTime();
-
         player.on('timeupdate', function () {
-            if (!timeoutId) {
-                timeoutId = setTimeout(logWatchedPercentage, delay);
-            }
-
-            const currentTime = player.currentTime();
-            if (Math.abs(currentTime - lastCurrentTime) > 1) {
-                console.log(`Video current time changed to: ${currentTime}`);
-                lastCurrentTime = currentTime;
-            }
-            lastCurrentTime = currentTime;
+            lastUpdatedTime = player.currentTime();
+            console.log(lastUpdatedTime)
         });
 
+        var progressControl = player.controlBar.progressControl;
+
+        progressControl.on('click', function (event) {
+            var duration = player.duration();
+            var progressControlRect = progressControl.el().getBoundingClientRect();
+            var offsetX = event.clientX - progressControlRect.left;
+            var width = progressControlRect.width;
+            var newTime = (offsetX / width) * duration;
+
+            player.currentTime(newTime);
+            console.log('Set new time to:', newTime);
+        });
     </script>
+
 }

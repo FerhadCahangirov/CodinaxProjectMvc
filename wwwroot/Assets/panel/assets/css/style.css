@@ -105,6 +105,7 @@
     --search-result-bg: #fff;
     --labelInputBorder: #5611ff;
     --labelQuestionWrapperBG: #e9e4ff;
+    --secondary-profile-color: #303030;
 }
 
 .Light-Theme, [data-theme=light] {
@@ -141,6 +142,7 @@
     --resumeQuizButton: #9379fe;
     --quiz-times-up-bg: #fff;
     --dashboard-card-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
+    --secondary-profile-color: #303030;
 }
 
 .Dark-Theme, [data-theme=dark] {
@@ -245,6 +247,7 @@
     --fc-card-bg: #464646;
     --resumeQuizButton: #00c9ff;
     --dashboard-card-box-shadow: 0 0 0 1px #707070;
+    --secondary-profile-color: #acacac;
 }
 
 *, :after, :before {
@@ -276,10 +279,12 @@ a {
 .sidemenu_position {
     position: fixed;
     z-index: 600;
-    top: 0;
+    top: 0; 
     left: -300px;
     bottom: 0;
     transition: all .1s ease;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
 
 @media (min-width: 1200px) {
@@ -291,7 +296,7 @@ a {
 .sidemenu_position.active {
     background-color: var(--sidemenu-background);
     left: 0;
-    overflow-y: hidden;
+    
 }
 
 
@@ -960,6 +965,10 @@ li.breadcrumb_item {
         font-size: 14px;
     }
 
+    .button_bookmark svg {
+        fill: var(--button-bookmark-color);
+    }
+
 .course_modules_info {
     color: #947afd;
     font-size: 14px;
@@ -1096,8 +1105,8 @@ li.breadcrumb_item {
 
     .add-course-inner-header h4 {
         font-weight: 500 !important;
-        font-size: 24px !important;
-        color: var(--sidemenu-background) !important;
+        font-size: 24px !important; 
+        color: var(--text-color) !important;
         margin-bottom: 0 !important;
     }
 
@@ -1320,8 +1329,14 @@ li.breadcrumb_item {
     height: fit-content !important;
 }
 
-.centered {
-}
+    .modal-custom-content h5 {
+        font-weight: 700;
+        font-size: 18px;
+        color: var(--text-color-revert)
+    }
+
+    .centered {
+    }
 
 .burger-icon {
     display: block;
@@ -1346,14 +1361,14 @@ li.breadcrumb_item {
 }
 
 .settings-menu {
-    background: #fff;
+    background: var(--background-color);
     border-radius: 10px;
     padding: 15px;
 }
 
     .settings-menu h3 {
         font-size: 18px;
-        color: #392C7D;
+        color: var(--header-color-text);
         font-weight: 600;
         margin: 5px 0px 20px;
     }
@@ -1372,7 +1387,7 @@ li.breadcrumb_item {
         }
 
             .settings-menu ul li a {
-                color: #303030;
+                color: var(--secondary-profile-color);
                 font-size: 18px;
                 font-weight: 400;
                 padding: 0;
@@ -1386,7 +1401,7 @@ li.breadcrumb_item {
             }
 
             .settings-menu ul li:hover, .settings-menu ul li:focus {
-                color: #303030;
+                color: var(--secondary-profile-color);
                 background: rgba(255, 222, 218, 0.25);
             }
 
@@ -1423,7 +1438,7 @@ li.breadcrumb_item {
             }
 
             .settings-menu ul li:hover a {
-                color: #303030;
+                color: var(--secondary-profile-color);
             }
 
         .settings-menu ul .active {
@@ -1460,8 +1475,8 @@ li.breadcrumb_item {
         }
 
 .go-dashboard .btn-primary {
-    background: #392C7D;
-    border: 1px solid #392C7D;
+    background: var(--header-color-text);
+    border: 1px solid var(--header-color-text);
     border-radius: 5px;
     font-size: 14px;
     color: #fff;
@@ -1582,7 +1597,7 @@ li.breadcrumb_item {
         }
 
 .profile-details .course-name h4 a {
-    color: #392C7D;
+    color: var(--header-color-text);
     font-size: 18px;
     font-weight: 600;
 }
@@ -1592,7 +1607,7 @@ li.breadcrumb_item {
     }
 
 .profile-details .course-name p {
-    color: #303030;
+    color: var(--secondary-profile-color);
     font-size: 14px;
 }
 
@@ -1608,16 +1623,20 @@ li.breadcrumb_item {
     margin-bottom: 0;
 }
 
-.personal-address h4 {
-    font-size: 20px;
-    color: #392C7D;
-    margin-bottom: 15px;
-    font-weight: 600;
-}
+    .checkout-form.personal-address:not(.change-password-form) {
+        border-bottom: 1px solid rgb(199 199 199 / 25%);
+    }
+
+    .personal-address h4 {
+        font-size: 20px;
+        color: var(--header-color-text);
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
 
 .personal-address p {
     font-size: 14px;
-    color: #303030;
+    color: var(--secondary-profile-color);
 }
 
 .country-select {
@@ -1702,7 +1721,7 @@ li.breadcrumb_item {
 
     .edit-new-address label {
         font-size: 14px;
-        color: #303030;
+        color: var(--secondary-profile-color);
         font-weight: 400;
     }
 
@@ -1748,7 +1767,7 @@ li.breadcrumb_item {
     border: 1px solid transparent;
     background-origin: border-box;
     background-clip: padding-box, border-box;
-    background-image: linear-gradient(#FFF, #FFF), linear-gradient(to right, #392C7D, #FF5364);
+    background-image: linear-gradient(#FFF, #FFF), linear-gradient(to right, var(--header-color-text), #FF5364);
     border-radius: 10px;
 }
 
@@ -1800,14 +1819,14 @@ li.breadcrumb_item {
 }
 
 .subscribtion-active h5 {
-    color: #303030;
+    color: var(--secondary-profile-color);
     font-size: 16px;
     font-weight: 700;
     margin: 10px 0px;
 }
 
 .subscribtion-active p {
-    color: #303030;
+    color: var(--secondary-profile-color);
     font-size: 14px;
     font-weight: 400;
     margin-bottom: 0;
@@ -1839,14 +1858,14 @@ li.breadcrumb_item {
 
 .bill-name-group h5 {
     font-size: 14px;
-    color: #303030;
+    color: var(--secondary-profile-color);
     font-weight: 600;
     margin-bottom: 2px;
 }
 
 .bill-name-group p {
     font-size: 14px;
-    color: #303030;
+    color: var(--secondary-profile-color);
     font-weight: 400;
     margin-bottom: 0;
 }
@@ -2459,9 +2478,9 @@ tab--item.active {
     display: block;
 }
 
-.dropdown-item:hover {
-    background: #0000000a !important;
-}
+    .dropdown-item:hover {
+        background: #0000000a !important;
+    }
 
     .dropdown-item.dropdown--dsh-item {
         color: var(--text-color);
@@ -3773,3 +3792,141 @@ button.mt--select-button-dsh:after {
     align-items: center;
     padding-right: .5rem;
 }
+
+.avatar-pop-over {
+    z-index: -9999;
+    opacity: 0;
+    visibility: hidden;
+    position: fixed;
+    background: var(--grid-profile-bg);
+    left: 250px;
+    width: 280px;
+    height: 310px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    align-items: center;
+    gap: 15px;
+    transition: .2s ease-in;
+}
+
+    .avatar-pop-over.active {
+        z-index: 9999;
+        opacity: 1;
+        visibility: visible;
+    }
+
+.avatar-holder {
+    display: flex;
+    justify-content: center;
+}
+
+.avatar-user {
+    --avatar-user-size: 140px;
+    position: relative;
+    width: var(--avatar-user-size);
+    height: var(--avatar-user-size);
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(0, 0, 0, .1);
+}
+
+.buttoavatar-container {
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.buttoavatar-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-avatar-action {
+    display: flex;
+    align-items: center;
+    line-height: 34px;
+    padding: 0 20px;
+    font-size: 14px;
+    margin: 5px 0;
+    background: var(--button-avatar-action);
+    border-radius: 40px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s ease;
+    color: var(--text-color) !important;
+}
+
+    .button-avatar-action.action--change i {
+        color: var(--secondary-color);
+    }
+
+    .button-avatar-action i {
+        margin-right: 8px;
+        line-height: 0;
+    }
+
+@media (hover: hover) {
+    .button-avatar-action:hover {
+        background: var(--button-avatar-action-hover);
+    }
+}
+
+
+/*.SideMenu-Button-Dropdown[data-theme-state=light] + div[data-tippy-root] .tippy-box .tippy-content {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 0 0 2px var(--secondary-color) !important;
+}
+
+.tippy-box:not(.tooltip--n) .tippy-content {
+    font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, saserif;
+    pointer-events: auto;
+    padding: 8px 0;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .18), 0 4px 5px 0 rgba(0, 0, 0, .12), 0 1px 10px 0 rgba(0, 0, 0, .1);
+    background: #fff;
+    min-width: 162px;
+    max-width: 280px;
+    max-height: calc(100vh - 48px);
+    border-radius: 4px;
+    outline: 0;
+    min-height: 50px;
+    transform-origin: left bottom;
+    color: #000;
+}
+
+.tippy-box .tippy-content {
+    min-width: 162px;
+    max-width: 280px;
+}
+
+.SideMenu-Dropdown {
+    min-width: 250px;
+    color: #000;
+}
+
+.SideMenu-Dropdown-Items {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+}
+
+.SideMenu-Button-Dropdown[data-theme-state=light] + div[data-tippy-root] .tippy-box .tippy-content .SideMenu-Dropdown-Link {
+    background: #fff;
+    color: #000;
+}
+
+.SideMenu-Dropdown-Link {
+    --Dropdown-Link-Size: 42px;
+    line-height: var(--Dropdown-Link-Size);
+    height: var(--Dropdown-Link-Size);
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+    .SideMenu-Dropdown-Link span, .SideMenu-Dropdown-Link i {
+        margin-right: 8px;
+    }*/

@@ -1,4 +1,21 @@
-﻿<section class="section-hero">
+﻿@model CorporateSendVm
+
+@section Scripts{
+    @if (TempData["CorporateSent"] != null && (bool)TempData["CorporateSent"] == true)
+    {
+        <script>
+            Swal.fire({
+                icon: "success",
+                title: "Thank you! Your submission has been received!",
+                showConfirmButton: false,
+                timer: 3000
+            });
+        </script>
+    }
+
+}
+
+<section class="section-hero">
     <div class="padding-global">
         <div class="container-large">
             <div class="padding-section-large">
@@ -26,46 +43,50 @@
 
                     </div>
                     <div id="Contact-Form-Block" data-w-id="f198a4eb-b131-c678-7447-03825147d75f" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;" class="contact-form-block w-form">
-                        <form id="Contact-Form" name="wf-form-Contact-Form" data-name="Contact Form" method="get" class="contact-form" data-wf-page-id="63f85e5879955cd30cfe0d80" data-wf-element-id="f198a4eb-b131-c678-7447-03825147d760" aria-label="Contact Form">
+                        <form method="post" class="contact-form">
                             <div class="form-field-content">
                                 <div class="form-field-wrapper">
-                                    <label for="Contact-First-Name" class="field-label">First name</label>
-                                    <input class="contact-form-input w-input" maxlength="256" name="Contact-First-Name" data-name="Contact First Name" placeholder="John" type="text" id="Contact-First-Name" required="">
+                                    <label class="field-label" asp-for="FirstName"></label>
+                                    <input class="contact-form-input w-input" asp-for="FirstName" placeholder="Firstname..." type="text">
+                                    <span class="text-danger" asp-validation-for="FirstName"></span>
                                 </div>
                                 <div class="form-field-wrapper">
-                                    <label for="Contact-Last-Name" class="field-label">Last name</label>
-                                    <input class="contact-form-input w-input" maxlength="256" name="Contact-Last-Name" data-name="Contact Last Name" placeholder="Doe" type="text" id="Contact-Last-Name" required="">
+                                    <label class="field-label" asp-for="LastName"></label>
+                                    <input class="contact-form-input w-input" asp-for="LastName" placeholder="LastName..." type="text">
+                                    <span class="text-danger" asp-validation-for="LastName"></span>
                                 </div>
                             </div>
                             <div class="form-field-content">
                                 <div class="form-field-wrapper">
-                                    <label for="Contact-Phone" class="field-label">Phone number</label>
-                                    <input class="contact-form-input w-input" maxlength="256" name="Contact-Phone" data-name="Contact Phone" placeholder="+88 (005) 000-0000" type="tel" id="Contact-Phone" required="">
+                                    <label class="field-label" asp-for="Email"></label>
+                                    <input class="contact-form-input w-input" asp-for="Email" placeholder="Email..." type="email">
+                                    <span class="text-danger" asp-validation-for="Email"></span>
+                                </div>
+                                <div class="form-field-wrapper">
+                                    <label class="field-label" asp-for="PhoneNumber"></label>
+                                    <input class="contact-form-input w-input" asp-for="PhoneNumber" placeholder="PhoneNumber..." type="tel">
+                                    <span class="text-danger" asp-validation-for="PhoneNumber"></span>
                                 </div>
                             </div>
                             <div class="form-field-content">
                                 <div class="form-field-wrapper">
-                                    <label for="Contact-First-Name" class="field-label">Working Company</label>
-                                    <input class="contact-form-input w-input" maxlength="256" name="Contact-First-Name" data-name="Contact First Name" placeholder="John" type="text" id="Contact-First-Name" required="">
+                                    <label class="field-label" asp-for="WorkingCompany"></label>
+                                    <input class="contact-form-input w-input" asp-for="WorkingCompany" placeholder="WorkingCompany..." type="text">
+                                    <span class="text-danger" asp-validation-for="WorkingCompany"></span>
                                 </div>
                                 <div class="form-field-wrapper">
-                                    <label for="Contact-Last-Name" class="field-label">Occupation</label>
-                                    <input class="contact-form-input w-input" maxlength="256" name="Contact-Last-Name" data-name="Contact Last Name" placeholder="Doe" type="text" id="Contact-Last-Name" required="">
+                                    <label class="field-label" asp-for="Occupation"></label>
+                                    <input class="contact-form-input w-input" asp-for="Occupation" placeholder="Occupation..." type="text">
+                                    <span class="text-danger" asp-validation-for="Occupation"></span>
                                 </div>
                             </div>
                             <div class="form-field-wrapper">
-                                <label for="Contact-Message" class="field-label">Additional Info</label>
-                                <textarea id="Contact-Message" name="Contact-Message" maxlength="5000" data-name="Contact Message" placeholder="Type your message..." required="" class="contact-form-input is-text-area w-input"></textarea>
+                                <label  class="field-label" asp-for="AdditionalInfo"></label>
+                                <textarea placeholder="Type your message..." class="contact-form-input is-text-area w-input" asp-for="AdditionalInfo"></textarea>
                             </div>
 
                             <input type="submit" data-wait="Please wait..." id="w-node-f198a4eb-b131-c678-7447-03825147d7a0-0cfe0d80" class="button w-button" value="Corporate">
                         </form>
-                        <div class="success-message w-form-done" tabindex="-1" role="region" aria-label="Contact Form success">
-                            <div class="success-text">Thank you! Your submission has been received!</div>
-                        </div>
-                        <div class="error-message w-form-fail" tabindex="-1" role="region" aria-label="Contact Form failure">
-                            <div class="error-text">Oops! Something went wrong while submitting the form.</div>
-                        </div>
                     </div>
                 </div>
             </div>

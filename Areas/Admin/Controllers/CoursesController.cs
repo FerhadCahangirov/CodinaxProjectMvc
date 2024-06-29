@@ -3,6 +3,7 @@ using CodinaxProjectMvc.Constants;
 using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.Filters;
+using CodinaxProjectMvc.ViewModel.ApplicationVm;
 using CodinaxProjectMvc.ViewModel.CourseVm;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +40,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         #region Manage Course Controllers
         public async Task<IActionResult> Index()
             => View(await _courseService.GetCoursesAsync());
-        
+
         [PropertyAccessCourseFilterFactory]
         public IActionResult Create()
             => View();
@@ -53,7 +54,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
             if (!result)
                 return View(courseCreateVm);
 
-            TempData["CourseCreatedSuccessfull"] = true ;
+            TempData["CourseCreatedSuccessfull"] = true;
             return Redirect($"/Admin/Courses/{nameof(Index)}");
         }
 
@@ -108,6 +109,54 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
             return new JsonResult(new { success = true });
 
         }
+        #endregion
+
+        #region Manage Course Applications Controllers
+
+        public IActionResult CreateApplication(Guid id)
+            => View(new ApplicationCreateVm(id));
+
+        [HttpPost]
+        public async Task<IActionResult> CreateApplication(ApplicationCreateVm applicationCreateVm)
+        {
+            bool result = await _courseService.CreateApplicationAsync(applicationCreateVm);
+            if (!result)
+            {
+                return View(applicationCreateVm);
+            }
+
+            TempData["ApplicationCreatedSuccessfull"] = true;
+            return Redirect($"/Admin/Courses/Single/{applicationCreateVm.CourseId}");
+        }
+
+        public async Task<IActionResult> UpdateApplication(Guid id)
+            => View(await _courseService.GetApplicationUpdateDataAsync(id));
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateApplication(ApplicationUpdateVm applicationUpdateVm)
+        {
+            bool result = await _courseService.UpdateApplicationAsync(applicationUpdateVm);
+            if (!result)
+            {
+                return View(applicationUpdateVm);
+            }
+
+            TempData["ApplicationUpdatedSuccessfull"] = true;
+            return Redirect($"/Admin/Courses/Single/{applicationUpdateVm.CourseId}");
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ArchiveApplication(Guid id)
+            => new JsonResult(new { success = await _courseService.ArchiveApplicationAsync(id) });
+
+        [HttpPost]
+        public async Task<JsonResult> UnArchiveApplication(Guid id)
+            => new JsonResult(new { success = await _courseService.UnArchiveApplicationAsync(id) });
+
+        [HttpDelete]
+        public async Task<JsonResult> DeleteApplication(Guid id)
+            => new JsonResult(new { success = await _courseService.DeleteApplicationAsync(id) });
+
 
         #endregion
 

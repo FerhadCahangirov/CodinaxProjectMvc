@@ -1,9 +1,13 @@
 ﻿@model LectureFileUpdateVm
 
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
+
 @switch (Model.FileType)
 {
     case FileType.URL:
-        <form method="post" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
+        <form method="post" onsubmit="activateLoading()" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
             <fieldset class="field-card">
                 <div class="add-course-info">
                     <div class="add-course-inner-header">
@@ -36,7 +40,7 @@
         </form>
         break;
     case FileType.TXT:
-        <form method="post" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
+        <form method="post" onsubmit="activateLoading()" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
             <fieldset class="field-card">
                 <div class="add-course-info">
                     <div class="add-course-inner-header">
@@ -84,7 +88,7 @@
         </script>
         break;
     case FileType.PDF:
-        <form method="post" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
+        <form method="post" onsubmit="activateLoading()" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
             <fieldset class="field-card">
                 <div class="add-course-info">
                     <div class="add-course-inner-header">
@@ -132,7 +136,7 @@
         </script>
         break;
     case FileType.MP4:
-        <form method="post" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
+        <form method="post" onsubmit="activateLoading()" action="/Instructor/Lectures/UpdateFile" enctype="multipart/form-data">
             <fieldset class="field-card">
                 <div class="add-course-info">
                     <div class="add-course-inner-header">
@@ -194,3 +198,10 @@
     default:
         break;
 }
+
+<script>
+    function activateLoading() {
+        const loader = document.querySelector('.loader-container');
+        loader.classList.add('active');
+    }
+</script>

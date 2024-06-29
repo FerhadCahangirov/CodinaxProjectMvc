@@ -6,6 +6,7 @@ namespace CodinaxProjectMvc.ViewModel.PlayerVm
     {
         public LectureFile CurrentVideo { get; internal set; }
         public string BaseUrl { get; internal set; }
+        public TimeSpan? CurrentTime { get; set; }
 
         public PlayerSingleVm()
         {

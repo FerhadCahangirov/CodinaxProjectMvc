@@ -8,6 +8,7 @@ using CodinaxProjectMvc.Managers.Abstract;
 using CodinaxProjectMvc.ViewModel;
 using CodinaxProjectMvc.ViewModel.CourseVm;
 using CodinaxProjectMvc.ViewModel.InstructorVm;
+using CodinaxProjectMvc.ViewModel.StudentVm;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -149,7 +150,16 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             InstructorAccountVm instructorAccountVm = instructor.FromInstructor_ToInstructorAccountVm();
             instructorAccountVm.BaseUrl = _configuration["BaseUrl:Azure"];
             return instructorAccountVm;
+        }
 
+        public async Task<InstructorAccountVm> GetProfileDataAsync()
+        {
+            Instructor? instructor = await _instructorReadRepository.GetSingleAsync(x => x.Email == _actionContextAccessor.ActionContext.HttpContext.User.Identity.Name);
+            if (instructor == null) return new InstructorAccountVm();
+
+            InstructorAccountVm instructorAccountVm = instructor.FromInstructor_ToInstructorAccountVm();
+            instructorAccountVm.BaseUrl = _configuration["BaseUrl:Azure"];
+            return instructorAccountVm;
         }
 
         public async Task<bool> UpdateProfileAsync(InstructorAccountVm instructorAccountVm)
@@ -261,6 +271,26 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             return true;
         }
 
+        public async Task<bool> ChangePasswordAsync(InstructorResetPasswordVm instructorResetPasswordVm)
+        {
+            if (!_actionContextAccessor.ActionContext.ModelState.IsValid)
+            {
+                return false;
+            }
+
+            AppUser? user = await _userManager.FindByIdAsync(instructorResetPasswordVm.Id.ToString());
+            if (user == null) return false;
+
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            await _userManager.ResetPasswordAsync(user, token, instructorResetPasswordVm.Password);
+
+            return true;
+        }
+
+
+
+        #region Mail Services
         public async Task<bool> SendConfirmationMailAsync(Guid id)
         {
             Instructor? instructor = await _instructorReadRepository.GetSingleAsync(x => x.Id == id);
@@ -271,10 +301,27 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             await _mailManager.SendConfirmationMailAsync(token, instructor);
 
             return true;
-        } 
+        }
+
+        public async Task<bool> SendPasswordGenerateMailAsync(Guid id)
+        {
+            Instructor? instructor = await _instructorReadRepository.GetSingleAsync(x => x.Id == id);
+            if (instructor == null) return false;
+
+            if(string.IsNullOrEmpty(instructor.PasswordHash))
+            {
+                string token = await _userManager.GeneratePasswordResetTokenAsync(instructor);
+
+                await _mailManager.SendPasswordSetupMailAsync(token, instructor);
+            }
+
+            return true;
+        }
+
+        #endregion
 
         #region Instructor Panel Services
-        
+
         public async Task<IEnumerable<Course>> GetInstructorCoursesAsync(string email)
         {
             Instructor? instructor = await _instructorReadRepository.Table

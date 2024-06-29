@@ -1,6 +1,10 @@
 ﻿@model CoursePriceCreateVm
 
-<form method="post">
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
+
+<form method="post" onsubmit="activateLoading()">
     <input hidden asp-for="TemplateId"/>
     <fieldset class="field-card">
         <div class="add-course-info">

@@ -11,6 +11,7 @@
     var isFeaturePage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "feature";
     var isTemplatePage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "template";
     var isSubscribersPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "subscribers";
+    var isCorporatesPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "corporates";
 }
 
 <head>
@@ -24,7 +25,6 @@
 
     <!-- Add CSS -->
     <link rel="stylesheet" href="/Assets/panel/assets/css/table.css" />
-    <link rel="stylesheet" href="/Assets/panel/assets/css/cardcss.css" />
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="/Assets/panel/assets/css/style.css" />
@@ -177,6 +177,14 @@
                                 <span>Subscribers</span>
                             </a>
                         </li>
+                        <li>
+                            <a class="@(isCorporatesPage  ? "sidemenu_link_active" : "") sidemenu_link" href="/Admin/Corporates/Index">
+                                <svg-icon height="20px" width="20px">
+                                    <i class="fa-solid fa-people-group"></i>
+                                </svg-icon>
+                                <span>Corporates</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -233,6 +241,12 @@
 
 
     <script>
+        function activateLoading() {
+            const loader = document.querySelector('.loader-container');
+            loader.classList.add('active');
+        }
+    
+
         function toggleMenu() {
             const sidemenu = document.querySelector('.sidemenu_position');
             if (sidemenu.classList.contains('active')) {

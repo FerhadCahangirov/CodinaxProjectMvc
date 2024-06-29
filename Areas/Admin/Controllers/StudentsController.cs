@@ -31,9 +31,9 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
             _studentService = studentService;
         }
 
-        public async Task<IActionResult> StudentsPartial(string? searchFilter,string? statusFilter, int page = 1, int size = 4)
+        public async Task<IActionResult> StudentsPartial(string? searchFilter,string? statusFilter)
         {
-            var pagination = await _studentService.GetStudentsPaginationAsync(searchFilter, statusFilter, page, size);
+            var pagination = await _studentService.GetStudentsPartialAsync(searchFilter, statusFilter);
 
             if (pagination.Items?.ToList().Count == 0)
             {
@@ -45,7 +45,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var pagination = await _studentService.GetStudentsPaginationAsync();
+            var pagination = await _studentService.GetStudentsPartialAsync();
 
             if (pagination.Items?.ToList().Count == 0)
             {
@@ -123,5 +123,9 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> SendConfirmationMail(Guid id)
             => new JsonResult(new { success = await _studentService.SendConfirmationMailAsync(id) });
+
+        [HttpPost]
+        public async Task<JsonResult> SendPasswordGenerateMail(Guid id)
+            => new JsonResult(new { success = await _studentService.SendPasswordGenerateMailAsync(id) });
     }
 }

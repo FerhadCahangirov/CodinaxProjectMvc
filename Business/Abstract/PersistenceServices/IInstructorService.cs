@@ -48,6 +48,8 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <returns>A task representing the asynchronous operation, returning the instructor's account view model.</returns>
         public Task<InstructorAccountVm> GetProfileDataAsync(Guid id);
 
+        public Task<InstructorAccountVm> GetProfileDataAsync();
+
         /// <summary>
         /// Updates the profile data of an instructor.
         /// </summary>
@@ -92,5 +94,9 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         Task<IEnumerable<Course>> GetInstructorCoursesAsync(string email);
 
         Task<CourseSingleVm> GetInstructorCourseSingleAsync(string email, Guid id);
+
+        Task<bool> SendPasswordGenerateMailAsync(Guid id);
+
+        Task<bool> ChangePasswordAsync(InstructorResetPasswordVm instructorResetPasswordVm);
     }
 }

@@ -222,14 +222,14 @@
     <div class="loader"></div>
 </div>
 
-<div class="settings-widget profile-details" bis_skin_checked="1" data-select2-id="8">
-    <div class="settings-menu p-0" bis_skin_checked="1" data-select2-id="7">
-        <div class="profile-heading" bis_skin_checked="1">
+<div class="settings-widget profile-details"  data-select2-id="8">
+    <div class="settings-menu p-0"  data-select2-id="7">
+        <div class="profile-heading" >
             <h3>Profile Details</h3>
             <p>You have full control to manage your own account setting.</p>
         </div>
-        <div class="course-group mb-0 d-flex" bis_skin_checked="1">
-            <div class="course-group-img d-flex align-items-center" bis_skin_checked="1">
+        <div class="course-group mb-0 d-flex" >
+            <div class="course-group-img d-flex align-items-center" >
                 @if (string.IsNullOrEmpty(Model.ProfileName) && string.IsNullOrEmpty(Model.ProfilePathOrContainer))
                 {
                     <a href="" class="mr-3" id="profile_Container"><img src="/Assets/panel/assets/img/icon/user.png" alt="" class="img-fluid"></a>
@@ -239,12 +239,12 @@
                     <a href="" class="mr-3" id="profile_Container"><img src="@Model.BaseUrl/@Model.ProfilePathOrContainer/@Model.ProfileName" alt="" class="img-fluid"></a>
                 }
 
-                <div class="course-name" bis_skin_checked="1">
+                <div class="course-name" >
                     <h4><a href="instructor-profile.html">Your avatar</a></h4>
                     <p>PNG or JPG no bigger than 800px wide and tall.</p>
                 </div>
             </div>
-            <div class="profile-share d-flex align-items-center justify-content-center" bis_skin_checked="1" id="profileActions_Container">
+            <div class="profile-share d-flex align-items-center justify-content-center"  id="profileActions_Container">
                 @if (string.IsNullOrEmpty(Model.ProfileName) && string.IsNullOrEmpty(Model.ProfilePathOrContainer))
                 {
                     <a class="btn btn-success" onclick="uploadProfile('@Model.Id')">
@@ -262,32 +262,32 @@
                 
             </div>
         </div>
-        <div class="checkout-form personal-address add-course-info" bis_skin_checked="1">
-            <div class="personal-info-head" bis_skin_checked="1">
+        <div class="checkout-form personal-address add-course-info" >
+            <div class="personal-info-head" >
                 <h4>Personal Details</h4>
                 <p>Edit your personal information and address.</p>
             </div>
-            <form method="post">
+            <form method="post" onsubmit="activateLoading()">
                 <input hidden asp-for="Id">
                 <input hidden asp-for="IsEmailConfirmed">
-                <div class="row" bis_skin_checked="1">
-                    <div class="col-lg-6" bis_skin_checked="1">
-                        <div class="input-block" bis_skin_checked="1">
+                <div class="row" >
+                    <div class="col-lg-6" >
+                        <div class="input-block" >
                             <label class="form-control-label" asp-for="FirstName"></label>
                             <input type="text" class="form-control" placeholder="Enter your first Name" asp-for="FirstName">
                             <span class="text-danger" asp-validation-for="FirstName"></span>
                         </div>
                     </div>
-                    <div class="col-lg-6" bis_skin_checked="1">
-                        <div class="input-block" bis_skin_checked="1">
+                    <div class="col-lg-6" >
+                        <div class="input-block" >
                             <label class="form-control-label" asp-for="LastName"></label>
                             <input type="text" class="form-control" placeholder="Enter your last Name" asp-for="LastName">
                             <span class="text-danger" asp-validation-for="LastName"></span>
                         </div>
                     </div>
 
-                    <div class="col-lg-6" bis_skin_checked="1">
-                        <div class="input-block" bis_skin_checked="1">
+                    <div class="col-lg-6" >
+                        <div class="input-block" >
                             <label class="form-control-label" asp-for="EmailAddress"></label>
                             @if (Model.IsEmailConfirmed)
                             {
@@ -301,47 +301,47 @@
                             <span class="text-danger" asp-validation-for="EmailAddress"></span>
                         </div>
                     </div>
-                    <div class="col-lg-6" bis_skin_checked="1">
-                        <div class="input-block" bis_skin_checked="1">
+                    <div class="col-lg-6" >
+                        <div class="input-block" >
                             <label class="form-control-label" asp-for="PhoneNumber"></label>
                             <input type="text" class="form-control" placeholder="Enter your phone number" asp-for="PhoneNumber">
                             <span class="text-danger" asp-validation-for="PhoneNumber"></span>
                         </div>
                     </div>
-                    <div class="col-lg-6" bis_skin_checked="1">
-                        <div class="input-block" bis_skin_checked="1">
+                    <div class="col-lg-6" >
+                        <div class="input-block" >
                             <label class="form-control-label" asp-for="CountryOfBirth"></label>
                             <input type="text" class="form-control" asp-for="CountryOfBirth">
                             <span class="text-danger" asp-validation-for="CountryOfBirth"></span>
                         </div>
                     </div>
-                    <div class="col-lg-6" bis_skin_checked="1">
-                        <div class="input-block" bis_skin_checked="1">
+                    <div class="col-lg-6" >
+                        <div class="input-block" >
                             <label class="form-control-label" asp-for="CountryOfResidence"></label>
                             <input type="text" class="form-control" asp-for="CountryOfResidence">
                             <span class="text-danger" asp-validation-for="CountryOfResidence"></span>
                         </div>
                     </div>
-                    <div class="col-lg-6" bis_skin_checked="1">
-                        <div class="input-block" bis_skin_checked="1">
+                    <div class="col-lg-6" >
+                        <div class="input-block" >
                             <label class="form-control-label" asp-for="Profession"></label>
                             <input type="text" class="form-control" asp-for="Profession">
                             <span class="text-danger" asp-validation-for="Profession"></span>
                         </div>
                     </div>
-                    <div class="col-lg-12" bis_skin_checked="1">
-                        <div class="input-block" bis_skin_checked="1">
+                    <div class="col-lg-12" >
+                        <div class="input-block" >
                             <label class="form-control-label" asp-for="Description"></label>
                             <textarea type="text" class="form-control" asp-for="Description"></textarea>
                         </div>
                     </div>
-                    <div class="col-lg-12" bis_skin_checked="1">
-                        <div class="input-block" bis_skin_checked="1">
+                    <div class="col-lg-12" >
+                        <div class="input-block" >
                             <label class="form-control-label" asp-for="AdditionalNotes"></label>
                             <input type="text" class="form-control" asp-for="AdditionalNotes">
                         </div>
                     </div>
-                    <div class="update-profile" bis_skin_checked="1">
+                    <div class="update-profile" >
                         <button type="submit" class="btn btn-primary">Update Profile</button>
                     </div>
                 </div>

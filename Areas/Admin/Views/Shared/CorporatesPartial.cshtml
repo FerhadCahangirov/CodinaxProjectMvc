@@ -1,0 +1,182 @@
+﻿@model CorporateListVm
+
+<script>
+    function deleteCorporate(id) {
+        $.ajax({
+            type: 'DELETE',
+            url: `/Admin/Corporates/Delete/${id}`,
+            success: (data) => {
+
+                $(`#table_${id}`).fadeOut(500);
+
+                showToaster("success", "Corporate Deleted");
+            }
+        });
+    }
+
+    function approveCorporate(id) {
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Corporates/Approve/${id}`,
+            success: (data) => {
+                if (data.success) {
+                    const status_element = document.getElementById(`status_${id}`);
+                    status_element.innerHTML = `
+                    <span class="badge badge-dot mr-4 text-secondary">
+                        <i class="bg-success"></i> approved
+                    </span>
+                    `;
+
+                    $(`#approve_${id} a`).fadeOut(500);
+
+                    showToaster("success", "Corporate Approved");
+                }
+
+            }
+        });
+    }
+
+    function changeShowcase(id){
+        $.ajax({
+            type: 'POST',
+            url: `/Admin/Corporates/ChangeShowcase/${id}`,
+            success: (data) => {
+                if (data.success) {
+                    if($(`#showcase_${id} a i`).hasClass("fa-eye")){
+                        $(`#showcase_${id} a i`).removeClass("fa-eye");
+                        $(`#showcase_${id} a i`).addClass("fa-eye-slash");
+                    }
+                    else{
+                        $(`#showcase_${id} a i`).removeClass("fa-eye-slash");
+                        $(`#showcase_${id} a i`).addClass("fa-eye");
+                    }
+
+                    showToaster("success", "Corporate Showcase Changed");
+                }
+
+            }
+        });
+    }
+
+
+
+    function showToaster(title, content) {
+        Command: toastr[title](content);
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    }
+</script>
+
+<div class="table-responsive">
+    <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Fullname</th>
+                <th scope="col">Company</th>
+                <th scope="col">Occupation</th>
+                <th scope="col">Status</th>
+                <th scope="col">Showcase</th>
+                <th scope="col">Approve</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Corporates)
+            {
+                <tr id="table_@item.Id">
+                    <th scope="row">
+                        <div class="media align-items-center">
+                            <a href="#" class="avatar rounded-circle mr-3" style="background: transparent;">
+                                @if (string.IsNullOrEmpty(item.LogoName))
+                                {
+                                    <img alt="No Logo" src="/Assets/panel/assets/img/icon/tvz5ih9ce0gbj652p4i5q2xpbq8u.png">
+                                }
+                                else
+                                {
+                                    <img alt="@item.LogoName" src="@Model.BaseUrl/@item.LogoPath/@item.LogoName">
+                                }
+                            </a>
+                            <div class="media-body">
+                                <span class="mb-0 text-sm">@item.FirstName @item.LastName </span>
+                            </div>
+                        </div>
+                    </th>
+
+                    <th>
+                        <span class="mb-0 text-sm">@item.WorkingCompany </span>
+                    </th>
+
+                    <th>
+                        <span class="mb-0 text-sm">@item.Occupation </span>
+                    </th>
+
+                    <td id="status_@(item.Id)">
+                        @if (item.IsApproved)
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-success"></i> approved
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-dot mr-4 text-secondary">
+                                <i class="bg-warning"></i> not approved
+                            </span>
+                        }
+                    </td>
+                    <td id="showcase_@(item.Id)">
+                        @if (item.Showcase)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="changeShowcase('@item.Id')">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="changeShowcase('@item.Id')">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </a>
+                        }
+
+                    </td>
+                    <td id="approve_@(item.Id)">
+                        @if (!item.IsApproved)
+                        {
+                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="approveCorporate('@item.Id')">
+                                <i class="fa-regular fa-circle-check"></i>
+                            </a>
+                        }
+
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-icon-only text-light " href="/Admin/Corporates/Edit/@item.Id">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="deleteCorporate('@item.Id')">
+                            <i class="fa-solid fa-delete-left"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

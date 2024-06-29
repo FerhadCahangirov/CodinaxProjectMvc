@@ -1,6 +1,7 @@
 ﻿
 using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.ViewModel;
+using CodinaxProjectMvc.ViewModel.ApplicationVm;
 using CodinaxProjectMvc.ViewModel.CourseVm;
 using System.Runtime.CompilerServices;
 
@@ -105,6 +106,16 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         Task<CourseStudentsVm> GetCourseStudentsAsync(Guid id, string? searchFilter);
 
         Task<CourseStudentsAssignVm> GetAssignableStudentsAsync(Guid id, string? searchFilter = null);
+
+        #endregion
+
+        #region Managing Course Applications
+        Task<bool> CreateApplicationAsync(ApplicationCreateVm applicationCreateVm);
+        Task<ApplicationUpdateVm> GetApplicationUpdateDataAsync(Guid id);
+        Task<bool> UpdateApplicationAsync(ApplicationUpdateVm applicationUpdateVm);
+        Task<bool> ArchiveApplicationAsync(Guid id);
+        Task<bool> UnArchiveApplicationAsync(Guid id);
+        Task<bool> DeleteApplicationAsync(Guid id);
 
         #endregion
 

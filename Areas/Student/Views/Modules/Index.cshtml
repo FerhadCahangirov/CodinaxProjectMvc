@@ -143,13 +143,13 @@
 
                         @if (lecture.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
                         {
-                            <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_button_@lecture.Id" onclick="removeLectureBookmark('@lecture.Id')">
+                            <button class="card_header_button button_bookmark bookmark_outline bookmark_content_reverse" id="bookmark_button_@lecture.Id" onclick="removeLectureBookmark('@lecture.Id')">
                                 <i class="fa-solid fa-bookmark"></i>
                             </button>
                         }
                         else
                         {
-                            <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_button_@lecture.Id" onclick="addLectureBookmark('@lecture.Id')">
+                            <button class="card_header_button button_bookmark bookmark_outline bookmark_content" id="bookmark_button_@lecture.Id" onclick="addLectureBookmark('@lecture.Id')">
                                 <i class="fa-regular fa-bookmark"></i>
                             </button>
                         }
@@ -200,19 +200,19 @@
 
                                                     @* <ViewLater Icon> *@
 
-                                                    @if(lectureFile.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
+                                                    @if (lectureFile.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
                                                     {
-                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_video_button_@lectureFile.Id" onclick="removeVideoBookmark('@lectureFile.Id')">
+                                                        <button class="card_header_button button_bookmark bookmark_outline whatch_later_remove" id="bookmark_video_button_@lectureFile.Id" onclick="removeVideoBookmark('@lectureFile.Id')">
                                                             <i class="fa-solid fa-circle-check"></i>
                                                         </button>
                                                     }
                                                     else
                                                     {
-                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_video_button_@lectureFile.Id" onclick="addVideoBookmark('@lectureFile.Id')">
+                                                        <button class="card_header_button button_bookmark bookmark_outline whatch_later" id="bookmark_video_button_@lectureFile.Id" onclick="addVideoBookmark('@lectureFile.Id')">
                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false" style="pointer-events: none; display: inherit; width: 24px; height: 24px;"><path d="M22 13h-4v4h-2v-4h-4v-2h4V7h2v4h4v2zm-8-6H2v1h12V7zM2 12h8v-1H2v1zm0 4h8v-1H2v1z"></path></svg>
                                                         </button>
                                                     }
-                                                    
+
 
                                                     @*! </ViewLater Icon> *@
                                                 </div>
@@ -235,19 +235,19 @@
                                                     </div>
                                                 </div>
                                                 <div class="content_right_container">
-                                                    @if(lectureFile.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
+                                                    @if (lectureFile.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
                                                     {
-                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="removeContentBookmark('@lectureFile.Id')">
+                                                        <button class="card_header_button button_bookmark bookmark_outline bookmark_content_reverse" id="bookmark_content_@lectureFile.Id" onclick="removeContentBookmark('@lectureFile.Id')">
                                                             <i class="fa-solid fa-bookmark"></i>
                                                         </button>
                                                     }
                                                     else
                                                     {
-                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="addContentBookmark('@lectureFile.Id')">
+                                                        <button class="card_header_button button_bookmark bookmark_outline bookmark_content" id="bookmark_content_@lectureFile.Id" onclick="addContentBookmark('@lectureFile.Id')">
                                                             <i class="fa-regular fa-bookmark"></i>
                                                         </button>
                                                     }
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -270,13 +270,13 @@
                                                 <div class="content_right_container">
                                                     @if (lectureFile.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
                                                     {
-                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="removeContentBookmark('@lectureFile.Id')">
+                                                        <button class="card_header_button button_bookmark bookmark_outline bookmark_content_reverse" id="bookmark_content_@lectureFile.Id" onclick="removeContentBookmark('@lectureFile.Id')">
                                                             <i class="fa-solid fa-bookmark"></i>
                                                         </button>
                                                     }
                                                     else
                                                     {
-                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="addContentBookmark('@lectureFile.Id')">
+                                                        <button class="card_header_button button_bookmark bookmark_outline bookmark_content" id="bookmark_content_@lectureFile.Id" onclick="addContentBookmark('@lectureFile.Id')">
                                                             <i class="fa-regular fa-bookmark"></i>
                                                         </button>
                                                     }
@@ -295,20 +295,20 @@
                                                         <i class="fa-solid fa-file"></i>
                                                     </div>
                                                     <div class="text_card_info_content">
-                                                        <a class="text_card_info_title" href="@lectureFile.Url"> @lectureFile.Title </a>
+                                                        <a class="text_card_info_title" href="/Student/Pdf/View/@lectureFile.Id"> @lectureFile.Title </a>
                                                         <span class="text_card_info_small">Pdf ● @lectureFile.FileSize</span>
                                                     </div>
                                                 </div>
                                                 <div class="content_right_container">
                                                     @if (lectureFile.Bookmarks.Any(x => x.Student.Email == User.Identity.Name))
                                                     {
-                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="removeContentBookmark('@lectureFile.Id')">
+                                                        <button class="card_header_button button_bookmark bookmark_outline bookmark_content_reverse" id="bookmark_content_@lectureFile.Id" onclick="removeContentBookmark('@lectureFile.Id')">
                                                             <i class="fa-solid fa-bookmark"></i>
                                                         </button>
                                                     }
                                                     else
                                                     {
-                                                        <button class="card_header_button button_bookmark bookmark_outline" id="bookmark_content_@lectureFile.Id" onclick="addContentBookmark('@lectureFile.Id')">
+                                                        <button class="card_header_button button_bookmark bookmark_outline bookmark_content" id="bookmark_content_@lectureFile.Id" onclick="addContentBookmark('@lectureFile.Id')">
                                                             <i class="fa-regular fa-bookmark"></i>
                                                         </button>
                                                     }
@@ -330,6 +330,10 @@
 </div>
 
 <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        loadTippy();
+    });
+
     const BookmarkType = Object.freeze({
         Module: 0, Video: 1, Lecture: 2, Content: 3
     });
@@ -350,6 +354,8 @@
                 if (response.success) {
                     if (bookmarkType === BookmarkType.Lecture) {
                         const bookmark_button = document.getElementById(`bookmark_button_${id}`);
+                        bookmark_button.classList.remove("bookmark_content");
+                        bookmark_button.classList.add("bookmark_content_reverse");
                         bookmark_button.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
                         bookmark_button.removeAttribute('onclick');
                         bookmark_button.setAttribute('onclick', `removeLectureBookmark('${id}')`);
@@ -357,6 +363,8 @@
                     }
                     else if (bookmarkType === BookmarkType.Content) {
                         const bookmark_content_button = document.getElementById(`bookmark_content_${id}`);
+                        bookmark_content_button.classList.remove("bookmark_content");
+                        bookmark_content_button.classList.add("bookmark_content_reverse");
                         bookmark_content_button.innerHTML = '<i class="fa-solid fa-bookmark"></i>';
                         bookmark_content_button.removeAttribute('onclick');
                         bookmark_content_button.setAttribute('onclick', `removeContentBookmark('${id}')`);
@@ -365,12 +373,16 @@
                     }
                     else if (bookmarkType === BookmarkType.Video) {
                         const bookmark_video_button = document.getElementById(`bookmark_video_button_${id}`);
+                        bookmark_video_button.classList.remove("whatch_later");
+                        bookmark_video_button.classList.add("whatch_later_remove");
                         bookmark_video_button.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
                         bookmark_video_button.removeAttribute('onclick');
                         bookmark_video_button.setAttribute('onclick', `removeVideoBookmark('${id}')`);
 
                         showToaster('success', 'Video saved to watch later.');
                     }
+
+                    loadTippy();
                 }
                 else {
                     showToaster('error', 'Failed to add bookmark.');
@@ -398,6 +410,8 @@
                 if (response.success) {
                     if (bookmarkType === BookmarkType.Lecture) {
                         const bookmark_button = document.getElementById(`bookmark_button_${id}`);
+                        bookmark_button.classList.remove("bookmark_content_reverse");
+                        bookmark_button.classList.add("bookmark_content");
                         bookmark_button.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
                         bookmark_button.removeAttribute('onclick');
                         bookmark_button.setAttribute('onclick', `addLectureBookmark('${id}')`);
@@ -405,6 +419,8 @@
                     }
                     else if (bookmarkType === BookmarkType.Content) {
                         const bookmark_content_button = document.getElementById(`bookmark_content_${id}`);
+                        bookmark_content_button.classList.remove("bookmark_content_reverse");
+                        bookmark_content_button.classList.add("bookmark_content");
                         bookmark_content_button.innerHTML = '<i class="fa-regular fa-bookmark"></i>';
                         bookmark_content_button.removeAttribute('onclick');
                         bookmark_content_button.setAttribute('onclick', `addContentBookmark('${id}')`);
@@ -414,10 +430,14 @@
                         const bookmark_video_button = document.getElementById(`bookmark_video_button_${id}`);
                         bookmark_video_button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false" style="pointer-events: none; display: inherit; width: 24px; height: 24px;"><path d="M22 13h-4v4h-2v-4h-4v-2h4V7h2v4h4v2zm-8-6H2v1h12V7zM2 12h8v-1H2v1zm0 4h8v-1H2v1z"></path></svg>';
 
+                        bookmark_video_button.classList.remove("whatch_later_remove");
+                        bookmark_video_button.classList.add("whatch_later");
+
                         bookmark_video_button.removeAttribute('onclick');
                         bookmark_video_button.setAttribute('onclick', `addVideoBookmark('${id}')`);
                         showToaster('success', 'Video bookmark removed.');
                     }
+                    loadTippy();
                 }
                 else {
                     showToaster('error', 'Failed to remove bookmark.');
@@ -517,7 +537,7 @@
             "progressBar": false,
             "positionClass": "toast-top-right",
             "preventDuplicates": false,
-            "onclick": null,    
+            "onclick": null,
             "showDuration": "300",
             "hideDuration": "500",
             "timeOut": "1000",
@@ -529,7 +549,60 @@
         };
     }
 
+    function loadTippy() {
+        // Destroy all existing tippies on the specified selectors
+        document.querySelectorAll('.bookmark_content, .bookmark_content_reverse, .whatch_later, .whatch_later_remove').forEach(element => {
+            const instance = element._tippy;
+            if (instance) {
+                instance.destroy();
+            }
+        });
+
+        // Initialize new tippies
+        tippy(".bookmark_content", {
+            content: 'Add To Bookmarks',
+            placement: 'bottom',
+            animation: 'fade',
+            arrow: false,
+            onDestroy(instance) {
+                // Perform any necessary cleanup
+            },
+        });
+
+        tippy(".bookmark_content_reverse", {
+            content: 'Remove From Bookmarks',
+            placement: 'bottom',
+            animation: 'fade',
+            arrow: false,
+            onDestroy(instance) {
+                // Perform any necessary cleanup
+            },
+        });
+
+        tippy(".whatch_later", {
+            content: 'Add To Watch Later',
+            placement: 'bottom',
+            animation: 'fade',
+            arrow: false,
+            onDestroy(instance) {
+                // Perform any necessary cleanup
+            },
+        });
+
+        tippy(".whatch_later_remove", {
+            content: 'Remove From Watch Later',
+            placement: 'bottom',
+            animation: 'fade',
+            arrow: false,
+            onDestroy(instance) {
+                // Perform any necessary cleanup
+            },
+        });
+    }
+
+
 </script>
+
 
 
 
