@@ -130,6 +130,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             {
                 CourseCode = courseCreateVm.CourseCode,
                 Title = courseCreateVm.CourseTitle,
+                TitleRu = courseCreateVm.CourseTitleRu,
+                TitleTr = courseCreateVm.CourseTitleTr,
                 Category = category,
                 Template = template,
                 CourseLevel = Enum.Parse<CourseLevels>(courseCreateVm.CourseLevel),
@@ -219,6 +221,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             course.CourseCode = courseUpdateVm.CourseCode;
             course.Title = courseUpdateVm.CourseTitle;
+            course.TitleTr = courseUpdateVm.CourseTitleTr;
+            course.TitleRu = courseUpdateVm.CourseTitleRu;
             course.Category = category;
             course.CourseLevel = Enum.Parse<CourseLevels>(courseUpdateVm.CourseLevel);
             course.Template = template;
@@ -363,6 +367,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 FirstAdvicedCourse = advice?.FirstAdvicedCourse?.Id.ToString(),
                 SecondAdvicedCourse = advice?.SecondAdvicedCourse?.Id.ToString(),
                 CourseTitle = course.Title,
+                CourseTitleTr = course.TitleTr,
+                CourseTitleRu = course.TitleRu,
                 Template = course.Template.Id.ToString(),
                 CourseCode = course.CourseCode,
             };
@@ -591,7 +597,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (course == null) return new CourseInstructorsAssignVm();
 
-            var pagination = await _instructorService.GetAssignableInstructorPaginationAsync(searchFilter);
+            var pagination = await _instructorService.GetAssignableInstructorsPartialAsync(searchFilter);
 
             CourseInstructorsAssignVm courseInstructorsAssignVm = new CourseInstructorsAssignVm()
             {

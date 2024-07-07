@@ -19,6 +19,5 @@ namespace CodinaxProjectMvc.Areas.Student.Controllers
 
         public async Task<IActionResult> Index()
             => View(await _dashboardService.ListDashboardAsync());
-        
     }
 }

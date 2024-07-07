@@ -10,10 +10,10 @@
                 if (data.success) {
                     const status_element = document.getElementById(`status_${id}`);
                     status_element.innerHTML = `
-                                        <span class="badge badge-dot mr-4 text-secondary">
-                                                        <i class="bg-success"></i> approved
-                                                    </span>
-                                                    `;
+                                            <span class="badge badge-dot mr-4 text-secondary">
+                                                            <i class="bg-success"></i> approved
+                                                        </span>
+                                                        `;
 
                     const approve_element = document.getElementById(`approve_${id}`);
                     approve_element.innerHTML = "";
@@ -37,17 +37,17 @@
                 if (data.success) {
                     const status_element = document.getElementById(`status_${id}`);
                     status_element.innerHTML = `
-                                                <span class="badge badge-dot mr-4 text-secondary">
-                                                <i class="bg-warning"></i> banned
-                                            </span>
-                                                        `;
+                                                    <span class="badge badge-dot mr-4 text-secondary">
+                                                    <i class="bg-warning"></i> banned
+                                                </span>
+                                                            `;
 
                     const ban_element = document.getElementById(`ban_${id}`);
                     ban_element.innerHTML = `
-                                                <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unbanStudent('${id}')">
-                                                <i class="fa-solid fa-check"></i>
-                                            </a>
-                            `;
+                                                    <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="unbanStudent('${id}')">
+                                                    <i class="fa-solid fa-check"></i>
+                                                </a>
+                                `;
 
                     showToaster('success', 'Student Banned Successfull');
 
@@ -70,17 +70,17 @@
                 if (data.success) {
                     const status_element = document.getElementById(`status_${id}`);
                     status_element.innerHTML = `
-                                                         <span class="badge badge-dot mr-4 text-secondary">
-                                                            <i class="bg-success"></i> approved
-                                                        </span>
-                                                            `;
+                                                             <span class="badge badge-dot mr-4 text-secondary">
+                                                                <i class="bg-success"></i> approved
+                                                            </span>
+                                                                `;
 
                     const unban_element = document.getElementById(`ban_${id}`);
                     unban_element.innerHTML = `
-                                                        <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="banStudent('${id}')">
-                                                <i class="fa-solid fa-ban"></i>
-                                            </a>
-                                `;
+                                                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="banStudent('${id}')">
+                                                    <i class="fa-solid fa-ban"></i>
+                                                </a>
+                                    `;
 
                     showToaster('success', 'Student Unbanned Successfull');
                 }
@@ -145,8 +145,9 @@
                 console.error(data);
             }
 
-
-        function deleteStudent(id) {
+        })
+    }
+    function deleteStudent(id) {
         $.ajax({
             type: 'DELETE',
             url: `/Admin/Students/DeleteStudent/${id}`,
@@ -324,9 +325,24 @@
                         }
                         else
                         {
-                            <span class="badge badge-dot mr-4 text-secondary">
-                                <i class="bg-warning"></i> not approved
-                            </span>
+                            @if (!item.IsApproved && !item.EmailConfirmed)
+                            {
+                                <span class="badge badge-dot mr-4 text-secondary">
+                                    <i class="bg-warning"></i> mail not confirmed
+                                </span>
+                            }
+                            else if (!item.IsApproved && item.EmailConfirmed)
+                            {
+                                <span class="badge badge-dot mr-4 text-secondary">
+                                    <i class="bg-warning"></i> not approved
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-dot mr-4 text-secondary">
+                                    <i class="bg-warning"></i> mail not confirmed
+                                </span>
+                            }
                         }
 
                     </td>

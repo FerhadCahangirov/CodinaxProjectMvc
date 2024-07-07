@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using CodinaxProjectMvc.Constants;
+@using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
+@using CodinaxProjectMvc.DataAccess.Models.Identity;
+<!DOCTYPE html>
 <html lang="en">
 
 @{
@@ -14,13 +17,16 @@
     var isCorporatesPage = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower() == "corporates";
 }
 
+@inject IReadRepository<AppUser> _userReadRepository
+@inject IConfiguration _configuration;
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Codinax Instructor Panel</title>
 
-    
-        <!-- Bootstrap CSS -->
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/Assets/panel/assets/css/bootstrap.min.css">
 
     <!-- Add CSS -->
@@ -36,16 +42,16 @@
     <!-- Feather CSS -->
     <link rel="stylesheet" href="/Assets/panel/assets/css/feather.css">
 
-    <!-- Select2 CSS -->
-    <link rel="stylesheet" href="/Assets/panel/assets/plugins/select2/css/select2.min.css">
 
-    
     <!-- Loader CSS -->
     <link rel="stylesheet" href="/Assets/panel/assets/css/loader.css">
 
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <link rel="icon" type="image/x-icon" href="/Assets/imgs/logos/X.png">
+
+    <meta name="author" content="Farhad Jahangirov">
 
 </head>
 
@@ -59,17 +65,7 @@
             <div class="sidemenu_view">
                 <div class="sidemenu_bar">
                     <a class="sidemenu_logo">
-                       <?xml version="1.0" encoding="UTF-8"?>
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 433.17 151.9" width="160px">
-                          <defs>
-                            <style>
-                              .cls-1 {
-                                fill: #fff;
-                              }
-                            </style>
-                          </defs>
-                          <path class="cls-1" d="M138.92,56.8c-4.47-5.68-10.67-8.48-18.69-8.48s-15.29,2.57-21.11,7.72c-5.83,5.15-9.38,11.5-10.67,19.07,0,0,0,.01,0,.02h3c-3.02,14.52,7.58,28.82,23.69,28.44,8.32,0,15.36-2.57,21.04-7.72,5.75-5.15,9.31-11.58,10.6-19.22,.09-.5,.16-1,.22-1.5h-3c.83-6.94-.89-13.03-5.06-18.33Zm-5.63,19.15c-.68,4.16-2.65,7.57-5.98,10.37-3.25,2.65-6.96,4.01-10.97,4.01s-7.19-1.36-9.38-4.01c-2.12-2.65-2.8-6.13-2.04-10.37,.05-.28,.12-.54,.18-.82h-3c.86-3.8,2.75-7,5.65-9.48,3.18-2.72,6.81-4.09,10.9-4.09s7.27,1.36,9.46,4.09c2.05,2.47,2.83,5.68,2.31,9.48h3c-.04,.27-.06,.54-.11,.82Zm-75.01-10.15c3.04-2.6,6.6-3.93,10.6-3.93,4.89,0,8.3,1.93,10.31,5.86h4.37s2.14-13.71,2.14-13.71c-3.95-3.28-9.19-5.12-15.56-5.12-7.71,0-14.46,2.45-20.17,7.41-5.69,4.95-9.17,11.23-10.44,18.83h3s0,.04-.01,.06c-1.26,7.93,.22,14.53,4.6,19.8,4.37,5.34,10.53,8.01,18.54,8.01,6.05,0,11.71-2.32,16.41-5.44l2.07-13.58h-4.36c-3.11,4.15-8.26,6.04-13.23,6.04-3.93,0-6.9-1.33-8.9-3.93-2-2.6-2.6-6.01-1.93-10.16,.05-.28,.12-.55,.18-.82h-2.99c.83-3.77,2.62-6.9,5.38-9.32Zm153.28-17.22l-4.67,26.56h3l-4.95,28.19h14l4.95-28.19h-3l4.67-26.56h-14Zm66.71,0h-13.92l-4.72,26.56h-1.4l-13.21-26.56h-10.87l-4.67,26.56h3l-4.95,28.19h14l5.01-28.19h1.4l12.92,28.19h10.79l4.95-28.19h-3l4.67-26.56Zm-82.59,8.29c-4.3-5.55-10.01-8.29-17.28-8.29h-22.29l-4.67,26.56h3l-4.95,28.19h22.29c8.06,0,14.94-2.5,20.65-7.43s9.31-11.34,10.72-19.16c.09-.54,.17-1.07,.23-1.6h-3c.87-7.05-.69-13.1-4.69-18.27Zm-6.15,18.85c-.78,4.22-2.66,7.66-5.55,10.25-2.89,2.58-6.26,3.83-10.25,3.83h-7.51l2.61-14.66h-3l2.32-13.03h7.9c7.4,0,11.59,5.15,10.55,13.03h3c-.03,.2-.04,.38-.07,.58Zm133.88-.58l-4.1-26.56h-17.05l-13.43,26.56h3l-14.26,28.19h15.41l3.75-7.9h18.22l.86,7.9h14.94l-4.35-28.19h-3Zm-20.89,8.25l3.95-8.25h-3l5.12-10.68,1.15,10.68h3l.89,8.25h-11.11Zm74.23-12.42l16.88-22.38h-16.27l-10.25,13.53-5.71-13.53h-15.17l9.5,22.38h21.02Zm-23.86,9.98l-16.89,22.38h16.27l11.03-14. 55,6.18,14.55h15.1l-9.46-22.38h-22.21Z"/>
-                        </svg>
+                        <img src="~/Assets/imgs/logos/CODINAX ( white ).png" width="180">
                     </a>
 
                     <div class="close pointer">
@@ -83,24 +79,59 @@
                     <div class="sidemenu_user">
                         <div class="sidemenu_profile">
                             <div _ngcontent-vdy-c47="" class="avatar-container" style="width: 120px; height: 120px;" bis_skin_checked="1">
-                                <div _ngcontent-vdy-c47="" class="avatar-content" style="text-align: center; border-radius: 100%; text-transform: uppercase; color: rgb(255, 255, 255); background-color: rgb(127, 140, 141); font: 40px / 120px Helvetica, Arial, sans-serif;" bis_skin_checked="1"> AA </div>
+                                <div _ngcontent-vdy-c47="" class="avatar-content" style="text-align: center; border-radius: 100%; text-transform: uppercase; color: rgb(255, 255, 255); background-color: rgb(127, 140, 141); font: 40px / 120px Helvetica, Arial, sans-serif;" bis_skin_checked="1">
+                                    @(
+                                        _userReadRepository.Table.Single(x => x.Email ==
+                                        User.Identity.Name).FirstName[0].ToString()
+                                        )@(
+                                       _userReadRepository.Table.Single(x => x.Email ==
+                                       User.Identity.Name).LastName[0].ToString()
+                                       )
+                                </div>
                             </div>
                         </div>
 
-                        <div class="edit_profile_icon">
+                        <div class="edit_profile_icon" id="editProfileIcon">
                             <svg-icon height="20px" id="avatar-icon-popOver" name="ns-edit-icon" width="20px">
                                 <i class="fa-solid fa-pen-to-square align-middle"></i>
                             </svg-icon>
                         </div>
 
-                        <div class="sidemenu_profile_info">
-                            Hi Admin
+                        <div id="avatar-container-popover" class="avatar-pop-over">
+                            <div class="avatar-holder">
+                                <div class="avatar-user">
+                                    <!---->
+                                    <div class="avatar-container" style="width: 140px; height: 140px;">
 
-                            <button class="sidemenu_button_dropdown" aria-expanded="false" data-theme-state="light">
-                                <svg-icon height="20px" width="20px">
-                                    <i class="fa-solid fa-ellipsis align-middle"></i>
-                                </svg-icon>
-                            </button>
+                                        <div class="avatar-content" style="text-align: center; border-radius: 100%; text-transform: uppercase; color: rgb(255, 255, 255); background-color: rgb(127, 140, 141); font: 46px / 140px Helvetica, Arial, sans-serif;">
+                                            @(
+                                                _userReadRepository.Table.Single(x => x.Email ==
+                                                User.Identity.Name).FirstName[0].ToString()
+                                                )@(
+                                               _userReadRepository.Table.Single(x => x.Email ==
+                                               User.Identity.Name).LastName[0].ToString()
+                                               )
+                                        </div>
+
+                                    </div>
+                                    <!---->
+                                </div>
+                            </div>
+                            <div class="buttons-avatar-container">
+                                <div class="buttons-avatar-wrapper">
+                                    <a class="button-avatar-action action--change" href="/Admin/Account/Profile">
+                                        <i class="fa-solid fa-pen-to-square align-middle"></i>
+
+                                        Edit profile
+                                    </a>
+                                    <!---->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidemenu_profile_info">
+                            Hi @(
+                             _userReadRepository.Table.Single(x => x.Email == User.Identity.Name).FirstName)
                         </div>
                     </div>
 
@@ -196,20 +227,50 @@
         <header class="header_container">
             <div class="header_left">
                 <div class="header_search_container">
-                    <input class="header_search_input" type="text" placeholder="Search" oninput="searchContent(event)"/>
+                    <input class="header_search_input" type="text" placeholder="Search" oninput="searchContent(event)" />
                     <div class="header_search_icon">
                         <i class="fa-solid fa-magnifying-glass align-middle"></i>
                     </div>
                 </div>
             </div>
             <div class="pointer burger-icon ml-2" onclick="toggleMenu()">
-               <i class="fa-solid fa-bars-staggered align-middle"></i>
+                <i class="fa-solid fa-bars-staggered align-middle"></i>
             </div>
             <div class="header_right">
                 <div class="popup-wrapper">
                     <button class="ml-2 settings-button">
                         <i class="fa-solid fa-gear align-middle"></i>
                     </button>
+
+                    <div class="dropdown-content day-switch-dropdown">
+                        <div class="dropdown-holder">
+                            <div class="theme-change">
+                                <div class="item-settings-holder">
+                                    <div class="Header-State" data-theme-state="light">
+                                        <i class="fa-solid fa-moon"></i>
+                                        <label class="Header-Switch">
+                                            <input type="checkbox" class="Checkbox-Toggle" data-theme-state="light">
+                                            <span class="Switch-Slider Switch-Slider-round"></span>
+                                        </label>
+                                        <i class="fa-solid fa-sun"></i>
+                                    </div>
+                                    <span>Theme</span>
+                                </div>
+                            </div>
+
+                            <div class="theme-change" style="margin-top: 20px">
+                                <div class="item-settings-holder">
+                                    <a class="Header-State" style="margin: 0" href="/auth/logout">
+                                        <div  class="Header-Switch" style="width: 0px; margin: 0;width: fit-content">
+                                            <i class="fa-solid fa-right-from-bracket"></i>
+                                        </div>
+                                    </a>
+                                    <span>Log Out</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </header>
@@ -221,20 +282,20 @@
         </div>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		
-		<!-- Bootstrap Core JS -->
-		<script src="/Assets/panel/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="/Assets/panel/assets/js/bootstrap.bundle.min.js"></script>
 
 
-	  	<!-- Ckeditor JS -->
-	  	<script src="/Assets/panel/assets/js/ckeditor.js"></script>
+    <!-- Ckeditor JS -->
+    <script src="/Assets/panel/assets/js/ckeditor.js"></script>
 
-	  	<!-- Bootstrap Tagsinput JS -->
-		<script src="/Assets/panel/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
-		
+    <!-- Bootstrap Tagsinput JS -->
+    <script src="/Assets/panel/assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.js"></script>
 
-		<!-- Toastr JS -->
+
+    <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
@@ -245,7 +306,7 @@
             const loader = document.querySelector('.loader-container');
             loader.classList.add('active');
         }
-    
+
 
         function toggleMenu() {
             const sidemenu = document.querySelector('.sidemenu_position');
@@ -258,7 +319,92 @@
             }
         }
 
-        function searchContent(event){
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const theme = localStorage.getItem('theme-state');
+
+            $('.settings-button').click(() => {
+                if ($('.popup-wrapper .dropdown-content').hasClass('active')) {
+                    $('.popup-wrapper .dropdown-content').removeClass('active')
+                }
+                else {
+                    $('.popup-wrapper .dropdown-content').addClass('active')
+                }
+            });
+
+
+            if (theme === null) {
+                $('body').addClass('Light-Theme');
+                $('body').data('theme-state', 'light').attr('data-theme-state', 'light');
+
+                $('.popup-wrapper .Header-State').data('theme-state', 'light').attr('data-theme-state', 'light');
+                $('.popup-wrapper .Checkbox-Toggle').data('theme-state', 'light').attr('data-theme-state', 'light');
+
+            }
+            else if (theme === 'light') {
+                $('.popup-wrapper .Header-State').data('theme-state', 'light').attr('data-theme-state', 'light');
+                $('.popup-wrapper .Checkbox-Toggle').data('theme-state', 'light').attr('data-theme-state', 'light');
+
+                $('body').removeClass('Dark-Theme');
+                $('body').addClass('Light-Theme');
+
+                $('body').data('theme-state', 'light').attr('data-theme-state', 'light');
+
+            }
+            else if (theme === 'dark') {
+
+
+                $('.popup-wrapper .Header-State').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+                $('.popup-wrapper .Checkbox-Toggle').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+
+                $('body').removeClass('Light-Theme');
+                $('body').addClass('Dark-Theme');
+
+                $('body').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+
+            }
+
+
+            $('.popup-wrapper .Checkbox-Toggle').click(() => {
+                console.log($('.Header-State').data('theme-state'));
+
+                if ($('.popup-wrapper .Header-State').data('theme-state') === 'light') {
+                    $('.popup-wrapper .Header-State').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+                    $('.popup-wrapper .Checkbox-Toggle').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+
+                    $('body').removeClass('Light-Theme');
+                    $('body').addClass('Dark-Theme');
+
+                    $('body').data('theme-state', 'dark').attr('data-theme-state', 'dark');
+
+                    localStorage.setItem('theme-state', 'dark');
+                }
+                else {
+                    $('.popup-wrapper .Header-State').data('theme-state', 'light').attr('data-theme-state', 'light');
+                    $('.popup-wrapper .Checkbox-Toggle').data('theme-state', 'light').attr('data-theme-state', 'light');
+
+                    $('body').removeClass('Dark-Theme');
+                    $('body').addClass('Light-Theme');
+
+                    $('body').data('theme-state', 'light').attr('data-theme-state', 'light');
+
+                    localStorage.setItem('theme-state', 'light');
+                }
+            })
+
+
+            $('#editProfileIcon').click(() => {
+                if ($('#avatar-container-popover').hasClass('active')) {
+                    $('#avatar-container-popover').removeClass('active');
+                }
+                else {
+                    $('#avatar-container-popover').addClass('active');
+                }
+            });
+
+        });
+
+        function searchContent(event) {
             $.ajax({
                 type: 'POST',
                 url: `/admin/search?content=${event.target.value}`,

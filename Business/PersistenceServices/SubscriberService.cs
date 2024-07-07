@@ -1,9 +1,11 @@
 ﻿using CodinaxProjectMvc.Business.Abstract.PersistenceServices;
 using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 using CodinaxProjectMvc.DataAccess.Models;
+using CodinaxProjectMvc.DataAccess.Models.Identity;
 using CodinaxProjectMvc.Managers.Abstract;
 using CodinaxProjectMvc.ViewModel;
 using CodinaxProjectMvc.ViewModel.SubscribeVm;
+using FFmpeg.AutoGen;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using MlkPwgen;
@@ -111,6 +113,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             await _subscribeWriteRepository.SaveAsync();
 
             await _notificationManager.SendSubscriptionNotificationMailAsync(subscriber);
+            await _mailManager.SendSubscribedMailAsync(email);
 
             return true;
         }
@@ -126,6 +129,18 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 .GetWhere(x => x.IsEmailConfirmed && !x.IsDeleted && !x.IsArchived).ToListAsync();
 
             await _mailManager.SendMailToAllSubscribersAsync(subscribeSendVm.Subject, subscribeSendVm.Content, subscribers);
+
+            return true;
+        }
+
+        public async Task<bool> UnSubscribeAsync(string email)
+        {
+            Subscriber subscriber = await _subscribeReadRepository.GetSingleAsync(x => x.Email == email);
+
+            _subscribeWriteRepository.Remove(subscriber);
+            await _subscribeWriteRepository.SaveAsync();
+
+            await _mailManager.SendUnsubscribedMailAsync(email);
 
             return true;
         }

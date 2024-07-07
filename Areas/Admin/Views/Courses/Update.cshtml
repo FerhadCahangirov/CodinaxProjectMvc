@@ -26,6 +26,17 @@
                     </div>
 
                     <div class="input-block">
+                        <label class="add-course-label" asp-for="CourseTitleRu"></label>
+                        <input type="text" class="form-control" asp-for="CourseTitleRu">
+                        <span class="text-danger" asp-validation-for="CourseTitleRu"></span>
+                    </div>
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="CourseTitleTr"></label>
+                        <input type="text" class="form-control" asp-for="CourseTitleTr">
+                        <span class="text-danger" asp-validation-for="CourseTitleTr"></span>
+                    </div>
+
+                    <div class="input-block">
                         <label class="add-course-label" asp-for="CourseCategory"></label>
                         <select class="form-control select" asp-items="@ViewBag.Categories" asp-for="CourseCategory">
                         </select>

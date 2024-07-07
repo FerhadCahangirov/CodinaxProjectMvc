@@ -30,7 +30,11 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             Faq faq = new Faq()
             {
+                QuestionRu = faqCreateVm.QuestionRu,
+                QuestionTr = faqCreateVm.QuestionTr,
                 Question = faqCreateVm.Question,
+                AnswerRu = faqCreateVm.AnswerRu,
+                AnswerTr = faqCreateVm.AnswerTr,
                 Answer = faqCreateVm.Answer,
             };
 
@@ -74,6 +78,10 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             {
                 Question = faq.Question,
                 Answer = faq.Answer,
+                QuestionTr = faq.QuestionTr,
+                AnswerTr = faq.AnswerTr,
+                QuestionRu = faq.QuestionRu,
+                AnswerRu = faq.AnswerRu,
                 Id = id
             };
         }
@@ -92,8 +100,12 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 return false;
             }
 
+            faq.QuestionRu = faqUpdateVm.QuestionRu;
+            faq.QuestionTr = faqUpdateVm.QuestionTr;
             faq.Question = faqUpdateVm.Question;
             faq.Answer = faqUpdateVm.Answer;
+            faq.AnswerTr = faqUpdateVm.AnswerTr;
+            faq.AnswerRu = faqUpdateVm.AnswerRu;
 
             _faqWriteRepository.Update(faq);
             await _faqWriteRepository.SaveAsync();

@@ -1,4 +1,5 @@
-﻿@model CourseSingleVm;
+﻿@model CourseSingleVm
+@inject LanguageService _resource
 
 <div class="courses-list-wrapper w-dyn-list">
     <div role="list" class="courses-list is-signle-page w-dyn-items">
@@ -15,19 +16,44 @@
                     <div class="courses-item-content">
                         <div class="courses-item-content-top">
                             @* <a href="/Courses/Single/@Model.FirstAdvicedCourse.Id" class="courses-category-link w-inline-block">
-                                <div>@Model.FirstAdvicedCourse.Category.Content</div>
-                            </a> *@
+                        <div>@Model.FirstAdvicedCourse.Category.Content</div>
+                        </a> *@
                             <a href="/courses/single/@Model.FirstAdvicedCourse.Id" class="courses-title-link w-inline-block">
-                                <h3 class="heading-style-h5">@Model.FirstAdvicedCourse.Title</h3>
+                                <h3 class="heading-style-h5">
+                                    @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.FirstAdvicedCourse.TitleRu))
+                                    {
+                                        @Model.FirstAdvicedCourse.TitleRu
+                                    }
+                                    else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.FirstAdvicedCourse.TitleTr))
+                                    {
+                                        @Model.FirstAdvicedCourse.TitleTr
+                                    }
+                                    else
+                                    {
+                                        @Model.FirstAdvicedCourse.Title
+                                    }
+                                </h3>
                             </a>
                             <div class="text-size-regular">
-                                @(Model.FirstAdvicedCourse.Template.Description.Length > 150 ? $"{Model.FirstAdvicedCourse.Template.Description.Substring(0, 150)}..." : Model.FirstAdvicedCourse.Template.Description)
+                                @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.FirstAdvicedCourse.Template.DescriptionRu))
+                                {
+                                    @(Model.FirstAdvicedCourse.Template.DescriptionRu.Length > 150 ? $"{Model.FirstAdvicedCourse.Template.DescriptionRu.Substring(0, 150)}..." : Model.FirstAdvicedCourse.Template.DescriptionRu)
+                                }
+                                else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.FirstAdvicedCourse.Template.DescriptionTr))
+                                {
+                                    @(Model.FirstAdvicedCourse.Template.DescriptionTr.Length > 150 ? $"{Model.FirstAdvicedCourse.Template.DescriptionTr.Substring(0, 150)}..." : Model.FirstAdvicedCourse.Template.DescriptionTr)
+                                }
+                                else
+                                {
+                                    @(Model.FirstAdvicedCourse.Template.Description.Length > 150 ? $"{Model.FirstAdvicedCourse.Template.Description.Substring(0, 150)}..." : Model.FirstAdvicedCourse.Template.Description)
+                                }
+
                             </div>
                         </div>
                         <div class="course-content-bottom">
                             <div></div>
                             <div>
-                                <a href="/courses/single/@Model.FirstAdvicedCourse.Id" class="button is-secondary w-button">View Course</a>
+                                <a href="/courses/single/@Model.FirstAdvicedCourse.Id" class="button is-secondary w-button">@_resource.GetLocalizedHTML("View Course")</a>
                             </div>
                         </div>
                     </div>
@@ -47,20 +73,41 @@
                     </a>
                     <div class="courses-item-content">
                         <div class="courses-item-content-top">
-                            @* <a href="/Courses/Single/@Model.SecondAdvicedCourse.Id" class="courses-category-link w-inline-block">
-                                <div>@Model.SecondAdvicedCourse.Category.Content</div>
-                            </a> *@
                             <a href="/courses/single/@Model.SecondAdvicedCourse.Id" class="courses-title-link w-inline-block">
-                                <h3 class="heading-style-h5">@Model.SecondAdvicedCourse.Title</h3>
+                                <h3 class="heading-style-h5">
+                                    @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.SecondAdvicedCourse.TitleRu))
+                                    {
+                                        @Model.SecondAdvicedCourse.TitleRu
+                                    }
+                                    else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.SecondAdvicedCourse.TitleTr))
+                                    {
+                                        @Model.SecondAdvicedCourse.TitleTr
+                                    }
+                                    else
+                                    {
+                                        @Model.SecondAdvicedCourse.Title
+                                    }
+                                </h3>
                             </a>
                             <div class="text-size-regular">
-                                @(Model.SecondAdvicedCourse.Template.Description.Length > 150 ? $"{Model.SecondAdvicedCourse.Template.Description.Substring(0, 150)}..." : Model.SecondAdvicedCourse.Template.Description)
+                                @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.SecondAdvicedCourse.Template.DescriptionRu))
+                                {
+                                    @(Model.SecondAdvicedCourse.Template.DescriptionRu.Length > 150 ? $"{Model.SecondAdvicedCourse.Template.DescriptionRu.Substring(0, 150)}..." : Model.SecondAdvicedCourse.Template.DescriptionRu)
+                                }
+                                else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.SecondAdvicedCourse.Template.DescriptionTr))
+                                {
+                                    @(Model.SecondAdvicedCourse.Template.DescriptionTr.Length > 150 ? $"{Model.SecondAdvicedCourse.Template.DescriptionTr.Substring(0, 150)}..." : Model.SecondAdvicedCourse.Template.DescriptionTr)
+                                }
+                                else
+                                {
+                                    @(Model.SecondAdvicedCourse.Template.Description.Length > 150 ? $"{Model.SecondAdvicedCourse.Template.Description.Substring(0, 150)}..." : Model.SecondAdvicedCourse.Template.Description)
+                                }
                             </div>
                         </div>
                         <div class="course-content-bottom">
                             <div></div>
                             <div>
-                                <a href="/courses/single/@Model.SecondAdvicedCourse.Id" class="button is-secondary w-button">View Course</a>
+                                <a href="/courses/single/@Model.SecondAdvicedCourse.Id" class="button is-secondary w-button">@_resource.GetLocalizedHTML("View Course")</a>
                             </div>
                         </div>
                     </div>

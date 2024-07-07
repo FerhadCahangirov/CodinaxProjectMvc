@@ -5,6 +5,8 @@ namespace CodinaxProjectMvc.DataAccess.Models
     public class PriceInfo : BaseEntity
     {
         public string? Content { get; set; }
+        public string? ContentRu { get; set; }
+        public string? ContentTr { get; set; }
 
         public Price Price { get; set; }
 

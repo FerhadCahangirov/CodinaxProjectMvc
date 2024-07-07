@@ -32,36 +32,48 @@
                                 <div class="cfffe57fa" bis_skin_checked="1">
 
                                     <div class="input-wrapper _input-wrapper" bis_skin_checked="1">
-                                        <div class="ce385ba79 c630cc19b text c7f15f265 c11d28311 cb636dbea" data-action-text="" data-alternate-action-text="" bis_skin_checked="1">
-                                            <label class="c504b47d1 no-js cc454c27b c38729609" asp-for="Password">
-                                            </label>
+                                        <div class="ce385ba79 c630cc19b password ca0c3b651 c11d28311 cb636dbea" data-action-text="" data-alternate-action-text="" bis_skin_checked="1">
+                                            <label class="c504b47d1 no-js cc454c27b c544a5795" asp-for="Password"></label>
 
-                                            <input class="input c9396bda3 c1fec96e1" type="text" value="" required="" autocapitalize="none" spellcheck="false" autofocus="" asp-for="Password">
+                                            <input id="password" class="input c9396bda3 c6d2c7838" type="password" required="" autocomplete="current-password" autocapitalize="none" spellcheck="false" asp-for="Password">
 
-                                            <div class="c504b47d1 js-required cc454c27b c38729609" data-dynamic-label-for="username" aria-hidden="true" bis_skin_checked="1">
+                                            <div class="c504b47d1 js-required cc454c27b c544a5795" data-dynamic-label-for="password" aria-hidden="true" bis_skin_checked="1">
                                                 Password
                                             </div>
 
-                                            <span class="text-danger mt-2" asp-validation-for="Password"></span>
-
+                                            <button id="toggle-password" type="button" class="cea93c1fe ulp-button-icon cb8f247a6 _button-icon" data-action="toggle">
+                                                <span aria-hidden="true" class="password-icon-tooltip show-password-tooltip">Show password</span>
+                                                <span aria-hidden="true" class="password-icon-tooltip hide-password-tooltip hide">Hide password</span>
+                                                <span class="screen-reader-only password-toggle-label" data-label="show-password">Show password</span>
+                                                <span class="screen-reader-only password-toggle-label hide" data-label="hide-password">Hide password</span>
+                                                <span class="c6616f49d password js-required" aria-hidden="true"></span>
+                                            </button>
                                         </div>
                                     </div>
 
+                                    <span class="text-danger mt-2" asp-validation-for="Password"></span>
+
                                     <div class="input-wrapper _input-wrapper" bis_skin_checked="1">
-                                        <div class="ce385ba79 c630cc19b text c7f15f265 c11d28311 cb636dbea" data-action-text="" data-alternate-action-text="" bis_skin_checked="1">
-                                            <label class="c504b47d1 no-js cc454c27b c38729609" asp-for="ConfirmPassword">
-                                            </label>
+                                        <div class="ce385ba79 c630cc19b password ca0c3b651 c11d28311 cb636dbea" data-action-text="" data-alternate-action-text="" bis_skin_checked="1">
+                                            <label class="c504b47d1 no-js cc454c27b c544a5795" asp-for="ConfirmPassword"></label>
 
-                                            <input class="input c9396bda3 c1fec96e1" type="text" value="" required="" autocapitalize="none" spellcheck="false" autofocus="" asp-for="ConfirmPassword">
+                                            <input id="password-confirm" class="input c9396bda3 c6d2c7838" type="password" required="" autocomplete="current-password" autocapitalize="none" spellcheck="false" asp-for="ConfirmPassword">
 
-                                            <div class="c504b47d1 js-required cc454c27b c38729609" data-dynamic-label-for="username" aria-hidden="true" bis_skin_checked="1">
+                                            <div class="c504b47d1 js-required cc454c27b c544a5795" data-dynamic-label-for="password" aria-hidden="true" bis_skin_checked="1">
                                                 Confirm Password
                                             </div>
 
-                                            <span class="text-danger mt-2" asp-validation-for="ConfirmPassword"></span>
-
+                                            <button id="toggle-password-confirm" type="button" class="cea93c1fe ulp-button-icon cb8f247a6 _button-icon" data-action="toggle">
+                                                <span aria-hidden="true" class="password-icon-tooltip show-password-tooltip">Show password</span>
+                                                <span aria-hidden="true" class="password-icon-tooltip hide-password-tooltip hide">Hide password</span>
+                                                <span class="screen-reader-only password-toggle-label" data-label="show-password">Show password</span>
+                                                <span class="screen-reader-only password-toggle-label hide" data-label="hide-password">Hide password</span>
+                                                <span class="c6616f49d password js-required" aria-hidden="true"></span>
+                                            </button>
                                         </div>
                                     </div>
+
+                                    <span class="text-danger mt-2" asp-validation-for="ConfirmPassword"></span>
 
 
 
@@ -93,3 +105,49 @@
     </main>
 
 </div>
+
+<script>
+    document.getElementById('toggle-password').addEventListener('click', function () {
+        var passwordInput = document.getElementById('password');
+        var showTooltip = document.querySelector('toggle-password .show-password-tooltip');
+        var hideTooltip = document.querySelector('toggle-password .hide-password-tooltip');
+        var showLabel = document.querySelector('toggle-password [data-label="show-password"]');
+        var hideLabel = document.querySelector('toggle-password [data-label="hide-password"]');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            showTooltip.classList.add('hide');
+            hideTooltip.classList.remove('hide');
+            showLabel.classList.add('hide');
+            hideLabel.classList.remove('hide');
+        } else {
+            passwordInput.type = 'password';
+            showTooltip.classList.remove('hide');
+            hideTooltip.classList.add('hide');
+            showLabel.classList.remove('hide');
+            hideLabel.classList.add('hide');
+        }
+    });
+
+    document.getElementById('toggle-password-confirm').addEventListener('click', function () {
+        var passwordInput = document.getElementById('password-confirm');
+        var showTooltip = document.querySelector('toggle-password-confirm .show-password-tooltip');
+        var hideTooltip = document.querySelector('toggle-password-confirm .hide-password-tooltip');
+        var showLabel = document.querySelector('toggle-password-confirm [data-label="show-password"]');
+        var hideLabel = document.querySelector('toggle-password-confirm [data-label="hide-password"]');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            showTooltip.classList.add('hide');
+            hideTooltip.classList.remove('hide');
+            showLabel.classList.add('hide');
+            hideLabel.classList.remove('hide');
+        } else {
+            passwordInput.type = 'password';
+            showTooltip.classList.remove('hide');
+            hideTooltip.classList.add('hide');
+            showLabel.classList.remove('hide');
+            hideLabel.classList.add('hide');
+        }
+    });
+</script>

@@ -10,9 +10,9 @@
         <script>
             Swal.fire({
                 icon: "success",
-                title: "Confirmation link sent to your mail.",
+                title: "@_resource.GetLocalizedHTML("Confirmation link sent to your mail.")",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 3000
             });
         </script>
     }
@@ -23,9 +23,9 @@
         <script>
             Swal.fire({
                 icon: "success",
-                title: "Confirmation link sent to your mail.",
+                title: "@_resource.GetLocalizedHTML("Confirmation link sent to your mail.")",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 3000
             });
         </script>
     }
@@ -35,9 +35,10 @@
         <script>
             Swal.fire({
                 icon: "success",
-                title: "Mail has been confirmed. Your data has been received and will be processed within 2 to 3 working days.",
+                title: "@_resource.GetLocalizedHTML("Mail has been confirmed")",
+                title: "@_resource.GetLocalizedHTML("Your data has been received and will be processed within 2 to 3 working days.")",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 3000
             });
         </script> 
     }
@@ -47,14 +48,16 @@
         <script>
             Swal.fire({
                 icon: "success",
-                title: "You're now subscribed to our newsletter! Get ready for exclusive updates and offers delivered straight to your inbox.",
+                title: "@_resource.GetLocalizedHTML("Subscribed To Our Newsletter")",
+                text: "@_resource.GetLocalizedHTML("You're now subscribed to our newsletter! Get ready for exclusive updates and offers delivered straight to your inbox.")",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 3000
             });
         </script> 
     }
 }
 
+@inject LanguageService _resource
 
 <main class="main-wrapper">
     <section class="section-header">
@@ -63,28 +66,69 @@
                 <div class="padding-section-large">
                     <div data-w-id="74435718-e294-70a5-abbb-a20428619140" class="header-component">
                         <div id="w-node-e0978962-f58c-abbd-ffae-5cab7525260c-424eed6d" data-w-id="e0978962-f58c-abbd-ffae-5cab7525260c" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;" class="header-content-wrapper">
-                            <div class="sub-heading">Start Your IT Journey</div>
+                            <div class="sub-heading">@_resource.GetLocalizedHTML("Start Your IT Journey")</div>
                             <div class="padding-bottom padding-small"></div>
-                            <h1>Code Your Way To Success!</h1>
+                            <h1>@_resource.GetLocalizedHTML("Code Your Way To Success!")</h1>
                             <div class="padding-bottom padding-small"></div>
                             <p>
-                               Accelerate Your Learning with Our Dynamic Bootcamp Approach.​
+                               @_resource.GetLocalizedHTML("Accelerate Your Learning with Our Dynamic Bootcamp Approach.")
                                 <span class="hide-mobile-landscape">
                                     <br>
-                                </span> Fast-track Your Tech Career with Expert Instruction.​
+                                </span> @_resource.GetLocalizedHTML("Fast-track Your Tech Career with Expert Instruction.​")
                             </p>
                             <div class="padding-bottom padding-medium"></div>
-                            <a href="/courses" class="button w-button">Find Courses</a>
+                            <a href="/courses" class="button w-button">@_resource.GetLocalizedHTML("Find Courses")</a>
                             <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f3589f4fd577878d0e3d18_Vector-3.webp" loading="lazy" width="10" alt="Icon" class="position-absolute is-top-right is-2">
                             <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f3589fba98d30e0ad6edc7_Vector.webp" loading="lazy" width="13.5" alt="Icon" class="position-absolute is-top-right is-1">
                             <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f3589fa511aa54e9ab8d23_Vector-2.webp" loading="lazy" width="10.5" alt="Icon" class="position-absolute is-top-right is-3">
                             <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f3589fba98d30e0ad6edc7_Vector.webp" loading="lazy" width="13.5" alt="Icon" class="position-absolute is-bottom-left">
-                        </div>
+                        </div>  
                         <div class="header-image-wrapper">
                             <img class="header-image" src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63ff1457b65dd1737e766b00_About%20Image%20(2).webp" width="548" alt="a man wearing glasses and headphones" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;" sizes="(max-width: 479px) 100vw, (max-width: 991px) 90vw, 41vw" data-w-id="557afa82-7314-2222-8c0d-971ae1c52b70" loading="eager" srcset="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63ff1457b65dd1737e766b00_About%20Image%20(2)-p-500.webp 500w, https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63ff1457b65dd1737e766b00_About%20Image%20(2)-p-800.webp 800w, https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63ff1457b65dd1737e766b00_About%20Image%20(2).webp 1096w">
-                            <img src="/Assets/imgs/cards/Add a heading.png" loading="lazy" alt="Video Courses" width="222" class="illustration is-top-right" style="will-change: transform; transform: translate3d(0px, -2.428px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                            <img src="/Assets/imgs/cards/Add a subheading.png" loading="lazy" alt="graphical user interface, text, application, chat or text message" width="133" class="illustration is-top-left" style="will-change: transform; transform: translate3d(0px, 1.214px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
-                            <img src="/Assets/imgs/cards/Add a subheading (1).png" loading="lazy" alt="Student Success" width="331" sizes="(max-width: 479px) 100vw, (max-width: 767px) 45vw, 331px" class="illustration is-bottom-left" style="will-change: transform; transform: translate3d(0px, -2.428px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                            
+                            @if (ViewData["Culture"].ToString() == "ru-RU")
+                            {
+                                
+                                <img src="/Assets/imgs/cards/Add a heading (4).png" loading="lazy" alt="Video Courses" width="222" class="illustration is-top-right" style="will-change: transform; transform: translate3d(0px, -2.428px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                            }
+                            else if (ViewData["Culture"].ToString() == "tr-TR")
+                            {
+                                <img src="/Assets/imgs/cards/Add a heading (5).png" loading="lazy" alt="Video Courses" width="222" class="illustration is-top-right" style="will-change: transform; transform: translate3d(0px, -2.428px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                            }
+                            else
+                            {
+                                <img src="/Assets/imgs/cards/Add a heading.png" loading="lazy" alt="Video Courses" width="222" class="illustration is-top-right" style="will-change: transform; transform: translate3d(0px, -2.428px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                            }
+                            
+
+                            @if (ViewData["Culture"].ToString() == "ru-RU")
+                            {
+                                 <img src="/Assets/imgs/cards/Add a subheading (6).png" loading="lazy" alt="graphical user interface, text, application, chat or text message" width="133" class="illustration is-top-left" style="will-change: transform; transform: translate3d(0px, 1.214px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                
+                            }
+                            else if (ViewData["Culture"].ToString() == "tr-TR")
+                            {
+                               <img src="/Assets/imgs/cards/Add a subheading (7).png" loading="lazy" alt="graphical user interface, text, application, chat or text message" width="133" class="illustration is-top-left" style="will-change: transform; transform: translate3d(0px, 1.214px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                            }
+                            else
+                            {
+                                <img src="/Assets/imgs/cards/Add a subheading.png" loading="lazy" alt="graphical user interface, text, application, chat or text message" width="133" class="illustration is-top-left" style="will-change: transform; transform: translate3d(0px, 1.214px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                            }
+
+                            @if (ViewData["Culture"].ToString() == "ru-RU")
+                            {
+                                 
+                                <img src="/Assets/imgs/cards/Add a subheading (4).png" loading="lazy" alt="Student Success" width="331" sizes="(max-width: 479px) 100vw, (max-width: 767px) 45vw, 331px" class="illustration is-bottom-left" style="will-change: transform; transform: translate3d(0px, -2.428px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                            }
+                            else if (ViewData["Culture"].ToString() == "tr-TR")
+                            {
+                               <img src="/Assets/imgs/cards/Add a subheading (5).png" loading="lazy" alt="Student Success" width="331" sizes="(max-width: 479px) 100vw, (max-width: 767px) 45vw, 331px" class="illustration is-bottom-left" style="will-change: transform; transform: translate3d(0px, -2.428px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                            }
+                            else
+                            {
+                                <img src="/Assets/imgs/cards/Add a subheading (1).png" loading="lazy" alt="Student Success" width="331" sizes="(max-width: 479px) 100vw, (max-width: 767px) 45vw, 331px" class="illustration is-bottom-left" style="will-change: transform; transform: translate3d(0px, -2.428px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                            }
+                            
                         </div>
                         <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f3589fca4bd87820f45d3d_Vector-4.webp" loading="lazy" width="29" alt="logo" class="position-absolute is-top-left">
                     </div>
@@ -102,10 +146,10 @@
                         <div data-w-id="ec4dc33d-1b46-fd4c-1243-8ede5f7fb03f" style="-webkit-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0" class="max-width-large align-center">
                             @* <div class="sub-heading">Our Courses</div> *@
                             <div class="padding-bottom padding-xsmall"></div>
-                            <h2>Our Courses</h2>
+                            <h2>@_resource.GetLocalizedHTML("Our Courses")</h2>
                             <div class="padding-bottom padding-small"></div>
                             <p class="text-size-medium">
-                                Explore Our Comprehensive Course Offerings to Unleash Your Potential in the World of IT.​
+                               @_resource.GetLocalizedHTML("Explore Our Comprehensive Course Offerings to Unleash Your Potential in the World of IT.​")
                             </p>
                         </div>
                     </div>
@@ -121,30 +165,63 @@
                                             <div class="courses-card">
                                                 <a href="/courses/single/@course.Id" class="courses-image-link w-inline-block">
                                                     <div class="courses-image-wrapper">
-                                                        @if (course.Template.CourseImageName != null)
-                                                        {
-                                                            <img src="@Model.BaseUrl/@course.Template.CourseImagePathOrContainer/@course.Template.CourseImageName" loading="lazy" alt="@course.Template.CourseImageName" sizes="(max-width: 479px) 100vw, (max-width: 767px) 83vw, (max-width: 991px) 39vw, 25vw" class="courses-image" />
-                                                        }
-                                                        else
-                                                        {
-                                                            <img src="https://assets.website-files.com/63f3212748a58b8bb6c65a69/63f3871e516ae55b20a43e84_Image.png" loading="lazy" alt="Learn Figma to Webflow " sizes="(max-width: 479px) 100vw, (max-width: 767px) 83vw, (max-width: 991px) 39vw, 25vw" srcset="https://assets.website-files.com/63f3212748a58b8bb6c65a69/63f3871e516ae55b20a43e84_Image-p-500.png 500w, https://assets.website-files.com/63f3212748a58b8bb6c65a69/63f3871e516ae55b20a43e84_Image.png 746w" class="courses-image" />
-                                                        }
+                                                        <img src="@Model.BaseUrl/@course.Template.CourseImagePathOrContainer/@course.Template.CourseImageName" loading="lazy" alt="@course.Template.CourseImageName" sizes="(max-width: 479px) 100vw, (max-width: 767px) 83vw, (max-width: 991px) 39vw, 25vw" class="courses-image" />
                                                     </div>
                                                 </a>
                                                 <div class="courses-item-content">
                                                     <div class="courses-item-content-top">
                                                         <a href="/courses/single/@course.Id" class="courses-category-link w-inline-block">
-                                                            <div>@course.Category.Content</div>
+                                                            @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(course.Category.ContentRu))
+                                                            {
+                                                                <div>@course.Category.ContentRu</div>
+                                                            }
+                                                            else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(course.Category.ContentTr))
+                                                            {
+                                                                <div>@course.Category.ContentTr</div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div>@course.Category.Content</div>
+                                                            }
                                                         </a>
                                                         <a href="/courses/single/@course.Id" class="courses-title-link w-inline-block">
-                                                            <h3 class="heading-style-h5">@course.Title</h3>
+                                                            <h3 class="heading-style-h5">
+                                                                @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(course.TitleRu))
+                                                                {
+                                                                    @course.TitleRu
+                                                                }
+                                                                else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(course.TitleTr))
+                                                                {
+                                                                    @course.TitleTr
+                                                                }
+                                                                else
+                                                                {
+                                                                    @course.Title
+                                                                }
+                                                            </h3>
                                                         </a>
-                                                        <div class="text-size-regular">@(course.Template.Description.Length > 150 ? $"{course.Template.Description.Substring(0, 150)}..." : course.Template.Description)</div>
+                                                        <div class="text-size-regular">
+                                                            @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(course.Template.DescriptionRu))
+                                                            {
+                                                                @(course.Template.DescriptionRu.Length > 150 ? $"{course.Template.DescriptionRu.Substring(0, 150)}..." : course.Template.Description)
+                                                            }
+                                                            else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(course.Template.DescriptionTr))
+                                                            {
+                                                                @(course.Template.DescriptionTr.Length > 150 ? $"{course.Template.DescriptionTr.Substring(0, 150)}..." : course.Template.Description)
+                                                            }
+                                                            else
+                                                            {
+                                                                @(course.Template.Description.Length > 150 ? $"{course.Template.Description.Substring(0, 150)}..." : course.Template.Description)
+                                                            }
+
+                                                            </div>
                                                     </div>
                                                     <div class="course-content-bottom">
                                                         <div></div>
                                                         <div>
-                                                            <a href="/courses/single/@course.Id" class="button is-secondary w-button">View Course</a>
+                                                            <a href="/courses/single/@course.Id" class="button is-secondary w-button">
+                                                                @_resource.GetLocalizedHTML("View Course")
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -158,7 +235,7 @@
                         </div>
                         <div class="padding-bottom padding-large"></div>
                         <div data-w-id="cd51be81-9c15-dc56-2db8-57cefb0dd0c6" style="-webkit-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0" class="button-group is-center">
-                            <a href="/courses" class="button is-secondary w-button">Explore All Courses</a>
+                            <a href="/courses" class="button is-secondary w-button">@_resource.GetLocalizedHTML("Explore All Courses")</a>
                         </div>
                     </div>
                 </div>
@@ -166,54 +243,15 @@
         </div>
     </section>
 
-    <div class="feature-wrapper">
-        <div class="section-divider"></div>
-        <section class="section-feature">
-            <div class="padding-global">
-                <div class="container-large">
-                    <div class="padding-section-large">
-                        <div class="w-layout-grid feature-component">
-                            <div data-w-id="504d7997-8114-e847-0856-1ae85e46bd84" class="feature-content" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
-                                <h2>How we help you to land your dream job in coding</h2>
-                                <div class="padding-bottom padding-small"></div>
-                                <p class="text-size-regular">If you find yourself dissatisfied with your current job or income, whether you're an Uber driver, waiter, or freelancer, and dream of doubling or tripling your salary, we specialize in guiding individuals without degrees or IT backgrounds towards high-paying careers in the IT industry.</p>
-                                <div class="padding-bottom padding-large"></div>
-                                <div class="feature-list-wrapper">
-                                    @if (Model.Abouts != null && Model.Abouts.Count() > 0)
-                                    {
-                                        @foreach(var about in Model.Abouts)
-                                        {
-                                            <div class="feature-item">
-                                                <div class="feature-item-icon-wrapper">
-                                                    <img src="/Assets/imgs/icons/check.png" loading="lazy" width="16" alt="Icon">
-                                                </div>
-                                                <div class="text-weight-bold text-size-xsmall">@about.Content</div>
-                                            </div>
-
-                                        }
-                                    }
-                                </div>
-                            </div>
-                            <div id="w-node-_504d7997-8114-e847-0856-1ae85e46bd9b-5e46bd7d" class="feature-image-wrapper">
-                                <img src="/Assets/imgs/cards/Add a subheading (3).png" loading="lazy" data-w-id="504d7997-8114-e847-0856-1ae85e46bd9c" width="624" sizes="(max-width: 479px) 100vw, (max-width: 991px) 90vw, 42vw" alt="Our Student Success" class="feature-image z-index-2" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
-                                <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f4beb6da7598008cca277e_Group%202.webp" loading="lazy" width="154.5" data-w-id="504d7997-8114-e847-0856-1ae85e46bd9d" alt="a black and white image of a black background with white dots" class="illustration is-top-left is-feature" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
-                                <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f4beb6da7598008cca277e_Group%202.webp" loading="lazy" width="154.5" data-w-id="504d7997-8114-e847-0856-1ae85e46bd9e" alt="a black and white image of a black background with white dots" class="illustration is-bottom-right" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="section-divider is-bottom"></div>
-    </div>
+    @await Component.InvokeAsync("About")
 
     <div class="is-layout-flow wp-block-group width1200 mt-60 mb-60" bis_skin_checked="1">
         <div class="text-align-center">
             <div data-w-id="ec4dc33d-1b46-fd4c-1243-8ede5f7fb03f" style="-webkit-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0" class="max-width-large align-center">
                 <div class="padding-bottom padding-xsmall"></div>
-                <h2>Your Career Pathway</h2>
+                <h2>@_resource.GetLocalizedHTML("Your Career Pathway")</h2>
                 <hr class="wp-block-separator has-css-opacity style-small blue bold bold-wide">
-                <p class="text-size-medium">Advance Your Career Across IT Fields with Ease.​</p>
+                <p class="text-size-medium">@_resource.GetLocalizedHTML("Advance Your Career Across IT Fields with Ease.")</p>
             </div>
         </div>
 
@@ -233,13 +271,13 @@
 
                 <div class="pathway-block__col" bis_skin_checked="1">
                     <h2>€‎35K</h2>
-                    <h4>Average starting salary</h4>
-                    <h3>Types of Entry Level Roles</h3>
+                    <h4>@_resource.GetLocalizedHTML("Average starting salary")</h4>
+                    <h3>@_resource.GetLocalizedHTML("Types of Entry Level Roles")</h3>
                     <div class="pathway-block__list" bis_skin_checked="1">
-                        <div bis_skin_checked="1">Tech/Dev Support</div>
-                        <div bis_skin_checked="1">Jnr Full-Stack Developer</div>
-                        <div bis_skin_checked="1">Q/A Tester</div>
-                        <div bis_skin_checked="1">Front End Developer</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("QA Engineer")</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("Jnr Full-Stack Developer")</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("Junior Python Developer")</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("Front End Developer")</div>
                     </div>
                 </div>
                 <svg class="pathway-block__arrow arrow-1" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
@@ -251,13 +289,13 @@
 
                 <div class="pathway-block__col middle__col" bis_skin_checked="1">
                     <h2>€‎55K</h2>
-                    <h4>Average salary with 3-5 years experience</h4>
-                    <h3>Types of Mid-Senior Roles</h3>
+                    <h4>@_resource.GetLocalizedHTML("Average salary with 3-5 years experience")</h4>
+                    <h3>@_resource.GetLocalizedHTML("Types of Mid-Senior Roles")</h3>
                     <div class="pathway-block__list" bis_skin_checked="1">
-                        <div bis_skin_checked="1">Full-Stack Developer</div>
-                        <div bis_skin_checked="1">Python Developer</div>
-                        <div bis_skin_checked="1">.net Developer</div>
-                        <div bis_skin_checked="1">Senior Technical Support</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("Full-Stack Developer")</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("Python Developer")</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("Java Developer")</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("Senior QA Engineer")</div>
                     </div>
                 </div>
                 <svg class="pathway-block__arrow arrow-2" xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
@@ -269,13 +307,13 @@
 
                 <div class="pathway-block__col" bis_skin_checked="1">
                     <h2>+€‎70K</h2>
-                    <h4>With +5 years experience</h4>
-                    <h3>Types of Senior Roles</h3>
+                    <h4>@_resource.GetLocalizedHTML("With +5 years experience")</h4>
+                    <h3>@_resource.GetLocalizedHTML("Types of Senior Roles")</h3>
                     <div class="pathway-block__list" bis_skin_checked="1">
-                        <div bis_skin_checked="1">Senior Software Developer</div>
-                        <div bis_skin_checked="1">Software Developer Manager</div>
-                        <div bis_skin_checked="1">Data Analyst</div>
-                        <div bis_skin_checked="1">IT Architect</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("Senior Software Developer")</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("Software Developer Manager")</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("QA Manager")</div>
+                        <div bis_skin_checked="1">@_resource.GetLocalizedHTML("Senior Full-Stack Developer")</div>
                     </div>
                 </div>
             </div>
@@ -291,11 +329,11 @@
                             @* <div class="sub-heading">Team Members</div> *@
                             <div class="padding-bottom padding-xsmall"></div>
                             <h2>
-                                Our Expert <span class="text-color-primary">Instructors</span>
+                                @_resource.GetLocalizedHTML("Our Expert") <span class="text-color-primary">@_resource.GetLocalizedHTML("Instructors")</span>
                             </h2>
                             <div class="padding-bottom padding-small"></div>
                             <p>
-                                They understand the journey of starting in IT from scratch. Through dedication and effort, they acquired the skills necessary to secure remarkable positions in the industry. Now, they're here to support you in achieving the same success.​​
+                                @_resource.GetLocalizedHTML("They understand the journey of starting in IT from scratch. Through dedication and effort, they acquired the skills necessary to secure remarkable positions in the industry. Now, they're here to support you in achieving the same success.​​")
                             </p>
                         </div>
                     </div>
@@ -341,82 +379,39 @@
                     </div>
                     <div class="padding-bottom padding-large"></div>
                     <div data-w-id="09ae8959-c07d-e57d-3d5a-43100f8ace04" style="opacity: 0; transform: translate3d(0px, 60px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;" class="button-group is-center">
-                        <a href="/instructors" class="button is-secondary w-button">See All Instructors</a>
+                        <a href="/instructors" class="button is-secondary w-button">@_resource.GetLocalizedHTML("See All Instructors")</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section-faq">
-        <div class="padding-global">
-            <div class="container-small">
-                <div class="padding-section-large">
-                    <div class="text-align-center">
-                        <div data-w-id="d48ee730-c8a5-4405-d9ed-29b2beba958d" class="max-width-large align-center">
-                            @* <div class="sub-heading">FAQ</div> *@
-                            <div class="padding-bottom padding-xsmall"></div>
-                            <h2>Frequently Asked Questions</h2>
-                            <div class="padding-bottom padding-small"></div>
-                            <p>
-                                Find answers to common queries about our
-                                <span class="hide-mobile-landscape">
-                                    <br />
-                                </span>
-                                courses and programs
-                            </p>
-                        </div>
-                    </div>
-                    <div class="padding-bottom padding-xxlarge"></div>
-                    <div data-w-id="d48ee730-c8a5-4405-d9ed-29b2beba959a" class="faq-component">
-                        <div class="w-layout-grid faq-list">
-                            @if(Model.Faqs != null && Model.Faqs.Count() > 0)
-                            {
-                                @foreach(var faq in Model.Faqs)
-                                {
-                                    <div class="faq-accordion">
-                                        <div class="faq-question">
-                                            <div class="faq-text-wrapper">
-                                                <div class="faq-icon-wrapper">
-                                                    <div class="faq-icon is-left"></div>
-                                                    <div class="faq-icon"></div>
-                                                </div>
-                                                <div class="text-weight-bold text-size-medium">@faq.Question</div>
-                                            </div>
-                                            <div class="faq-shape"></div>
-                                        </div>
-                                        <div class="faq-answer">
-                                            <p>@faq.Answer</p>
-                                            <div class="padding-bottom padding-small"></div>
-                                        </div>
-                                    </div>
-                                }
-                            }
-                            
-                        </div>
-                    </div>
-                    <div class="padding-bottom padding-xxlarge"></div>
-                    <div data-w-id="d48ee730-c8a5-4405-d9ed-29b2beba95dd" class="faq-bottom-wrapper">
-                        <div class="text-align-center">
-                            <div class="max-width-medium align-center">
-                                <h3 class="heading-style-h6">Still have questions?</h3>
-                                <div class="padding-bottom padding-xsmall"></div>
-                                @* <p class="text-size-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>*@
-                                <div class="padding-bottom padding-small"></div> 
-                            </div>
-                            <div class="button-group is-center">
-                                <a href="/contact" class="button w-button">Contact Us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    @await Component.InvokeAsync("Faq")
 
-@*     <section class="section-brand">
-        <div class="padding-global" bis_skin_checked="1"><div class="container-large" bis_skin_checked="1"><div class="padding-section-small" bis_skin_checked="1"><div class="text-align-center" bis_skin_checked="1"><h2 class="heading-style-h6">Get in touch with the 250+ companies who Collaboration us</h2><div class="padding-bottom padding-large" bis_skin_checked="1"></div></div><div class="brand-component" bis_skin_checked="1"><img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63ede6f89029ff60370e012a_Logo-1.webp" loading="lazy" alt="Logo" data-w-id="eebefcd3-44a4-54f1-fad5-8b85f631e41f" class="brand-logo" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;"><img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63ede6f89029ff78e40e0126_Logo-2.webp" loading="lazy" alt="Logo" data-w-id="eebefcd3-44a4-54f1-fad5-8b85f631e420" class="brand-logo" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;"><img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63ede6f89029ff6e560e012c_Logo-3.webp" loading="lazy" alt="Logo" data-w-id="eebefcd3-44a4-54f1-fad5-8b85f631e421" class="brand-logo" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;"><img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63ede6f89029ff7b3a0e012e_Vertigo-Color%201.webp" loading="lazy" alt="Logo" data-w-id="eebefcd3-44a4-54f1-fad5-8b85f631e422" class="brand-logo" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;"><img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63ede6f89029ff28c60e0128_logo.webp" loading="lazy" alt="Logo" data-w-id="eebefcd3-44a4-54f1-fad5-8b85f631e423" class="brand-logo" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;"></div></div></div></div>
-    </section> *@
+    <section class="section-brand">
+
+    @if(Model.Corporates.Items.Any()){
+   <div class="padding-global" bis_skin_checked="1">
+      <div class="container-large" bis_skin_checked="1">
+         <div class="padding-section-small" bis_skin_checked="1">
+            <div class="text-align-center" bis_skin_checked="1">
+               <h2 class="heading-style-h6">@_resource.GetLocalizedHTML("Our Corporate Collaborators")</h2>
+               <div class="padding-bottom padding-large" bis_skin_checked="1"></div>
+            </div>
+            <div class="brand-component" bis_skin_checked="1">
+                @foreach(var item in Model.Corporates.Items)
+                {
+                    <img src="@Model.BaseUrl/@item.LogoPath/@item.LogoName" loading="lazy" alt="Logo" data-w-id="eebefcd3-44a4-54f1-fad5-8b85f631e41f" class="brand-logo" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                }
+               
+            </div>
+         </div>
+      </div>
+   </div>
+
+    }   
+
+</section>
 
     <section class="instructor__area-two">
 
@@ -427,14 +422,14 @@
                     <div data-w-id="d48ee730-c8a5-4405-d9ed-29b2beba958d" class="max-width-large align-center">
                         @* <div class="sub-heading">How We Start Journey</div> *@
                         <div class="padding-bottom padding-xsmall"></div>
-                        <h2>Begin Your Teaching or Learning Journey Today!</h2>
+                        <h2>@_resource.GetLocalizedHTML("Begin Your Teaching or Learning Journey Today!")</h2>
                         <div class="padding-bottom padding-small"></div>
                         <p>
-                            Join Our Platform for Seamless Team Collaboration,
+                            @_resource.GetLocalizedHTML("Join Our Platform for Seamless Team Collaboration"),
                             <span class="hide-mobile-landscape">
                                 <br />
                             </span>
-                             Whether You're Applying to Teach or Enrolling as a Student.​
+                             @_resource.GetLocalizedHTML("Whether You're Applying to Teach or Enrolling as a Student.​")
                         </p>
                     </div>
                 </div>
@@ -461,13 +456,13 @@
                                     </div>
                                 </div>
                                 <div class="instructor__content-two" bis_skin_checked="1">
-                                    <h3 class="title"><a href="/Auth/Instructor/Apply">Become an Instructor</a></h3>
+                                    <h3 class="title"><a href="/Auth/Instructor/Apply">@_resource.GetLocalizedHTML("Become an Instructor")</a></h3>
                                     <p>
-                                        If you're an experienced IT instructor, we invite you to join our team and share your expertise with us.​
+                                        @_resource.GetLocalizedHTML("If you're an experienced IT instructor, we invite you to join our team and share your expertise with us.​​")
                                     ​</p>
                                     <div class="tg-button-wrap" bis_skin_checked="1">
                                         <a href="/Auth/Instructor/Apply" class="btn arrow-btn">
-                                            Apply Now
+                                            @_resource.GetLocalizedHTML("Apply Now")
                                             <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg" data-inject-url="https://themegenix.com/demo/skillgro/assets/img/icons/right_arrow.svg" class="injectable">
                                                 <path d="M1 7L15 7M15 7L9 1M15 7L9 13" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                                                 <path d="M1 7L15 7M15 7L9 1M15 7L9 13" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -497,11 +492,13 @@
                                     </div>
                                 </div>
                                 <div class="instructor__content-two" bis_skin_checked="1">
-                                    <h3 class="title"><a href="/Auth/Student/Apply">Become a Student</a></h3>
-                                    <p>Join our worldwide learning community as we dive into online education together.</p>
+                                    <h3 class="title"><a href="/Auth/Student/Apply">@_resource.GetLocalizedHTML("Become a Student")</a></h3>
+                                    <p>
+                                        @_resource.GetLocalizedHTML("Join our worldwide learning community as we dive into online education together.")
+                                        </p>
                                     <div class="tg-button-wrap" bis_skin_checked="1">
                                         <a href="/Auth/Student/Apply" class="btn arrow-btn">
-                                            Apply Now
+                                            @_resource.GetLocalizedHTML("Apply Now")
                                             <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg" data-inject-url="https://themegenix.com/demo/skillgro/assets/img/icons/right_arrow.svg" class="injectable">
                                                 <path d="M1 7L15 7M15 7L9 1M15 7L9 13" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                                                 <path d="M1 7L15 7M15 7L9 1M15 7L9 13" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>

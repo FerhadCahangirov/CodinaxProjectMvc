@@ -8,9 +8,14 @@ namespace CodinaxProjectMvc.ViewModel.TemplateVm
         public Guid TemplateId { get; set; }
 
         [Required(ErrorMessage = "Content is required.")]
-        [StringLength(100, ErrorMessage = "Content cannot be longer than 100 characters.")]
         [Display(Name = "Course Content")]
         public string? Content { get; set; }
+
+        [Display(Name = "Course Content Translate To Russian")]
+        public string? ContentRu { get; set; }
+
+        [Display(Name = "Course Content Translate To Turkish")]
+        public string? ContentTr { get; set; }
 
         [Required(ErrorMessage = "Icon is required.")]
         [DataType(DataType.Upload)]

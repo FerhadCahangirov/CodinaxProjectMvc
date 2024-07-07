@@ -11,15 +11,18 @@ using CodinaxProjectMvc.Managers;
 using CodinaxProjectMvc.Managers.Abstract;
 using CodinaxProjectMvc.Policies;
 using CodinaxProjectMvc.Registrations;
+using CodinaxProjectMvc.Resources;
 using Grpc.Core;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,12 +73,36 @@ builder.Services.Configure<FormOptions>(options =>
     options.MultipartBodyLengthLimit = 3000000000;
 });
 
+builder.Services.AddLocalization(options =>
+{
+    options.ResourcesPath = "Resources";
+});
+
+const string defaultCulture = "en-US";
+
+var supportedCultures = new[]
+{
+    new CultureInfo(defaultCulture),
+    new CultureInfo("ru-RU"),
+    new CultureInfo("tr-TR"),
+};
+
+builder.Services.Configure<RequestLocalizationOptions>(options => {
+    options.DefaultRequestCulture = new RequestCulture(defaultCulture);
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+
+    options.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
+});
+
 builder.Services.AddScoped<IAzureStorage, AzureStorage>();
 builder.Services.AddScoped<IMailSender, MailSender>();
 
 //builder.Services.AddProtectedBrowserStorage();
 
 builder.Services.AddRazorPages();
+
+builder.Services.AddSingleton<LanguageService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -109,7 +136,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy(PolicyConstants.AuthRequiredPolicy, policy => policy.RequireAuthenticatedUser());
     options.AddPolicy(PolicyConstants.NotAuthRequiredPolicy, policy => policy.RequireAssertion(context => !context.User.Identity.IsAuthenticated));
 });
-
+    
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
@@ -119,8 +146,10 @@ builder.Services.AddPersistenceServices();
 
 builder.Services.AddScoped<PropertyAccessCourseFilter>();
 builder.Services.AddScoped<EventViewFilter>();
+builder.Services.AddScoped<CurrentLangFilter>();
 
 var app = builder.Build();
+
 
 using (var service = app.Services.CreateScope())
 {
@@ -158,6 +187,9 @@ app.UseExceptionHandler("/Home/Error");
 app.UseStaticFiles();
 
 app.UseRouting();
+
+var localizationService = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
+app.UseRequestLocalization(localizationService.Value);
 
 app.UseAuthentication();
 app.UseAuthorization();

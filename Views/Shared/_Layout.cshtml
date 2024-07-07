@@ -3,6 +3,7 @@
 @using CodinaxProjectMvc.Enums
 @inject CodinaxDbContext _db
 @inject UserManager<AppUser> _userManager
+@inject LanguageService _resource
 
 <!DOCTYPE html>
 
@@ -20,7 +21,10 @@
 
 <head>
 
-    <style>.wf-force-outline-none[tabindex="-1"]:focus{outline:none;}</style>
+    <style>
+        .wf-force-outline-none[tabindex="-1"]:focus {
+            outline: none;
+        }</style>
 
     <meta charset="utf-8" />
     <title>Codinax</title>
@@ -44,6 +48,11 @@
 
     <link href="~/Assets/css/styleAddv4.css" rel="stylesheet" type="text/css" />
     <link href="~/Assets/css/stylev5.css" rel="stylesheet" type="text/css" />
+
+    <link rel="icon" type="image/x-icon" href="/Assets/imgs/logos/X.png">
+
+    <meta name="author" content="Farhad Jahangirov">
+    <meta name="description" content="Join Codinax online courses to master web development, coding, and programming. Learn from expert instructors, access interactive lessons, and enhance your skills from anywhere. Enroll today and start your journey to becoming a coding pro!">
 
 
     @if (isAboutPage)
@@ -118,13 +127,13 @@
                      class="navbar-menu w-nav-menu">
                     <ul role="list" class="navbar-menu-list w-list-unstyled">
                         <li class="navbar-menu-list-item">
-                            <a href="/" aria-current="page" class="navbar-link w-nav-link w--current">Home</a>
+                            <a href="/" aria-current="page" class="navbar-link w-nav-link w--current">@_resource.GetLocalizedHTML("Home")</a>
                         </li>
                         <li class="navbar-menu-list-item">
-                            <a href="/about" class="navbar-link w-nav-link">About</a>
+                            <a href="/about" class="navbar-link w-nav-link">@_resource.GetLocalizedHTML("About")</a>
                         </li>
                         <li class="navbar-menu-list-item">
-                            <a href="/instructors" class="navbar-link w-nav-link">Instructors</a>
+                            <a href="/instructors" class="navbar-link w-nav-link">@_resource.GetLocalizedHTML("Instructors")</a>
                         </li>
                         <li class="navbar-menu-list-item">
                             <div data-hover="true" data-delay="100" data-w-id="5441af1a-239e-4a2e-731a-e34d719bd787" class="navbar-menu-dropdown w-dropdown" bis_skin_checked="1" style="">
@@ -133,14 +142,14 @@
                                         <svg width=" 100%" height=" 100%" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M2.55806 6.29544C2.46043 6.19781 2.46043 6.03952 2.55806 5.94189L3.44195 5.058C3.53958 4.96037 3.69787 4.96037 3.7955 5.058L8.00001 9.26251L12.2045 5.058C12.3021 4.96037 12.4604 4.96037 12.5581 5.058L13.4419 5.94189C13.5396 6.03952 13.5396 6.19781 13.4419 6.29544L8.17678 11.5606C8.07915 11.6582 7.92086 11.6582 7.82323 11.5606L2.55806 6.29544Z" fill="currentColor"></path>
                                         </svg>
-                                    </div><a bis_skin_checked="1" href="/courses" class="navbar-link w-nav-link" style="padding: 0;">Courses</a>
+                                    </div><a bis_skin_checked="1" href="/courses" class="navbar-link w-nav-link" style="padding: 0;">@_resource.GetLocalizedHTML("Courses")</a>
                                 </div>
                                 <nav class="navbar-dropdown-list w-dropdown-list" style="opacity: 0;" id="w-dropdown-list-0" aria-labelledby="w-dropdown-toggle-0">
                                     <div class="navbar-dropdown-container" bis_skin_checked="1">
                                         <div class="navbar-dropdown-link-list-wrapper" bis_skin_checked="1">
                                             <div class="navbar-dropdown-link-list" bis_skin_checked="1">
                                                 <div class="navbar-dropdown-link-text-wrapper" bis_skin_checked="1">
-                                                    <div id="w-node-_5441af1a-239e-4a2e-731a-e34d719bd791-a90c4497" class="text-weight-bold text-size-medium" bis_skin_checked="1">Courses</div>
+                                                    <div id="w-node-_5441af1a-239e-4a2e-731a-e34d719bd791-a90c4497" class="text-weight-bold text-size-medium" bis_skin_checked="1">@_resource.GetLocalizedHTML("Courses")</div>
                                                 </div>
                                                 <div class="flex__col">
                                                     @foreach (var course in _db.Courses.Where(QueryFilters.CoursesLayoutFilter()).OrderBy(OrderFilters.ByTitle).ToList())
@@ -155,290 +164,282 @@
                             </div>
                         </li>
                         <li class="navbar-menu-list-item">
-                            <a href="/contact" class="navbar-link w-nav-link">Contact</a>
+                            <a href="/contact" class="navbar-link w-nav-link">@_resource.GetLocalizedHTML("Contact")</a>
                         </li>
                         <li class="navbar-menu-list-item">
-                            <a href="/corporate" class="navbar-link w-nav-link">Corporate</a>
+                            <a href="/corporate" class="navbar-link w-nav-link">@_resource.GetLocalizedHTML("Corporate")</a>
                         </li>
 
                     </ul>
                 </nav>
 
-                @* <div id="w-node-_77e258c2-7a70-70ca-cbe1-8b29a90c44ac-a90c4497" class="navbar-button-wrapper">
+                <div id="w-node-_77e258c2-7a70-70ca-cbe1-8b29a90c44ac-a90c4497" class="navbar-button-wrapper">
 
-                <div class="containerr">
-                <div class="dropdown">
-                <div class="dropdown__skeleton">
-                <label>Language</label>
-
-                <div class="dropdown__selected dropdown__option">
-                <img src="/Assets/imgs/vectors/united-kingdom.png" class="dropdown-img" alt="english" />
-                <span>English</span>
-                </div>
-
-                <div class="dropdown__arrow"></div>
-                </div>
-
-                <div class="dropdown__options">
-                <div class="dropdown__option dropdown__option--selected">
-                <img src="/Assets/imgs/vectors/united-kingdom.png" class="dropdown-img" alt="english" />
-                <span>English</span>
-                </div>
-
-                <div class="dropdown__option ">
-                <img src="/Assets/imgs/vectors/azerbaijan.png" class="dropdown-img" alt="azerbaijan" />
-                <span>Azerbaijan</span>
-                </div>
-
-                <div class="dropdown__option">
-                <img src="/Assets/imgs/vectors/russia.png" class="dropdown-img" alt="russia" />
-                <span>Russian</span>
-                </div>
-
-                <div class="dropdown__option">
-                <img src="/Assets/imgs/vectors/turkey.png" class="dropdown-img" alt="turkey" />
-                <span>Turkish</span>
-                </div>
-                </div>
-                </div>
-                </div> *@
-
-                <div style="display: flex; gap: 14px;">
-
-
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        if (User.IsInRole(Roles.Admin.ToString()))
-                        {
-                            <a href="/Admin/Instructors" class="button is-navbar w-button">
-                                Admin <i class="fa-solid fa-hat-cowboy" style="margin-left: 10px;"></i>
-                            </a>
-
-                            <a href="/Auth/Logout" class="button is-navbar w-button">
-                                Logout <i class="fa-solid fa-right-from-bracket" style="margin-left: 10px;"></i>
-                            </a>
-                        }
-                        else if (User.IsInRole(Roles.Instructor.ToString()))
-                        {
-
-                            <a href="/Instructor/Courses" class="button is-navbar w-button">Instructor Cabin <i class="fa-solid fa-chalkboard-user" style="margin-left: 10px;"></i></a>
-
-                            <a href="/Auth/Logout" class="button is-navbar w-button">
-                                Logout <i class="fa-solid fa-right-from-bracket" style="margin-left: 10px;"></i>
-                            </a>
-                        }
-                        else if (User.IsInRole(Roles.Student.ToString()))
-                        {
-                            <a href="/Student/Courses" class="button is-navbar w-button">Student Cabin <i class="fa-solid fa-graduation-cap" style="margin-left: 10px;"></i></a>
-
-                            <a href="/Auth/Logout" class="button is-navbar w-button">
-                                Logout <i class="fa-solid fa-right-from-bracket" style="margin-left: 10px;"></i>
-                            </a>
-                        }
-                    }
-                    else
-                    {
-                        <a href="/Auth/Student/Apply" class="button is-navbar w-button active">Apply Now</a>
-
-                        <a href="/Auth/Login" class="button is-navbar w-button">Login <i class="fa-solid fa-right-to-bracket" style="margin-left: 10px;"></i></a>
-                    }
-
-                </div>
-
-
-
-                <div data-w-id="77e258c2-7a70-70ca-cbe1-8b29a90c44af" class="navbar-menu-button w-nav-button">
-                    <div class="menu-icon">
-                        <div class="menu-icon-line-top"></div>
-                        <div class="menu-icon-line-middle">
-                            <div class="menu-icon-line-middle-inner"></div>
+                    <div class="containerr">
+                        <div class="dropdown">
+                            <div class="dropdown__skeleton">
+                                <label>Languages</label>
+                                <div class="dropdown__selected dropdown__option">
+                                    <img src="@ViewData["Img"]" class="dropdown-img" alt="turkey" />
+                                    <span>@ViewData["Txt"]</span>
+                                </div>
+                                <div class="dropdown__arrow"></div>
+                            </div>
+                            <div class="dropdown__options">
+                                <a class="dropdown__option @(ViewData["Culture"] == "en-US" ? "dropdown__option--selected" : "")" href="/Home/ChangeLang?culture=en-US">
+                                    <img src="/Assets/imgs/vectors/united-kingdom.png" class="dropdown-img" alt="english" />
+                                    <span>English</span>
+                                </a>
+                                @*
+                                <div class="dropdown__option ">
+                                <img src="/Assets/imgs/vectors/azerbaijan.png" class="dropdown-img" alt="azerbaijan" />
+                                <span>Azerbaijan</span>
+                                </div>
+                                *@
+                                <a class="dropdown__option @(ViewData["Culture"] == "ru-RU" ? "dropdown__option--selected" : "")" href="/Home/ChangeLang?culture=ru-RU">
+                                    <img src="/Assets/imgs/vectors/russia.png" class="dropdown-img" alt="russia" />
+                                    <span>Russian</span>
+                                </a>
+                                <a class="dropdown__option @(ViewData["Culture"] == "tr-TR" ? "dropdown__option--selected" : "")" href="/Home/ChangeLang?culture=tr-TR">
+                                    <img src="/Assets/imgs/vectors/turkey.png" class="dropdown-img" alt="turkey" />
+                                    <span>Turkish</span>
+                                </a>
+                            </div>
                         </div>
-                        <div class="menu-icon-line-bottom"></div>
+                    </div>
+
+                    <div style="display: flex; gap: 14px;">
+
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole(Roles.Admin.ToString()))
+                            {
+                                <a href="/Admin/Instructors" class="button is-navbar w-button">
+                                    <span>Admin</span> <i class="fa-solid fa-hat-cowboy"></i>
+                                </a>
+
+                                <a href="/Auth/Logout" class="button is-navbar w-button">
+                                    <span> Logout</span> <i class="fa-solid fa-right-from-bracket"></i>
+                                </a>
+                            }
+                            else if (User.IsInRole(Roles.Instructor.ToString()))
+                            {
+
+                                <a href="/Instructor/Courses" class="button is-navbar w-button"><span>Instructor Cabin </span><i class="fa-solid fa-chalkboard-user"></i></a>
+
+                                <a href="/Auth/Logout" class="button is-navbar w-button">
+                                    <span>Logout</span> <i class="fa-solid fa-right-from-bracket"></i>
+                                </a>
+                            }
+                            else if (User.IsInRole(Roles.Student.ToString()))
+                            {
+                                <a href="/Student/Applications" class="button is-navbar w-button"><span>Student Cabin</span> <i class="fa-solid fa-graduation-cap"></i></a>
+
+                                <a href="/Auth/Logout" class="button is-navbar w-button">
+                                    <span>Logout</span> <i class="fa-solid fa-right-from-bracket"></i>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <a href="/Auth/Student/Apply" class="button is-navbar w-button active">@_resource.GetLocalizedHTML("Apply Now")</a>
+
+                            <a href="/Auth/Login" class="button is-navbar w-button"><span>Login</span> <i class="fa-solid fa-right-to-bracket"></i></a>
+                        }
+
+                    </div>
+
+
+                    <div data-w-id="77e258c2-7a70-70ca-cbe1-8b29a90c44af" class="navbar-menu-button w-nav-button">
+                        <div class="menu-icon">
+                            <div class="menu-icon-line-top"></div>
+                            <div class="menu-icon-line-middle">
+                                <div class="menu-icon-line-middle-inner"></div>
+                            </div>
+                            <div class="menu-icon-line-bottom"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    @RenderBody()
+        @RenderBody()
 
-    <footer class="footer-component">
-        <div class="padding-global">
-            <div class="container-large">
-                <div class="padding-section-large">
-                    <div class="w-layout-grid footer-top-wrapper">
-                        <div class="w-layout-grid footer-left-wrapper">
-                            <div data-w-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda16" class="footer-left-content">
-                                <a href="/" id="w-node-ba7683ee-e01e-b9cd-93f7-a61ec12eda17-c12eda10"
-                                   aria-current="page" class="footer-logo-link w-nav-brand w--current">
-                                    <img src="/Assets/imgs/logos/CODINAX ( white ).png"
-                                         loading="lazy" width="Auto" alt="Logo Footer" />
-                                </a>
-                                <p class="text-color-white">
-                                    Follow us on social media for the latest updates and special content.​
-                                </p>
-                                <div class="w-layout-grid footer-social-list">
-                                    <a href="https://youtube.com/@@CodinaxAcademy?si=WgRPySkkqVU_PHFJ" target="_blank"
-                                       class="footer-social-link w-inline-block">
-                                        <div class="social-icon w-embed">
-                                            <i class="fa-brands fa-youtube" style="font-size: 22px"></i>
-                                        </div>
+        <footer class="footer-component">
+            <div class="padding-global">
+                <div class="container-large">
+                    <div class="padding-section-large">
+                        <div class="w-layout-grid footer-top-wrapper">
+                            <div class="w-layout-grid footer-left-wrapper">
+                                <div data-w-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda16" class="footer-left-content">
+                                    <a href="/" id="w-node-ba7683ee-e01e-b9cd-93f7-a61ec12eda17-c12eda10"
+                                       aria-current="page" class="footer-logo-link w-nav-brand w--current">
+                                        <img src="/Assets/imgs/logos/CODINAX ( white ).png"
+                                             loading="lazy" width="Auto" alt="Logo Footer" />
                                     </a>
-                                    <a href="https://www.tiktok.com/@@codinax?_t=8lxiGpRQJkn&_r=1" target="_blank"
-                                       class="footer-social-link w-inline-block">
-                                        <div class="social-icon w-embed">
-                                            <i class="fa-brands fa-tiktok" style="font-size: 22px"></i>
-                                        </div>
-                                    </a>
-                                    <a href="https://www.instagram.com/codinax.academy?igsh=aHphbG9vMmhueGhw&utm_source=qr" target="_blank"
-                                       class="footer-social-link w-inline-block">
-                                        <div class="social-icon w-embed">
-                                            <svg width="100%" viewBox="0 0 21 21" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M19.9373 6.86221C19.9259 6.02245 19.7684 5.19107 19.4716 4.40524C19.2142 3.7424 18.8212 3.14044 18.3176 2.63783C17.814 2.13522 17.2109 1.74301 16.5469 1.48626C15.7698 1.19515 14.9489 1.03781 14.119 1.02091C13.0506 0.973386 12.7119 0.960129 9.99974 0.96051C7.28762 0.960891 6.93999 0.960939 5.87936 1.02207C5.04991 1.03932 4.2294 1.1969 3.45273 1.4881C2.78868 1.74486 2.18563 2.13718 1.68216 2.63995C1.17869 3.14272 0.785885 3.74488 0.528882 4.4079C0.236711 5.18312 0.0794425 6.0025 0.0638734 6.83063C0.0162669 7.89838 0.00187634 8.23656 0.00225667 10.9442C0.00263699 13.6518 0.00268558 13.9977 0.0650291 15.0577C0.0818048 15.8871 0.238517 16.7053 0.530718 17.4825C0.788339 18.1453 1.1816 18.7471 1.68538 19.2495C2.18916 19.7519 2.79238 20.1439 3.45649 20.4004C4.23112 20.7032 5.05182 20.8718 5.88327 20.899C6.9528 20.9465 7.29154 20.9609 10.0037 20.9605C12.7158 20.9601 13.0634 20.9601 14.124 20.8978C14.9538 20.8814 15.7748 20.7242 16.5518 20.4329C17.2156 20.1757 17.8184 19.7832 18.3218 19.2805C18.8252 18.7778 19.2182 18.1759 19.4756 17.5131C19.7676 16.7369 19.9241 15.9186 19.9406 15.0882C19.9883 14.0215 20.0026 13.6834 20.0023 10.9746C19.9997 8.26701 19.9996 7.92329 19.9373 6.86221ZM9.9952 16.0631C7.15869 16.0635 4.86049 13.7697 4.8601 10.9379C4.8597 8.10615 7.15725 5.81178 9.99376 5.81138C11.3555 5.81119 12.6615 6.35105 13.6245 7.3122C14.5876 8.27334 15.1287 9.57705 15.1289 10.9365C15.1291 12.296 14.5883 13.5998 13.6255 14.5612C12.6628 15.5227 11.3569 16.0629 9.9952 16.0631ZM15.3326 6.81629C15.1754 6.81645 15.0196 6.78566 14.8743 6.72567C14.729 6.66567 14.5969 6.57765 14.4857 6.46665C14.3745 6.35565 14.2863 6.22384 14.2261 6.07876C14.166 5.93369 14.1351 5.7782 14.1352 5.6212C14.1352 5.46431 14.1661 5.30895 14.2263 5.164C14.2864 5.01904 14.3745 4.88732 14.4856 4.77637C14.5967 4.66542 14.7286 4.5774 14.8738 4.51734C15.019 4.45728 15.1746 4.42635 15.3318 4.42633C15.4889 4.42631 15.6445 4.45719 15.7897 4.51721C15.9349 4.57723 16.0669 4.66521 16.178 4.77613C16.2891 4.88705 16.3773 5.01875 16.4375 5.16368C16.4976 5.30862 16.5286 5.46397 16.5286 5.62086C16.5287 6.28169 15.9935 6.81619 15.3326 6.81629Z"
-                                                      fill="white" />
-                                                <path d="M9.9949 14.2672C11.8369 14.2669 13.3299 12.776 13.3296 10.9371C13.3294 9.09819 11.8359 7.60767 9.99397 7.60793C8.152 7.60819 6.65899 9.09913 6.65925 10.938C6.65951 12.7769 8.15293 14.2675 9.9949 14.2672Z"
-                                                      fill="currentColor" />
-                                            </svg>
-                                        </div>
-                                    </a>
-                                    <a href="https://www.facebook.com/profile.php?id=61558665380038" target="_blank"
-                                       class="footer-social-link w-inline-block">
-                                        <div class="social-icon w-embed">
-                                            <svg width="100%" height="100%" viewBox="0 0 13 25" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.09071 24.9492L8.08917 14.0212L11.7758 14.0207L12.3232 9.74193L8.08857 9.74252L8.08819 7.01719C8.08802 5.78252 8.4319 4.93714 10.2039 4.93689L12.4492 4.93658L12.4487 1.12191C11.3562 1.00499 10.2581 0.94861 9.15934 0.953041C5.90067 0.953498 3.66362 2.94315 3.66413 6.59515L3.66457 9.73515L0.0019049 9.73566L0.00250591 14.0143L3.67317 14.0138L3.67471 24.9498L8.09071 24.9492Z"
-                                                      fill="white" />
-                                            </svg>
-                                        </div>
-                                    </a>
-                                    <a href="https://www.linkedin.com/company/codinaxacademy/" target="_blank"
-                                       class="footer-social-link w-inline-block">
-                                        <div class="social-icon w-embed">
-                                            <svg width="100%" viewBox="0 0 21 21" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M19.3377 0.945589L1.55996 0.948086C1.26528 0.948128 0.98268 1.06523 0.774335 1.27363C0.565991 1.48204 0.448967 1.76467 0.449009 2.05935L0.451506 19.8371C0.451547 20.1318 0.56865 20.4144 0.777053 20.6228C0.985456 20.8311 1.26809 20.9481 1.56277 20.9481L19.3406 20.9456C19.6352 20.9455 19.9178 20.8284 20.1262 20.62C20.3345 20.4116 20.4515 20.129 20.4515 19.8343L20.449 2.05654C20.449 1.76186 20.3319 1.47926 20.1235 1.27092C19.9151 1.06257 19.6324 0.945548 19.3377 0.945589ZM6.38347 17.9885L3.41458 17.9889L3.41324 8.44449L6.38213 8.44408L6.38347 17.9885ZM4.8975 7.14095C4.44133 7.14102 4.00381 6.95986 3.68121 6.63735C3.3586 6.31483 3.17732 5.87736 3.17726 5.42119C3.17719 4.96502 3.35835 4.52751 3.68086 4.2049C4.00338 3.88229 4.44084 3.70102 4.89702 3.70095C5.35319 3.70089 5.7907 3.88204 6.11331 4.20456C6.43592 4.52707 6.61719 4.96454 6.61726 5.42071C6.61732 5.87688 6.43617 6.3144 6.11365 6.637C5.79114 6.95961 5.35367 7.14089 4.8975 7.14095ZM17.4935 17.987L14.5279 17.9874L14.5273 13.3463C14.5271 12.2396 14.5069 10.8163 12.9847 10.8165C11.4402 10.8167 11.206 12.0234 11.2061 13.269L11.2068 17.989L8.24347 17.9894L8.24213 8.44493L11.0866 8.44453L11.0868 9.74897L11.1279 9.74896C11.5222 8.99891 12.491 8.20766 13.9321 8.20746C16.9365 8.20704 17.4913 10.1825 17.4916 12.7536L17.4935 17.987Z"
-                                                      fill="currentColor" />
-                                            </svg>
-                                        </div>
-                                    </a>
-                                    <a href="https://wa.me/+48797331113" target="_blank"
-                                       class="footer-social-link w-inline-block">
-                                        <div class="social-icon w-embed">
-                                            <i class="fa-brands fa-whatsapp" style="font-size: 22px"></i>
-                                        </div>
-                                    </a>
+                                    <p class="text-color-white">
+                                        @_resource.GetLocalizedHTML("Follow us on social media for the latest updates and special content.​")
+                                    </p>
+                                    <div class="w-layout-grid footer-social-list">
+                                        <a href="https://youtube.com/@@CodinaxAcademy?si=WgRPySkkqVU_PHFJ" target="_blank"
+                                           class="footer-social-link w-inline-block">
+                                            <div class="social-icon w-embed">
+                                                <i class="fa-brands fa-youtube" style="font-size: 22px"></i>
+                                            </div>
+                                        </a>
+                                        <a href="https://www.tiktok.com/@@codinax?_t=8lxiGpRQJkn&_r=1" target="_blank"
+                                           class="footer-social-link w-inline-block">
+                                            <div class="social-icon w-embed">
+                                                <i class="fa-brands fa-tiktok" style="font-size: 22px"></i>
+                                            </div>
+                                        </a>
+                                        <a href="https://www.instagram.com/codinax.academy?igsh=aHphbG9vMmhueGhw&utm_source=qr" target="_blank"
+                                           class="footer-social-link w-inline-block">
+                                            <div class="social-icon w-embed">
+                                                <svg width="100%" viewBox="0 0 21 21" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M19.9373 6.86221C19.9259 6.02245 19.7684 5.19107 19.4716 4.40524C19.2142 3.7424 18.8212 3.14044 18.3176 2.63783C17.814 2.13522 17.2109 1.74301 16.5469 1.48626C15.7698 1.19515 14.9489 1.03781 14.119 1.02091C13.0506 0.973386 12.7119 0.960129 9.99974 0.96051C7.28762 0.960891 6.93999 0.960939 5.87936 1.02207C5.04991 1.03932 4.2294 1.1969 3.45273 1.4881C2.78868 1.74486 2.18563 2.13718 1.68216 2.63995C1.17869 3.14272 0.785885 3.74488 0.528882 4.4079C0.236711 5.18312 0.0794425 6.0025 0.0638734 6.83063C0.0162669 7.89838 0.00187634 8.23656 0.00225667 10.9442C0.00263699 13.6518 0.00268558 13.9977 0.0650291 15.0577C0.0818048 15.8871 0.238517 16.7053 0.530718 17.4825C0.788339 18.1453 1.1816 18.7471 1.68538 19.2495C2.18916 19.7519 2.79238 20.1439 3.45649 20.4004C4.23112 20.7032 5.05182 20.8718 5.88327 20.899C6.9528 20.9465 7.29154 20.9609 10.0037 20.9605C12.7158 20.9601 13.0634 20.9601 14.124 20.8978C14.9538 20.8814 15.7748 20.7242 16.5518 20.4329C17.2156 20.1757 17.8184 19.7832 18.3218 19.2805C18.8252 18.7778 19.2182 18.1759 19.4756 17.5131C19.7676 16.7369 19.9241 15.9186 19.9406 15.0882C19.9883 14.0215 20.0026 13.6834 20.0023 10.9746C19.9997 8.26701 19.9996 7.92329 19.9373 6.86221ZM9.9952 16.0631C7.15869 16.0635 4.86049 13.7697 4.8601 10.9379C4.8597 8.10615 7.15725 5.81178 9.99376 5.81138C11.3555 5.81119 12.6615 6.35105 13.6245 7.3122C14.5876 8.27334 15.1287 9.57705 15.1289 10.9365C15.1291 12.296 14.5883 13.5998 13.6255 14.5612C12.6628 15.5227 11.3569 16.0629 9.9952 16.0631ZM15.3326 6.81629C15.1754 6.81645 15.0196 6.78566 14.8743 6.72567C14.729 6.66567 14.5969 6.57765 14.4857 6.46665C14.3745 6.35565 14.2863 6.22384 14.2261 6.07876C14.166 5.93369 14.1351 5.7782 14.1352 5.6212C14.1352 5.46431 14.1661 5.30895 14.2263 5.164C14.2864 5.01904 14.3745 4.88732 14.4856 4.77637C14.5967 4.66542 14.7286 4.5774 14.8738 4.51734C15.019 4.45728 15.1746 4.42635 15.3318 4.42633C15.4889 4.42631 15.6445 4.45719 15.7897 4.51721C15.9349 4.57723 16.0669 4.66521 16.178 4.77613C16.2891 4.88705 16.3773 5.01875 16.4375 5.16368C16.4976 5.30862 16.5286 5.46397 16.5286 5.62086C16.5287 6.28169 15.9935 6.81619 15.3326 6.81629Z"
+                                                          fill="white" />
+                                                    <path d="M9.9949 14.2672C11.8369 14.2669 13.3299 12.776 13.3296 10.9371C13.3294 9.09819 11.8359 7.60767 9.99397 7.60793C8.152 7.60819 6.65899 9.09913 6.65925 10.938C6.65951 12.7769 8.15293 14.2675 9.9949 14.2672Z"
+                                                          fill="currentColor" />
+                                                </svg>
+                                            </div>
+                                        </a>
+                                        <a href="https://www.facebook.com/profile.php?id=61558665380038" target="_blank"
+                                           class="footer-social-link w-inline-block">
+                                            <div class="social-icon w-embed">
+                                                <svg width="100%" height="100%" viewBox="0 0 13 25" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M8.09071 24.9492L8.08917 14.0212L11.7758 14.0207L12.3232 9.74193L8.08857 9.74252L8.08819 7.01719C8.08802 5.78252 8.4319 4.93714 10.2039 4.93689L12.4492 4.93658L12.4487 1.12191C11.3562 1.00499 10.2581 0.94861 9.15934 0.953041C5.90067 0.953498 3.66362 2.94315 3.66413 6.59515L3.66457 9.73515L0.0019049 9.73566L0.00250591 14.0143L3.67317 14.0138L3.67471 24.9498L8.09071 24.9492Z"
+                                                          fill="white" />
+                                                </svg>
+                                            </div>
+                                        </a>
+                                        <a href="https://www.linkedin.com/company/codinaxacademy/" target="_blank"
+                                           class="footer-social-link w-inline-block">
+                                            <div class="social-icon w-embed">
+                                                <svg width="100%" viewBox="0 0 21 21" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M19.3377 0.945589L1.55996 0.948086C1.26528 0.948128 0.98268 1.06523 0.774335 1.27363C0.565991 1.48204 0.448967 1.76467 0.449009 2.05935L0.451506 19.8371C0.451547 20.1318 0.56865 20.4144 0.777053 20.6228C0.985456 20.8311 1.26809 20.9481 1.56277 20.9481L19.3406 20.9456C19.6352 20.9455 19.9178 20.8284 20.1262 20.62C20.3345 20.4116 20.4515 20.129 20.4515 19.8343L20.449 2.05654C20.449 1.76186 20.3319 1.47926 20.1235 1.27092C19.9151 1.06257 19.6324 0.945548 19.3377 0.945589ZM6.38347 17.9885L3.41458 17.9889L3.41324 8.44449L6.38213 8.44408L6.38347 17.9885ZM4.8975 7.14095C4.44133 7.14102 4.00381 6.95986 3.68121 6.63735C3.3586 6.31483 3.17732 5.87736 3.17726 5.42119C3.17719 4.96502 3.35835 4.52751 3.68086 4.2049C4.00338 3.88229 4.44084 3.70102 4.89702 3.70095C5.35319 3.70089 5.7907 3.88204 6.11331 4.20456C6.43592 4.52707 6.61719 4.96454 6.61726 5.42071C6.61732 5.87688 6.43617 6.3144 6.11365 6.637C5.79114 6.95961 5.35367 7.14089 4.8975 7.14095ZM17.4935 17.987L14.5279 17.9874L14.5273 13.3463C14.5271 12.2396 14.5069 10.8163 12.9847 10.8165C11.4402 10.8167 11.206 12.0234 11.2061 13.269L11.2068 17.989L8.24347 17.9894L8.24213 8.44493L11.0866 8.44453L11.0868 9.74897L11.1279 9.74896C11.5222 8.99891 12.491 8.20766 13.9321 8.20746C16.9365 8.20704 17.4913 10.1825 17.4916 12.7536L17.4935 17.987Z"
+                                                          fill="currentColor" />
+                                                </svg>
+                                            </div>
+                                        </a>
+                                        <a href="https://wa.me/+48797331113" target="_blank"
+                                           class="footer-social-link w-inline-block">
+                                            <div class="social-icon w-embed">
+                                                <i class="fa-brands fa-whatsapp" style="font-size: 22px"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div data-w-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda26" class="footer-link-list">
+                                    <div class="text-weight-bold text-size-medium">@_resource.GetLocalizedHTML("Links")</div>
+                                    <div class="padding-bottom padding-xsmall"></div>
+                                    <a href="/" aria-current="page" class="footer-link w--current">@_resource.GetLocalizedHTML("Home")</a>
+                                    <a href="/about" class="footer-link">@_resource.GetLocalizedHTML("About")</a>
+                                    <a href="/courses" class="footer-link">@_resource.GetLocalizedHTML("Courses")</a>
+                                    <a href="/instructors" class="footer-link">@_resource.GetLocalizedHTML("Instructors")</a>
+                                    <a href="/contact" class="footer-link">@_resource.GetLocalizedHTML("Contact")</a>
+                                    <a href="/corporate" class="footer-link">@_resource.GetLocalizedHTML("Corporate")</a>
+                                </div>
+                                <div data-w-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda34" class="footer-link-list">
+                                    <div class="text-weight-bold text-size-medium">@_resource.GetLocalizedHTML("Utility pages")</div>
+                                    <div class="padding-bottom padding-xsmall"></div>
+                                    <a href="/home/terms" class="footer-link">@_resource.GetLocalizedHTML("Terms &amp;Condition")</a>
+                                    <a href="/home/privacy" class="footer-link">@_resource.GetLocalizedHTML("Privacy Policy")</a>
                                 </div>
                             </div>
-                            <div data-w-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda26" class="footer-link-list">
-                                <div class="text-weight-bold text-size-medium">Links</div>
+                            <div data-w-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda40" class="footer-right-wrapper">
+                                <div class="text-weight-bold text-size-medium">@_resource.GetLocalizedHTML("Subscribe")</div>
                                 <div class="padding-bottom padding-xsmall"></div>
-                                <a href="/" aria-current="page" class="footer-link w--current">Home</a>
-                                <a href="/about" class="footer-link">About</a>
-                                <a href="/courses" class="footer-link">Courses</a>
-                                <a href="/instructors" class="footer-link">Instructors</a>
-                                <a href="/contact" class="footer-link">Contact</a>
-
-                            </div>
-                            <div data-w-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda34" class="footer-link-list">
-                                <div class="text-weight-bold text-size-medium">Utility pages</div>
-                                <div class="padding-bottom padding-xsmall"></div>
-                                <a href="/home/terms" class="footer-link">Terms &amp;Condition</a>
-                                <a href="/home/privacy" class="footer-link">Privacy Policy</a>
-                            </div>
-                        </div>
-                        <div data-w-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda40" class="footer-right-wrapper">
-                            <div class="text-weight-bold text-size-medium">Subscribe</div>
-                            <div class="padding-bottom padding-xsmall"></div>
-                            <div class="text-size-small">
-                                Join our newsletter to stay up to date on features and
-                                releases.
-                            </div>
-                            <div class="footer-form-block w-form">
-                                <form id="newsletter_form_footer" class="footer-form"
-                                      data-wf-page-id="63edcc04ea877745424eed6d"
-                                      data-wf-element-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda47"
-                                      onsubmit="handleSubscribeFooterFormSubmit(event)"
-                                >
-                                    <input class="form-input w-input" maxlength="256"
-                                           placeholder="Enter your email" type="email" id="newsletter_form_input_footer"
-                                           required="" />
-                                    <input type="submit"
-                                           id="subscribe_form_submit_footer"
-                                           class="button w-button" value="Subscribe" />
-                                </form>
-                                <div class="text-size-tiny">
-                                    By subscribing you agree to with our Privacy Policy and
-                                    provide consent to receive updates from our company.
+                                <div class="text-size-small">
+                                    @_resource.GetLocalizedHTML("Join our newsletter to stay up to date on features and releases.")
                                 </div>
-                                <div class="success-message w-form-done" id="success_info_footer">
-                                    <div>Thank you! Your submission has been received!</div>
+                                <div class="footer-form-block w-form">
+                                    <form id="newsletter_form_footer" class="footer-form"
+                                          data-wf-page-id="63edcc04ea877745424eed6d"
+                                          data-wf-element-id="ba7683ee-e01e-b9cd-93f7-a61ec12eda47"
+                                          onsubmit="handleSubscribeFooterFormSubmit(event)">
+                                        <input class="form-input w-input" maxlength="256"
+                                               placeholder="@_resource.GetLocalizedHTML("Enter your email...")" type="email" id="newsletter_form_input_footer"
+                                               required="" />
+                                        <input type="submit"
+                                               id="subscribe_form_submit_footer"
+                                               class="button w-button" value="@_resource.GetLocalizedHTML("Subscribe")" />
+                                    </form>
+                                    <div class="text-size-tiny">
+                                        @_resource.GetLocalizedHTML("By subscribing you agree to our Privacy Policy and provide consent to receive updates from our company.")
+                                    </div>
+                                    <div class="success-message w-form-done" id="success_info_footer">
+                                        <div>@_resource.GetLocalizedHTML("Thank you! Your submission has been received!")</div>
+                                    </div>
+                                    <div class="error-message w-form-fail" id="error_info_footer">
+                                        <div>@_resource.GetLocalizedHTML("Oops! Something went wrong while submitting the form.")</div>
+                                    </div>
                                 </div>
-                                <div class="error-message w-form-fail" id="error_info_footer">
-                                    <div>Oops! Something went wrong while submitting the form.</div>
-                                </div>
-                            </div>
-                        
-                            <script>
-                                function handleSubscribeFooterFormSubmit(event) {
-                                    event.preventDefault(); 
-                                
-                                    const email = document.getElementById("newsletter_form_input_footer").value;
-                                    const submit = document.getElementById("subscribe_form_submit_footer");
-                                    const success_box = document.getElementById("success_info_footer");
-                                    const error_box = document.getElementById("error_info_footer");
-                                    const form_box = document.getElementById("newsletter_form_footer");
 
-                                    console.log("Email:", email);
-                                
-                                    submit.value = "Please wait ...";
+                                <script>
+                                    function handleSubscribeFooterFormSubmit(event) {
+                                        event.preventDefault();
 
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: '/Auth/Subscribe/Send',
-                                        data: {
-                                            email: email
-                                        },
-                                        success: (response) => {
-                                            if(response.success){
-                                                form_box.style.display = 'none';
-                                                success_box.style.display = 'block';
-                                                error_box.style.display = 'none';
-                                            }
-                                            else{
+                                        const email = document.getElementById("newsletter_form_input_footer").value;
+                                        const submit = document.getElementById("subscribe_form_submit_footer");
+                                        const success_box = document.getElementById("success_info_footer");
+                                        const error_box = document.getElementById("error_info_footer");
+                                        const form_box = document.getElementById("newsletter_form_footer");
+
+                                        console.log("Email:", email);
+
+                                        submit.value = "Please wait ...";
+
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '/Auth/Subscribe/Send',
+                                            data: {
+                                                email: email
+                                            },
+                                            success: (response) => {
+                                                if (response.success) {
+                                                    form_box.style.display = 'none';
+                                                    success_box.style.display = 'block';
+                                                    error_box.style.display = 'none';
+                                                }
+                                                else {
+                                                    form_box.style.display = 'none';
+                                                    success_box.style.display = 'none';
+                                                    error_box.style.display = 'block';
+                                                }
+                                            }, error: function (xhr, status, error) {
+                                                console.error(xhr.responseText, error);
+
                                                 form_box.style.display = 'none';
                                                 success_box.style.display = 'none';
                                                 error_box.style.display = 'block';
                                             }
-                                        },error: function (xhr, status, error) {
-                                            console.error(xhr.responseText, error);
-                                        
-                                            form_box.style.display = 'none';
-                                            success_box.style.display = 'none';
-                                            error_box.style.display = 'block';   
-                                        }
-                                    });
+                                        });
 
-                                    document.getElementById("newsletter_form_input").value = "";
-                                }
-                            </script>
-                        
+                                        document.getElementById("newsletter_form_input").value = "";
+                                    }
+                                </script>
+
+                            </div>
                         </div>
-                    </div>
-                    <div class="padding-bottom padding-xxlarge"></div>
-                    <div class="line-divider"></div>
-                    <div class="padding-bottom padding-medium"></div>
-                    <div class="text-align-center">
-                        <div class="text-size-xsmall">
-                            Copyright 2024 © Codinax Academy
+                        <div class="padding-bottom padding-xxlarge"></div>
+                        <div class="line-divider"></div>
+                        <div class="padding-bottom padding-medium"></div>
+                        <div class="text-align-center">
+                            <div class="text-size-xsmall">
+                                Copyright 2024 © Codinax Academy
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2e33385872ab1e69eae6d_Frame.webp"
-             loading="lazy" width="182" alt="Icon" class="rotate-shape" />
-    </footer>
+            <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f2e33385872ab1e69eae6d_Frame.webp"
+                 loading="lazy" width="182" alt="Icon" class="rotate-shape" />
+        </footer>
 
     </div>
 
@@ -465,30 +466,7 @@
             dropdown.addEventListener('click', (e) => {
                 dropdown.classList.toggle('dropdown__options--visible')
             })
-
-            dropdown.querySelectorAll('.dropdown__options .dropdown__option').forEach(opt => {
-                opt.addEventListener('click', (e) => {
-                    dropdown.querySelector('.dropdown__selected').innerHTML = opt.innerHTML;
-                })
-            })
         })
-    </script>
-
-    <script>
-        var $svgIconBox = $('.tg-svg');
-        $svgIconBox.each(function () {
-            var $this = $(this),
-                $svgIcon = $this.find('.svg-icon'),
-                $id = $svgIcon.attr('id'),
-                $icon = $svgIcon.data('svg-icon');
-            var $vivus = new Vivus($id, {
-                duration: 80,
-                file: $icon,
-            });
-            $this.on('mouseenter', function () {
-                $vivus.reset().play();
-            });
-        });
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.js" integrity="sha512-tQQXRDB2wEmuJGtFrmmoFYzNTq8StA1XJrfO0OQbbTxd9G0CwaTDL6/C1y805IlvBVrMwOqob1kf6r/2U5XXVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -503,29 +481,6 @@
 
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script>
-        // Typed.js initializations
-        var typed = new Typed('#typed', {
-            stringsElement: '#typed-strings',
-            typeSpeed: 25, // typing speed
-            backSpeed: 25, // erasing speed
-            loop: true, // start back after ending typing
-            startDelay: 1000,
-            backDelay: 1000
-
-        });
-
-        var typedMobile = new Typed('#typed-mobile', {
-            stringsElement: '#typed-strings-mobile',
-            typeSpeed: 25, // typing speed
-            backSpeed: 25, // erasing speed
-            loop: true, // start back after ending typing
-            startDelay: 1000,
-            backDelay: 1000
-        });
-
-    </script>
 
     <script>
         AOS.init();

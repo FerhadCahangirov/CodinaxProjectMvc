@@ -1,12 +1,14 @@
 ﻿using CodinaxProjectMvc.Context;
 using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 using CodinaxProjectMvc.DataAccess.Models;
+using CodinaxProjectMvc.Filters;
 using CodinaxProjectMvc.ViewModel.CourseVm;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodinaxProjectMvc.Controllers
 {
+    [CurrentLangFilterFactory]
     public class CoursesController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -30,7 +32,7 @@ namespace CodinaxProjectMvc.Controllers
             _instructorReadRepository = instructorReadRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             IEnumerable<Course> courses = _courseReadRepository.Table
                 .Include(c => c.Category)
@@ -42,35 +44,19 @@ namespace CodinaxProjectMvc.Controllers
             List<Category> categories = courses.Select(c => c.Category).Distinct().ToList();
 
             List<Instructor> instructors = _instructorReadRepository.Table
-                .Include(x => x.Courses)
-                .ThenInclude(x => x.Students)
-                .Where(UserQueryFilters<Instructor>.GeneralFilter)
-                .Select(x => new
-                {
-                    Instructor = x,
-                    TotalStudents = x.Courses.SelectMany(c => c.Students).Count()
-                })
-                .OrderBy(x => x.TotalStudents)
-                .Take(4)
-                .Select(x => x.Instructor)
-                .ToList();
-
-            List<Faq> faqs = await _faqReadRepository.Table
-               .Where(x => !x.IsDeleted && !x.IsArchived)
-               .ToListAsync();
+                .Where(x => !x.IsDeleted && x.Showcase && x.IsApproved && !x.IsBanned).ToList();
 
             CoursesVm coursesVm = new CoursesVm()
             {
                 Courses = courses,
                 Categories = categories,
                 Instructors = instructors,
-                Faqs = faqs,
                 BaseUrl = _configuration["BaseUrl:Azure"],
             };
             return View(coursesVm);
         }
 
-        public async Task<IActionResult> CoursesPartial(string? categoryName = null)
+        public IActionResult CoursesPartial(string? categoryName = null)
         {
             IQueryable<Course>? courses = _courseReadRepository.Table
                 .Include(c => c.Category)
@@ -85,32 +71,17 @@ namespace CodinaxProjectMvc.Controllers
                 courses = courses.Where(x => x.Category.Content.ToLower() == categoryName.ToLower());
             }
 
-            List<Instructor> instructors = _instructorReadRepository.Table
-                .Include(x => x.Courses)
-                .ThenInclude(x => x.Students)
-                .Where(UserQueryFilters<Instructor>.GeneralFilter)
-                .Select(x => new
-                {
-                    Instructor = x,
-                    TotalStudents = x.Courses.SelectMany(c => c.Students).Count()
-                })
-                .OrderBy(x => x.TotalStudents)
-                .Take(4)
-                .Select(x => x.Instructor)
-                .ToList();
-
-            List<Faq> faqs = await _faqReadRepository.Table
-               .Where(x => !x.IsDeleted && !x.IsArchived)
-               .ToListAsync();
+            List<Instructor> instructors = _instructorReadRepository
+                .GetWhere(x => !x.IsDeleted && x.Showcase && x.IsApproved && !x.IsBanned).ToList();
 
             CoursesVm coursesVm = new CoursesVm()
             {
                 Courses = courses?.ToList(),
                 Categories = categories,
                 Instructors = instructors,
-                Faqs = faqs,
                 BaseUrl = _configuration["BaseUrl:Azure"],
             };
+
             return PartialView(viewName: nameof(CoursesPartial), coursesVm);
         }   
 

@@ -1,5 +1,31 @@
 ﻿@model LoginVm
 
+@section Scripts {
+    @if (TempData["PasswordReset"] != null && (bool)TempData["PasswordReset"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Password has been set up.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+}
+
 <div class="c8e341991 ceafa1b92" bis_skin_checked="1">
 
     <main class="c03d68601 login">
@@ -49,29 +75,22 @@
 
                                     <div class="input-wrapper _input-wrapper" bis_skin_checked="1">
                                         <div class="ce385ba79 c630cc19b password ca0c3b651 c11d28311 cb636dbea" data-action-text="" data-alternate-action-text="" bis_skin_checked="1">
-                                            <label class="c504b47d1 no-js cc454c27b c544a5795" asp-for="Password">
-                                            </label>
+                                            <label class="c504b47d1 no-js cc454c27b c544a5795" asp-for="Password"></label>
 
-                                            <input class="input c9396bda3 c6d2c7838" type="password" required="" autocomplete="current-password" autocapitalize="none" spellcheck="false" asp-for="Password" >
+                                            <input id="password" class="input c9396bda3 c6d2c7838" type="password" required="" autocomplete="current-password" autocapitalize="none" spellcheck="false" asp-for="Password">
 
                                             <div class="c504b47d1 js-required cc454c27b c544a5795" data-dynamic-label-for="password" aria-hidden="true" bis_skin_checked="1">
                                                 Password
                                             </div>
 
-                                            <button type="button" class="cea93c1fe ulp-button-icon cb8f247a6 _button-icon" data-action="toggle">
+                                            <button id="toggle-password" type="button" class="cea93c1fe ulp-button-icon cb8f247a6 _button-icon" data-action="toggle">
                                                 <span aria-hidden="true" class="password-icon-tooltip show-password-tooltip">Show password</span>
-
                                                 <span aria-hidden="true" class="password-icon-tooltip hide-password-tooltip hide">Hide password</span>
-
                                                 <span class="screen-reader-only password-toggle-label" data-label="show-password">Show password</span>
-
                                                 <span class="screen-reader-only password-toggle-label hide" data-label="hide-password">Hide password</span>
-
                                                 <span class="c6616f49d password js-required" aria-hidden="true"></span>
                                             </button>
-
                                         </div>
-
                                     </div>
 
                                     <span class="text-danger mt-2" asp-validation-for="Password"></span>
@@ -80,7 +99,7 @@
                             </div>
                             <p class="cc87dddae c27b98cec">
 
-                                <a class="ce78228eb c80853310 cfe4c492b" href="/u/login/password-reset-start/Username-Password-Authentication?state=hKFo2SBTbVNseTd0SzN0V09YaDFVd3g3Q0NScXE2VUppeEZwRqFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIFRxMGlXcjhtMmlSU01kMGphR1ZIZDdDdVlwaG1GcVZXo2NpZNkgc0VYaXVSSnJ0VWZCVTFUaXN2RGFhNEt6WXYxMjhiM1o" aria-label="">Forgot password?</a>
+                                <a class="ce78228eb c80853310 cfe4c492b" href="/Auth/ForgotPassword/Index" aria-label="">Forgot password?</a>
 
                             </p>
 
@@ -94,7 +113,6 @@
                         <div class="ulp-alternate-action  _alternate-action __s16nu9" bis_skin_checked="1">
                             <p class="c3360ff4e c8fe48fda c9b2b9d32">
                                 Need help? Contact us at support@codinax.com
-                                <a class="ce78228eb cfe4c492b" href="/u/signup?state=hKFo2SBTbVNseTd0SzN0V09YaDFVd3g3Q0NScXE2VUppeEZwRqFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIFRxMGlXcjhtMmlSU01kMGphR1ZIZDdDdVlwaG1GcVZXo2NpZNkgc0VYaXVSSnJ0VWZCVTFUaXN2RGFhNEt6WXYxMjhiM1o" aria-label=""> </a>
                             </p>
                         </div>
                     </div>
@@ -104,3 +122,27 @@
     </main>
 
 </div>
+
+<script>
+    document.getElementById('toggle-password').addEventListener('click', function () {
+        var passwordInput = document.getElementById('password');
+        var showTooltip = document.querySelector('.show-password-tooltip');
+        var hideTooltip = document.querySelector('.hide-password-tooltip');
+        var showLabel = document.querySelector('[data-label="show-password"]');
+        var hideLabel = document.querySelector('[data-label="hide-password"]');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            showTooltip.classList.add('hide');
+            hideTooltip.classList.remove('hide');
+            showLabel.classList.add('hide');
+            hideLabel.classList.remove('hide');
+        } else {
+            passwordInput.type = 'password';
+            showTooltip.classList.remove('hide');
+            hideTooltip.classList.add('hide');
+            showLabel.classList.remove('hide');
+            hideLabel.classList.add('hide');
+        }
+    });
+</script>

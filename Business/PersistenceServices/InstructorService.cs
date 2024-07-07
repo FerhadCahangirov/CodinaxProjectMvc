@@ -36,9 +36,9 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             _userManager = userManager;
         }
 
-        public async Task<PaginationVm<IEnumerable<Instructor>>> GetInstructorPaginationAsync(string? searchFilter = null, string? statusFilter = null)
+        public async Task<PaginationVm<IEnumerable<Instructor>>> GetInstructorsPartialAsync(string? searchFilter = null, string? statusFilter = null)
         {
-            var query = _instructorReadRepository.GetWhere(x => !x.IsDeleted);
+            var query = _instructorReadRepository.GetWhere(x => !x.IsDeleted).Include(x => x.Courses).AsQueryable();
 
             if (!string.IsNullOrEmpty(searchFilter))
             {
@@ -49,7 +49,18 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     x.Email.ToLower().Contains(searchFilter));
             }
 
-            var instructors = await query.ToListAsync();
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+                statusFilter = statusFilter.ToLower();
+                if (statusFilter == "banned")
+                    query = query.Where(x => x.IsBanned == true);
+                else if (statusFilter == "approved")
+                    query = query.Where(x => x.IsApproved == true && x.IsBanned == false);
+                else if (statusFilter == "not approved")
+                    query = query.Where(x => !x.IsApproved);
+            }
+
+            var instructors = await query.OrderByDescending(x => x.Showcase).ToListAsync();
 
             var paginatedData = instructors.ToList();
 
@@ -60,7 +71,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             return pagination;
         }
 
-        public Task<PaginationVm<IEnumerable<Instructor>>> GetAssignableInstructorPaginationAsync(string? searchFilter = null)
+        public Task<PaginationVm<IEnumerable<Instructor>>> GetAssignableInstructorsPartialAsync(string? searchFilter = null)
         {
             var query = _instructorReadRepository.Table.Where(UserQueryFilters<Instructor>.GeneralFilter);
 
@@ -70,6 +81,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 query = query.Where(x => x.UserName.ToLower().Contains(searchFilter) ||
                     x.FirstName.ToLower().Contains(searchFilter) ||
                     x.LastName.ToLower().Contains(searchFilter) ||
+                    (x.FirstName.ToLower() + x.LastName.ToLower()).Trim().Replace(" ", "").Contains(searchFilter.Trim().Replace(" ", "")) ||
                     x.Email.ToLower().Contains(searchFilter));
             }
 
@@ -107,6 +119,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             if (instructor == null) return false;
 
             instructor.IsBanned = true;
+            instructor.Showcase = false;
 
             _instructorWriteRepository.Update(instructor);
             await _instructorWriteRepository.SaveAsync();
@@ -135,6 +148,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             if (instructor == null) return false;
 
             instructor.IsDeleted = true;
+            instructor.Showcase = false;
 
             _instructorWriteRepository.Update(instructor);
             await _instructorWriteRepository.SaveAsync();
@@ -164,7 +178,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
         public async Task<bool> UpdateProfileAsync(InstructorAccountVm instructorAccountVm)
         {
-            if(!_actionContextAccessor.ActionContext.ModelState.IsValid)
+            if (!_actionContextAccessor.ActionContext.ModelState.IsValid)
                 return false;
 
             Instructor? instructor = await _instructorReadRepository.GetSingleAsync(x => x.Id == instructorAccountVm.Id);
@@ -186,7 +200,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             if (!instructorAccountVm.IsEmailConfirmed)
             {
                 AppUser? user = await _userManager.FindByEmailAsync(instructorAccountVm.EmailAddress);
-                if(user != null)
+                if (user != null)
                 {
                     _actionContextAccessor.ActionContext.ModelState.AddModelError(nameof(InstructorAccountVm.EmailAddress), "Email Already Exists!");
                     return false;
@@ -308,7 +322,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             Instructor? instructor = await _instructorReadRepository.GetSingleAsync(x => x.Id == id);
             if (instructor == null) return false;
 
-            if(string.IsNullOrEmpty(instructor.PasswordHash))
+            if (string.IsNullOrEmpty(instructor.PasswordHash))
             {
                 string token = await _userManager.GeneratePasswordResetTokenAsync(instructor);
 
@@ -331,7 +345,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             if (instructor == null) return Enumerable.Empty<Course>();
 
-            return instructor.Courses; 
+            return instructor.Courses;
         }
 
         public async Task<CourseSingleVm> GetInstructorCourseSingleAsync(string email, Guid id)
@@ -356,6 +370,30 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             };
 
             return courseSingleVm;
+        }
+
+        public async Task<(bool success, string message)> ChangeInstructorShowcaseAsync(Guid id)
+        {
+            Instructor? instructor = await _instructorReadRepository.GetSingleAsync(x => x.Id == id);
+            if (instructor == null || !instructor.IsApproved)
+            {
+                return (false, "Failed To Change Showcase.");
+            }
+
+            if(!instructor.Showcase && _instructorReadRepository.GetWhere(x => x.IsApproved && !x.IsDeleted && !x.IsBanned && x.Showcase).Count() >= 4)
+            {
+                return (false, "Only 4 Instructor Showcase Allowed.");
+            }
+
+            instructor.Showcase = !instructor.Showcase;
+
+            _instructorWriteRepository.Update(instructor);
+            await _instructorWriteRepository.SaveAsync();
+
+            return (
+                true,
+                instructor.Showcase ? "Instructor Showcase Enabled." : "Instructor Showcase Disabled."
+                );
         }
 
         #endregion

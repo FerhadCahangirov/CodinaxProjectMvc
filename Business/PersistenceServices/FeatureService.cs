@@ -46,7 +46,9 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             {
                 Title = featureCreateVm.Title,
                 IconPathOrContainer = uploadedFile.pathOrContainerName,
-                IconName = uploadedFile.fileName
+                IconName = uploadedFile.fileName,
+                TitleRu = featureCreateVm.TitleRu,
+                TitleTr = featureCreateVm.TitleTr,
             };
 
             await _featureWriteRepository.AddAsync(feature);
@@ -86,6 +88,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             FeatureUpdateVm featureUpdateVm = new FeatureUpdateVm()
             {
                 Title = feature.Title,
+                TitleRu = feature.TitleRu,
+                TitleTr = feature.TitleTr,
                 IconPathOrContainer = feature.IconPathOrContainer,
                 IconName = feature.IconName,
                 Id = id
@@ -118,6 +122,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             }
 
             feature.Title = featureUpdateVm.Title;
+            feature.TitleTr = featureUpdateVm.TitleTr;
+            feature.TitleRu = featureUpdateVm.TitleRu;
 
             _featureWriteRepository.Update(feature);
             await _featureWriteRepository.SaveAsync();

@@ -50,6 +50,39 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             return true;
         }
 
+        public async Task<bool> SendForgotPasswordAsync(ForgotPasswordVm forgotPasswordVm)
+        {
+            var user = await _userManager.FindByEmailAsync(forgotPasswordVm.EmailAddress);
+
+            if (user == null)
+                return false;
+
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            await _mailManager.SendPasswordResetMailAsync(token, user);
+
+            return true;
+        }
+
+        public async Task<bool> ResetPasswordAsync(ResetPasswordVm resetPasswordVm) 
+        {
+            if (!_actionContextAccessor.ActionContext.ModelState.IsValid)
+            {
+                return false;
+            }
+             
+            var user = await _userManager.FindByEmailAsync(resetPasswordVm.Email);
+
+            if (user == null)
+                return false;
+
+            string token = Uri.UnescapeDataString(resetPasswordVm.Token);
+            await  _userManager.ResetPasswordAsync(user, token, resetPasswordVm.Password);
+
+            return true;
+        }
+
+
         public async Task<bool> InstructorApplyAsync(InstructorApplyVm instructorApplyVm)
         {
             if (!_actionContextAccessor.ActionContext.ModelState.IsValid)

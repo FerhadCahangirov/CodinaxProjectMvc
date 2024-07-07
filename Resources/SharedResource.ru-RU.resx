@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>О нас</value>
+  </data>
+  <data name="About Us" xml:space="preserve">
+    <value>О нас</value>
+  </data>
+  <data name="Accelerate Your Learning with Our Dynamic Bootcamp Approach.​" xml:space="preserve">
+    <value>Ускорьте своё обучение с нашим динамичным подходом к буткемпу.</value>
+  </data>
+  <data name="Additional Info" xml:space="preserve">
+    <value>Дополнительная информация</value>
+  </data>
+  <data name="Advance Your Career Across IT Fields with Ease." xml:space="preserve">
+    <value>Развивайте свою карьеру в различных областях IT с лёгкостью.</value>
+  </data>
+  <data name="All Courses" xml:space="preserve">
+    <value>Все курсы</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Подать заявку</value>
+  </data>
+  <data name="Apply Now" xml:space="preserve">
+    <value>Подать заявку</value>
+  </data>
+  <data name="Average salary with 3-5 years experience" xml:space="preserve">
+    <value>Средняя зарплата с опытом работы от 3 до 5 лет</value>
+  </data>
+  <data name="Average starting salary" xml:space="preserve">
+    <value>Средняя начальная зарплата</value>
+  </data>
+  <data name="Become a Student" xml:space="preserve">
+    <value>Станьте студентом</value>
+  </data>
+  <data name="Become an Instructor" xml:space="preserve">
+    <value>Станьте инструктором</value>
+  </data>
+  <data name="Begin Your Teaching Journey Today!" xml:space="preserve">
+    <value>Начните своё преподавательское путешествие сегодня!</value>
+  </data>
+  <data name="Begin Your Teaching or Learning Journey Today!" xml:space="preserve">
+    <value>Начните свой обучающий или учебный путь сегодня!</value>
+  </data>
+  <data name="By subscribing you agree to our Privacy Policy and provide consent to receive updates from our company." xml:space="preserve">
+    <value>Подписываясь, вы соглашаетесь с нашей Политикой конфиденциальности и даете согласие на получение обновлений от нашей компании.</value>
+  </data>
+  <data name="Code Your Way To Success!" xml:space="preserve">
+    <value>Кодируйте свой путь к успеху!</value>
+  </data>
+  <data name="Confirmation link sent to your mail." xml:space="preserve">
+    <value>Ссылка для подтверждения отправлена на вашу почту.</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Контакты</value>
+  </data>
+  <data name="Contact Us" xml:space="preserve">
+    <value>Свяжитесь с нами</value>
+  </data>
+  <data name="Corporate" xml:space="preserve">
+    <value>Корпоративный</value>
+  </data>
+  <data name="Corporate With Us" xml:space="preserve">
+    <value>Сотрудничать с нами</value>
+  </data>
+  <data name="Course description" xml:space="preserve">
+    <value>Описание курса</value>
+  </data>
+  <data name="Courses" xml:space="preserve">
+    <value>Курсы</value>
+  </data>
+  <data name="Defining your future Starts With growing your IT skills" xml:space="preserve">
+    <value>
+Ваше будущее зависит от ваших IT-навыков.</value>
+  </data>
+  <data name="Dive into interactive online classes designed to equip you with essential skills for a successful career in IT" xml:space="preserve">
+    <value>Погрузитесь в интерактивные онлайн-занятия, созданные для оснащения вас необходимыми навыками для успешной карьеры в IT.</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Электронная почта</value>
+  </data>
+  <data name="Enter your email..." xml:space="preserve">
+    <value>Введите ваш email...</value>
+  </data>
+  <data name="exclusive discounts, and more!​" xml:space="preserve">
+    <value>эксклюзивные скидки и многое другое!</value>
+  </data>
+  <data name="Explore All Courses" xml:space="preserve">
+    <value>Изучить все курсы</value>
+  </data>
+  <data name="Explore Our Comprehensive Course Offerings to Unleash Your Potential in the World of IT.​" xml:space="preserve">
+    <value>Исследуйте наши обширные предложения курсов, чтобы раскрыть свой потенциал в мире IT.</value>
+  </data>
+  <data name="Fast-track Your Tech Career with Expert Instruction.​" xml:space="preserve">
+    <value>Ускорьте свою карьеру в технике с помощью экспертного обучения.</value>
+  </data>
+  <data name="Find answers to common queries about our courses and programs" xml:space="preserve">
+    <value>Найдите ответы на часто задаваемые вопросы о наших курсах и программах</value>
+  </data>
+  <data name="Find Courses" xml:space="preserve">
+    <value>Найти курсы</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Follow us on social media for the latest updates and special content.​" xml:space="preserve">
+    <value>Следите за нами в социальных сетях для последних обновлений и эксклюзивного контента.</value>
+  </data>
+  <data name="Frequently Asked Questions" xml:space="preserve">
+    <value>Часто задаваемые вопросы</value>
+  </data>
+  <data name="Front End Developer" xml:space="preserve">
+    <value>Разработчик фронтенда</value>
+  </data>
+  <data name="Full-Stack Developer" xml:space="preserve">
+    <value>Full-Stack разработчик</value>
+  </data>
+  <data name="Future" xml:space="preserve">
+    <value>Будущее</value>
+  </data>
+  <data name="Get Started" xml:space="preserve">
+    <value>Начать</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="How we help you to land your dream job in coding" xml:space="preserve">
+    <value>Как мы помогаем вам получить работу мечты в области программирования</value>
+  </data>
+  <data name="If you find yourself dissatisfied with your current job or income, whether you're an Uber driver, waiter, or freelancer, and dream of doubling or tripling your salary, we specialize in guiding individuals without degrees or IT backgrounds towards high-paying careers in the IT industry." xml:space="preserve">
+    <value>Если вы не удовлетворены своей текущей работой или доходом, будь то водитель Uber, официант или фрилансер, и мечтаете удвоить или утроить свою зарплату, мы специализируемся на помощи людям без высшего образования или опыта в IT в достижении высокооплачиваемых карьер в IT индустрии.</value>
+  </data>
+  <data name="If you're an experienced IT instructor, we invite you to join our team and share your expertise with us." xml:space="preserve">
+    <value>Если вы опытный инструктор по ИТ, мы приглашаем вас присоединиться к нашей команде и поделиться своим опытом с нами.</value>
+  </data>
+  <data name="If you're an experienced IT instructor, we invite you to join our team and share your expertise with us.​​" xml:space="preserve">
+    <value>Если вы опытный инструктор по IT, приглашаем вас присоединиться к нашей команде и поделиться своими знаниями с нами.</value>
+  </data>
+  <data name="Instructors" xml:space="preserve">
+    <value>Инструкторы</value>
+  </data>
+  <data name="Interested in hiring our graduates or discussing cooperation opportunities? Fill out the form below to connect with us." xml:space="preserve">
+    <value>Интересуетесь наймом наших выпускников или обсуждением возможностей сотрудничества? Заполните форму ниже, чтобы связаться с нами.</value>
+  </data>
+  <data name="Java Developer" xml:space="preserve">
+    <value>Разработчик Java</value>
+  </data>
+  <data name="Jnr Full-Stack Developer" xml:space="preserve">
+    <value>Младший Full-Stack разработчик</value>
+  </data>
+  <data name="job title" xml:space="preserve">
+    <value>должность</value>
+  </data>
+  <data name="Join our newsletter for the latest course updates" xml:space="preserve">
+    <value>Подпишитесь на нашу рассылку для получения последних обновлений курсов</value>
+  </data>
+  <data name="Join our newsletter to stay up to date on features and releases." xml:space="preserve">
+    <value>Подпишитесь на нашу рассылку, чтобы быть в курсе новых функций и выпусков.</value>
+  </data>
+  <data name="Join Our Platform for Seamless Team Collaboration" xml:space="preserve">
+    <value>Присоединяйтесь к нашей платформе для беспроблемного сотрудничества в команде</value>
+  </data>
+  <data name="Join Our Platform for Seamless Team Collaboration." xml:space="preserve">
+    <value>Присоединяйтесь к нашей платформе для беспрепятственного командного сотрудничества.</value>
+  </data>
+  <data name="Join our worldwide learning community as we dive into online education together." xml:space="preserve">
+    <value>Присоединяйтесь к нашему международному образовательному сообществу, где мы вместе погружаемся в онлайн-образование.</value>
+  </data>
+  <data name="Junior Python Developer" xml:space="preserve">
+    <value>Младший разработчик Python</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="Links" xml:space="preserve">
+    <value>Ссылки</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Местоположение</value>
+  </data>
+  <data name="Mail has been confirmed" xml:space="preserve">
+    <value>Ваша почта подтверждена</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Сообщение</value>
+  </data>
+  <data name="Occupation" xml:space="preserve">
+    <value>Род занятий</value>
+  </data>
+  <data name="Online Coding Bootcamp" xml:space="preserve">
+    <value>Онлайн кодинг-буткэмп</value>
+  </data>
+  <data name="Oops! Something went wrong while submitting the form." xml:space="preserve">
+    <value>Ой! Что-то пошло не так при отправке формы.</value>
+  </data>
+  <data name="or" xml:space="preserve">
+    <value>или</value>
+  </data>
+  <data name="Our Admission team will contact with you" xml:space="preserve">
+    <value>Наша приемная комиссия свяжется с вами</value>
+  </data>
+  <data name="Our Corporate Collaborators" xml:space="preserve">
+    <value>Наши корпоративные партнёры</value>
+  </data>
+  <data name="Our Courses" xml:space="preserve">
+    <value>Наши курсы</value>
+  </data>
+  <data name="Our Expert" xml:space="preserve">
+    <value>Наши Экспертные</value>
+  </data>
+  <data name="Our online learning platform Top Skills You Need To Know" xml:space="preserve">
+    <value>Наша онлайн-платформа: Топ навыков, которые вам нужно знать</value>
+  </data>
+  <data name="Phone number" xml:space="preserve">
+    <value>Номер телефона</value>
+  </data>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>Политика конфиденциальности</value>
+  </data>
+  <data name="Python Developer" xml:space="preserve">
+    <value>Разработчик Python</value>
+  </data>
+  <data name="QA Engineer" xml:space="preserve">
+    <value>Инженер по обеспечению качества</value>
+  </data>
+  <data name="QA Manager" xml:space="preserve">
+    <value>Менеджер по обеспечению качества</value>
+  </data>
+  <data name="Reserve your spot in 3 simple steps" xml:space="preserve">
+    <value>Забронируйте место в 3 простых шага</value>
+  </data>
+  <data name="Scroll to course content" xml:space="preserve">
+    <value>Прокрутить до содержания курса</value>
+  </data>
+  <data name="Secure your spot and take the first step towards a new career." xml:space="preserve">
+    <value>Забронируйте место и сделайте первый шаг к новой карьере.</value>
+  </data>
+  <data name="See All Instructors" xml:space="preserve">
+    <value>Посмотреть всех инструкторов</value>
+  </data>
+  <data name="See Already Given Questions" xml:space="preserve">
+    <value>Посмотреть уже заданные вопросы</value>
+  </data>
+  <data name="Senior Full-Stack Developer" xml:space="preserve">
+    <value>Старший Full-Stack разработчик</value>
+  </data>
+  <data name="Senior QA Engineer" xml:space="preserve">
+    <value>Старший инженер по обеспечению качества</value>
+  </data>
+  <data name="Senior Software Developer" xml:space="preserve">
+    <value>Старший разработчик программного обеспечения</value>
+  </data>
+  <data name="Sign the enrollment agreement" xml:space="preserve">
+    <value>Подпишите договор о зачислении</value>
+  </data>
+  <data name="Software Developer Manager" xml:space="preserve">
+    <value>Менеджер разработки программного обеспечения</value>
+  </data>
+  <data name="Start Your IT Journey" xml:space="preserve">
+    <value>Начните своё IT-путешествие.</value>
+  </data>
+  <data name="Starting" xml:space="preserve">
+    <value>Начало</value>
+  </data>
+  <data name="Still have questions?" xml:space="preserve">
+    <value>Есть ещё вопросы?</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="Submit your application" xml:space="preserve">
+    <value>Отправьте свою заявку</value>
+  </data>
+  <data name="Subscribe" xml:space="preserve">
+    <value>Подписаться</value>
+  </data>
+  <data name="Subscribe To Our Newsletter" xml:space="preserve">
+    <value>Подпишитесь на нашу рассылку</value>
+  </data>
+  <data name="Subscribed To Our Newsletter" xml:space="preserve">
+    <value>Вы подписаны на нашу рассылку.</value>
+  </data>
+  <data name="Terms &amp;amp;Condition" xml:space="preserve">
+    <value>Условия и положения</value>
+  </data>
+  <data name="Thank you! Your submission has been received!" xml:space="preserve">
+    <value>Спасибо! Ваше заявление получено!</value>
+  </data>
+  <data name="The tools you will use" xml:space="preserve">
+    <value>Инструменты которые вы будете использовать</value>
+  </data>
+  <data name="The topics you will learn" xml:space="preserve">
+    <value>Темы которые вы изучите</value>
+  </data>
+  <data name="They understand the journey of starting in IT from scratch. Through dedication and effort, they acquired the skills necessary to secure remarkable positions in the industry. Now, they're here to support you in achieving the same success." xml:space="preserve">
+    <value>Они понимают путь начала карьеры в IT с нуля. Благодаря усердию и усилиям они приобрели необходимые навыки, чтобы занять выдающиеся позиции в индустрии. Теперь они здесь, чтобы поддержать вас в достижении такого же успеха.</value>
+  </data>
+  <data name="They understand the journey of starting in IT from scratch. Through dedication and effort, they acquired the skills necessary to secure remarkable positions in the industry. Now, they're here to support you in achieving the same success.​​" xml:space="preserve">
+    <value>Они понимают, что значит начинать в IT с нуля. Благодаря упорству и усилиям они приобрели навыки, необходимые для получения выдающихся позиций в индустрии. Теперь они здесь, чтобы поддержать вас в достижении такого же успеха.</value>
+  </data>
+  <data name="Type your message" xml:space="preserve">
+    <value>Введите ваше сообщение</value>
+  </data>
+  <data name="Types of Entry Level Roles" xml:space="preserve">
+    <value>Начальные должности</value>
+  </data>
+  <data name="Types of Mid-Senior Roles" xml:space="preserve">
+    <value>Средние и старшие должности</value>
+  </data>
+  <data name="Types of Senior Roles" xml:space="preserve">
+    <value>Старших должностей</value>
+  </data>
+  <data name="Utility pages" xml:space="preserve">
+    <value>Полезные страницы</value>
+  </data>
+  <data name="View Course" xml:space="preserve">
+    <value>Просмотреть курс</value>
+  </data>
+  <data name="We are more than a team—We are a family. Together, we foster a culture of continuous learning and innovation, empowering individuals to thrive in the ever-evolving tech landscape.​" xml:space="preserve">
+    <value>Мы больше, чем просто команда — мы семья. Вместе мы поощряем культуру непрерывного обучения и инноваций, давая людям возможность процветать в постоянно меняющемся технологическом ландшафте.</value>
+  </data>
+  <data name="We are more than an online IT course provider; We are a vibrant community dedicated to unlocking your potential in the tech world. Through interactive online classes, we spark innovation, encourage collaboration, and ignite a love for learning. Together, let's redefine what's possible in Tech." xml:space="preserve">
+    <value>Мы больше, чем просто провайдер онлайн-курсов по IT; мы яркое сообщество, посвященное развитию вашего потенциала в мире технологий. Через интерактивные онлайн-занятия мы вдохновляем на инновации, способствуем сотрудничеству и зажигаем страсть к обучению. Вместе давайте переопределим возможности в мире технологий.</value>
+  </data>
+  <data name="We would love to hear from you." xml:space="preserve">
+    <value>Мы будем рады услышать от вас.</value>
+  </data>
+  <data name="Welcome to Codinax!" xml:space="preserve">
+    <value>Добро пожаловать в Codinax!</value>
+  </data>
+  <data name="Whether You're Applying to Teach or Enrolling as a Student.​" xml:space="preserve">
+    <value>Будь вы преподавателем или студентом, подавайте заявку или записывайтесь на курсы.</value>
+  </data>
+  <data name="Who We Are" xml:space="preserve">
+    <value>Кто мы есть</value>
+  </data>
+  <data name="With +5 years experience" xml:space="preserve">
+    <value>С опытом работы более 5 лет</value>
+  </data>
+  <data name="Working Company" xml:space="preserve">
+    <value>Рабочая компания</value>
+  </data>
+  <data name="You will make" xml:space="preserve">
+    <value>Вы заработаете</value>
+  </data>
+  <data name="You're now subscribed to our newsletter! Get ready for exclusive updates and offers delivered straight to your inbox." xml:space="preserve">
+    <value>Теперь вы подписаны на нашу рассылку! Готовьтесь получать эксклюзивные обновления и предложения прямо на вашу почту.</value>
+  </data>
+  <data name="Your Career Pathway" xml:space="preserve">
+    <value>Ваш карьерный путь</value>
+  </data>
+  <data name="Your data has been received and will be processed within 2 to 3 working days." xml:space="preserve">
+    <value>Ваши данные получены и будут обработаны в течение 2-3 рабочих дней.</value>
+  </data>
+</root>

@@ -1,5 +1,6 @@
 ﻿using CodinaxProjectMvc.Business.Abstract.PersistenceServices;
 using CodinaxProjectMvc.DataAccess.Models.Identity;
+using CodinaxProjectMvc.Managers.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

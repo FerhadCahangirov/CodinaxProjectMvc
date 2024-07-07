@@ -21,7 +21,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> InstructorsPartial(string? searchFilter, string? statusFilter)
         {
-            var pagination = await _instructorService.GetInstructorPaginationAsync(searchFilter, statusFilter);
+            var pagination = await _instructorService.GetInstructorsPartialAsync(searchFilter, statusFilter);
 
             if (pagination.Items?.ToList().Count == 0)
             {
@@ -33,7 +33,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var pagination = await _instructorService.GetInstructorPaginationAsync();
+            var pagination = await _instructorService.GetInstructorsPartialAsync();
 
             if (pagination.Items?.ToList().Count == 0)
             {
@@ -116,6 +116,15 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
         public async Task<JsonResult> SendPasswordGenerateMail(Guid id)
             => new JsonResult(new { success = await _instructorService.SendPasswordGenerateMailAsync(id) });
 
+        [HttpPut]
+        public async Task<JsonResult> ChangeShowcase(Guid id)
+        {
+            (bool success, string message) = await _instructorService.ChangeInstructorShowcaseAsync(id);
+            return new JsonResult(new {
+                success = success,
+                message = message
+            });
+        }
 
     }
 }

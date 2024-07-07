@@ -24,5 +24,11 @@ namespace CodinaxProjectMvc.Areas.Auth.Controllers
         public async Task<IActionResult> Send(string email)
             => new JsonResult(new { success = await _subscriberService.SubscribeAsync(email) });
 
+        public async Task<IActionResult> UnSubscribe(string email)
+        {
+            await _subscriberService.UnSubscribeAsync(email);
+            return Redirect("/Home/Index");
+        }
+
     }
 }

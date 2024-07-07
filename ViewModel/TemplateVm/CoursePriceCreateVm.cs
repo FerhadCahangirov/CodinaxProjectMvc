@@ -9,20 +9,30 @@ namespace CodinaxProjectMvc.ViewModel.TemplateVm
 
 
         [Required(ErrorMessage = "Title is required.")]
-        [StringLength(225, ErrorMessage = "Title cannot be longer than 225 characters.")]
         public string Title
         {
             get; set;
         }
 
-        public IEnumerable<CoursePriceInfoVm> CoursePriceInfos { get; set; }
+        public string? TitleRu
+        {
+            get; set;
+        }
+
+        public string? TitleTr
+        {
+            get; set;
+        }
+
+        public IEnumerable<CoursePriceInfoVm>? CoursePriceInfos { get; set; }
     }
 
     public class CoursePriceInfoVm
     {
 
         [Required(ErrorMessage = "Price info content is reqired.")]
-        [StringLength(225, ErrorMessage = "Price info content cannot be longer than 225 characters.")]
         public string Content { get; set; }
+        public string? ContentRu { get; set; }
+        public string? ContentTr { get; set; }
     }
 }

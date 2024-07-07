@@ -5,9 +5,11 @@ using CodinaxProjectMvc.DataAccess.Models;
 using CodinaxProjectMvc.Filters;
 using CodinaxProjectMvc.ViewModel.ApplicationVm;
 using CodinaxProjectMvc.ViewModel.CourseVm;
+using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 
 namespace CodinaxProjectMvc.Areas.Admin.Controllers
 {
@@ -171,7 +173,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
                 ViewBag.Message = "Nothing Found";
             }
 
-            return PartialView(viewName: "AssignInstructorPartial", data);
+            return PartialView(viewName: nameof(AssignInstructorsPartial), data);
         }
 
         [HttpGet]
@@ -221,7 +223,7 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
                 ViewBag.Message = "Nothing Found";
             }
 
-            return PartialView(viewName: "AssignStudentPartial", data);
+            return PartialView(viewName: nameof(AssignStudentsPartial), data);
         }
 
         [HttpGet]

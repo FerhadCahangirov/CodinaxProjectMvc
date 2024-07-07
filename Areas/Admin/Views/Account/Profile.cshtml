@@ -1,0 +1,166 @@
+﻿@using CodinaxProjectMvc.ViewModel.AdminVm;
+@model AdminAccountVm
+
+<script>
+    function showLoading() {
+        const loader = document.querySelector('.loader-container');
+        loader.classList.add('active');
+    }
+</script>
+
+@section Scripts {
+    @if (TempData["ProfileUpdated"] != null && (bool)TempData["ProfileUpdated"] == true)
+    {
+
+        <script>
+            Command: toastr["success"]("Profile has been updated.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+
+    @if (TempData["PasswordUpdated"] != null && (bool)TempData["PasswordUpdated"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Password Has Been Changed Suuccessfully.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+}
+
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
+
+<script>
+
+</script>
+
+<div class="settings-widget profile-details" data-select2-id="8">
+    <div class="settings-menu p-0" data-select2-id="7">
+        <div class="profile-heading">
+            <h3>Profile Details</h3>
+            <p>You have full control to manage your own account setting.</p>
+        </div>
+        <div class="checkout-form personal-address add-course-info">
+            <div class="personal-info-head">
+                <h4>Personal Details</h4>
+                <p>Edit your personal information</p>
+            </div>
+            <form method="post" onsubmit="showLoading()">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="input-block">
+                            <label class="form-control-label" asp-for="FirstName"></label>
+                            <input type="text" class="form-control" placeholder="Enter your first Name" asp-for="FirstName">
+                            <span class="text-danger" asp-validation-for="FirstName"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-block">
+                            <label class="form-control-label" asp-for="LastName"></label>
+                            <input type="text" class="form-control" placeholder="Enter your last Name" asp-for="LastName">
+                            <span class="text-danger" asp-validation-for="LastName"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-block">
+                            <label class="form-control-label" asp-for="EmailAddress"></label>
+                            <input type="email" class="form-control" placeholder="Enter your Email " asp-for="EmailAddress" readonly="readonly">
+
+
+                            <span class="text-danger" asp-validation-for="EmailAddress"></span>
+                        </div>
+                    </div>
+                    <div class="update-profile">
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="checkout-form personal-address change-password-form">
+            <div class="personal-info-head">
+                <h4>Personal Details</h4>
+                <p>Edit your personal information and address.</p>
+            </div>
+            <form method="post" onsubmit="showLoading()" action="/Admin/Account/ResetPassword">
+                <div class="row flex-column gap-3">
+                    <div class="col-lg-6">
+                        <div class="input-block">
+                            <label class="form-control-label" asp-for="Password"></label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" aria-describedby="password-button" asp-for="Password" id="password">
+                                <button class="btn btn-outline-secondary" type="button" id="password-button" onclick="togglePasswordVisibility('password', 'password-button-icon')">
+                                    <i class="fas fa-eye" id="password-button-icon"></i>
+                                </button>
+                            </div>
+                            <span class="text-danger" asp-validation-for="Password"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-block">
+                            <label class="form-control-label" asp-for="ConfirmPassword"></label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" aria-describedby="password-confirm-button" asp-for="ConfirmPassword" id="confirm-password">
+                                <button class="btn btn-outline-secondary" type="button" id="password-confirm-button" onclick="togglePasswordVisibility('confirm-password', 'password-confirm-button-icon')">
+                                    <i class="fas fa-eye" id="password-confirm-button-icon"></i>
+                                </button>
+                            </div>
+                            <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                        </div>
+                    </div>
+                    <div class="update-profile">
+                        <button type="submit" class="btn btn-primary">Update Password</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePasswordVisibility(passwordFieldId, iconId) {
+        var passwordField = document.getElementById(passwordFieldId);
+        var icon = document.getElementById(iconId);
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = "password";
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+</script>

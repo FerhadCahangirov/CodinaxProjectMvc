@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="About Us" xml:space="preserve">
+    <value>About Us</value>
+  </data>
+  <data name="Accelerate Your Learning with Our Dynamic Bootcamp Approach.​" xml:space="preserve">
+    <value>Accelerate Your Learning with Our Dynamic Bootcamp Approach.​</value>
+  </data>
+  <data name="Additional Info" xml:space="preserve">
+    <value>Additional Info</value>
+  </data>
+  <data name="Advance Your Career Across IT Fields with Ease." xml:space="preserve">
+    <value>Advance Your Career Across IT Fields with Ease.</value>
+  </data>
+  <data name="All Courses" xml:space="preserve">
+    <value>All Courses</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Apply Now" xml:space="preserve">
+    <value>Apply Now</value>
+  </data>
+  <data name="Average salary with 3-5 years experience" xml:space="preserve">
+    <value>Average salary with 3-5 years experience</value>
+  </data>
+  <data name="Average starting salary" xml:space="preserve">
+    <value>Average starting salary</value>
+  </data>
+  <data name="Become a Student" xml:space="preserve">
+    <value>Become a Student</value>
+  </data>
+  <data name="Become an Instructor" xml:space="preserve">
+    <value>Become an Instructor</value>
+  </data>
+  <data name="Begin Your Teaching Journey Today!" xml:space="preserve">
+    <value>Begin Your Teaching Journey Today!</value>
+  </data>
+  <data name="Begin Your Teaching or Learning Journey Today!" xml:space="preserve">
+    <value>Begin Your Teaching or Learning Journey Today!</value>
+  </data>
+  <data name="By subscribing you agree to our Privacy Policy and provide consent to receive updates from our company." xml:space="preserve">
+    <value>By subscribing you agree to our Privacy Policy and provide consent to receive updates from our company.</value>
+  </data>
+  <data name="Code Your Way To Success!" xml:space="preserve">
+    <value>Code Your Way To Success!</value>
+  </data>
+  <data name="Confirmation link sent to your mail." xml:space="preserve">
+    <value>Confirmation link sent to your mail.</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Contact Us" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="Corporate" xml:space="preserve">
+    <value>Corporate</value>
+  </data>
+  <data name="Corporate With Us" xml:space="preserve">
+    <value>Corporate With Us</value>
+  </data>
+  <data name="Course description" xml:space="preserve">
+    <value>Course description</value>
+  </data>
+  <data name="Courses" xml:space="preserve">
+    <value>Courses</value>
+  </data>
+  <data name="Defining your future Starts With growing your IT skills" xml:space="preserve">
+    <value>Defining your future Starts With growing your IT skills</value>
+  </data>
+  <data name="Dive into interactive online classes designed to equip you with essential skills for a successful career in IT" xml:space="preserve">
+    <value>Dive into interactive online classes designed to equip you with essential skills for a successful career in IT</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Enter your email..." xml:space="preserve">
+    <value>Enter your email...</value>
+  </data>
+  <data name="exclusive discounts, and more!​" xml:space="preserve">
+    <value>exclusive discounts, and more!​</value>
+  </data>
+  <data name="Explore All Courses" xml:space="preserve">
+    <value>Explore All Courses</value>
+  </data>
+  <data name="Explore Our Comprehensive Course Offerings to Unleash Your Potential in the World of IT.​" xml:space="preserve">
+    <value>Explore Our Comprehensive Course Offerings to Unleash Your Potential in the World of IT.​</value>
+  </data>
+  <data name="Fast-track Your Tech Career with Expert Instruction.​" xml:space="preserve">
+    <value>Fast-track Your Tech Career with Expert Instruction.​</value>
+  </data>
+  <data name="Find answers to common queries about our courses and programs" xml:space="preserve">
+    <value>Find answers to common queries about our
+courses and programs</value>
+  </data>
+  <data name="Find Courses" xml:space="preserve">
+    <value>Find Courses</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Follow us on social media for the latest updates and special content.​" xml:space="preserve">
+    <value>Follow us on social media for the latest updates and special content.​</value>
+  </data>
+  <data name="Frequently Asked Questions" xml:space="preserve">
+    <value>Frequently Asked Questions</value>
+  </data>
+  <data name="Front End Developer" xml:space="preserve">
+    <value>Front End Developer</value>
+  </data>
+  <data name="Full-Stack Developer" xml:space="preserve">
+    <value>Full-Stack Developer</value>
+  </data>
+  <data name="Future" xml:space="preserve">
+    <value>Future</value>
+  </data>
+  <data name="Get Started" xml:space="preserve">
+    <value>Get Started</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="How we help you to land your dream job in coding" xml:space="preserve">
+    <value>How we help you to land your dream job in coding</value>
+  </data>
+  <data name="If you find yourself dissatisfied with your current job or income, whether you're an Uber driver, waiter, or freelancer, and dream of doubling or tripling your salary, we specialize in guiding individuals without degrees or IT backgrounds towards high-paying careers in the IT industry." xml:space="preserve">
+    <value>If you find yourself dissatisfied with your current job or income, whether you're an Uber driver, waiter, or freelancer, and dream of doubling or tripling your salary, we specialize in guiding individuals without degrees or IT backgrounds towards high-paying careers in the IT industry.</value>
+  </data>
+  <data name="If you're an experienced IT instructor, we invite you to join our team and share your expertise with us." xml:space="preserve">
+    <value>If you're an experienced IT instructor, we invite you to join our team and share your expertise with us.</value>
+  </data>
+  <data name="If you're an experienced IT instructor, we invite you to join our team and share your expertise with us.​​" xml:space="preserve">
+    <value>If you're an experienced IT instructor, we invite you to join our team and share your expertise with us.​​</value>
+  </data>
+  <data name="Instructors" xml:space="preserve">
+    <value>Instructors</value>
+  </data>
+  <data name="Interested in hiring our graduates or discussing cooperation opportunities? Fill out the form below to connect with us." xml:space="preserve">
+    <value>Interested in hiring our graduates or discussing cooperation opportunities? Fill out the form below to connect with us.</value>
+  </data>
+  <data name="Java Developer" xml:space="preserve">
+    <value>Java Developer</value>
+  </data>
+  <data name="Jnr Full-Stack Developer" xml:space="preserve">
+    <value>Jnr Full-Stack Developer</value>
+  </data>
+  <data name="job title" xml:space="preserve">
+    <value>job title</value>
+  </data>
+  <data name="Join our newsletter for the latest course updates" xml:space="preserve">
+    <value>Join our newsletter for the latest course updates</value>
+  </data>
+  <data name="Join our newsletter to stay up to date on features and releases." xml:space="preserve">
+    <value>Join our newsletter to stay up to date on features and releases.</value>
+  </data>
+  <data name="Join Our Platform for Seamless Team Collaboration" xml:space="preserve">
+    <value>Join Our Platform for Seamless Team Collaboration</value>
+  </data>
+  <data name="Join Our Platform for Seamless Team Collaboration." xml:space="preserve">
+    <value>Join Our Platform for Seamless Team Collaboration.</value>
+  </data>
+  <data name="Join our worldwide learning community as we dive into online education together." xml:space="preserve">
+    <value>Join our worldwide learning community as we dive into online education together.</value>
+  </data>
+  <data name="Junior Python Developer" xml:space="preserve">
+    <value>Junior Python Developer</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Links" xml:space="preserve">
+    <value>Links</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Mail has been confirmed" xml:space="preserve">
+    <value>Mail has been confirmed</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Occupation" xml:space="preserve">
+    <value>Occupation</value>
+  </data>
+  <data name="Online Coding Bootcamp" xml:space="preserve">
+    <value>Online Coding Bootcamp</value>
+  </data>
+  <data name="Oops! Something went wrong while submitting the form." xml:space="preserve">
+    <value>Oops! Something went wrong while submitting the form.</value>
+  </data>
+  <data name="or" xml:space="preserve">
+    <value>or</value>
+  </data>
+  <data name="Our Admission team will contact with you" xml:space="preserve">
+    <value>Our Admission team will contact with you</value>
+  </data>
+  <data name="Our Corporate Collaborators" xml:space="preserve">
+    <value>Our Corporate Collaborators</value>
+  </data>
+  <data name="Our Courses" xml:space="preserve">
+    <value>Our Courses</value>
+  </data>
+  <data name="Our Expert" xml:space="preserve">
+    <value>Our Expert</value>
+  </data>
+  <data name="Our online learning platform Top Skills You Need To Know" xml:space="preserve">
+    <value>Our online learning platform Top Skills You Need To Know</value>
+  </data>
+  <data name="Phone number" xml:space="preserve">
+    <value>Phone number</value>
+  </data>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="Python Developer" xml:space="preserve">
+    <value>Python Developer</value>
+  </data>
+  <data name="QA Engineer" xml:space="preserve">
+    <value>QA Engineer</value>
+  </data>
+  <data name="QA Manager" xml:space="preserve">
+    <value>QA Manager</value>
+  </data>
+  <data name="Reserve your spot in 3 simple steps" xml:space="preserve">
+    <value>Reserve your spot in 3 simple steps</value>
+  </data>
+  <data name="Scroll to course content" xml:space="preserve">
+    <value>Scroll to course content</value>
+  </data>
+  <data name="Secure your spot and take the first step towards a new career." xml:space="preserve">
+    <value>Secure your spot and take the first step towards a new career.</value>
+  </data>
+  <data name="See All Instructors" xml:space="preserve">
+    <value>See All Instructors</value>
+  </data>
+  <data name="See Already Given Questions" xml:space="preserve">
+    <value>See Already Given Questions</value>
+  </data>
+  <data name="Senior Full-Stack Developer" xml:space="preserve">
+    <value>Senior Full-Stack Developer</value>
+  </data>
+  <data name="Senior QA Engineer" xml:space="preserve">
+    <value>Senior QA Engineer</value>
+  </data>
+  <data name="Senior Software Developer" xml:space="preserve">
+    <value>Senior Software Developer</value>
+  </data>
+  <data name="Sign the enrollment agreement" xml:space="preserve">
+    <value>Sign the enrollment agreement</value>
+  </data>
+  <data name="Software Developer Manager" xml:space="preserve">
+    <value>Software Developer Manager</value>
+  </data>
+  <data name="Start Your IT Journey" xml:space="preserve">
+    <value>Start Your IT Journey</value>
+  </data>
+  <data name="Starting" xml:space="preserve">
+    <value>Starting</value>
+  </data>
+  <data name="Still have questions?" xml:space="preserve">
+    <value>Still have questions?</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Submit your application" xml:space="preserve">
+    <value>Submit your application</value>
+  </data>
+  <data name="Subscribe" xml:space="preserve">
+    <value>Subscribe</value>
+  </data>
+  <data name="Subscribe To Our Newsletter" xml:space="preserve">
+    <value>Subscribe To Our Newsletter</value>
+  </data>
+  <data name="Subscribed To Our Newsletter" xml:space="preserve">
+    <value>Subscribed To Our Newsletter</value>
+  </data>
+  <data name="Terms &amp;amp;Condition" xml:space="preserve">
+    <value>Terms &amp;amp;Condition</value>
+  </data>
+  <data name="Thank you! Your submission has been received!" xml:space="preserve">
+    <value>Thank you! Your submission has been received!</value>
+  </data>
+  <data name="The tools you will use" xml:space="preserve">
+    <value>The tools you will use</value>
+  </data>
+  <data name="The topics you will learn" xml:space="preserve">
+    <value>The topics you will learn</value>
+  </data>
+  <data name="They understand the journey of starting in IT from scratch. Through dedication and effort, they acquired the skills necessary to secure remarkable positions in the industry. Now, they're here to support you in achieving the same success." xml:space="preserve">
+    <value>They understand the journey of starting in IT from scratch. Through dedication and effort, they acquired the skills necessary to secure remarkable positions in the industry. Now, they're here to support you in achieving the same success.</value>
+  </data>
+  <data name="They understand the journey of starting in IT from scratch. Through dedication and effort, they acquired the skills necessary to secure remarkable positions in the industry. Now, they're here to support you in achieving the same success.​​" xml:space="preserve">
+    <value>They understand the journey of starting in IT from scratch. Through dedication and effort, they acquired the skills necessary to secure remarkable positions in the industry. Now, they're here to support you in achieving the same success.​​</value>
+  </data>
+  <data name="Type your message" xml:space="preserve">
+    <value>Type your message</value>
+  </data>
+  <data name="Types of Entry Level Roles" xml:space="preserve">
+    <value>Types of Entry Level Roles</value>
+  </data>
+  <data name="Types of Mid-Senior Roles" xml:space="preserve">
+    <value>Types of Mid-Senior Roles</value>
+  </data>
+  <data name="Types of Senior Roles" xml:space="preserve">
+    <value>Types of Senior Roles</value>
+  </data>
+  <data name="Utility pages" xml:space="preserve">
+    <value>Utility pages</value>
+  </data>
+  <data name="View Course" xml:space="preserve">
+    <value>View Course</value>
+  </data>
+  <data name="We are more than a team—We are a family. Together, we foster a culture of continuous learning and innovation, empowering individuals to thrive in the ever-evolving tech landscape.​" xml:space="preserve">
+    <value>We are more than a team—We are a family. Together, we foster a culture of continuous learning and innovation, empowering individuals to thrive in the ever-evolving tech landscape.​</value>
+  </data>
+  <data name="We are more than an online IT course provider; We are a vibrant community dedicated to unlocking your potential in the tech world. Through interactive online classes, we spark innovation, encourage collaboration, and ignite a love for learning. Together, let's redefine what's possible in Tech." xml:space="preserve">
+    <value>We are more than an online IT course provider; We are a vibrant community dedicated to unlocking your potential in the tech world. Through interactive online classes, we spark innovation, encourage collaboration, and ignite a love for learning. Together, let's redefine what's possible in Tech.</value>
+  </data>
+  <data name="We would love to hear from you." xml:space="preserve">
+    <value>We would love to hear from you.</value>
+  </data>
+  <data name="Welcome to Codinax!" xml:space="preserve">
+    <value>Welcome to Codinax!</value>
+  </data>
+  <data name="Whether You're Applying to Teach or Enrolling as a Student.​" xml:space="preserve">
+    <value>Whether You're Applying to Teach or Enrolling as a Student.​</value>
+  </data>
+  <data name="Who We Are" xml:space="preserve">
+    <value>Who We Are</value>
+  </data>
+  <data name="With +5 years experience" xml:space="preserve">
+    <value>With +5 years experience</value>
+  </data>
+  <data name="Working Company" xml:space="preserve">
+    <value>Working Company</value>
+  </data>
+  <data name="You will make" xml:space="preserve">
+    <value>You will make</value>
+  </data>
+  <data name="You're now subscribed to our newsletter! Get ready for exclusive updates and offers delivered straight to your inbox." xml:space="preserve">
+    <value>You're now subscribed to our newsletter! Get ready for exclusive updates and offers delivered straight to your inbox.</value>
+  </data>
+  <data name="Your Career Pathway" xml:space="preserve">
+    <value>Your Career Pathway</value>
+  </data>
+  <data name="Your data has been received and will be processed within 2 to 3 working days." xml:space="preserve">
+    <value>Your data has been received and will be processed within 2 to 3 working days.</value>
+  </data>
+</root>

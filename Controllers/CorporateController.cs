@@ -1,9 +1,11 @@
 ﻿using CodinaxProjectMvc.Business.Abstract.PersistenceServices;
+using CodinaxProjectMvc.Filters;
 using CodinaxProjectMvc.ViewModel.CorporateVm;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodinaxProjectMvc.Controllers
 {
+    [CurrentLangFilterFactory]
     public class CorporateController : Controller
     {
         private readonly ICorporateService _corporateService;
@@ -13,9 +15,9 @@ namespace CodinaxProjectMvc.Controllers
             _corporateService = corporateService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(new CorporateSendVm(await _corporateService.ListCorporatesAsync()));
         }
 
         [HttpPost]

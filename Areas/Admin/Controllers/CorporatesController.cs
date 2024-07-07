@@ -17,20 +17,24 @@ namespace CodinaxProjectMvc.Areas.Admin.Controllers
             _corporateService = corporateService;
         }
 
+        public async Task<IActionResult> CorporatesPartial(string? searchFilter = null)
+            => PartialView(viewName: "CorporatesPartial", await _corporateService.CorporatesPartialAsync(searchFilter));
+        
+
         public async Task<IActionResult> Index()
             => View(await _corporateService.ListCorporatesAsync());
 
         public async Task<IActionResult> Edit(Guid id)
             => View(await _corporateService.GetCorporateUpdateDataAsync(id));
 
-        [HttpPost]
+        [HttpPost]  
         public async Task<IActionResult> Edit(CorporateUpdateVm corporateUpdateVm)
         {
             bool result = await _corporateService.EditCorporateAsync(corporateUpdateVm);
 
             if (!result)
             {
-                return View(corporateUpdateVm);
+                return View(await _corporateService.GetCorporateUpdateDataAsync(corporateUpdateVm.Id));
             }
 
             TempData["CorporateEdited"] = true;

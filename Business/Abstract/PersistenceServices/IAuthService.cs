@@ -3,6 +3,7 @@ using CodinaxProjectMvc.ViewModel.AccountVm;
 using CodinaxProjectMvc.ViewModel.AuthVm;
 using CodinaxProjectMvc.ViewModel.InstructorVm;
 using CodinaxProjectMvc.ViewModel.StudentVm;
+using Grpc.Core;
 
 namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
 {
@@ -46,6 +47,10 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <param name="passwordSetupVm">The view model containing information for setting up the password.</param>
         /// <returns>A task representing the asynchronous operation, returning true if password setup is successful, otherwise false.</returns>
         public Task<bool> SetupPasswordAsync(PasswordSetupVm passwordSetupVm);
+
+        public Task<bool> SendForgotPasswordAsync(ForgotPasswordVm forgotPasswordVm);
+
+        public Task<bool> ResetPasswordAsync(ResetPasswordVm resetPasswordVm);
     }
 
 

@@ -28,6 +28,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>Codinax Student Panel</title>
 
+    <link rel="icon" type="image/x-icon" href="/Assets/imgs/logos/X.png">
+    <meta name="author" content="Farhad Jahangirov">
+
     <style class="vjs-styles-defaults">
         .video-js {
             width: 300px;
@@ -84,7 +87,7 @@
 
 </head>
 
-<body>
+<body oncontextmenu="return false">
     <div class="container-view">
         <main class="main_container main_content_video_player">
             <div class="main_content main_content_video_player">
@@ -207,7 +210,23 @@
     </div>
 
     <script>
-
+        document.onkeydown = (e) => {
+            if (e.key == 123) {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.shiftKey && e.key == 'I') {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.shiftKey && e.key == 'C') {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.shiftKey && e.key == 'J') {
+                e.preventDefault();
+            }
+            if (e.ctrlKey && e.key == 'U') {
+                e.preventDefault();
+            }
+        };
 
         document.addEventListener('DOMContentLoaded', () => {
 

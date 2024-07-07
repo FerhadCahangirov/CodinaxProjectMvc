@@ -31,6 +31,12 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ContentRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentTr")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -186,6 +192,12 @@ namespace CodinaxProjectMvc.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ContentRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentTr")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -301,6 +313,12 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TitleRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TitleTr")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
@@ -377,6 +395,12 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<string>("Answer")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AnswerRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AnswerTr")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -387,6 +411,12 @@ namespace CodinaxProjectMvc.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuestionRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuestionTr")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -421,6 +451,12 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TitleRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TitleTr")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
@@ -436,6 +472,12 @@ namespace CodinaxProjectMvc.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentTr")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -759,6 +801,12 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TitleRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TitleTr")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
@@ -776,6 +824,12 @@ namespace CodinaxProjectMvc.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentTr")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -954,6 +1008,12 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ContentRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentTr")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CourseFragmentVideoName")
                         .HasColumnType("nvarchar(max)");
 
@@ -972,19 +1032,49 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DescriptionRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescriptionTr")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("FinishingDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FutureJobDesc")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FutureJobDescRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FutureJobDescTr")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FutureJobSalary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FutureJobSalaryRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FutureJobSalaryTr")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Heading")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HeadingDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeadingDescriptionRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeadingDescriptionTr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeadingRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeadingTr")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsArchived")
@@ -996,7 +1086,19 @@ namespace CodinaxProjectMvc.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LocationRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocationTr")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Properties")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PropertiesRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PropertiesTr")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("StartingDate")
@@ -1017,6 +1119,12 @@ namespace CodinaxProjectMvc.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentTr")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -1054,6 +1162,12 @@ namespace CodinaxProjectMvc.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentRu")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContentTr")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -1220,6 +1334,9 @@ namespace CodinaxProjectMvc.Migrations
 
                     b.Property<string>("Profession")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Showcase")
+                        .HasColumnType("bit");
 
                     b.HasDiscriminator().HasValue("Instructor");
                 });

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Faq>
+@inject LanguageService _resource
+
+<section class="section-faq">
+    <div class="padding-global">
+        <div class="container-small">
+            <div class="padding-section-large">
+                <div class="text-align-center">
+                    <div data-w-id="d48ee730-c8a5-4405-d9ed-29b2beba958d" class="max-width-large align-center">
+                        <div class="padding-bottom padding-xsmall"></div>
+                        <h2>@_resource.GetLocalizedHTML("Frequently Asked Questions")</h2>
+                        <div class="padding-bottom padding-small"></div>
+                        <p>
+                            @_resource.GetLocalizedHTML("Find answers to common queries about our courses and programs")
+                        </p>
+                    </div>
+                </div>
+                <div class="padding-bottom padding-xxlarge"></div>
+                <div data-w-id="d48ee730-c8a5-4405-d9ed-29b2beba959a" class="faq-component">
+                    <div class="w-layout-grid faq-list">
+                        @if (Model != null && Model.Count() > 0)
+                        {
+                            @foreach (var faq in Model)
+                            {
+                                <div class="faq-accordion">
+                                    <div class="faq-question">
+                                        <div class="faq-text-wrapper">
+                                            <div class="faq-icon-wrapper">
+                                                <div class="faq-icon is-left"></div>
+                                                <div class="faq-icon"></div>
+                                            </div>
+                                            @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(faq.QuestionRu))
+                                            {
+                                                <div class="text-weight-bold text-size-medium">@faq.QuestionRu</div>
+                                            }
+                                            else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(faq.QuestionTr))
+                                            {
+                                                <div class="text-weight-bold text-size-medium">@faq.QuestionTr</div>
+                                            }
+                                            else
+                                            {
+                                                <div class="text-weight-bold text-size-medium">@faq.Question</div>
+                                            }
+                                        </div>
+                                        <div class="faq-shape"></div>
+                                    </div>
+                                    <div class="faq-answer">
+                                        @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(faq.AnswerRu))
+                                        {
+                                            <p>@faq.AnswerRu</p>
+                                        }
+                                        else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(faq.AnswerTr))
+                                        {
+                                            <p>@faq.AnswerTr</p>
+                                        }
+                                        else
+                                        {
+                                            <p>@faq.Answer</p>
+                                        }
+                                        <div class="padding-bottom padding-small"></div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+                <div class="padding-bottom padding-xxlarge"></div>
+                <div data-w-id="d48ee730-c8a5-4405-d9ed-29b2beba95dd" class="faq-bottom-wrapper">
+                    <div class="text-align-center">
+                        <div class="max-width-medium align-center">
+                            <h3 class="heading-style-h6">@_resource.GetLocalizedHTML("Still have questions?")</h3>
+                            <div class="padding-bottom padding-xsmall"></div>
+                            <div class="padding-bottom padding-small"></div>
+                        </div>
+                        <div class="button-group is-center">
+                            <a href="/contact" class="button w-button">@_resource.GetLocalizedHTML("Contact Us")</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

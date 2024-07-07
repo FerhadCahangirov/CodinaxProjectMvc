@@ -10,5 +10,11 @@ namespace CodinaxProjectMvc.ViewModel.CategoryVm
         [Required(ErrorMessage = "Category Name Required")]
         [Display(Name = "Name For Category")]
         public string? CategoryName { get; set; }
+
+        [Display(Name = "Name For Category Russian")]
+        public string? CategoryNameRu { get; set; }
+
+        [Display(Name = "Name For Category Turkish")]
+        public string? CategoryNameTr { get; set; }
     }
 }

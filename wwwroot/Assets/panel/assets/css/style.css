@@ -32,6 +32,7 @@
     --card-border-color: hsla(0,0%,43.9%,0.65);
     --mt-dashboard--background: transparent;
     --quiz-times-up-bg: #fff;
+    --video-play-icon: #0e0c3a;
 }
 
 .Light-Theme, :root, [data-theme=light] {
@@ -106,6 +107,7 @@
     --labelInputBorder: #5611ff;
     --labelQuestionWrapperBG: #e9e4ff;
     --secondary-profile-color: #303030;
+    --video-play-icon: #0e0c3a;
 }
 
 .Light-Theme, [data-theme=light] {
@@ -143,6 +145,8 @@
     --quiz-times-up-bg: #fff;
     --dashboard-card-box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
     --secondary-profile-color: #303030;
+    --video-play-icon: #0e0c3a;
+    --btn-light-text: #000;
 }
 
 .Dark-Theme, [data-theme=dark] {
@@ -248,6 +252,12 @@
     --resumeQuizButton: #00c9ff;
     --dashboard-card-box-shadow: 0 0 0 1px #707070;
     --secondary-profile-color: #acacac;
+    --btn-light-text: #fff;
+    --video-play-icon: #fff;
+}
+
+.btn-info-light{
+    color: var(--btn-light-text) !important;
 }
 
 *, :after, :before {
@@ -1276,7 +1286,7 @@ li.breadcrumb_item {
 
     .add-image-box a {
         font-size: 200px !important;
-        color: #a1a2a0 !important;
+        color: var(--sidemenu-background) !important;
     }
 
 .add-video-box {
@@ -1285,7 +1295,7 @@ li.breadcrumb_item {
 
     .add-video-box a {
         font-size: 40px !important;
-        color: var(--sidemenu-background) !important;
+        color: var(--video-play-icon) !important;
     }
 
 .add-course-section {
@@ -1332,7 +1342,7 @@ li.breadcrumb_item {
     .modal-custom-content h5 {
         font-weight: 700;
         font-size: 18px;
-        color: var(--text-color-revert)
+        color: #fff;
     }
 
     .centered {
@@ -3039,6 +3049,8 @@ h5 {
 .popup-wrapper .item-settings-holder {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 10px
 }
 
     .popup-wrapper .item-settings-holder .Header-State {
@@ -3049,6 +3061,14 @@ h5 {
     background-color: var(--info-profile-bg) !important;
     padding: 10px;
     border-radius: 6px;
+    min-width: 92px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Header-State:hover{
+    color: var(--text-color) !important;
 }
 
 .popup-wrapper .Header-State {
@@ -3760,7 +3780,7 @@ button.mt--select-button-dsh:after {
     z-index: 9999;
     width: 300px;
     padding: .5rem 0;
-    background-color: #fff;
+    background: var(--mt-dashboard-dropdown);
     border-radius: 6px;
     box-shadow: 0 0 0 0 #fff, 0 0 0 1px rgba(0, 0, 0, .05), 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0,.05);
     visibility: hidden;
@@ -3873,60 +3893,11 @@ button.mt--select-button-dsh:after {
 }
 
 
-/*.SideMenu-Button-Dropdown[data-theme-state=light] + div[data-tippy-root] .tippy-box .tippy-content {
-    background: #fff;
-    color: #000;
-    box-shadow: 0 0 0 2px var(--secondary-color) !important;
+.modal-custom-content .card{
+    color: #000 !important;
 }
 
-.tippy-box:not(.tooltip--n) .tippy-content {
-    font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, saserif;
-    pointer-events: auto;
-    padding: 8px 0;
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .18), 0 4px 5px 0 rgba(0, 0, 0, .12), 0 1px 10px 0 rgba(0, 0, 0, .1);
-    background: #fff;
-    min-width: 162px;
-    max-width: 280px;
-    max-height: calc(100vh - 48px);
-    border-radius: 4px;
-    outline: 0;
-    min-height: 50px;
-    transform-origin: left bottom;
-    color: #000;
-}
 
-.tippy-box .tippy-content {
-    min-width: 162px;
-    max-width: 280px;
+.ck-editor {
+    color: black !important;
 }
-
-.SideMenu-Dropdown {
-    min-width: 250px;
-    color: #000;
-}
-
-.SideMenu-Dropdown-Items {
-    margin: 0;
-    list-style: none;
-    padding: 0;
-}
-
-.SideMenu-Button-Dropdown[data-theme-state=light] + div[data-tippy-root] .tippy-box .tippy-content .SideMenu-Dropdown-Link {
-    background: #fff;
-    color: #000;
-}
-
-.SideMenu-Dropdown-Link {
-    --Dropdown-Link-Size: 42px;
-    line-height: var(--Dropdown-Link-Size);
-    height: var(--Dropdown-Link-Size);
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    color: var(--text-color);
-}
-
-    .SideMenu-Dropdown-Link span, .SideMenu-Dropdown-Link i {
-        margin-right: 8px;
-    }*/

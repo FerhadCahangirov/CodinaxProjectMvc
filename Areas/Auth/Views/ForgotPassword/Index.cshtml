@@ -1,0 +1,95 @@
+﻿@model ForgotPasswordVm
+
+@section Scripts {
+    @if (TempData["ForgotPasswordSent"] != null && (bool)TempData["ForgotPasswordSent"] == true)
+    {
+        <script>
+            Command: toastr["success"]("Reset password link sent to your email account.");
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "500",
+                "timeOut": "1000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+        </script>
+    }
+}
+
+<div class="c8e341991 ceafa1b92" bis_skin_checked="1">
+
+    <main class="c03d68601 login">
+        <section class="cc3e0ee20 login _prompt-box-outer c2967d1c4">
+            <div class="c476543f4 cfee98151" bis_skin_checked="1">
+
+
+                <div class="c28e57d17" bis_skin_checked="1">
+                    <header class="cd141dba7 cfd689eac">
+                        <div title="CYDEO" id="custom-prompt-logo" style="width: auto !important; height: 60px !important; position: static !important; margin: auto !important; padding: 0 !important; background-color: transparent !important; background-position: center !important; background-size: contain !important; background-repeat: no-repeat !important" bis_skin_checked="1"></div>
+
+                        <img class="c815a59b2 cafb7e9ea" id="prompt-logo-center" src="/Assets/imgs/logos/CODINAX.png" alt="codinax">
+
+
+                        <h1 class="c75a821d8 cf4ccfc47">Welcome Back</h1>
+
+
+                        <div class="c4b06d157 c285aedab" bis_skin_checked="1">
+
+                            <p class="c3360ff4e c8fe48fda">Enter your mail to reset your password.</p>
+
+                        </div>
+                    </header>
+
+                    <div class="c49c1ba2f cffe0c5a0" bis_skin_checked="1">
+                        <form method="POST" class="c95cb8570 c17a4938a" action="/Auth/ForgotPassword/Send">
+
+                            <div class="c4e8f3baf cd402327c" bis_skin_checked="1">
+                                <div class="cfffe57fa" bis_skin_checked="1">
+
+                                    <div class="input-wrapper _input-wrapper" bis_skin_checked="1">
+                                        <div class="ce385ba79 c630cc19b text c7f15f265 c11d28311 cb636dbea" data-action-text="" data-alternate-action-text="" bis_skin_checked="1">
+                                            <label class="c504b47d1 no-js cc454c27b c38729609" asp-for="EmailAddress">
+                                            </label>
+
+                                            <input class="input c9396bda3 c1fec96e1" inputmode="email" type="text" value="" required="" autocomplete="email" autocapitalize="none" spellcheck="false" autofocus="" asp-for="EmailAddress">
+
+                                            <div class="c504b47d1 js-required cc454c27b c38729609" data-dynamic-label-for="username" aria-hidden="true" bis_skin_checked="1">
+                                                Email address
+                                            </div>
+
+                                            <span class="text-danger mt-2" asp-validation-for="EmailAddress"></span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="c45d6a94b" bis_skin_checked="1">
+
+                                <button type="submit" class="cea93c1fe cb2dfcee4 cb8f247a6 c5d1e7708 cb2e18c4c">Send</button>
+
+                            </div>
+                        </form>
+
+                        <div class="ulp-alternate-action  _alternate-action __s16nu9" bis_skin_checked="1">
+                            <p class="c3360ff4e c8fe48fda c9b2b9d32">
+                                Need help? Contact us at support@codinax.com
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</div>

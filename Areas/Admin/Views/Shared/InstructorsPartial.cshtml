@@ -129,6 +129,42 @@
         });
     }
 
+    function changeshowcase(id){
+        $.ajax({
+            type: 'PUT',
+            url: `/Admin/Instructors/ChangeShowcase/${id}`,
+            success: (data) => {
+                if (data.success) {
+
+                    const element = document.querySelector(`#showcase_${id} a i`);
+
+                    if (element.classList.contains('fa-eye')){
+                        element.classList.remove('fa-eye');
+                        element.classList.add('fa-eye-slash');
+                    }
+                    else{
+                        element.classList.remove('fa-eye-slash');
+                        element.classList.add('fa-eye');
+                    }
+
+                    showToaster('success', data.message);
+                }
+                else{
+                    if (data.message === 'Only 4 Instructor Showcase Allowed.') {
+                        showToaster('warning', data.message);
+                    }
+                    else {
+                        showToaster('error', data.message);
+                    }
+                }
+            },
+            error: (data) => {
+                console.error(data);
+                showToaster('error', 'Failed To Change Showcase');
+            }
+        });
+    }
+
     function deleteInstructor(id) {
         $.ajax({
             type: 'DELETE',
@@ -175,13 +211,14 @@
 
 <div class="table-responsive">
     <table class="table align-items-center table-flush">
-        <thead class="thead-light">
+        <thead>
             <tr>
                 <th scope="col">Fullname</th>
                 <th scope="col">Status</th>
                 <th scope="col">Approve</th>
                 <th scope="col">Ban</th>
                 <th scope="col">Delete</th>
+                <th scope="col">Showcase</th>
                 <th scope="col">Email Confirmed</th>
                 <th scope="col">Password Setup</th>
                 <th scope="col">View</th>
@@ -210,7 +247,7 @@
                                 <span class="mb-0 text-sm">@item.FirstName @item.LastName</span>
                             </div>
                         </div>
-                    </th>
+                    </th>                                               
                     <td id="status_@item.Id">
                         @if (!item.EmailConfirmed)
                         {
@@ -278,6 +315,25 @@
                             <i class="fa-solid fa-delete-left"></i>
                         </a>
                     </td>
+                    <td id="showcase_@item.Id">
+                        @if (item.IsApproved)
+                        {
+                            @if (item.Showcase)
+                            {
+                                <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="changeshowcase('@item.Id')">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+
+                            }
+                            else
+                            {
+                                <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="changeshowcase('@item.Id')">
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                </a>
+
+                            }
+                        }
+                    </td>
                     <td>
                         @if (item.EmailConfirmed)
                         {
@@ -294,7 +350,7 @@
                         }
                     </td>
                     <td>
-                        @if (item.IsApproved)
+                        @if (item.IsApproved && item.EmailConfirmed)
                         {
                             @if (!string.IsNullOrEmpty(item.PasswordHash))
                             {
@@ -312,9 +368,24 @@
                         }
                         else
                         {
-                            <span class="badge badge-dot mr-4 text-secondary">
-                                <i class="bg-warning"></i> not approved
-                            </span>
+                            @if (!item.IsApproved && !item.EmailConfirmed)
+                            {
+                                <span class="badge badge-dot mr-4 text-secondary">
+                                    <i class="bg-warning"></i> mail not confirmed
+                                </span>
+                            }
+                            else if (!item.IsApproved && item.EmailConfirmed)
+                            {
+                                <span class="badge badge-dot mr-4 text-secondary">
+                                    <i class="bg-warning"></i> not approved
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-dot mr-4 text-secondary">
+                                    <i class="bg-warning"></i> mail not confirmed
+                                </span>
+                            }
                         }
 
                     </td>
@@ -367,9 +438,9 @@
                                                     </div>
                                                 </div>
 
-                                                <h6>Applied Course</h6>
+                                                <h6>Participated Course</h6>
                                                 <hr class="mt-0 mb-4">
-                                                @foreach (var course in item.Courses)
+                                                @foreach (var course in item.Courses.Where(x => !x.IsDeleted && !x.IsArchived))
                                                 {
                                                     <div class="row pt-1">
                                                         <div class="col-4 mb-3">

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<About>
+@inject LanguageService _resource
+
+<div class="feature-wrapper">
+    <div class="section-divider"></div>
+    <section class="section-feature">
+        <div class="padding-global">
+            <div class="container-large">
+                <div class="padding-section-large">
+                    <div class="w-layout-grid feature-component">
+                        <div data-w-id="504d7997-8114-e847-0856-1ae85e46bd84" class="feature-content" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                            <h2>@_resource.GetLocalizedHTML("How we help you to land your dream job in coding")</h2>
+                            <div class="padding-bottom padding-small"></div>
+                            <p class="text-size-regular">@_resource.GetLocalizedHTML("If you find yourself dissatisfied with your current job or income, whether you're an Uber driver, waiter, or freelancer, and dream of doubling or tripling your salary, we specialize in guiding individuals without degrees or IT backgrounds towards high-paying careers in the IT industry.")</p>
+                            <div class="padding-bottom padding-large"></div>
+                            <div class="feature-list-wrapper">
+                                @if (Model != null && Model.Count() > 0)
+                                {
+                                    @foreach (var about in Model)
+                                    {
+                                        <div class="feature-item">
+                                            <div class="feature-item-icon-wrapper">
+                                                <img src="/Assets/imgs/icons/check.png" loading="lazy" width="16" alt="Icon">
+                                            </div>
+
+                                            @if(ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(about.ContentRu))
+                                            {
+                                                <div class="text-weight-bold text-size-xsmall">@about.ContentRu</div>
+                                            }
+                                            else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(about.ContentTr))
+                                            {
+                                                <div class="text-weight-bold text-size-xsmall">@about.ContentTr</div>
+                                            }
+                                            else
+                                            {
+                                                <div class="text-weight-bold text-size-xsmall">@about.Content</div>
+                                            }
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div id="w-node-_504d7997-8114-e847-0856-1ae85e46bd9b-5e46bd7d" class="feature-image-wrapper">
+                            @if (ViewData["Culture"].ToString() == "ru-RU")
+                            {
+                                <img src="/Assets/imgs/cards/Add a subheading (8).png" loading="lazy" data-w-id="504d7997-8114-e847-0856-1ae85e46bd9c" width="624" sizes="(max-width: 479px) 100vw, (max-width: 991px) 90vw, 42vw" alt="Our Student Success" class="feature-image z-index-2" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                              
+                            }
+                            else if (ViewData["Culture"].ToString() == "tr-TR")
+                            {
+                                <img src="/Assets/imgs/cards/Add a subheading (9).png" loading="lazy" data-w-id="504d7997-8114-e847-0856-1ae85e46bd9c" width="624" sizes="(max-width: 479px) 100vw, (max-width: 991px) 90vw, 42vw" alt="Our Student Success" class="feature-image z-index-2" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                            }
+                            else
+                            {
+                                <img src="/Assets/imgs/cards/Add a subheading (3).png" loading="lazy" data-w-id="504d7997-8114-e847-0856-1ae85e46bd9c" width="624" sizes="(max-width: 479px) 100vw, (max-width: 991px) 90vw, 42vw" alt="Our Student Success" class="feature-image z-index-2" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                            }
+
+                           
+                            <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f4beb6da7598008cca277e_Group%202.webp" loading="lazy" width="154.5" data-w-id="504d7997-8114-e847-0856-1ae85e46bd9d" alt="a black and white image of a black background with white dots" class="illustration is-top-left is-feature" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                            <img src="https://assets.website-files.com/63edcc04ea8777a0bc4eed69/63f4beb6da7598008cca277e_Group%202.webp" loading="lazy" width="154.5" data-w-id="504d7997-8114-e847-0856-1ae85e46bd9e" alt="a black and white image of a black background with white dots" class="illustration is-bottom-right" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="section-divider is-bottom"></div>
+</div>

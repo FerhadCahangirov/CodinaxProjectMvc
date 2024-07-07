@@ -31,6 +31,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             Category category = new Category()
             {
                 Content= categoryCreateVm.CategoryName,
+                ContentRu= categoryCreateVm.CategoryNameRu,
+                ContentTr= categoryCreateVm.CategoryNameTr,
             };
 
             await _categoryWriteRepository.AddAsync(category);
@@ -66,6 +68,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             return new CategoryUpdateVm()
             {
                 CategoryName = category.Content,
+                CategoryNameRu = category.ContentRu,
+                CategoryNameTr = category.ContentTr,
                 Id = id
             };
         }
@@ -85,6 +89,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             }
 
             category.Content = categoryUpdateVm.CategoryName;
+            category.ContentRu = categoryUpdateVm.CategoryNameRu;
+            category.ContentTr = categoryUpdateVm.CategoryNameTr;
 
             _categoryWriteRepository.Update(category);
             await _categoryWriteRepository.SaveAsync();

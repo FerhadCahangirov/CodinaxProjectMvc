@@ -9,6 +9,8 @@ namespace CodinaxProjectMvc.DataAccess.Models
         public string? Profession { get; set; }
         public IEnumerable<Event> Events { get; set; }
 
+        public bool Showcase { get; set; }
+
         public Instructor()
         {
             Courses = new List<Course>();

@@ -5,6 +5,11 @@ namespace CodinaxProjectMvc.ViewModel.CorporateVm
 {
     public class CorporateSendVm
     {
+        public CorporateSendVm(CorporateListVm corporateListVm)
+        {
+            Corporates = corporateListVm;
+        }
+
         [Required(ErrorMessage = "First name is required")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -41,5 +46,6 @@ namespace CodinaxProjectMvc.ViewModel.CorporateVm
         [Required]
         [Display(Name = "Showcase")]
         public bool Showcase { get; set; }
-    }
+        public CorporateListVm Corporates { get; }
+    }   
 }

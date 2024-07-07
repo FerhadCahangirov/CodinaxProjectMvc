@@ -37,6 +37,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             About about = new About()
             {
                 Content = aboutCreateVm.Content,
+                ContentRu = aboutCreateVm.ContentRu,
+                ContentTr = aboutCreateVm.ContentTr,
             };
 
             await _aboutWriteRepository.AddAsync(about);
@@ -72,6 +74,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             return new AboutUpdateVm()
             {
                 Content = about.Content,
+                ContentTr = about.ContentTr,
+                ContentRu = about.ContentRu,
                 Id = id
             }; 
         }
@@ -91,6 +95,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             }
 
             about.Content = aboutUpdateVm.Content;
+            about.ContentRu = aboutUpdateVm.ContentRu;
+            about.ContentTr = aboutUpdateVm.ContentTr;
 
             _aboutWriteRepository.Update(about);
             await _aboutWriteRepository.SaveAsync();

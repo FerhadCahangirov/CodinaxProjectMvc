@@ -477,7 +477,7 @@ body._hide-prompt-logo .c815a59b2, body._use-custom-prompt-logo .c815a59b2 {
         display: grid;
         grid-template-rows: [left-start center-start right-start] 1fr [left-end center-end right-end];
         grid-template-columns: [left-start center-start] 1fr [left-end right-start] 1fr [center-end right-end];
-        align-items: center;
+        align-items: center;    
         justify-content: center;
         justify-items: center;
         grid-column-gap: 160px;

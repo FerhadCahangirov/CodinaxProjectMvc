@@ -18,7 +18,7 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <param name="page">Page number for pagination (default is 0).</param>
         /// <param name="size">Number of items per page (default is 10).</param>
         /// <returns>A task representing the asynchronous operation, returning a pagination view model of instructors.</returns>
-        public Task<PaginationVm<IEnumerable<Instructor>>> GetInstructorPaginationAsync(string? searchFilter = null, string? statusFilter = null);
+        public Task<PaginationVm<IEnumerable<Instructor>>> GetInstructorsPartialAsync(string? searchFilter = null, string? statusFilter = null);
 
         /// <summary>
         /// Approves an instructor with the specified ID.
@@ -87,7 +87,7 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         /// <returns>A task representing the asynchronous operation, returning true if the email sending is successful, otherwise false.</returns>
         public Task<bool> SendConfirmationMailAsync(Guid id);
 
-        Task<PaginationVm<IEnumerable<Instructor>>> GetAssignableInstructorPaginationAsync(string? searchFilter = null);
+        Task<PaginationVm<IEnumerable<Instructor>>> GetAssignableInstructorsPartialAsync(string? searchFilter = null);
 
         Task<bool> DeleteAsync(Guid id);
 
@@ -98,5 +98,7 @@ namespace CodinaxProjectMvc.Business.Abstract.PersistenceServices
         Task<bool> SendPasswordGenerateMailAsync(Guid id);
 
         Task<bool> ChangePasswordAsync(InstructorResetPasswordVm instructorResetPasswordVm);
+
+        Task<(bool success, string message)> ChangeInstructorShowcaseAsync(Guid id);
     }
 }

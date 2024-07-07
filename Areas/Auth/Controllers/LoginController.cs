@@ -36,7 +36,7 @@ namespace CodinaxProjectMvc.Areas.Auth.Controllers
             if (roles.Any(role => role == Roles.Instructor.ToString()))
                 return Redirect("/Instructor/Courses");
             else if (roles.Any(role => role == Roles.Student.ToString()))
-                return Redirect("/Student/Courses");
+                return Redirect("/Student/Applications");
             else
                 return Redirect("/Admin/Instructors");
         }

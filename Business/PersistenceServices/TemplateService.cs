@@ -97,15 +97,31 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             Template template = new Template()
             {
                 Heading = templateCreateVm.CourseHeading,
+                HeadingRu = templateCreateVm.CourseHeadingRu,
+                HeadingTr = templateCreateVm.CourseHeadingTr,
                 HeadingDescription = templateCreateVm.CourseHeaderDescription,
+                HeadingDescriptionRu = templateCreateVm.CourseHeaderDescriptionRu,
+                HeadingDescriptionTr = templateCreateVm.CourseHeaderDescriptionTr,
                 Description = templateCreateVm.CourseDescription,
+                DescriptionRu = templateCreateVm.CourseDescriptionRu,
+                DescriptionTr = templateCreateVm.CourseDescriptionTr,
                 Location = templateCreateVm.CourseLocation,
+                LocationRu = templateCreateVm.CourseLocationRu,
+                LocationTr = templateCreateVm.CourseLocationTr,
                 StartingDate = templateCreateVm.CourseStartingDate,
                 FinishingDate = templateCreateVm.CourseFinishingDate,
                 Content = templateCreateVm.CourseContent,
+                ContentRu = templateCreateVm.CourseContentRu,
+                ContentTr = templateCreateVm.CourseContentTr,
                 FutureJobDesc = templateCreateVm.FutureJobDescription,
+                FutureJobDescRu = templateCreateVm.FutureJobDescriptionRu,
+                FutureJobDescTr = templateCreateVm.FutureJobDescriptionTr,
                 FutureJobSalary = templateCreateVm.FutureJobSalary,
+                FutureJobSalaryRu = templateCreateVm.FutureJobSalaryRu,
+                FutureJobSalaryTr = templateCreateVm.FutureJobSalaryTr,
                 Properties = templateCreateVm.CourseProperties,
+                PropertiesRu = templateCreateVm.CoursePropertiesRu,
+                PropertiesTr = templateCreateVm.CoursePropertiesTr,
                 CourseFragmentVideoName = uploadedVideo.fileName,
                 CourseFragmentVideoPathOrContainer = uploadedVideo.pathOrContainerName,
                 CourseImageName = uploadedImage.fileName,
@@ -124,6 +140,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     FutureJobTitle futureJobTitle = new FutureJobTitle()
                     {
                         Content = item.Content,
+                        ContentRu = item.ContentRu,
+                        ContentTr = item.ContentTr,
                         Template = template
                     };
 
@@ -143,6 +161,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     Topic topic = new Topic()
                     {
                         Content = item.Content,
+                        ContentRu = item.ContentRu,
+                        ContentTr = item.ContentTr,
                         Template = template
                     };
 
@@ -276,15 +296,31 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             }
 
             template.Heading = templateUpdateVm.CourseHeading;
+            template.HeadingTr = templateUpdateVm.CourseHeadingTr;
+            template.HeadingRu = templateUpdateVm.CourseHeadingRu;
             template.Description = templateUpdateVm.CourseDescription;
+            template.DescriptionRu = templateUpdateVm.CourseDescriptionRu;
+            template.DescriptionTr = templateUpdateVm.CourseDescriptionTr;
             template.HeadingDescription = templateUpdateVm.CourseHeaderDescription;
+            template.HeadingDescriptionRu = templateUpdateVm.CourseHeaderDescriptionRu;
+            template.HeadingDescriptionTr = templateUpdateVm.CourseHeaderDescriptionTr;
+            template.LocationRu = templateUpdateVm.CourseLocationRu;
+            template.LocationTr = templateUpdateVm.CourseLocationTr;
             template.Location = templateUpdateVm.CourseLocation;
             template.StartingDate = templateUpdateVm.CourseStartingDate;
             template.FinishingDate = templateUpdateVm.CourseFinishingDate;
             template.Content = templateUpdateVm.CourseContent;
+            template.ContentRu = templateUpdateVm.CourseContentRu;
+            template.ContentTr = templateUpdateVm.CourseContentTr;
             template.FutureJobDesc = templateUpdateVm.FutureJobDescription;
+            template.FutureJobDescRu = templateUpdateVm.FutureJobDescriptionRu;
+            template.FutureJobDescTr = templateUpdateVm.FutureJobDescriptionTr;
             template.FutureJobSalary = templateUpdateVm.FutureJobSalary;
+            template.FutureJobSalaryRu = templateUpdateVm.FutureJobSalaryRu;
+            template.FutureJobSalaryTr = templateUpdateVm.FutureJobSalaryTr;
             template.Properties = templateUpdateVm.CourseProperties;
+            template.PropertiesRu = templateUpdateVm.CoursePropertiesRu;
+            template.PropertiesTr = templateUpdateVm.CoursePropertiesTr;
 
 
             if (!string.IsNullOrEmpty(uploadedVideo.fileName) && !string.IsNullOrEmpty(uploadedVideo.pathOrContainerName))
@@ -320,6 +356,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     FutureJobTitle futureJobTitle = new FutureJobTitle()
                     {
                         Content = item.Content,
+                        ContentRu = item.ContentRu,
+                        ContentTr = item.ContentTr,
                         Template = template
                     };
 
@@ -346,6 +384,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                     Topic topic = new Topic()
                     {
                         Content = item.Content,
+                        ContentRu = item.ContentRu,
+                        ContentTr = item.ContentTr,
                         Template = template
                     };
 
@@ -405,6 +445,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             {
                 Template = template,
                 Title = coursePriceCreateVm.Title,
+                TitleRu = coursePriceCreateVm.TitleRu,
+                TitleTr = coursePriceCreateVm.TitleTr,
             };
 
             await _priceWriteRepository.AddAsync(price);
@@ -417,6 +459,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 PriceInfo priceInfo = new PriceInfo()
                 {
                     Content = item.Content,
+                    ContentRu = item.ContentRu,
+                    ContentTr = item.ContentTr,
                     Price = price
                 };
 
@@ -465,9 +509,13 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 TemplateId = courseId,
                 PriceId = priceId,
                 Title = price.Title,
+                TitleRu = price.TitleRu,
+                TitleTr = price.TitleTr,
                 CoursePriceInfos = price.PriceInfos.OrderBy(OrderFilters<PriceInfo>.ByCreatedDate).ToList().Select(x => new CoursePriceInfoVm()
                 {
-                    Content = x.Content
+                    Content = x.Content,
+                    ContentRu = x.ContentRu,
+                    ContentTr = x.ContentTr
                 })
             };
 
@@ -489,6 +537,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             }
 
             price.Title = coursePriceUpdateVm.Title;
+            price.TitleRu = coursePriceUpdateVm.TitleRu;
+            price.TitleTr = coursePriceUpdateVm.TitleTr;
 
             _priceWriteRepository.Update(price);
             await _priceWriteRepository.SaveAsync();
@@ -501,7 +551,9 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             priceInfos = coursePriceUpdateVm.CoursePriceInfos.Select(priceInfo => new PriceInfo()
             {
                 Price = price,
-                Content = priceInfo.Content
+                Content = priceInfo.Content,
+                ContentRu = priceInfo.ContentRu,
+                ContentTr = priceInfo.ContentTr
             }).ToList();
 
             await _priceInfoWriteRepository.AddRangeAsync(priceInfos);
@@ -607,6 +659,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             }
 
             tool.Content = courseToolUpdateVm.Content;
+            tool.ContentRu = courseToolUpdateVm.ContentRu;
+            tool.ContentTr = courseToolUpdateVm.ContentTr;
 
             if (courseToolUpdateVm.Icon != null)
             {
@@ -656,6 +710,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 PathOrContainer = uploadedFile.pathOrContainerName,
                 FileName = uploadedFile.fileName,
                 Content = courseToolCreateVm.Content,
+                ContentRu = courseToolCreateVm.ContentRu,
+                ContentTr = courseToolCreateVm.ContentTr,
                 Template = template
             };
 
@@ -712,6 +768,8 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             CourseToolUpdateVm courseToolUpdateVm = new CourseToolUpdateVm()
             {
                 Content = tool.Content,
+                ContentRu = tool.ContentRu,
+                ContentTr = tool.ContentTr,
                 IconPathOrContainer = tool.PathOrContainer,
                 IconName = tool.FileName,
                 ToolId = tool.Id,

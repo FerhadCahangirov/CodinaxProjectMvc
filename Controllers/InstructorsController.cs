@@ -1,11 +1,13 @@
 ﻿using CodinaxProjectMvc.Context;
 using CodinaxProjectMvc.DataAccess.Models;
+using CodinaxProjectMvc.Filters;
 using CodinaxProjectMvc.ViewModel.InstructorVm;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodinaxProjectMvc.Controllers
 {
+    [CurrentLangFilterFactory]
     public class InstructorsController : Controller
     {
         private readonly CodinaxDbContext _db;
@@ -16,17 +18,14 @@ namespace CodinaxProjectMvc.Controllers
             _db = db;
             _configuration = configuration;
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             IEnumerable<Instructor> instructors = _db.Instructors
                 .Where(UserQueryFilters<Instructor>.GeneralFilter).ToList();
 
-            IEnumerable<Faq> faqs = await _db.Faqs.Where(x => !x.IsDeleted && !x.IsArchived).ToListAsync();
-
             InstructorsVm instructorsVm = new InstructorsVm() 
             { 
                 Instructors = instructors,
-                Faqs = faqs,
                 BaseUrl = _configuration["BaseUrl:Azure"],
             };
 

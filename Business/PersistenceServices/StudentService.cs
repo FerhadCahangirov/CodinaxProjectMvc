@@ -321,6 +321,7 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
                 query = query.Where(x => x.UserName.ToLower().Contains(searchFilter) ||
                     x.FirstName.ToLower().Contains(searchFilter) ||
                     x.LastName.ToLower().Contains(searchFilter) ||
+                    (x.FirstName.ToLower() + x.LastName.ToLower()).Trim().Replace(" ", "").Contains(searchFilter.Trim().Replace(" ", "")) ||
                     x.Email.ToLower().Contains(searchFilter));
             }
 

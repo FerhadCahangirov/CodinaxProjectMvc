@@ -157,14 +157,14 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
         public async Task<CorporateListVm> ListCorporatesAsync()
             => new CorporateListVm() {
-                Corporates = await _corporateReadRepository.GetAll().ToListAsync(),
+                Items = await _corporateReadRepository.GetAll().ToListAsync(),
                 BaseUrl = _baseUrl  
             };
 
         public async Task<CorporateListVm> ListApprovedCorporatesAsync()
             => new CorporateListVm()
             {
-                Corporates = await _corporateReadRepository.GetWhere(x => x.IsApproved && x.Showcase).ToListAsync(),
+                Items = await _corporateReadRepository.GetWhere(x => x.IsApproved && x.Showcase).ToListAsync(),
                 BaseUrl = _baseUrl
             };
 
@@ -224,6 +224,28 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
             await _corporateWriteRepository.SaveAsync();
 
             return true;    
+        }
+
+        public async Task<CorporateListVm> CorporatesPartialAsync(string? searchFilter = null)
+        {
+            IQueryable<Corporate> corporates = _corporateReadRepository.GetAll().AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchFilter))
+            {
+                searchFilter = searchFilter.ToLower().Trim();
+                corporates = corporates.Where(x =>
+                    x.FirstName.ToLower().Contains(searchFilter) ||
+                    x.LastName.ToLower().Contains(searchFilter) ||
+                    x.Occupation.ToLower().Contains(searchFilter) ||
+                    x.WorkingCompany.ToLower().Contains(searchFilter)
+                );
+            }
+
+            return new CorporateListVm()
+            {
+                Items = await corporates.ToListAsync(),
+                BaseUrl = _baseUrl
+            };
         }
     }
 }

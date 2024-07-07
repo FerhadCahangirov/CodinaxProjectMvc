@@ -1,4 +1,5 @@
-﻿@model CourseSingleVm;
+﻿@model CourseSingleVm
+@inject LanguageService _resource
 
 @{
     ViewData["Title"] = "Single";
@@ -121,7 +122,7 @@
         student_2_observer.observe(student_2);
     });
 
-    function scrollToCourseContent(){
+    function scrollToCourseContent() {
         const element = document.getElementById('course-content').offsetTop;
 
         window.scrollTo({
@@ -138,7 +139,30 @@
             <div class="container-large">
                 <div class="padding-section-large">
                     <div class="hero-component">
-                        <h1 data-w-id="a9ae2ce4-acd5-b5c6-7cd1-7d29e52438cd" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">@Model.Course.Title </h1>
+
+                        @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.Course.TitleRu))
+                        {
+                            <h1 data-w-id="a9ae2ce4-acd5-b5c6-7cd1-7d29e52438cd" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+
+                                @Model.Course.TitleRu
+                            </h1>
+
+                        }
+                        else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.Course.TitleTr))
+                        {
+                            <h1 data-w-id="a9ae2ce4-acd5-b5c6-7cd1-7d29e52438cd" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+
+                                @Model.Course.TitleTr
+                            </h1>
+
+                        }
+                        else
+                        {
+                            <h1 data-w-id="a9ae2ce4-acd5-b5c6-7cd1-7d29e52438cd" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+
+                                @Model.Course.Title
+                            </h1>
+                        }
                     </div>
                 </div>
             </div>
@@ -156,36 +180,83 @@
                         <div class="hero_content">
                             <div class="margin-bottom margin-small">
                                 <div class="margin-bottom margin-large">
-                                    <h1 class="heading-style-h2">
-                                        @(string.Join(" ", Model.Course.Template.Heading.Split(' ').Skip(0).Take(Model.Course.Template.Heading.Split(' ').Count() - 2)))
-                                        <span class="heading-style-underline">
-                                            @(string.Join(" ", Model.Course.Template.Heading.Split(' ').Skip(Math.Max(0, Model.Course.Template.Heading.Split(' ').Length - 2))))
-                                        </span>
-                                    </h1>
+                                    @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.Course.Template.HeadingRu))
+                                    {
+                                        <h1 class="heading-style-h2">
+                                            @(string.Join(" ", Model.Course.Template.HeadingRu.Split(' ').Skip(0).Take(Model.Course.Template.HeadingRu.Split(' ').Count() - 2)))
+                                            <span class="heading-style-underline">
+                                                @(string.Join(" ", Model.Course.Template.HeadingRu.Split(' ').Skip(Math.Max(0, Model.Course.Template.HeadingRu.Split(' ').Length - 2))))
+                                            </span>
+                                        </h1>
+                                    }
+                                    else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.Course.Template.HeadingTr))
+                                    {
+                                        <h1 class="heading-style-h2">
+                                            @(string.Join(" ", Model.Course.Template.HeadingTr.Split(' ').Skip(0).Take(Model.Course.Template.HeadingTr.Split(' ').Count() - 2)))
+                                            <span class="heading-style-underline">
+                                                @(string.Join(" ", Model.Course.Template.HeadingTr.Split(' ').Skip(Math.Max(0, Model.Course.Template.HeadingTr.Split(' ').Length - 2))))
+                                            </span>
+                                        </h1>
+                                    }
+                                    else
+                                    {
+                                        <h1 class="heading-style-h2">
+                                            @(string.Join(" ", Model.Course.Template.Heading.Split(' ').Skip(0).Take(Model.Course.Template.Heading.Split(' ').Count() - 2)))
+                                            <span class="heading-style-underline">
+                                                @(string.Join(" ", Model.Course.Template.Heading.Split(' ').Skip(Math.Max(0, Model.Course.Template.Heading.Split(' ').Length - 2))))
+                                            </span>
+                                        </h1>
+                                    }
+
                                 </div>
                             </div>
                             <div class="margin-bottom margin-medium">
                                 <div class="hero_desc-wrapper">
-                                    <p class="text-size-large">@Model.Course.Template.HeadingDescription</p>
+                                    @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.Course.Template.HeadingDescriptionRu))
+                                    {
+                                        <p class="text-size-large">@Model.Course.Template.HeadingDescriptionRu</p>
+                                    }
+                                    else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.Course.Template.HeadingDescriptionTr))
+                                    {
+                                        <p class="text-size-large">@Model.Course.Template.HeadingDescriptionTr</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-size-large">@Model.Course.Template.HeadingDescription</p>
+                                    }
                                 </div>
                             </div>
                             <div class="margin-bottom margin-large">
                                 <div class="info_component">
                                     <div id="w-node-_392f4075-1e0d-0de9-9e64-9c0f5909e398-dcc25c09" class="info-column">
                                         <img src="https://assets-global.website-files.com/6417f234f5b343f280553234/641f33ebf4ae49138567d4e0_icon-location.svg" loading="lazy" alt="Location Icon" class="bootcamp_info-icon">
-                                        <div class="text-style-mono text-size-small text-color-blue"><strong>Location:</strong> @Model.Course.Template.Location</div>
+                                        <div class="text-style-mono text-size-small text-color-blue">
+                                            <strong>@_resource.GetLocalizedHTML("Location"):</strong>
+                                            @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.Course.Template.LocationRu))
+                                            {
+                                                @Model.Course.Template.LocationRu
+                                            }
+                                            else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.Course.Template.LocationTr))
+                                            {
+                                                @Model.Course.Template.LocationTr
+                                            }
+                                            else
+                                            {
+                                                @Model.Course.Template.Location
+                                            }
+                                        </div>
                                     </div>
                                     <div id="w-node-_392f4075-1e0d-0de9-9e64-9c0f5909e39e-dcc25c09" class="info-column">
                                         <img src="https://assets-global.website-files.com/6417f234f5b343f280553234/641f33eb0bbd0ab443fa3f94_icon-date.svg" loading="lazy" alt="Date Icon" class="bootcamp_info-icon">
-                                        <div class="text-style-mono text-size-small text-color-blue"><strong>Starting:</strong> @Model.Course.Template.StartingDate?.ToString("MMM dd, yyyy")</div>
+                                        <div class="text-style-mono text-size-small text-color-blue"><strong>@_resource.GetLocalizedHTML("Starting"):</strong> @Model.Course.Template.StartingDate?.ToString("MMM dd, yyyy")</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="button-group">
-                                <a href="/Auth/Student/Apply" class="button w-button">Apply Now</a>
-                                <div class="hide-mobile-landscape">or</div>
+                                <a href="/Auth/Student/Apply" class="button w-button">@_resource.GetLocalizedHTML("Apply Now")</a>
+                                <div class="hide-mobile-landscape">@_resource.GetLocalizedHTML("or")</div>
                                 <a role="button" onclick="scrollToCourseContent()" class="link-red is-play hide-mobile-landscape w-inline-block w-lightbox" aria-label="open lightbox" aria-haspopup="dialog">
-                                    <div>Scroll to course content</div>
+                                    <div>@_resource.GetLocalizedHTML("Scroll to course content")</div>
                                 </a>
                             </div>
                         </div>
@@ -224,7 +295,12 @@
                         </div>
                         <div class="margin-bottom margin-small">
 
-                            <h2><span class="heading-style-underline underline_free">Future</span> job title:<br></h2>
+                            <h2>
+                                <span class="heading-style-underline underline_free">
+                                    @_resource.GetLocalizedHTML("Future")
+                                </span>
+                                @_resource.GetLocalizedHTML("job title"):<br>
+                            </h2>
                         </div>
                         <div class="margin-bottom margin-large hide-mobile-portrait">
                             @if (Model.Course.Template.FutureJobTitles != null && Model.Course.Template.FutureJobTitles.Any())
@@ -234,10 +310,21 @@
                                 </div>
                                 <div id="typed-strings" style="display: none;">
                                     @foreach (var item in Model.Course.Template.FutureJobTitles
-                                        .Where(EntityQueryFilters<FutureJobTitle>.LayoutFilter)
-                                        .OrderBy(OrderFilters<FutureJobTitle>.ByCreatedDate))
+                                   .Where(EntityQueryFilters<FutureJobTitle>.LayoutFilter)
+                                   .OrderBy(OrderFilters<FutureJobTitle>.ByCreatedDate))
                                     {
-                                        <p>@item.Content</p>
+                                        @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(item.ContentRu))
+                                        {
+                                            <p>@item.ContentRu</p>
+                                        }
+                                        else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(item.ContentTr))
+                                        {
+                                            <p>@item.ContentTr</p>
+                                        }
+                                        else
+                                        {
+                                            <p>@item.Content</p>
+                                        }
                                     }
                                 </div>
                             }
@@ -253,54 +340,124 @@
                                 .Where(EntityQueryFilters<FutureJobTitle>.LayoutFilter)
                                 .OrderBy(OrderFilters<FutureJobTitle>.ByCreatedDate))
                                 {
-                                    <p>@item.Content</p>
+                                    @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(item.ContentRu))
+                                    {
+                                        <p>@item.ContentRu</p>
+                                    }
+                                    else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(item.ContentTr))
+                                    {
+                                        <p>@item.ContentTr</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@item.Content</p>
+                                    }
                                 }
                             </div>
                         </div>
 
                         <div class="margin-bottom margin-large">
                             <p data-w-id="b5586f1a-928a-25af-170c-d4a42ab4e19e" class="text-size-large" style="opacity: 1;">
-                                @Model.Course.Template.FutureJobDesc
+                                @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.Course.Template.FutureJobDescRu))
+                                {
+                                    @Model.Course.Template.FutureJobDescRu
+
+                                }
+                                else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.Course.Template.FutureJobDescTr))
+                                {
+                                    @Model.Course.Template.FutureJobDescTr
+                                }
+                                else
+                                {
+                                    @Model.Course.Template.FutureJobDesc
+                                }
                             </p>
                         </div>
                         <div class="margin-bottom margin-large">
-                            <h3 data-w-id="93e73579-bf7c-9ebf-4f79-d86258fc928c" style="opacity: 1;">You will make: <span data-w-id="33a593b9-6163-9b53-6750-5af8eb3dd24b" class="heading-style-bg" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">@Model.Course.Template.FutureJobSalary</span></h3>
+                            <h3 data-w-id="93e73579-bf7c-9ebf-4f79-d86258fc928c" style="opacity: 1;">
+                                @_resource.GetLocalizedHTML("You will make"):
+                                <span data-w-id="33a593b9-6163-9b53-6750-5af8eb3dd24b" class="heading-style-bg" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                                    @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.Course.Template.FutureJobSalaryRu))
+                                    {
+                                        @Model.Course.Template.FutureJobSalaryRu
+
+                                    }
+                                    else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.Course.Template.FutureJobSalaryTr))
+                                    {
+                                        @Model.Course.Template.FutureJobSalaryTr
+                                    }
+                                    else
+                                    {
+                                        @Model.Course.Template.FutureJobSalary
+                                    }
+                                </span>
+                            </h3>
                         </div>
                     </div>
                     <div data-w-id="8e5b712c-829d-524d-3522-405a8ea27d5c" class="bracket_component">
-                        <div class="text-align-center text-color-blue text-weight-bold">@Model.Course.Template.Properties</div>
+                        <div class="text-align-center text-color-blue text-weight-bold">
+                            @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.Course.Template.PropertiesRu))
+                            {
+                                @Model.Course.Template.PropertiesRu
+
+                            }
+                            else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.Course.Template.PropertiesTr))
+                            {
+                                @Model.Course.Template.PropertiesTr
+                            }
+                            else
+                            {
+                                @Model.Course.Template.Properties
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    @if(Model.Course.Template?.Tools.Count() > 0)
+    @if (Model.Course.Template?.Tools.Count() > 0)
     {
         <section class="section">
             <div class="padding-global">
                 <div class="container-large">
                     <div class="padding-section-small">
                         <div class="margin-bottom margin-large">
-                            <h3 class="text-align-center">The tools you will use</h3>
+                            <h3 class="text-align-center">
+                                @_resource.GetLocalizedHTML("The tools you will use")
+                            </h3>
                         </div>
                         <div class="flex flex-tools">
-                            @if(Model.Course.Template?.Tools.Count() > 15)
+                            @if (Model.Course.Template?.Tools.Count() > 15)
                             {
-                               foreach (var (index, tool) in Model.Course.Template.Tools
+                                foreach (var (index, tool) in Model.Course.Template.Tools
                                 .Where(EntityQueryFilters<Tool>.LayoutFilter)
                                 .OrderBy(OrderFilters<Tool>.ByCreatedDate)
                                 .Select((value, i) => (i, value)))
                                 {
                                     <div class="margin-bottom margin-medium margin-none" data-aos="fade-right" data-aos-delay="@(100 * (index + 1))" data-aos-duration="500">
                                         <div data-w-id="c334edcc-e2cc-1c49-01f5-8f0e2f6034c6" class="tag tag-icon">
-                                            <img src="@Model.BaseUrl/@tool.PathOrContainer/@tool.FileName" loading="lazy" alt="NeoTech Academy Icon" class="icon-height-xsmall icon-tag">
-                                            <div class="text-size-regular text-style-allcaps text-tag">@tool.Content</div>
+                                            <img src="@Model.BaseUrl/@tool.PathOrContainer/@tool.FileName" loading="lazy" alt="Codinax Academy Icon" class="icon-height-xsmall icon-tag">
+                                            <div class="text-size-regular text-style-allcaps text-tag">
+                                                @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(tool.ContentRu))
+                                                {
+                                                    @tool.ContentRu
+                                                }
+                                                else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(tool.ContentTr))
+                                                {
+                                                    @tool.ContentTr
+                                                }
+                                                else
+                                                {
+                                                    @tool.Content
+                                                }
+                                            </div>
                                         </div>
                                     </div>
-                                } 
+                                }
                             }
-                            else{
+                            else
+                            {
                                 foreach (var (index, tool) in Model.Course.Template.Tools
                                 .Where(EntityQueryFilters<Tool>.LayoutFilter)
                                 .OrderBy(OrderFilters<Tool>.ByCreatedDate)
@@ -308,13 +465,26 @@
                                 {
                                     <div class="margin-bottom margin-medium margin-none" data-aos="fade-right" data-aos-delay="@(200 * (index + 1))" data-aos-duration="500">
                                         <div data-w-id="c334edcc-e2cc-1c49-01f5-8f0e2f6034c6" class="tag tag-icon">
-                                            <img src="@Model.BaseUrl/@tool.PathOrContainer/@tool.FileName" loading="lazy" alt="NeoTech Academy Icon" class="icon-height-xsmall icon-tag">
-                                            <div class="text-size-regular text-style-allcaps text-tag">@tool.Content</div>
+                                            <img src="@Model.BaseUrl/@tool.PathOrContainer/@tool.FileName" loading="lazy" alt="Codinax Academy Icon" class="icon-height-xsmall icon-tag">
+                                            <div class="text-size-regular text-style-allcaps text-tag">
+                                                @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(tool.ContentRu))
+                                                {
+                                                    @tool.ContentRu
+                                                }
+                                                else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(tool.ContentTr))
+                                                {
+                                                    @tool.ContentTr
+                                                }
+                                                else
+                                                {
+                                                    @tool.Content
+                                                }
+                                            </div>
                                         </div>
                                     </div>
-                                } 
+                                }
                             }
-                            
+
 
                         </div>
                     </div>
@@ -322,27 +492,42 @@
             </div>
         </section>
     }
-   
-    @if(Model.Course.Template?.Topics.Count() > 0)
+
+    @if (Model.Course.Template?.Topics.Count() > 0)
     {
         <section class="section">
             <div class="padding-global">
                 <div class="container-large">
                     <div class="padding-section-small">
                         <div class="margin-bottom margin-large">
-                            <h3 class="text-align-center">The topics you will learn</h3>
+                            <h3 class="text-align-center">@_resource.GetLocalizedHTML("The topics you will learn")</h3>
                         </div>
                         <div class="flex">
 
                             @foreach (var (index, topic) in Model.Course.Template.Topics
-                                .Where(EntityQueryFilters<Topic>.LayoutFilter)
-                                .OrderBy(OrderFilters<Topic>.ByCreatedDate)
-                                .Select((value, i) => (i, value)))
+                           .Where(EntityQueryFilters<Topic>.LayoutFilter)
+                           .OrderBy(OrderFilters<Topic>.ByCreatedDate)
+                           .Select((value, i) => (i, value)))
                             {
                                 <div class="margin-bottom margin-medium margin-02" data-aos="fade-right" data-aos-delay="@(200 * (index + 1))" data-aos-duration="500">
                                     <div data-w-id="451603c6-7ceb-8720-0ab8-c830ae7c32f5" class="tag tag-icon background-color-antiquewhite">
                                         <img src="https://assets-global.website-files.com/6417f234f5b343f280553234/642bba93d2094bca11f6c5d7_icon-hashtag.svg" loading="lazy" alt="Hashtag Icon" class="icon-height-xsmall icon-tag">
-                                        <div class="text-size-regular text-style-allcaps text-color-blue text-style-mono text-tag">@topic.Content</div>
+                                        <div class="text-size-regular text-style-allcaps text-color-blue text-style-mono text-tag">
+                                            @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(topic.ContentRu))
+                                            {
+                                                @topic.ContentRu
+
+                                            }
+                                            else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(topic.ContentTr))
+                                            {
+                                                @topic.ContentTr
+                                            }
+                                            else
+                                            {
+                                                @topic.Content
+                                            }
+
+                                        </div>
                                     </div>
                                 </div>
                             }
@@ -352,7 +537,7 @@
             </div>
         </section>
     }
-    
+
 
     <header class="section-courses is-single" id="course-content">
         <div class="padding-global">
@@ -361,10 +546,22 @@
                     <div class="blogpost4_content-wrapper">
                         <div class="blogpost4_content">
                             <div class="text-rich-text w-richtext">
-                                <h2>Course description</h2>
+                                <h2>@_resource.GetLocalizedHTML("Course description")</h2>
                                 <br />
                                 <P>
-                                    @Model.Course.Template.Description
+                                    @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.Course.Template.DescriptionRu))
+                                    {
+                                        @Model.Course.Template.DescriptionRu
+
+                                    }
+                                    else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.Course.Template.DescriptionTr))
+                                    {
+                                        @Model.Course.Template.DescriptionTr
+                                    }
+                                    else
+                                    {
+                                        @Model.Course.Template.Description
+                                    }
                                 </P>
                                 <br />
                                 <br />
@@ -372,46 +569,85 @@
                                 {
                                     <figure class="w-richtext-figure-type-video w-richtext-align-fullwidth" style="padding-bottom:56.206088992974244%">
                                         <div>
-                                            <video controls="true" src="@Model.BaseUrl/@Model.Course.Template.CourseFragmentVideoPathOrContainer/@Model.Course.Template.CourseFragmentVideoName"></video>
+                                            <video controls src="@Model.BaseUrl/@Model.Course.Template.CourseFragmentVideoPathOrContainer/@Model.Course.Template.CourseFragmentVideoName"></video>
                                         </div>
                                     </figure>
                                 }
 
                                 <br />
                                 <br />
-                                @Html.Raw(Model.Course.Template.Content)
+                                @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(Model.Course.Template.ContentRu))
+                                {
+                                    @Html.Raw(Model.Course.Template.ContentRu)
+
+                                }
+                                else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(Model.Course.Template.ContentTr))
+                                {
+                                    @Html.Raw(Model.Course.Template.ContentTr)
+                                }
+                                else
+                                {
+                                    @Html.Raw(Model.Course.Template.Content)
+                                }
                             </div>
                         </div>
 
                         <div class="div-block">
-                            @if(Model.Course.Template?.Prices.Count() > 0)
+                            @if (Model.Course.Template?.Prices.Count() > 0)
                             {
-                                foreach(var price in Model.Course.Template.Prices
-                                    .Where(EntityQueryFilters<Price>.LayoutFilter)
-                                    .OrderBy(OrderFilters<Price>.ByCreatedDate))
+                                foreach (var price in Model.Course.Template.Prices
+                                .Where(EntityQueryFilters<Price>.LayoutFilter)
+                                .OrderBy(OrderFilters<Price>.ByCreatedDate))
                                 {
                                     <div class="course-pricing-card">
                                         <div class="course-price-wrapper">
-                                            <h2 class="heading-style-h4">@price.Title</h2>
+                                            <h2 class="heading-style-h4">
+                                                @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(price.TitleRu))
+                                                {
+                                                    @price.TitleRu
+                                                }
+                                                else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(price.TitleTr))
+                                                {
+                                                    @price.TitleTr
+                                                }
+                                                else
+                                                {
+                                                    @price.Title
+                                                }
+                                            </h2>
                                         </div>
                                         <div class="padding-bottom padding-xsmall"></div>
 
                                         <div class="course-pricing-list">
-                                            @if(price.PriceInfos.Count() > 0)
+                                            @if (price.PriceInfos.Count() > 0)
                                             {
-                                                foreach(var priceInfo in price.PriceInfos
-                                                    .Where(EntityQueryFilters<PriceInfo>.LayoutFilter)
-                                                    .OrderBy(OrderFilters<PriceInfo>.ByCreatedDate))
+                                                foreach (var priceInfo in price.PriceInfos
+                                                .Where(EntityQueryFilters<PriceInfo>.LayoutFilter)
+                                                .OrderBy(OrderFilters<PriceInfo>.ByCreatedDate))
                                                 {
                                                     <div class="course-pricing-features">
                                                         <div class="text-weight-bold text-size-xsmall" bis_skin_checked="1">
-                                                        <img src="/Assets/imgs/icons/check.png" loading="lazy" width="16" alt="Icon" style="margin-right: 0.825rem;">
-                                                            @priceInfo.Content
-                                                            </div>
+                                                            <img src="/Assets/imgs/icons/check.png" loading="lazy" width="16" alt="Icon" style="margin-right: 0.825rem;">
+
+                                                            @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(priceInfo.ContentRu))
+                                                            {
+                                                                @priceInfo.ContentRu
+                                                            }
+                                                            else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(priceInfo.ContentTr))
+                                                            {
+                                                                @priceInfo.ContentTr
+                                                            }
+                                                            else
+                                                            {
+                                                                @priceInfo.Content
+                                                            }
+
+
+                                                        </div>
                                                     </div>
                                                 }
                                             }
-                                            
+
                                         </div>
                                         <div class="padding-bottom padding-large"></div>
                                         @* <a href="/contact" class="button max-width-full w-button">Apply Now</a> *@
@@ -419,8 +655,8 @@
                                 }
                             }
 
-                            
-                           <partial model="@Model" name="AdvicedCoursesPartial"/>
+
+                            <partial model="@Model" name="AdvicedCoursesPartial" />
                         </div>
                     </div>
                 </div>
@@ -431,3 +667,26 @@
     @await Component.InvokeAsync("Subscribe")
 
 </main>
+
+@section Scripts{
+    <script>
+        var typed = new Typed('#typed', {
+            stringsElement: '#typed-strings',
+            typeSpeed: 25, // typing speed
+            backSpeed: 25, // erasing speed
+            loop: true, // start back after ending typing
+            startDelay: 1000,
+            backDelay: 1000
+
+        });
+
+        var typedMobile = new Typed('#typed-mobile', {
+            stringsElement: '#typed-strings-mobile',
+            typeSpeed: 25, // typing speed
+            backSpeed: 25, // erasing speed
+            loop: true, // start back after ending typing
+            startDelay: 1000,
+            backDelay: 1000
+        });
+    </script>
+}

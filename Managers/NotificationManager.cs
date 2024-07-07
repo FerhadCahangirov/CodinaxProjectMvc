@@ -35,7 +35,7 @@ namespace CodinaxProjectMvc.Managers
             string subject = $"{student.FirstName} {student.LastName} has applied to join our Team!";
 
             string message = $@"
-                We're thrilled to announce that {student.FirstName} {student.LastName} has applied to join our team of instructors at Codianx!
+                We're thrilled to announce that {student.FirstName} {student.LastName} has applied to join our team of students at Codianx!
             ";
 
             string apply_mail_addr = _configuration[ConfigurationStrings.AccountMailAddr];

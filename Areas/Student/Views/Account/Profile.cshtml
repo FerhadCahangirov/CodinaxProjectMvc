@@ -369,18 +369,28 @@
                     <div class="col-lg-6">
                         <div class="input-block">
                             <label class="form-control-label" asp-for="Password"></label>
-                            <input type="text" class="form-control" asp-for="Password">
+                            <div class="input-group">
+                                <input type="password" class="form-control" aria-describedby="password-button" asp-for="Password" id="password">
+                                <button class="btn btn-outline-secondary" type="button" id="password-button" onclick="togglePasswordVisibility('password', 'password-button-icon')">
+                                    <i class="fas fa-eye" id="password-button-icon"></i>
+                                </button>
+                            </div>
                             <span class="text-danger" asp-validation-for="Password"></span>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="input-block">
                             <label class="form-control-label" asp-for="ConfirmPassword"></label>
-                            <input type="text" class="form-control" asp-for="ConfirmPassword">
+                            <div class="input-group">
+                                <input type="password" class="form-control" aria-describedby="password-confirm-button" asp-for="ConfirmPassword" id="confirm-password">
+                                <button class="btn btn-outline-secondary" type="button" id="password-confirm-button" onclick="togglePasswordVisibility('confirm-password', 'password-confirm-button-icon')">
+                                    <i class="fas fa-eye" id="password-confirm-button-icon"></i>
+                                </button>
+                            </div>
                             <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
-
                         </div>
                     </div>
+
                     <div class="update-profile">
                         <button type="submit" class="btn btn-primary">Update Password</button>
                     </div>
@@ -389,3 +399,20 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    function togglePasswordVisibility(passwordFieldId, iconId) {
+        var passwordField = document.getElementById(passwordFieldId);
+        var icon = document.getElementById(iconId);
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = "password";
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+</script>

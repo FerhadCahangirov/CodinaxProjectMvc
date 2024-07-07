@@ -98,7 +98,7 @@
         </thead>
         <tbody>
 
-            @foreach (var item in Model.Corporates)
+            @foreach (var item in Model.Items)
             {
                 <tr id="table_@item.Id">
                     <th scope="row">
@@ -142,19 +142,21 @@
                         }
                     </td>
                     <td id="showcase_@(item.Id)">
-                        @if (item.Showcase)
+                        @if (item.IsApproved)
                         {
-                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="changeShowcase('@item.Id')">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
+                            @if (item.Showcase)
+                            {
+                                <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="changeShowcase('@item.Id')">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="changeShowcase('@item.Id')">
+                                    <i class="fa-solid fa-eye-slash"></i>
+                                </a>
+                            }
                         }
-                        else
-                        {
-                            <a class="btn btn-sm btn-icon-only text-light " role="button" onclick="changeShowcase('@item.Id')">
-                                <i class="fa-solid fa-eye-slash"></i>
-                            </a>
-                        }
-
                     </td>
                     <td id="approve_@(item.Id)">
                         @if (!item.IsApproved)

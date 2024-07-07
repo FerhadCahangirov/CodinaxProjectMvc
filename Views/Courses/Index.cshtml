@@ -1,4 +1,5 @@
 ﻿@model CoursesVm
+@inject LanguageService _resource
 
 <main class="main-wrapper">
     <section class="section-header">
@@ -9,14 +10,14 @@
                         <div id="w-node-_3b593274-3a8c-6de0-f962-8be280cb72da-d80fb331" data-w-id="3b593274-3a8c-6de0-f962-8be280cb72da" style="-webkit-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0" class="header-content-wrapper">
                             @* <div class="sub-heading">About</div> *@
                             <div class="padding-bottom padding-small"></div>
-                            <h1>Online Coding Bootcamp</h1>
+                            <h1>@_resource.GetLocalizedHTML("Online Coding Bootcamp")</h1>
                             <div class="padding-bottom padding-small"></div>
                             <p>
-                                Dive into interactive online classes designed to equip you with essential skills for a successful career in IT​
+                                @_resource.GetLocalizedHTML("Dive into interactive online classes designed to equip you with essential skills for a successful career in IT")​
                             </p>
                             <div class="padding-bottom padding-medium"></div>
                             <div class="button-group">
-                                <a href="/auth/student/apply" class="button w-button">Apply</a>
+                                <a href="/auth/student/apply" class="button w-button">@_resource.GetLocalizedHTML("Apply")</a>
                             </div>
                         </div>
                         <div class="header-image-wrapper">
@@ -40,11 +41,11 @@
             <div class="container-large">
                 <div class="padding-section-large">
                     <div data-w-id="c5dcbdd9-f1f6-0162-b671-dd49d2c20952" style="-webkit-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(null, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0" class="course-heading-wrapper">
-                        <h2>Our Courses</h2>
+                        <h2>@_resource.GetLocalizedHTML("Our Courses")</h2>
                         <div class="course-category-list-wrapper w-dyn-list">
                             <div role="list" class="course-category-list w-dyn-items">
                                 <div role="listitem" class="course-category-item w-dyn-item">
-                                    <a onclick="getAllCourses()" aria-current="page" id="all" class="button is-secondary w-button w--current">All Courses</a>
+                                    <a onclick="getAllCourses()" aria-current="page" id="all" class="button is-secondary w-button w--current">@_resource.GetLocalizedHTML("All Courses")</a>
                                 </div>
                                 @if(Model.Categories != null)
                                 {
@@ -55,8 +56,19 @@
                                                 class="button is-secondary w-button"
                                                 onclick="filterByCategory('@category.Content')"
                                                 id="@category.Content"
-                                            >
-                                                @category.Content
+                                                >
+                                                @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(category.ContentRu))
+                                                {
+                                                    @category.ContentRu
+                                                }
+                                                else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(category.ContentTr))
+                                                {
+                                                    @category.ContentTr
+                                                }
+                                                else
+                                                {
+                                                    @category.Content
+                                                }
                                             </a>
                                         </div>
                                     }    
@@ -85,11 +97,11 @@
                             @* <div class="sub-heading">Team Members</div> *@
                             <div class="padding-bottom padding-xsmall"></div>
                             <h2>
-                                Our Expert <span class="text-color-primary">Instructors</span>
+                                @_resource.GetLocalizedHTML("Our Expert") <span class="text-color-primary">@_resource.GetLocalizedHTML("Instructors")</span>
                             </h2>
                             <div class="padding-bottom padding-small"></div>
                             <p>
-                                They understand the journey of starting in IT from scratch. Through dedication and effort, they acquired the skills necessary to secure remarkable positions in the industry. Now, they're here to support you in achieving the same success.​​
+                                @_resource.GetLocalizedHTML("They understand the journey of starting in IT from scratch. Through dedication and effort, they acquired the skills necessary to secure remarkable positions in the industry. Now, they're here to support you in achieving the same success.")
                             </p>
                         </div>
                     </div>
@@ -133,77 +145,13 @@
                     </div>
                     <div class="padding-bottom padding-large"></div>
                     <div data-w-id="380f781e-1136-41ba-f969-ecc8c0258582" class="button-group is-center">
-                        <a href="/instructor" class="button is-secondary w-button">See All Instructors</a>
+                        <a href="/instructors" class="button is-secondary w-button">@_resource.GetLocalizedHTML("See All Instructors")</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="section-faq">
-        <div class="padding-global">
-            <div class="container-small">
-                <div class="padding-section-large">
-                    <div class="text-align-center">
-                        <div data-w-id="d48ee730-c8a5-4405-d9ed-29b2beba958d" class="max-width-large align-center">
-                            @* <div class="sub-heading">FAQ</div> *@
-                            <div class="padding-bottom padding-xsmall"></div>
-                            <h2>Frequently Asked Questions</h2>
-                            <div class="padding-bottom padding-small"></div>
-                            <p>
-                                Find answers to common queries about our
-                                <span class="hide-mobile-landscape">
-                                    <br />
-                                </span>
-                                courses and programs
-                            </p>
-                        </div>
-                    </div>
-                    <div class="padding-bottom padding-xxlarge"></div>
-                    <div data-w-id="d48ee730-c8a5-4405-d9ed-29b2beba959a" class="faq-component">
-                        <div class="w-layout-grid faq-list">
-                            @if (Model.Faqs != null && Model.Faqs.Count() > 0)
-                            {
-                                @foreach (var faq in Model.Faqs)
-                                {
-                                    <div class="faq-accordion">
-                                        <div class="faq-question">
-                                            <div class="faq-text-wrapper">
-                                                <div class="faq-icon-wrapper">
-                                                    <div class="faq-icon is-left"></div>
-                                                    <div class="faq-icon"></div>
-                                                </div>
-                                                <div class="text-weight-bold text-size-medium">@faq.Question</div>
-                                            </div>
-                                            <div class="faq-shape"></div>
-                                        </div>
-                                        <div class="faq-answer">
-                                            <p>@faq.Answer</p>
-                                            <div class="padding-bottom padding-small"></div>
-                                        </div>
-                                    </div>
-                                }
-                            }
-
-                        </div>
-                    </div>
-                    <div class="padding-bottom padding-xxlarge"></div>
-                    <div data-w-id="d48ee730-c8a5-4405-d9ed-29b2beba95dd" class="faq-bottom-wrapper">
-                        <div class="text-align-center">
-                            <div class="max-width-medium align-center">
-                                <h3 class="heading-style-h6">Still have questions?</h3>
-                                <div class="padding-bottom padding-xsmall"></div>
-                                @* <p class="text-size-small">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>*@
-                                <div class="padding-bottom padding-small"></div>
-                            </div>
-                            <div class="button-group is-center">
-                                <a href="/contact" class="button w-button">Contact Us</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    @await Component.InvokeAsync("Faq")
     @await Component.InvokeAsync("Subscribe")
 </main>
 

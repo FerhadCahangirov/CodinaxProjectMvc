@@ -94,6 +94,7 @@
             if (current_time){
                 player.play();  
                 player.currentTime(current_time);
+                localStorage.removeItem("currentTime");
             }
         });
 

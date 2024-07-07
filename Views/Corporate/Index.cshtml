@@ -1,4 +1,5 @@
 ﻿@model CorporateSendVm
+@inject LanguageService _resource
 
 @section Scripts{
     @if (TempData["CorporateSent"] != null && (bool)TempData["CorporateSent"] == true)
@@ -6,7 +7,7 @@
         <script>
             Swal.fire({
                 icon: "success",
-                title: "Thank you! Your submission has been received!",
+                title: "@_resource.GetLocalizedHTML("Thank you! Your submission has been received!")",
                 showConfirmButton: false,
                 timer: 3000
             });
@@ -20,7 +21,7 @@
         <div class="container-large">
             <div class="padding-section-large">
                 <div class="hero-component">
-                    <h1 data-w-id="a9ae2ce4-acd5-b5c6-7cd1-7d29e52438cd" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">Corporate With Us&nbsp;&nbsp;</h1>
+                    <h1 data-w-id="a9ae2ce4-acd5-b5c6-7cd1-7d29e52438cd" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">@_resource.GetLocalizedHTML("Corporate With Us")&nbsp;&nbsp;</h1>
                 </div>
             </div>
         </div>
@@ -30,15 +31,15 @@
     <div class="shape is-center"></div>
 </section>
 
-<section class="section-contact" id="contactus">
+<section class="section-contact">
     <div class="padding-global">
         <div class="container-large">
             <div class="padding-section-large">
                 <div class="w-layout-grid contact-component">
                     <div data-w-id="f198a4eb-b131-c678-7447-03825147d745" style="opacity: 1; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;" class="contact-content">
-                        <h2 class="heading-style-h3">Corporate With Us</h2>
+                        <h2 class="heading-style-h3">@_resource.GetLocalizedHTML("Corporate With Us")</h2>
                         <div class="padding-bottom padding-small"></div>
-                        <p class="text-size-medium">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+                        <p class="text-size-medium">@_resource.GetLocalizedHTML("Interested in hiring our graduates or discussing cooperation opportunities? Fill out the form below to connect with us.")</p>
                         <div class="padding-bottom padding-medium"></div>
 
                     </div>
@@ -46,46 +47,46 @@
                         <form method="post" class="contact-form">
                             <div class="form-field-content">
                                 <div class="form-field-wrapper">
-                                    <label class="field-label" asp-for="FirstName"></label>
-                                    <input class="contact-form-input w-input" asp-for="FirstName" placeholder="Firstname..." type="text">
+                                    <label class="field-label" for="firstname">@_resource.GetLocalizedHTML("First Name")</label>
+                                    <input class="contact-form-input w-input" id="firstname" asp-for="FirstName" placeholder="@_resource.GetLocalizedHTML("First Name")..." type="text">
                                     <span class="text-danger" asp-validation-for="FirstName"></span>
                                 </div>
                                 <div class="form-field-wrapper">
-                                    <label class="field-label" asp-for="LastName"></label>
-                                    <input class="contact-form-input w-input" asp-for="LastName" placeholder="LastName..." type="text">
+                                    <label class="field-label" for="lastname">@_resource.GetLocalizedHTML("Last Name")</label>
+                                    <input class="contact-form-input w-input" id="lastname" asp-for="LastName" placeholder="@_resource.GetLocalizedHTML("Last Name")..." type="text">
                                     <span class="text-danger" asp-validation-for="LastName"></span>
                                 </div>
                             </div>
                             <div class="form-field-content">
                                 <div class="form-field-wrapper">
-                                    <label class="field-label" asp-for="Email"></label>
-                                    <input class="contact-form-input w-input" asp-for="Email" placeholder="Email..." type="email">
+                                    <label class="field-label" for="email">@_resource.GetLocalizedHTML("Email")</label>
+                                    <input class="contact-form-input w-input" id="email" asp-for="Email" placeholder="@_resource.GetLocalizedHTML("Email")..." type="email">
                                     <span class="text-danger" asp-validation-for="Email"></span>
                                 </div>
                                 <div class="form-field-wrapper">
-                                    <label class="field-label" asp-for="PhoneNumber"></label>
-                                    <input class="contact-form-input w-input" asp-for="PhoneNumber" placeholder="PhoneNumber..." type="tel">
+                                    <label class="field-label" for="phonenumber">@_resource.GetLocalizedHTML("Phone number")</label>
+                                    <input class="contact-form-input w-input" id="phonenumber" asp-for="PhoneNumber" placeholder="@_resource.GetLocalizedHTML("Phone number")..." type="tel">
                                     <span class="text-danger" asp-validation-for="PhoneNumber"></span>
                                 </div>
                             </div>
                             <div class="form-field-content">
                                 <div class="form-field-wrapper">
-                                    <label class="field-label" asp-for="WorkingCompany"></label>
-                                    <input class="contact-form-input w-input" asp-for="WorkingCompany" placeholder="WorkingCompany..." type="text">
+                                    <label class="field-label" for="workingcompany">@_resource.GetLocalizedHTML("Working Company")</label>
+                                    <input class="contact-form-input w-input" id="workingcompany" asp-for="WorkingCompany" placeholder="@_resource.GetLocalizedHTML("Working Company")..." type="text">
                                     <span class="text-danger" asp-validation-for="WorkingCompany"></span>
                                 </div>
                                 <div class="form-field-wrapper">
-                                    <label class="field-label" asp-for="Occupation"></label>
-                                    <input class="contact-form-input w-input" asp-for="Occupation" placeholder="Occupation..." type="text">
+                                    <label class="field-label" for="occupation">@_resource.GetLocalizedHTML("Occupation")</label>
+                                    <input class="contact-form-input w-input" id="occupation" asp-for="Occupation" placeholder="@_resource.GetLocalizedHTML("Occupation")..." type="text">
                                     <span class="text-danger" asp-validation-for="Occupation"></span>
                                 </div>
                             </div>
                             <div class="form-field-wrapper">
-                                <label  class="field-label" asp-for="AdditionalInfo"></label>
-                                <textarea placeholder="Type your message..." class="contact-form-input is-text-area w-input" asp-for="AdditionalInfo"></textarea>
+                                <label class="field-label" id="additionalinfo">@_resource.GetLocalizedHTML("Additional Info")</label>
+                                <textarea placeholder="@_resource.GetLocalizedHTML("Type your message")..." id="additionalinfo" class="contact-form-input is-text-area w-input" asp-for="AdditionalInfo"></textarea>
                             </div>
 
-                            <input type="submit" data-wait="Please wait..." id="w-node-f198a4eb-b131-c678-7447-03825147d7a0-0cfe0d80" class="button w-button" value="Corporate">
+                            <input type="submit" data-wait="Please wait..." id="w-node-f198a4eb-b131-c678-7447-03825147d7a0-0cfe0d80" class="button w-button" value="@_resource.GetLocalizedHTML("Corporate")">
                         </form>
                     </div>
                 </div>
@@ -93,3 +94,30 @@
         </div>
     </div>
 </section>
+
+@if (Model.Corporates.Items.Any())
+{
+    <div class="padding-global" bis_skin_checked="1">
+        <div class="container-large" bis_skin_checked="1">
+            <div class="padding-section-small" bis_skin_checked="1">
+                <div class="text-align-center" bis_skin_checked="1">
+                    <h2 class="heading-style-h6">
+                        @_resource.GetLocalizedHTML("Our Corporate Collaborators")
+                    </h2>
+                    <div class="padding-bottom padding-large" bis_skin_checked="1"></div>
+                </div>
+                <div class="brand-component" bis_skin_checked="1">
+                    @foreach (var item in Model.Corporates.Items)
+                    {
+                        <img src="@Model.Corporates.BaseUrl/@item.LogoPath/@item.LogoName" loading="lazy" alt="Logo" data-w-id="eebefcd3-44a4-54f1-fad5-8b85f631e41f" class="brand-logo" style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 1;">
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}   
+
+@await Component.InvokeAsync("Faq")
+@await Component.InvokeAsync("Subscribe")

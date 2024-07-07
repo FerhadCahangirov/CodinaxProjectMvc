@@ -35,6 +35,24 @@
     --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
+.Light-Theme, [data-theme=light] {
+    --card-color: #525f7f;
+    --card-bg: #fff;
+    --th-color: #495057;
+    --th-border: #e9ecef;
+    --th-bg-color: #f6f9fc;
+    --scroll-color: #e3f3fe;
+}
+
+.Dark-Theme, [data-theme=dark] {
+    --card-color: #fff;
+    --card-bg: #172b4d;
+    --th-color: #4d7bca;
+    --th-border: #1f3a68;
+    --th-bg-color: #1c345d;
+    --scroll-color: #1c345d;
+}
+
 *,
 *::before,
 *::after {
@@ -96,30 +114,30 @@ strong {
     font-weight: bolder;
 }
 
-table a {
+a {
     text-decoration: none;
     color: #5e72e4;
     background-color: transparent;
     -webkit-text-decoration-skip: objects;
 }
 
-    table a:hover {
+    a:hover {
         text-decoration: none;
         color: #233dd2;
     }
 
-    table a:not([href]):not([tabindex]) {
+    a:not([href]):not([tabindex]) {
         text-decoration: none;
         color: inherit;
     }
 
-        table a:not([href]):not([tabindex]):hover,
-        table a:not([href]):not([tabindex]):focus {
+        a:not([href]):not([tabindex]):hover,
+        a:not([href]):not([tabindex]):focus {
             text-decoration: none;
             color: inherit;
         }
 
-        table a:not([href]):not([tabindex]):focus {
+        a:not([href]):not([tabindex]):focus {
             outline: 0;
         }
 
@@ -237,26 +255,6 @@ progress {
     display: none !important;
 }
 
-h2,
-h3,
-.h2,
-.h3 {
-    font-family: inherit;
-    font-weight: 600;
-    line-height: 1.5;
-    margin-bottom: .5rem;
-    color: #32325d;
-}
-
-h2,
-.h2 {
-    font-size: 1.25rem;
-}
-
-h3,
-.h3 {
-    font-size: 1.0625rem;
-}
 
 .container {
     width: 100%;
@@ -326,16 +324,18 @@ h3,
     background-color: transparent;
 }
 
+/*kcls*/
+
     .table th,
     .table td {
         padding: 1rem;
         vertical-align: top;
-        border-top: 1px solid #e9ecef;
+        border-top: 1px solid var(--th-border)
     }
 
     .table thead th {
         vertical-align: bottom;
-        border-bottom: 2px solid #e9ecef;
+        border-top: 1px solid var(--th-border)
     }
 
     .table tbody + tbody {
@@ -343,26 +343,14 @@ h3,
     }
 
     .table .table {
-        background-color: #f8f9fe;
+        background-color: transparent;
     }
 
-.table-dark,
-.table-dark > th,
-.table-dark > td {
-    background-color: #c1c2c3;
-}
-
-.table .thead-dark th {
-    color: #f8f9fe;
-    border-color: #1f3a68;
-    background-color: #172b4d;
-}
-
-.table .thead-light th {
-    color: #8898aa;
-    border-color: #e9ecef;
-    background-color: #f6f9fc;
-}
+    .table thead th {
+        color: var(--th-color);
+        border-color: var(--th-border);
+        background-color: var(--th-bg-color);
+    }
 
 .table-dark {
     color: #f8f9fe;
@@ -381,6 +369,7 @@ h3,
     width: 100%;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar;
+    scrollbar-color: var(--scroll-color) var(--card-bg)
 }
 
 .btn {
@@ -535,15 +524,16 @@ a.btn.disabled {
     word-wrap: break-word;
     border: 1px solid rgba(0, 0, 0, .05);
     border-radius: .375rem;
-    background-color: #fff;
+    background-color: var(--card-bg);
     background-clip: border-box;
+    color: var(--card-color) !important;
 }
 
 .card-header {
     margin-bottom: 0;
     padding: 1.25rem 1.5rem;
     border-bottom: 1px solid rgba(0, 0, 0, .05);
-    background-color: #fff;
+    background-color: var(--card-bg);
 }
 
     .card-header:first-child {
@@ -553,12 +543,22 @@ a.btn.disabled {
 .card-footer {
     padding: 1.25rem 1.5rem;
     border-top: 1px solid rgba(0, 0, 0, .05);
-    background-color: #fff;
+    background-color: var(--card-bg);
 }
 
     .card-footer:last-child {
         border-radius: 0 0 calc(.375rem - 1px) calc(.375rem - 1px);
     }
+
+tbody th, tbody td {
+    background-color: transparent !important;
+    color: var(--card-color) !important;
+}
+
+tbody tr {
+    outline: none;
+    border: none;
+}
 
 .pagination {
     display: flex;
@@ -632,6 +632,7 @@ a.btn.disabled {
     vertical-align: baseline;
     white-space: nowrap;
     border-radius: .375rem;
+    color: var(--card-color) !important;
 }
 
     .badge:empty {
@@ -835,14 +836,14 @@ button.bg-info:focus {
 }
 
 .bg-warning {
-    background-color: #ffc107 !important;
+    background-color: #fb6340 !important;
 }
 
 a.bg-warning:hover,
 a.bg-warning:focus,
 button.bg-warning:hover,
 button.bg-warning:focus {
-    background-color: #ffc107 !important;
+    background-color: #fa3a0e !important;
 }
 
 .bg-danger {
@@ -1038,24 +1039,8 @@ a.text-white:focus {
 
         .table td,
         .table th {
-            background-color: #fff !important;
+            background-color: transparent !important;
         }
-
-    .table-dark {
-        color: inherit;
-    }
-
-        .table-dark th,
-        .table-dark td,
-        .table-dark thead th,
-        .table-dark tbody + tbody {
-            border-color: #e9ecef;
-        }
-
-    .table .thead-dark th {
-        color: inherit;
-        border-color: #e9ecef;
-    }
 }
 
 figcaption,
@@ -1435,16 +1420,6 @@ a.btn-icon-only {
     vertical-align: middle;
 }
 
-.table .thead-dark th {
-    color: #4d7bca;
-    background-color: #1c345d;
-}
-
-.table .thead-light th {
-    color: #8898aa;
-    background-color: #f6f9fc;
-}
-
 .table-flush td,
 .table-flush th {
     border-right: 0;
@@ -1481,4 +1456,9 @@ p {
     .btn {
         margin-bottom: 10px;
     }
+}
+
+
+.table > :not(caption) > * > * {
+    border-bottom-width: 0 !important;
 }

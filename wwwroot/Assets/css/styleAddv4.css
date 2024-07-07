@@ -891,7 +891,6 @@ body .is-layout-flow > * + * {
 
 .info-column {
     text-align: left;
-    flex-flow: column wrap;
     align-content: flex-start;
     justify-content: flex-start;
     align-items: flex-start;
@@ -3211,4 +3210,15 @@ body .is-layout-flow > * + * {
     #w-node-_6f84b52f-e1ce-0bfd-608e-c89ca2fcb845-dcc25c09, #w-node-_4d349212-8be6-b064-58cc-eb905e09f670-dcc25c09, #w-node-_7165c4ad-f3be-d1b2-7450-2229fc6698dd-dcc25c09, #w-node-_7e92415f-eee9-4b0c-34cc-e1c69767d114-dcc25c09, #w-node-_56653e3c-ed97-2d58-8cf8-8a75cf5ea6f5-544423f1 {
         grid-area: span 1/span 1/span 1/span 1
     }
+}
+
+
+.is-navbar.w-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.is-navbar.w-button span {
+    display: none;
 }

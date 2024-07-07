@@ -18,6 +18,16 @@
                         <span class="text-danger" asp-validation-for="Title"></span>
                     </div>
                     <div class="input-block">
+                        <label class="add-course-label" asp-for="TitleRu"></label>
+                        <textarea type="text" class="form-control" asp-for="TitleRu"> </textarea>
+                        <span class="text-danger" asp-validation-for="TitleRu"></span>
+                    </div>
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="TitleTr"></label>
+                        <textarea type="text" class="form-control" asp-for="TitleTr"> </textarea>
+                        <span class="text-danger" asp-validation-for="TitleTr"></span>
+                    </div>
+                    <div class="input-block">
                         <label class="add-course-label" asp-for="Icon"></label>
                         <input type="text" class="form-control" asp-for="Icon" type="file" accept="image/png">
                         <span class="text-danger" asp-validation-for="Icon"></span>

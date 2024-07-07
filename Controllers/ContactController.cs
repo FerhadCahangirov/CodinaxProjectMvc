@@ -1,16 +1,19 @@
 ﻿using CodinaxProjectMvc.Business.Abstract.InfrastructureServices;
 using CodinaxProjectMvc.DataAccess.Abstract.Repositories;
 using CodinaxProjectMvc.DataAccess.Models;
+using CodinaxProjectMvc.Filters;
 using CodinaxProjectMvc.ViewModel.LayoutVm;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodinaxProjectMvc.Controllers
 {
+    [CurrentLangFilterFactory]
     public class ContactController : Controller
     {
         private readonly IReadRepository<Faq> _faqReadRepository;
         private readonly IContactService _contactService;
+        
         public ContactController(IContactService contactService, IReadRepository<Faq> faqReadRepository)
         {
             _contactService = contactService;

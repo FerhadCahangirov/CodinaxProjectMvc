@@ -22,9 +22,33 @@
                     </div>
 
                     <div class="input-block">
+                        <label class="add-course-label" asp-for="QuestionRu"></label>
+                        <input type="text" class="form-control" asp-for="QuestionRu">
+                        <span class="text-danger" asp-validation-for="QuestionRu"></span>
+                    </div>
+
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="QuestionTr"></label>
+                        <input type="text" class="form-control" asp-for="QuestionTr">
+                        <span class="text-danger" asp-validation-for="QuestionTr"></span>
+                    </div>
+
+                    <div class="input-block">
                         <label class="add-course-label" asp-for="Answer"></label>
                         <textarea type="text" class="form-control" asp-for="Answer"></textarea>
                         <span class="text-danger" asp-validation-for="Answer"></span>
+                    </div>
+
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="AnswerRu"></label>
+                        <textarea type="text" class="form-control" asp-for="AnswerRu"></textarea>
+                        <span class="text-danger" asp-validation-for="AnswerRu"></span>
+                    </div>
+
+                    <div class="input-block">
+                        <label class="add-course-label" asp-for="AnswerTr"></label>
+                        <textarea type="text" class="form-control" asp-for="AnswerTr"></textarea>
+                        <span class="text-danger" asp-validation-for="AnswerTr"></span>
                     </div>
 
                     <div class="widget-btn">

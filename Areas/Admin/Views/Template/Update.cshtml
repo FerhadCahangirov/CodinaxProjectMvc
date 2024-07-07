@@ -22,30 +22,68 @@
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
 
+
     function addFutureJobTitle() {
 
         const element = document.getElementById('future-job-title-input');
+        const elementRu = document.getElementById('future-job-title-ru-input');
+        const elementTr = document.getElementById('future-job-title-tr-input');
         const content = element.value;
+        const contentRu = elementRu.value;
+        const contentTr = elementTr.value;
 
-        const futureJobTitle = {
-            id: guid(),
-            content: content
+        if (content !== '') {
+            const futureJobTitle = {
+                id: guid(),
+                content: content,
+                contentRu: contentRu,
+                contentTr: contentTr,
+            }
+
+            futureJobTitles.push(futureJobTitle);
+
+            element.value = '';
+            loadFutureJobTitles();
         }
+    }
 
-        futureJobTitles.push(futureJobTitle);
+    function loadFutureJobTitles() {
+        const element = document.getElementById('futureJobTitles_Container');
 
-        element.value = '';
-        loadFutureJobTitles();
+        element.innerHTML = futureJobTitles.map(fjt => `
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="ms-2 me-auto">
+                                                <div class="fw-bold">${fjt.content}</div>
+                                            </div>
+                                            <a class="badge text-bg-warning rounded-pill pointer" data-bs-toggle="collapse" href="#fjt-edit-container-${fjt.id}" role="button" aria-expanded="false" aria-controls="fjt-edit-container-${fjt.id}">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <span class="badge text-bg-danger rounded-pill ml-2 pointer" onclick="deleteJobTitle('${fjt.id}')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </span>
+                                        </li>
+                                        <div class="input-block mt-2 collapse" id="fjt-edit-container-${fjt.id}">
+                                            <input type="text" class="form-control" placeholder="Future Job Title..." id="fjt-edit-${fjt.id}" value="${fjt.content}">
+                                            <input type="text" class="form-control" placeholder="Future Job Title Russian..." id="fjt-edit-ru-${fjt.id}" value="${fjt.contentRu}">
+                                            <input type="text" class="form-control" placeholder="Future Job Title Turkish..." id="fjt-edit-tr-${fjt.id}" value="${fjt.contentTr}">
+                                            <a class="btn btn-info-light" onclick="updateJobTitle('${fjt.id}')"> Update </a>
+                                        </div>
+
+                                    `).join('');
     }
 
     function updateJobTitle(id) {
-        for (let x in futureJobTitles) {
-            if (futureJobTitles.hasOwnProperty(x) && futureJobTitles[x].id == id) {
-                futureJobTitles[x].content = document.getElementById(`fjt-edit-${id}`).value;
-                break;
+        if (document.getElementById(`fjt-edit-${id}`).value !== "") {
+            for (let x in futureJobTitles) {
+                if (futureJobTitles.hasOwnProperty(x) && futureJobTitles[x].id == id) {
+                    futureJobTitles[x].content = document.getElementById(`fjt-edit-${id}`).value;
+                    futureJobTitles[x].contentRu = document.getElementById(`fjt-edit-ru-${id}`).value;
+                    futureJobTitles[x].contentTr = document.getElementById(`fjt-edit-tr-${id}`).value;
+                    break;
+                }
             }
+            loadFutureJobTitles();
         }
-        loadFutureJobTitles();
     }
 
     function deleteJobTitle(id) {
@@ -62,53 +100,68 @@
         }
     }
 
+
     function addTopic() {
 
         const element = document.getElementById('topic-input');
+        const elementRu = document.getElementById('topic-ru-input');
+        const elementTr = document.getElementById('topic-tr-input');
         const content = element.value;
+        const contentRu = elementRu.value;
+        const contentTr = elementTr.value;
 
-        const topic = {
-            id: guid(),
-            content: content
+        if (content !== '') {
+            const topic = {
+                id: guid(),
+                contentRu: contentRu,
+                contentTr: contentTr,
+                content: content
+            }
+
+            topics.push(topic);
+
+            element.value = '';
+            loadTopics();
         }
-
-        topics.push(topic);
-
-        element.value = '';
-        loadTopics();
     }
 
     function loadTopics() {
         const element = document.getElementById('topics_Container');
 
         element.innerHTML = topics.map(topic => `
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
-                        <div class="fw-bold">${topic.content}</div>
-                    </div>
-                    <a class="badge text-bg-warning rounded-pill pointer" data-bs-toggle="collapse" href="#topic-edit-container-${topic.id}" role="button" aria-expanded="false" aria-controls="topic-edit-container-${topic.id}">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                    <span class="badge text-bg-danger rounded-pill ml-2 pointer" onclick="deleteTopic('${topic.id}')">
-                        <i class="fa-solid fa-trash"></i>
-                    </span>
-                </li>
-                <div class="input-block mt-2 collapse" id="topic-edit-container-${topic.id}">
-                    <input type="text" class="form-control" id="topic-edit-${topic.id}" value="${topic.content}">
-                    <a class="btn btn-info-light" onclick="updateTopic('${topic.id}')"> Update </a>
-                </div>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="ms-2 me-auto">
+                                                <div class="fw-bold">${topic.content}</div>
+                                            </div>
+                                            <a class="badge text-bg-warning rounded-pill pointer" data-bs-toggle="collapse" href="#topic-edit-container-${topic.id}" role="button" aria-expanded="false" aria-controls="topic-edit-container-${topic.id}">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <span class="badge text-bg-danger rounded-pill ml-2 pointer" onclick="deleteTopic('${topic.id}')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </span>
+                                        </li>
+                                        <div class="input-block mt-2 collapse" id="topic-edit-container-${topic.id}">
+                                            <input type="text" class="form-control" placeholder="Topic content..." id="topic-edit-${topic.id}" value="${topic.content}">
+                                            <input type="text" class="form-control" placeholder="Topic content russian..." id="topic-ru-edit-${topic.id}" value="${topic.content}">
+                                            <input type="text" class="form-control" placeholder="Topic content turkish..." id="topic-tr-edit-${topic.id}" value="${topic.content}">
+                                            <a class="btn btn-info-light" onclick="updateTopic('${topic.id}')"> Update </a>
+                                        </div>
 
-            `).join('');
+                                    `).join('');
     }
 
     function updateTopic(id) {
-        for (let x in topics) {
-            if (topics.hasOwnProperty(x) && topics[x].id == id) {
-                topics[x].content = document.getElementById(`topic-edit-${id}`).value;
-                break;
+        if (document.getElementById(`topic-edit-${id}`).value !== '') {
+            for (let x in topics) {
+                if (topics.hasOwnProperty(x) && topics[x].id == id) {
+                    topics[x].content = document.getElementById(`topic-edit-${id}`).value;
+                    topics[x].contentRu = document.getElementById(`topic-edit-ru-${id}`).value;
+                    topics[x].contentTr = document.getElementById(`topic-edit-tr-${id}`).value;
+                    break;
+                }
             }
+            loadTopics();
         }
-        loadTopics();
     }
 
     function deleteTopic(id) {
@@ -124,7 +177,6 @@
             loadTopics();
         }
     }
-
 
     document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('course-fragment-video-input').addEventListener('change', () => {
@@ -143,11 +195,11 @@
                 const remove_button_container = document.getElementById('remove_button_container');
                 remove_button_container.innerHTML =
                     `
-                    <a class="btn btn-danger text-white mt-2"
-                        onclick="removeCourseFragmentVideoLocally()"
-                    >
-                        Remove
-                    </a>`;
+                                <a class="btn btn-danger text-white mt-2"
+                                    onclick="removeCourseFragmentVideoLocally()"
+                                >
+                                    Remove
+                                </a>`;
             }
         });
 
@@ -166,28 +218,6 @@
         });
     });
 
-    function loadFutureJobTitles() {
-        const element = document.getElementById('futureJobTitles_Container');
-
-        element.innerHTML = futureJobTitles.map(fjt => `
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">${fjt.content}</div>
-                            </div>
-                            <a class="badge text-bg-warning rounded-pill pointer" data-bs-toggle="collapse" href="#fjt-edit-container-${fjt.id}" role="button" aria-expanded="false" aria-controls="fjt-edit-container-${fjt.id}">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-                            <span class="badge text-bg-danger rounded-pill ml-2 pointer" onclick="deleteJobTitle('${fjt.id}')">
-                                <i class="fa-solid fa-trash"></i>
-                            </span>
-                        </li>
-                        <div class="input-block mt-2 collapse" id="fjt-edit-container-${fjt.id}">
-                            <input type="text" class="form-control" id="fjt-edit-${fjt.id}" value="${fjt.content}">
-                            <a class="btn btn-info-light" onclick="updateJobTitle('${fjt.id}')"> Update </a>
-                        </div>
-
-                    `).join('');
-    }
 
     document.addEventListener('DOMContentLoaded', () => {
         $.ajax({
@@ -197,31 +227,48 @@
                 console.log(response);
 
                 document.getElementById('course-desc-input').value = response.courseDescription;
+                document.getElementById('course-desc-ru-input').value = response.courseDescriptionRu;
+                document.getElementById('course-desc-tr-input').value = response.courseDescriptionTr;
+
                 document.getElementById('course-header-desc-input').value = response.courseHeaderDescription;
+                document.getElementById('course-header-desc-ru-input').value = response.courseHeaderDescriptionRu;
+                document.getElementById('course-header-desc-tr-input').value = response.courseHeaderDescriptionTr;
+
                 document.getElementById('course-heading-input').value = response.courseHeading;
+                document.getElementById('course-heading-ru-input').value = response.courseHeadingRu;
+                document.getElementById('course-heading-tr-input').value = response.courseHeadingTr;
 
                 document.getElementById('course-location-input').value = response.courseLocation;
+                document.getElementById('course-location-ru-input').value = response.courseLocationRu;
+                document.getElementById('course-location-tr-input').value = response.courseLocationTr;
 
                 const courseStartingDate = new Date(response.courseStartingDate);
-                console.log(response.courseStartingDate," - ", courseStartingDate);
                 courseStartingDate.setDate(courseStartingDate.getDate() + 1);
                 setDateInputValue('course-starting-date-input', courseStartingDate);
 
                 const courseFinishingDate = new Date(response.courseFinishingDate);
                 courseFinishingDate.setDate(courseFinishingDate.getDate() + 1);
-
                 setDateInputValue('course-finishing-date-input', courseFinishingDate);
 
                 document.getElementById('future-job-description-input').value = response.futureJobDescription;
+                document.getElementById('future-job-description-ru-input').value = response.futureJobDescriptionRu;
+                document.getElementById('future-job-description-tr-input').value = response.futureJobDescriptionTr;
+
                 document.getElementById('future-job-salary-input').value = response.futureJobSalary;
+                document.getElementById('future-job-salary-ru-input').value = response.futureJobSalaryRu;
+                document.getElementById('future-job-salary-tr-input').value = response.futureJobSalaryTr;
 
                 document.getElementById('course-properties-input').value = response.courseProperties;
+                document.getElementById('course-properties-ru-input').value = response.coursePropertiesRu;
+                document.getElementById('course-properties-tr-input').value = response.coursePropertiesTr;
 
                 if (response.futureJobTitles.length > 0) {
                     response.futureJobTitles.forEach(title => {
                         futureJobTitles.push({
                             id: guid(),
-                            content: title.content
+                            content: title.content,
+                            contentRu: title.contentRu,
+                            contentTr: title.contentTr
                         });
                     })
                 }
@@ -232,7 +279,9 @@
                     response.topics.forEach(title => {
                         topics.push({
                             id: guid(),
-                            content: title.content
+                            content: title.content,
+                            contentRu: title.contentRu,
+                            contentTr: title.contentTr
                         });
                     })
                 }
@@ -249,14 +298,13 @@
                     videoBox.appendChild(video);
 
                     const remove_button_container = document.getElementById('remove_button_container');
-                    remove_button_container.innerHTML =
-                        `
-                            <a class="btn btn-danger text-white mt-2"
-                             onclick="removeCourseFragmentVideo('${response.id}')"
-                            >
-                             Remove
-                            </a>
-                        `
+                    remove_button_container.innerHTML = `
+                                        <a class="btn btn-danger text-white mt-2"
+                                         onclick="removeCourseFragmentVideo('${response.id}')"
+                                        >
+                                         Remove
+                                        </a>
+                                    `
                 }
 
                 if (response.courseImageName) {
@@ -268,42 +316,118 @@
                     imageBox.appendChild(image);
                 }
 
-                if (response.courseContent) {
-                    (function ($) {
-                        "use strict";
+                (function ($) {
+                    "use strict";
 
-                        // CK Editor
-                        if ($('#editor').length > 0) {
-                            ClassicEditor
-                                .create(document.querySelector('#editor'), {
-                                    toolbar: {
-                                        items: [
-                                            'heading', '|',
-                                            'fontfamily', 'fontsize', '|',
-                                            'alignment', '|',
-                                            'fontColor', 'fontBackgroundColor', '|',
-                                            'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript', '|',
-                                            'link', '|',
-                                            'outdent', 'indent', '|',
-                                            'bulletedList', 'numberedList', 'todoList', '|',
-                                            'code', 'codeBlock', '|',
-                                            'insertTable', '|',
-                                            'uploadImage', 'blockQuote', '|',
-                                            'undo', 'redo'
-                                        ],
-                                        shouldNotGroupWhenFull: true
-                                    }
-                                })
-                                .then(editor => {
+                    // CK Editor
+                    if ($('#editor').length > 0) {
+                        ClassicEditor
+                            .create(document.querySelector('#editor'), {
+                                toolbar: {
+                                    items: [
+                                        'heading', '|',
+                                        'fontfamily', 'fontsize', '|',
+                                        'alignment', '|',
+                                        'fontColor', 'fontBackgroundColor', '|',
+                                        'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript', '|',
+                                        'link', '|',
+                                        'outdent', 'indent', '|',
+                                        'bulletedList', 'numberedList', 'todoList', '|',
+                                        'code', 'codeBlock', '|',
+                                        'insertTable', '|',
+                                        'uploadImage', 'blockQuote', '|',
+                                        'undo', 'redo'
+                                    ],
+                                    shouldNotGroupWhenFull: true
+                                }
+                            })
+                            .then(editor => {
+                                if (response.courseContent) {
                                     editor.setData(response.courseContent);
-                                    window.editor = editor;
-                                })
-                                .catch(err => {
-                                    console.error(err.stack);
-                                });
-                        }
-                    })(jQuery);
-                }
+                                }
+                                window.editor = editor;
+                            })
+                            .catch(err => {
+                                console.error(err);
+                            });
+                    }
+                })(jQuery);
+
+                (function ($) {
+                    "use strict";
+
+                    // CK Editor
+                    if ($('#editor-ru').length > 0) {
+                        ClassicEditor
+                            .create(document.querySelector('#editor-ru'), {
+                                toolbar: {
+                                    items: [
+                                        'heading', '|',
+                                        'fontfamily', 'fontsize', '|',
+                                        'alignment', '|',
+                                        'fontColor', 'fontBackgroundColor', '|',
+                                        'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript', '|',
+                                        'link', '|',
+                                        'outdent', 'indent', '|',
+                                        'bulletedList', 'numberedList', 'todoList', '|',
+                                        'code', 'codeBlock', '|',
+                                        'insertTable', '|',
+                                        'uploadImage', 'blockQuote', '|',
+                                        'undo', 'redo'
+                                    ],
+                                    shouldNotGroupWhenFull: true
+                                }
+                            })
+                            .then(editor => {
+                                if (response.courseContentRu) {
+                                    editor.setData(response.courseContentRu);
+
+                                }
+                                window.editor = editor;
+                            })
+                            .catch(err => {
+                                console.error(err);
+                            });
+                    }
+                })(jQuery);
+
+                (function ($) {
+                    "use strict";
+
+                    // CK Editor
+                    if ($('#editor-tr').length > 0) {
+                        ClassicEditor
+                            .create(document.querySelector('#editor-tr'), {
+                                toolbar: {
+                                    items: [
+                                        'heading', '|',
+                                        'fontfamily', 'fontsize', '|',
+                                        'alignment', '|',
+                                        'fontColor', 'fontBackgroundColor', '|',
+                                        'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript', '|',
+                                        'link', '|',
+                                        'outdent', 'indent', '|',
+                                        'bulletedList', 'numberedList', 'todoList', '|',
+                                        'code', 'codeBlock', '|',
+                                        'insertTable', '|',
+                                        'uploadImage', 'blockQuote', '|',
+                                        'undo', 'redo'
+                                    ],
+                                    shouldNotGroupWhenFull: true
+                                }
+                            })
+                            .then(editor => {
+                                if (response.courseContentTr) {
+                                    editor.setData(response.courseContentTr);
+                                }
+                                window.editor = editor;
+                            })
+                            .catch(err => {
+                                console.error(err);
+                            });
+                    }
+                })(jQuery);
+
 
                 data.append('courseFragmentVideoName', response.courseFragmentVideoName);
                 data.append('courseFragmentVideoPathOrContainer', response.courseFragmentVideoPathOrContainer);
@@ -359,22 +483,55 @@
     }
 
     function updateCourse() {
-        const element = document.querySelector('.ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline');
+        const element = document.querySelector('.ck-us .ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline');
         const courseContent = element.innerHTML;
         const courseContentAsString = courseContent.toString();
+
+        const elementRu = document.querySelector('.ck-ru .ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline');
+        const courseContentRu = elementRu.innerHTML;
+        const courseContentAsStringRu = courseContentRu.toString();
+
+        const elementTr = document.querySelector('.ck-tr .ck-blurred.ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline');
+        const courseContentTr = elementTr.innerHTML;
+        const courseContentAsStringTr = courseContentTr.toString();
 
         const updated_data = new FormData();
 
         updated_data.append('courseDescription', document.getElementById('course-desc-input').value);
+        updated_data.append('courseDescriptionRu', document.getElementById('course-desc-ru-input').value);
+        updated_data.append('courseDescriptionTr', document.getElementById('course-desc-tr-input').value);
+
         updated_data.append('courseHeading', document.getElementById('course-heading-input').value);
+        updated_data.append('courseHeadingRu', document.getElementById('course-heading-ru-input').value);
+        updated_data.append('courseHeadingTr', document.getElementById('course-heading-tr-input').value);
+
         updated_data.append('courseContent', courseContentAsString);
+        updated_data.append('courseContentRu', courseContentAsStringRu);
+        updated_data.append('courseContentTr', courseContentAsStringTr);
+
         updated_data.append('courseLocation', document.getElementById('course-location-input').value);
+        updated_data.append('courseLocationRu', document.getElementById('course-location-ru-input').value);
+        updated_data.append('courseLocationTr', document.getElementById('course-location-tr-input').value);
+
         updated_data.append('courseStartingDate', document.getElementById('course-starting-date-input').value);
         updated_data.append('courseFinishingDate', document.getElementById('course-finishing-date-input').value);
+
         updated_data.append('futureJobDescription', document.getElementById('future-job-description-input').value);
+        updated_data.append('futureJobDescriptionRu', document.getElementById('future-job-description-ru-input').value);
+        updated_data.append('futureJobDescriptionTr', document.getElementById('future-job-description-tr-input').value);
+
         updated_data.append('futureJobSalary', document.getElementById('future-job-salary-input').value);
+        updated_data.append('futureJobSalaryRu', document.getElementById('future-job-salary-ru-input').value);
+        updated_data.append('futureJobSalaryTr', document.getElementById('future-job-salary-tr-input').value);
+
         updated_data.append('courseProperties', document.getElementById('course-properties-input').value);
+        updated_data.append('coursePropertiesRu', document.getElementById('course-properties-ru-input').value);
+        updated_data.append('coursePropertiesTr', document.getElementById('course-properties-tr-input').value);
+
         updated_data.append('courseHeaderDescription', document.getElementById('course-header-desc-input').value);
+        updated_data.append('courseHeaderDescriptionRu', document.getElementById('course-header-desc-ru-input').value);
+        updated_data.append('courseHeaderDescriptionTr', document.getElementById('course-header-desc-tr-input').value);
+
         updated_data.append('courseFragmentVideo', document.getElementById('course-fragment-video-input').files[0]);
         updated_data.append('courseImage', document.getElementById('course-image-input').files[0]);
         updated_data.append('id', '@Model');
@@ -382,11 +539,15 @@
         for (let i = 0; i < futureJobTitles.length; i++) {
             let futureJobTitle = futureJobTitles[i];
             updated_data.append(`futureJobTitles[${i}].content`, futureJobTitle.content);
+            updated_data.append(`futureJobTitles[${i}].contentRu`, futureJobTitle.contentRu);
+            updated_data.append(`futureJobTitles[${i}].contentTr`, futureJobTitle.contentTr);
         }
 
         for (let i = 0; i < topics.length; i++) {
             let topic = topics[i];
             updated_data.append(`topics[${i}].content`, topic.content);
+            updated_data.append(`topics[${i}].contentRu`, topic.contentRu);
+            updated_data.append(`topics[${i}].contentTr`, topic.contentTr);
         }
 
         const validationResult = validateData(updated_data);
@@ -437,15 +598,15 @@
                     if (response.success) {
 
                         const fragmentVideo = updated_data.get('courseFragmentVideo');
-                        if(fragmentVideo){
+                        if (fragmentVideo) {
                             const remove_button_container = document.getElementById('remove_button_container');
                             remove_button_container.innerHTML =
-                                    `
-                            <a class="btn btn-danger text-white mt-2"
-                                    onclick="removeCourseFragmentVideo('${updated_data.get('id')}')"
-                            >
-                                Remove
-                            </a>`;
+                                `
+                                        <a class="btn btn-danger text-white mt-2"
+                                                onclick="removeCourseFragmentVideo('${updated_data.get('id')}')"
+                                        >
+                                            Remove
+                                        </a>`;
                         }
 
                         showToaster('success', 'Template Updated Successfully');
@@ -486,12 +647,12 @@
                 if (data.success) {
                     const videoBox = document.getElementById('videoBox');
                     videoBox.innerHTML = `
-                            <div class="add-image-box add-video-box" >
-                                <a href="javascript:void(0);" >
-                                    <i class="fas fa-circle-play"></i>
-                                </a>
-                            </div>
-                        `;
+                                        <div class="add-image-box add-video-box" >
+                                            <a href="javascript:void(0);" >
+                                                <i class="fas fa-circle-play"></i>
+                                            </a>
+                                        </div>
+                                    `;
                     const remove_button_container = document.getElementById('remove_button_container');
                     remove_button_container.innerHTML = '';
 
@@ -509,7 +670,7 @@
         });
     }
 
-    function removeCourseFragmentVideoLocally(){
+    function removeCourseFragmentVideoLocally() {
 
         var fileInput = document.getElementById('course-fragment-video-input');
         fileInput.value = '';
@@ -518,12 +679,12 @@
 
         const videoBox = document.getElementById('videoBox');
         videoBox.innerHTML = `
-                                <div class="add-image-box add-video-box" >
-                                    <a href="javascript:void(0);" >
-                                        <i class="fas fa-circle-play"></i>
-                                    </a>
-                                </div>
-                            `;
+                                            <div class="add-image-box add-video-box" >
+                                                <a href="javascript:void(0);" >
+                                                    <i class="fas fa-circle-play"></i>
+                                                </a>
+                                            </div>
+                                        `;
         const remove_button_container = document.getElementById('remove_button_container');
         remove_button_container.innerHTML = '';
 
@@ -562,24 +723,73 @@
                 <h4>Basic Information</h4>
             </div>
             <div class="add-course-form">
-                
+
+                @* Course Header *@
+
                 <div class="input-block">
                     <label class="add-course-label" id="courseHeadingLabel">Course Header *</label>
                     <input type="text" class="form-control" placeholder="Course Header" id="course-heading-input">
                 </div>
 
                 <div class="input-block">
+                    <label class="add-course-label">Course Header Russian</label>
+                    <input type="text" class="form-control" id="course-heading-ru-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label">Course Header Turkish</label>
+                    <input type="text" class="form-control" id="course-heading-tr-input">
+                </div>
+
+                @* Course Description *@
+
+                <div class="input-block">
                     <label class="add-course-label" id="courseDescriptionLabel">Course Description *</label>
                     <input type="text" class="form-control" placeholder="Course Description" id="course-desc-input">
                 </div>
+
                 <div class="input-block">
-                    <label class="add-course-label" id="courseHeaderDescriptionLabel">Course Header Description *</label>
-                    <input type="text" class="form-control" placeholder="Course Header Description" id="course-header-desc-input">
+                    <label class="add-course-label">Course Description Russian</label>
+                    <input type="text" class="form-control" id="course-desc-ru-input">
                 </div>
 
-                <div class="input-block mb-0">
+                <div class="input-block">
+                    <label class="add-course-label">Course Description Turkish</label>
+                    <input type="text" class="form-control" id="course-desc-tr-input">
+                </div>
+
+                @* Course Description *@
+
+                <div class="input-block">
+                    <label class="add-course-label" id="courseHeaderDescriptionLabel">Course Description Header *</label>
+                    <input type="text" class="form-control" placeholder="Course Description Header" id="course-header-desc-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label">Course Description Header Russian </label>
+                    <input type="text" class="form-control" id="course-header-desc-ru-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label">Course Description Header Turkish</label>
+                    <input type="text" class="form-control" id="course-header-desc-tr-input">
+                </div>
+
+                @* Course Content *@
+
+                <div class="input-block ck-us mb-2">
                     <label class="add-course-label">Course Content</label>
                     <div id="editor"></div>
+                </div>
+
+                <div class="input-block ck-ru mb-2">
+                    <label class="add-course-label">Course Content Russian</label>
+                    <div id="editor-ru"></div>
+                </div>
+
+                <div class="input-block ck-tr mb-0">
+                    <label class="add-course-label">Course Content Turkish</label>
+                    <div id="editor-tr"></div>
                 </div>
             </div>
         </div>
@@ -591,40 +801,86 @@
                 <h4>Course Details</h4>
             </div>
             <div class="add-course-form">
+                @* Course Location *@
+
                 <div class="input-block">
                     <label class="add-course-label" id="courseLocationLabel">Course Location *</label>
                     <input type="text" class="form-control" placeholder="Course Location" id="course-location-input">
                 </div>
 
                 <div class="input-block">
+                    <label class="add-course-label">Course Location Russian</label>
+                    <input type="text" class="form-control" id="course-location-ru-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label">Course Location Turkish</label>
+                    <input type="text" class="form-control" id="course-location-tr-input">
+                </div>
+
+                @* Course Date *@
+
+                <div class="input-block">
                     <label class="add-course-label" id="courseStartingDateLabel">Starting Date *</label>
-                    <input type="date" class="form-control" placeholder="Course Location"
-                           id="course-starting-date-input">
+                    <input type="date" class="form-control" placeholder="Starting Date" id="course-starting-date-input">
                 </div>
 
                 <div class="input-block">
                     <label class="add-course-label">Finishing Date</label>
-                    <input type="date" class="form-control" placeholder="Course Location"
+                    <input type="date" class="form-control" placeholder="Finishing Date"
                            id="course-finishing-date-input">
                 </div>
 
+                @* Future Job Description *@
+
                 <div class="input-block">
                     <label class="add-course-label" id="futureJobDescriptionLabel">Future Job Description *</label>
-                    <input type="text" class="form-control" placeholder="Future Job Description"
-                           id="future-job-description-input">
+                    <input type="text" class="form-control" placeholder="Future Job Description" id="future-job-description-input">
                 </div>
 
                 <div class="input-block">
-                    <label class="add-course-label" id="futureJobSalaryLabel">Future Job Salary *</label>
-                    <input type="text" class="form-control" placeholder="Future Job Salary"
-                           id="future-job-salary-input">
+                    <label class="add-course-label">Future Job Description Russian</label>
+                    <input type="text" class="form-control" id="future-job-description-ru-input">
                 </div>
+
+                <div class="input-block">
+                    <label class="add-course-label">Future Job Description Turkish</label>
+                    <input type="text" class="form-control" id="future-job-description-tr-input">
+                </div>
+
+                @* Future Job Salary *@
+
+                <div class="input-block">
+                    <label class="add-course-label" id="futureJobSalaryLabel">Future Job Salary *</label>
+                    <input type="text" class="form-control" placeholder="Future Job Salary" id="future-job-salary-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label">Future Job Salary Russian</label>
+                    <input type="text" class="form-control" id="future-job-salary-ru-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label">Future Job Salary Turkish</label>
+                    <input type="text" class="form-control" id="future-job-salary-tr-input">
+                </div>
+
+                @* Properties *@
 
                 <div class="input-block">
                     <label class="add-course-label" id="coursePropertiesLabel">Properties *</label>
                     <input type="text" class="form-control" placeholder="Properties" id="course-properties-input">
                 </div>
 
+                <div class="input-block">
+                    <label class="add-course-label">Properties Russian</label>
+                    <input type="text" class="form-control" id="course-properties-ru-input">
+                </div>
+
+                <div class="input-block">
+                    <label class="add-course-label">Properties Turkish</label>
+                    <input type="text" class="form-control" id="course-properties-tr-input">
+                </div>
             </div>
         </div>
     </fieldset>
@@ -641,6 +897,10 @@
                 <div class="collapse input-block mt-5" id="collapseFjtInput">
                     <label class="add-course-label">Future Job Title</label>
                     <input type="text" class="form-control" placeholder="Future Job Title" id="future-job-title-input">
+                    <label class="add-course-label">Future Job Title Russian</label>
+                    <input type="text" class="form-control" placeholder="Future Job Title Russian" id="future-job-title-ru-input">
+                    <label class="add-course-label">Future Job Title Turkish</label>
+                    <input type="text" class="form-control" placeholder="Future Job Title Turkish" id="future-job-title-tr-input">
                     <a class="btn btn-info-light" onclick="addFutureJobTitle()"> Add + </a>
                 </div>
 
@@ -661,8 +921,14 @@
                    aria-expanded="false" aria-controls="collapseTopicsInput">Add Topic</a>
 
                 <div class="collapse input-block mt-5" id="collapseTopicsInput">
-                    <label class="add-course-label">Future Job Title</label>
-                    <input type="text" class="form-control" placeholder="Future Job Title" id="topic-input">
+                    <label class="add-course-label">Topic Content</label>
+                    <input type="text" class="form-control" placeholder="Topic Content" id="topic-input">
+
+                    <label class="add-course-label">Topic Content Russian</label>
+                    <input type="text" class="form-control" placeholder="Topic Content Russian" id="topic-ru-input">
+
+                    <label class="add-course-label">Topic Content Turkish</label>
+                    <input type="text" class="form-control" placeholder="Topic Content Turkish" id="topic-tr-input">
                     <a class="btn btn-info-light" onclick="addTopic()"> Add + </a>
                 </div>
 
@@ -723,3 +989,4 @@
     </fieldset>
 
 </div>
+

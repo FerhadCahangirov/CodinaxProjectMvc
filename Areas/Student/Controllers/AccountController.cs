@@ -66,6 +66,8 @@ namespace CodinaxProjectMvc.Areas.Student.Controllers
 
             if (!result)
             {
+                studentAccountVm.Password = studentResetPasswordVm.Password;
+                studentAccountVm.ConfirmPassword = studentResetPasswordVm.ConfirmPassword;
                 return View(viewName: nameof(Profile), studentAccountVm);
             }
 

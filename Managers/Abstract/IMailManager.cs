@@ -15,5 +15,11 @@ namespace CodinaxProjectMvc.Managers.Abstract
         Task SendSubscribeConfirmationMailAsync(string token, string email);
 
         Task SendMailToAllSubscribersAsync(string subject, string content, List<Subscriber> subscribers);
+
+        Task SendPasswordResetMailAsync<TEntity>(string token, TEntity user) where TEntity : AppUser;
+
+        Task SendUnsubscribedMailAsync(string email);
+
+        Task SendSubscribedMailAsync(string email);
     }
 }

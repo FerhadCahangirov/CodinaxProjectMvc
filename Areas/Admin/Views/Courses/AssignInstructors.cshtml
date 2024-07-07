@@ -8,7 +8,7 @@
 
         $.ajax({
             type: 'POST',
-            url: `/Admin/Instructors/AssignInstructorsPartial/${id}`,
+            url: `/Admin/Courses/AssignInstructorsPartial/${id}`,
             data: {
                 searchFilter: searchFilter,
             },
@@ -16,7 +16,6 @@
                 $('#assignInstructorsContainer').html(data);
 
                 localStorage.setItem("instructorSearchFilter", searchFilter);
-                localStorage.setItem("instructorStatusFilter", statusText);
             },
             error: (xhr, status, error) => {
                 console.error(`Error! ${error}`);
@@ -32,11 +31,11 @@
         <div class="row">
             <div class="col-lg-6">
                 <a href="/Admin/Courses/Single/@Model.Course.Id">
-                    <h2 class="mb-5"> <i class="fa-solid fa-arrow-left ml-2"></i> Back To Cdourse</h2>
+                    <h3 class="mb-5"> <i class="fa-solid fa-arrow-left ml-2"></i> Back To Course</h3>
                 </a>
             </div>
             <div class="col-lg-6 ">
-                <h2 class="mb-5 text-right">Assign To <strong>@Model.Course.CourseCode - @Model.Course.Title </strong></h2>
+                <h3 class="mb-5 text-right">Assign To <strong>@Model.Course.CourseCode - @Model.Course.Title </strong></h3>
 
             </div>
         </div>

@@ -19,23 +19,41 @@
                     <input type="text" class="form-control" placeholder="Course Price Title" asp-for="Title">
                     <span class="text-danger" asp-validation-for="Title"></span>
                 </div>
+                <div class="input-block">
+                    <label class="add-course-label" asp-for="TitleRu"></label>
+                    <input type="text" class="form-control" placeholder="Course Price Title Russian" asp-for="TitleRu">
+                    <span class="text-danger" asp-validation-for="TitleRu"></span>
+                </div>
+                <div class="input-block">
+                    <label class="add-course-label" asp-for="TitleTr"></label>
+                    <input type="text" class="form-control" placeholder="Course Price Title Turkish" asp-for="TitleTr">
+                    <span class="text-danger" asp-validation-for="TitleTr"></span>
+                </div>
 
                 <fieldset class="field-card">
                     <div class="add-course-info">
                         <div class="add-course-inner-header">
                             <h4>Price Infos</h4>
                         </div>
-                        <div>
+                        <div class="add-course-form">
+
                             <a class="btn btn-info-light" data-bs-toggle="collapse" href="#collapsePriceInfosInput" role="button"
                                aria-expanded="false" aria-controls="collapsePriceInfosInput">Add PriceInfo</a>
 
                             <div class="collapse input-block mt-5" id="collapsePriceInfosInput">
                                 <label class="add-course-label">Price Info</label>
                                 <input type="text" class="form-control" placeholder="Price Info" id="priceInfo-input">
+
+                                <label class="add-course-label">Translate Price Info To Russian</label>
+                                <input type="text" class="form-control" placeholder="Price Info Russian" id="priceInfo-ru-input">
+
+                                <label class="add-course-label">Translate Price Info To Turkish</label>
+                                <input type="text" class="form-control" placeholder="Price Info Turkish" id="priceInfo-tr-input">
+
                                 <a class="btn btn-info-light" onclick="addPriceInfo()"> Add + </a>
                             </div>
 
-                            <ol class="list-group list-group-numbered mb-5 mt-5" id="priceInfos_Container">
+                            <ol class="list-group list-group-numbered mb-5" id="priceInfos_Container">
                             </ol>
                         </div>
 
@@ -59,7 +77,9 @@
 
         priceInfos = coursePriceInfos.map(data => ({
             id: guid(),
-            content: data.content
+            content: data.content,
+            contentRu: data.contentRu,
+            contentTr: data.contentTr
         }));
 
         loadPriceInfos();
@@ -78,17 +98,25 @@
 
     function addPriceInfo() {
         const element = document.getElementById('priceInfo-input');
+        const elementTr = document.getElementById('priceInfo-tr-input');
+        const elementRu = document.getElementById('priceInfo-ru-input');
         const content = element.value;
+        const contentTr = elementTr.value;
+        const contentRu = elementRu.value;
 
         if (content != null) {
             const priceInfo = {
                 id: guid(),
-                content: content
+                content: content,
+                contentRu: contentRu,
+                contentTr: contentTr
             }
 
             priceInfos.push(priceInfo);
 
             element.value = '';
+            elementTr.value = '';
+            elementRu.value = '';
             loadPriceInfos();
         }
     }
@@ -98,6 +126,8 @@
 
         element.innerHTML = priceInfos.map((priceInfo, index) => `
                                     <input hidden name="CoursePriceInfos[${index}].Content" value="${priceInfo.content}" >
+                                    <input hidden name="CoursePriceInfos[${index}].ContentTr" value="${priceInfo.contentTr}" >
+                                    <input hidden name="CoursePriceInfos[${index}].ContentRu" value="${priceInfo.contentRu}" >
                                     <li class="list-group-item d-flex justify-content-between align-items-start">
                                         <div class="ms-2 me-auto">
                                             <div class="fw-bold">${priceInfo.content}</div>
@@ -111,6 +141,8 @@
                                     </li>
                                     <div class="input-block mt-2 collapse" id="priceInfo-edit-container-${priceInfo.id}">
                                         <input type="text" class="form-control" id="priceInfo-edit-${priceInfo.id}" value="${priceInfo.content}">
+                                        <input type="text" class="form-control" id="priceInfo-ru-edit-${priceInfo.id}" value="${priceInfo.contentRu}"
+                                        <input type="text" class="form-control" id="priceInfo-tr-edit-${priceInfo.id}" value="${priceInfo.contentTr}"
                                         <a class="btn btn-info-light" onclick="updatePriceInfo('${priceInfo.id}')"> Update </a>
                                     </div>
 
@@ -123,6 +155,8 @@
         for (let x in priceInfos) {
             if (priceInfos.hasOwnProperty(x) && priceInfos[x].id == id) {
                 priceInfos[x].content = document.getElementById(`priceInfo-edit-${id}`).value;
+                priceInfos[x].contentRu = document.getElementById(`priceInfo-ru-edit-${id}`).value;
+                priceInfos[x].contentTr = document.getElementById(`priceInfo-tr-edit-${id}`).value;
                 break;
             }
         }

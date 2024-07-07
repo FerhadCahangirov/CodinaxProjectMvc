@@ -1,5 +1,5 @@
 ﻿@model CoursesVm
-
+@inject LanguageService _resource
 @if (Model.Courses != null)
 {
     @foreach (var course in Model.Courses)
@@ -8,23 +8,49 @@
             <div class="courses-card">
                 <a href="/courses/single/@course.Id" class="courses-image-link w-inline-block">
                     <div class="courses-image-wrapper">
-
                         <img src="@Model.BaseUrl/@course.Template.CourseImagePathOrContainer/@course.Template.CourseImageName" loading="lazy" alt="@course.Template.CourseImageName" sizes="(max-width: 479px) 100vw, (max-width: 767px) 83vw, (max-width: 991px) 39vw, 25vw" class="courses-image" />
-
-
                     </div>
                 </a>
                 <div class="courses-item-content">
                     <div class="courses-item-content-top">
                         <a href="/courses/single/@course.Id" class="courses-title-link w-inline-block">
-                            <h3 class="heading-style-h5">@course.Title</h3>
+                            <h3 class="heading-style-h5">
+                                @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(course.TitleRu))
+                                {
+                                    @course.TitleRu
+                                }
+                                else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(course.TitleTr))
+                                {
+                                    @course.TitleTr
+                                }
+                                else
+                                {
+                                    @course.Title
+                                }
+                            </h3>
                         </a>
-                        <div class="text-size-regular">@(course.Template.Description.Length > 150 ? $"{course.Template.Description.Substring(0, 150)}..." : course.Template.Description)</div>
+                        <div class="text-size-regular">
+                            @if (ViewData["Culture"].ToString() == "ru-RU" && !string.IsNullOrEmpty(course.Template.DescriptionRu))
+                            {
+                                @(course.Template.DescriptionRu.Length > 150 ? $"{course.Template.DescriptionRu.Substring(0, 150)}..." : course.Template.Description)
+                            }
+                            else if (ViewData["Culture"].ToString() == "tr-TR" && !string.IsNullOrEmpty(course.Template.DescriptionTr))
+                            {
+                                @(course.Template.DescriptionTr.Length > 150 ? $"{course.Template.DescriptionTr.Substring(0, 150)}..." : course.Template.Description)
+                            }
+                            else
+                            {
+                                @(course.Template.Description.Length > 150 ? $"{course.Template.Description.Substring(0, 150)}..." : course.Template.Description)
+                            }
+
+                        </div>
                     </div>
                     <div class="course-content-bottom">
                         <div></div>
                         <div>
-                            <a href="/courses/single/@course.Id" class="button is-secondary w-button">View Course</a>
+                            <a href="/courses/single/@course.Id" class="button is-secondary w-button">
+                                @_resource.GetLocalizedHTML("View Course")
+                            </a>
                         </div>
                     </div>
                 </div>

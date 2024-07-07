@@ -7,6 +7,8 @@ namespace CodinaxProjectMvc.DataAccess.Models
     public class Course : BaseEntity
     {
         public string? Title { get; set; }
+        public string? TitleRu { get; set; }
+        public string? TitleTr { get; set; }
         
         public string? CourseCode { get; set; }
 

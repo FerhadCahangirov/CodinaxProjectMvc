@@ -111,7 +111,7 @@
             <!---->
         </div>
         <!---->
-    </div>
+    </div>  
 </div>
 
 <div data-index="INDEX-2">
@@ -126,7 +126,7 @@
                             <div>
                                 <div class="Cardcontainer">
                                     <div class="Cardimagecontainer" data-tippy-content="IntelliJ Ultimate Easy Install...">
-                                        <a href="#">
+                                        <a href="/student/video-player/@video.LectureFile.Id">
                                             <div class="course_card_image" style="--aspect-ratio: 16/9;">
                                                 <div class="course_card_image_title">
                                                     @video.LectureFile.Lecture.Module.Course.Title
@@ -134,21 +134,25 @@
                                             </div>
                                         </a>
 
-                                        <a target="_blank" class="Cardplaybutton" href="#">
+                                        <a target="_blank" class="Cardplaybutton" href="/student/video-player/@video.LectureFile.Id">
                                             <i class="fa-solid fa-play"></i>
                                         </a>
                                     </div>
                                     <div class="Cardinformationcontainer">
                                         <div class="Cardinformationbutton"><button>Resume</button></div>
                                         <div class="Cardinformationwrapper">
-                                            <div class="Cardinformation-top"><a class="Cardinformation-title"> @video.LectureFile.Title </a></div>
+                                            <div class="Cardinformation-top">
+                                                <a class="Cardinformation-title" href="/student/video-player/@video.LectureFile.Id">
+                                                    @video.LectureFile.Title
+                                                </a>
+                                            </div>
                                             <div class="Cardinformation-top">
                                                 <i class="fa-regular fa-file-lines"></i>
-                                                <a class="Cardinformation-subtitle"> Preview module </a>
+                                                <a class="Cardinformation-subtitle" href="/student/modules/index/@video.LectureFile.Lecture.Module.Id"> Preview module </a>
                                             </div>
                                             <div class="Cardinformation-top">
                                                 <i class="fa-solid fa-file"></i>
-                                                <a class="Cardinformation-subtitle" href="#"> View in course </a>
+                                                <a class="Cardinformation-subtitle" href="/student/courses/single/@video.LectureFile.Lecture.Module.Course.Id"> View in course </a>
                                             </div>
                                             <div class="progress-wrapper progress-auto">
                                                 <div data-height="12px" class="progress-container">
@@ -172,8 +176,8 @@
                         {
                             <div>
                                 <div class="Cardcontainer">
-                                    <div class="Cardimagecontainer" data-tippy-content="IntelliJ Ultimate Easy Install...">
-                                        <a href="#">
+                                    <div class="Cardimagecontainer">
+                                        <a href="/student/video-player/@video.Id">
                                             <div class="course_card_image" style="--aspect-ratio: 16/9;">
                                                 <div class="course_card_image_title">
                                                     @video.Lecture.Module.Course.Title
@@ -181,20 +185,23 @@
                                             </div>
                                         </a>
 
-                                        <a target="_blank" class="Cardplaybutton" href="#">
+                                        <a target="_blank" class="Cardplaybutton" href="/student/video-player/@video.Id">
                                             <i class="fa-solid fa-play"></i>
                                         </a>
                                     </div>
                                     <div class="Cardinformationcontainer">
                                         <div class="Cardinformationbutton"><button>Resume</button></div>
                                         <div class="Cardinformationwrapper">
-                                            <div class="Cardinformation-top"><a class="Cardinformation-title"> @video.Title </a></div>
+                                            <div class="Cardinformation-top">
+                                                <a class="Cardinformation-title" href="/student/video-player/@video.Id">
+                                                    video.Title
+                                                    </a></div>
                                             <div class="Cardinformation-top">
                                                 <i class="fa-regular fa-file-lines"></i>
-                                                <a class="Cardinformation-subtitle"> Preview module </a>
+                                                <a class="Cardinformation-subtitle" href="/student/modules/index/@video.Lecture.Module.Id"> Preview module </a>
                                             </div>
                                             <div class="Cardinformation-top">
-                                                <i class="fa-solid fa-file"></i>
+                                                <i class="fa-solid fa-file" href="/student/courses/single/@video.Lecture.Module.Course.Id"></i>
                                                 <a class="Cardinformation-subtitle" href="#"> View in course </a>
                                             </div>
                                             <div class="progress-wrapper progress-auto">
@@ -227,7 +234,6 @@
                 <span class="icon--dsh">
                     <i class="fa-solid fa-chevron-down"></i>
                 </span>
-
             </button>
 
             <div class="dropdown--content dropdown--dashboard-content">
@@ -251,7 +257,7 @@
             <!---->
         </div>
     </div>
-    <a class="Label-Section-link" style="margin-right: 12px;" href="/member/bookmarks?seeAll=modules">Go to bookmarks</a><!---->
+    <a class="Label-Section-link" style="margin-right: 12px;" href="/student/bookmarks/index">Go to bookmarks</a><!---->
 </div>
 
 <div class="Section-Bookmarks">
@@ -266,11 +272,11 @@
                             <h2 class="__bookmark-subtitle">@module.Course.Title</h2>
                         </div>
                         <div class="__bookmark-buttons">
-                            <a class="__bookmark-button">
+                            <a class="__bookmark-button" href="/Student/Modules/Index/@module.Id">
                                 Go to module
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
-                            <a class="__bookmark-button ">
+                            <a class="__bookmark-button " href="/Student/Modules/Index/@module.Id">
                                 View
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
@@ -282,21 +288,21 @@
         </div>
 
         <div id="owl-two-lectures" class="owl-carousel" style="display: none;" data-value="lectures">
-            @foreach (var module in Model.Lectures)
+            @foreach (var lecture in Model.Lectures)
             {
                 <div>
                     <div class="__bookmark-wrapper " style="">
-                        <h1 class="__bookmark-title">@module.Title</h1>
+                        <h1 class="__bookmark-title">@lecture.Title</h1>
                         <div class="__bookmark-info">
-                            <h2 class="__bookmark-subtitle">@module.Module.Title</h2>
-                            <h2 class="__bookmark-subtitle">@module.Module.Course.Title</h2>
+                            <h2 class="__bookmark-subtitle">@lecture.Module.Title</h2>
+                            <h2 class="__bookmark-subtitle">@lecture.Module.Course.Title</h2>
                         </div>
                         <div class="__bookmark-buttons">
-                            <a class="__bookmark-button">
+                            <a class="__bookmark-button" href="/Student/Modules/Index/@lecture.Module.Id">
                                 Go to module
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
-                            <a class="__bookmark-button ">
+                            <a class="__bookmark-button " href="/Student/Modules/Index/@lecture.Module.Id/#item_card_wrapper_@lecture.Id">
                                 View
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
@@ -304,26 +310,25 @@
                     </div>
                 </div>
             }
-
         </div>
 
         <div id="owl-two-contents" class="owl-carousel" style="display: none;" data-value="contents">
-            @foreach (var module in Model.Contents)
+            @foreach (var content in Model.Contents)
             {
                 <div>
                     <div class="__bookmark-wrapper " style="">
-                        <h1 class="__bookmark-title">@module.Title</h1>
+                        <h1 class="__bookmark-title">@content.Title</h1>
                         <div class="__bookmark-info">
-                            <h2 class="__bookmark-subtitle">@module.Lecture.Title</h2>
-                            <h2 class="__bookmark-subtitle">@module.Lecture.Module.Title</h2>
-                            <h2 class="__bookmark-subtitle">@module.Lecture.Module.Course.Title</h2>
+                            <h2 class="__bookmark-subtitle">@content.Lecture.Title</h2>
+                            <h2 class="__bookmark-subtitle">@content.Lecture.Module.Title</h2>
+                            <h2 class="__bookmark-subtitle">@content.Lecture.Module.Course.Title</h2>
                         </div>
                         <div class="__bookmark-buttons">
-                            <a class="__bookmark-button">
+                            <a class="__bookmark-button" href="/Student/Modules/Index/@content.Lecture.Module.Id">
                                 Go to module
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
-                            <a class="__bookmark-button ">
+                            <a class="__bookmark-button " href="/Student/Modules/Index/@content.Lecture.Module.Id/#content_wrapper_@content.Id">
                                 View
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
@@ -342,19 +347,19 @@
 
     <div class="position-relative">
         <div id="owl-three" class="owl-carousel">
-            @foreach(var content in Model.LastActions)
+            @foreach (var content in Model.LastActions)
             {
                 <div>
                     <div class="Card-Item-Program" style="">
                         <div class="Programs-Item-D-Info ">
                             <span class="Programs-Item-D-Title ">@content.Title </span>
                             <span class="Programs-Item-D-Title Programs-Item-D-subtitle ">@content.Title</span>
-                            <a class="Programs-Item-D-Title Programs-Item-D-subtitle ">@content.Lecture.Module.Course.Title</a>
+                            <a class="Programs-Item-D-Title Programs-Item-D-subtitle " href="/Student/Modules/Index/@content.Lecture.Module.Id/#content_wrapper_@content.Id">@content.Lecture.Module.Course.Title</a>
 
                             <div class="Programs-Item-D-bottom-content ">
                                 <div class="Programs-Item-D-file-type ">
 
-                                    @if(content.FileType == FileType.URL)
+                                    @if (content.FileType == FileType.URL)
                                     {
                                         <h5 class="Programs-Item-D-file-type-heading ">Link</h5>
                                         <i class="fa-solid fa-link video-svg-icon"></i>
@@ -377,22 +382,39 @@
 
                                 </div>
                                 <div class="Programs-Item-D-buttons">
-                                    <a href="/member/my-programs/75-java-selenium-sdet/courses/628-eu9-test-automation#12936-mobile-testing-with-appium-day-2-05-20-2022" class="">
+                                    <a href="/Student/Modules/Index/@content.Lecture.Module.Id" class="">
                                         Go To Module
                                         <i class="fa-solid fa-arrow-right"></i>
                                     </a>
-                                    <a href="#" target="_blank" class=" ">
-                                        @(content.FileType == FileType.MP4 ? "Play" : "Open")
 
-                                        <i class="fa-solid fa-arrow-right"></i>
-                                    </a>
+                                    @if (content.FileType == FileType.MP4)
+                                    {
+                                        <a href="/student/video-player/@content.Id">
+                                            Play
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </a>
+                                    }
+                                    else if (content.FileType == FileType.TXT)
+                                    {
+                                        <a href="/student/txt/download/@content.Id">
+                                            Download
+                                            <i class="fa-solid fa-download"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Student/Pdf/View/@content.Id">
+                                            Open
+                                            <i class="fa-solid fa-arrow-right"></i>
+                                        </a>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             }
-            
+
         </div>
     </div>
 
@@ -440,7 +462,7 @@
 
                 $(this).find('i').css('visibility', 'visible');
 
-                if($(".mt--select--button-title").text().trim() !== $(this).text().trim()){
+                if ($(".mt--select--button-title").text().trim() !== $(this).text().trim()) {
                     const item_text = $(this).text().trim().toString();
 
                     $(".mt--select--button-title").text(item_text);

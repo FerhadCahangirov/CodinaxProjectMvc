@@ -171,7 +171,7 @@
                             {
                                 if (lectureFile.FileType == FileType.MP4)
                                 {
-                                    <div class="item_card_content">
+                                    <div class="item_card_content" id="content_wrapper_@lectureFile.Id">
                                         <div class="card_wrapper_content">
                                             <div class="item_content_container item_indent_0">
                                                 <div class="content_left_container">
@@ -222,7 +222,7 @@
                                 }
                                 else if (lectureFile.FileType == FileType.URL)
                                 {
-                                    <div class="item_card_content">
+                                    <div class="item_card_content" id="content_wrapper_@lectureFile.Id">
                                         <div class="card_wrapper_content">
                                             <div class="item_content_container item_indent_0">
                                                 <div class="content_left_container">
@@ -255,7 +255,7 @@
                                 }
                                 else if (lectureFile.FileType == FileType.TXT)
                                 {
-                                    <div class="item_card_content">
+                                    <div class="item_card_content" id="content_wrapper_@lectureFile.Id">
                                         <div class="card_wrapper_content">
                                             <div class="item_content_container item_indent_0">
                                                 <div class="content_left_container">
@@ -263,7 +263,7 @@
                                                         <i class="fa-solid fa-file"></i>
                                                     </div>
                                                     <div class="text_card_info_content">
-                                                        <a class="text_card_info_title" href="@lectureFile.Url"> @lectureFile.Title </a>
+                                                        <a class="text_card_info_title" href="/student/txt/download/@lectureFile.Id"> @lectureFile.Title </a>
                                                         <span class="text_card_info_small">Txt ● @lectureFile.FileSize</span>
                                                     </div>
                                                 </div>
@@ -287,7 +287,7 @@
                                 }
                                 else if (lectureFile.FileType == FileType.PDF)
                                 {
-                                    <div class="item_card_content">
+                                    <div class="item_card_content" id="content_wrapper_@lectureFile.Id">
                                         <div class="card_wrapper_content">
                                             <div class="item_content_container item_indent_0">
                                                 <div class="content_left_container">
@@ -330,6 +330,7 @@
 </div>
 
 <script>
+
     document.addEventListener("DOMContentLoaded", () => {
         loadTippy();
     });
