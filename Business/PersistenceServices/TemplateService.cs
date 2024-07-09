@@ -454,21 +454,24 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             List<PriceInfo> priceInfos = new List<PriceInfo>();
 
-            foreach (var item in coursePriceCreateVm.CoursePriceInfos)
+            if(coursePriceCreateVm.CoursePriceInfos != null && coursePriceCreateVm.CoursePriceInfos.Any())
             {
-                PriceInfo priceInfo = new PriceInfo()
+                foreach (var item in coursePriceCreateVm.CoursePriceInfos)
                 {
-                    Content = item.Content,
-                    ContentRu = item.ContentRu,
-                    ContentTr = item.ContentTr,
-                    Price = price
-                };
+                    PriceInfo priceInfo = new PriceInfo()
+                    {
+                        Content = item.Content,
+                        ContentRu = item.ContentRu,
+                        ContentTr = item.ContentTr,
+                        Price = price
+                    };
 
-                priceInfos.Add(priceInfo);
+                    priceInfos.Add(priceInfo);
+                }
+
+                await _priceInfoWriteRepository.AddRangeAsync(priceInfos);
+                await _priceInfoWriteRepository.SaveAsync();
             }
-
-            await _priceInfoWriteRepository.AddRangeAsync(priceInfos);
-            await _priceInfoWriteRepository.SaveAsync();
 
             return true;
         }
@@ -548,17 +551,21 @@ namespace CodinaxProjectMvc.Business.PersistenceServices
 
             _priceInfoWriteRepository.RemoveRange(priceInfos);
 
-            priceInfos = coursePriceUpdateVm.CoursePriceInfos.Select(priceInfo => new PriceInfo()
+            if (coursePriceUpdateVm.CoursePriceInfos != null && coursePriceUpdateVm.CoursePriceInfos.Any())
             {
-                Price = price,
-                Content = priceInfo.Content,
-                ContentRu = priceInfo.ContentRu,
-                ContentTr = priceInfo.ContentTr
-            }).ToList();
+                priceInfos = coursePriceUpdateVm.CoursePriceInfos.Select(priceInfo => new PriceInfo()
+                {
+                    Price = price,
+                    Content = priceInfo.Content,
+                    ContentRu = priceInfo.ContentRu,
+                    ContentTr = priceInfo.ContentTr
+                }).ToList();
 
-            await _priceInfoWriteRepository.AddRangeAsync(priceInfos);
-            await _priceInfoWriteRepository.SaveAsync();
+                await _priceInfoWriteRepository.AddRangeAsync(priceInfos);
+                await _priceInfoWriteRepository.SaveAsync();    
+            }
 
+           
             return true;
         }
 

@@ -9,7 +9,7 @@ namespace CodinaxProjectMvc.DataAccess.Models
         public string? ContentTr { get; set; }
 
         public Price Price { get; set; }
-
+            
         public PriceInfo()
         {
             Price = new Price();

@@ -78,9 +78,11 @@
         priceInfos = coursePriceInfos.map(data => ({
             id: guid(),
             content: data.content,
-            contentRu: data.contentRu,
-            contentTr: data.contentTr
+            contentRu: data.contentRu ? data.contentRu : "",
+            contentTr: data.contentTr ? data.contentTr : ""
         }));
+
+        console.log(priceInfos);
 
         loadPriceInfos();
     });
@@ -141,11 +143,10 @@
                                     </li>
                                     <div class="input-block mt-2 collapse" id="priceInfo-edit-container-${priceInfo.id}">
                                         <input type="text" class="form-control" id="priceInfo-edit-${priceInfo.id}" value="${priceInfo.content}">
-                                        <input type="text" class="form-control" id="priceInfo-ru-edit-${priceInfo.id}" value="${priceInfo.contentRu}"
-                                        <input type="text" class="form-control" id="priceInfo-tr-edit-${priceInfo.id}" value="${priceInfo.contentTr}"
+                                            <input type="text" class="form-control" placeholder="Russian..." id="priceInfo-ru-edit-${priceInfo.id}" value="${priceInfo.contentRu}">
+                                                            <input type="text" class="form-control" placeholder="Turkish..." id="priceInfo-tr-edit-${priceInfo.id}" value="${priceInfo.contentTr}">
                                         <a class="btn btn-info-light" onclick="updatePriceInfo('${priceInfo.id}')"> Update </a>
                                     </div>
-
                                 `).join('');
     }
 
